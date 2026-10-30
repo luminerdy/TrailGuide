@@ -1,4 +1,60 @@
-# Pi development record — October 29, 2026
+# Pi development record
+
+## Communication handoff — October 30, 2026
+
+- User named the assistant Trailguide; the name is saved in persistent memory.
+- Telegram outbound messaging succeeded after the user started the bot;
+  Telegram returned a successful send acknowledgement. Personal chat identifiers
+  are kept out of this repository.
+- Gateway status reports a running manual process, not an installed system
+  service. Automatic startup after reboot has not been verified.
+- Two-way Telegram conversation has not been verified in this CLI session.
+- User reconfirmed GitHub as the publishing destination, using the existing
+  `luminerdy/TrailGuide` origin. The earlier GitLab wording was a mistake.
+- Both host suites were rebuilt and passed before publication with C++17 and
+  `-Wall -Wextra -Werror`. Hardware was not reflashed during this handoff.
+
+## SH1106 correction — October 30, 2026
+
+- User photo shows a narrow band of text with random pixels below. User's
+  local OLED product details identify a Hosyond 1.3-inch white 128x64 **SH1106**,
+  not the previously assumed SSD1306. Wiring remains SDA21/SCL22 at 3V3.
+- Changed the driver to `Adafruit_SH1106G`, using Adafruit SH110X 2.1.14,
+  and bumped the firmware to `v1-0.2.4`. OTA code and credentials are unchanged.
+- Added a host regression assertion requiring the SH1106 display type; observed
+  its intended failure against the old SSD1306 implementation, then both host
+  suites passed with the corrected driver. Host stubs do not verify pixels.
+- ESP32 build passed: 995,259 application bytes; 50,932 bytes globals. Local,
+  ignored output: `build/v1-0.2.4-sh1106` (contains credentials; do not publish).
+- USB connection returned. Uploaded `build/v1-0.2.4-sh1106` using Arduino CLI
+  with the existing 4 MB/default partition settings; esptool identified the same
+  ESP32-D0WD-V3 revision 3.1 and verified written hashes. Controlled-reset serial
+  readback confirms `v1-0.2.4`, SH1106 at `0x3C`, and OTA readiness.
+- User confirms the display now works and confirms the requested mechanical
+  BOOT checks: new cards on presses and no repeated advance while held.
+  Every-card readability, fifty presses/thirty minutes, and independent-power
+  checks remain. USB connection errors were observed, but their cause was not
+  established.
+
+## Hermes takeover — October 30, 2026
+
+- User reports the OLED is now connected. USB inspection finds the CP2102
+  bridge at `/dev/ttyUSB0`; no firmware was flashed or changed.
+- Local `main` and a fresh `git ls-remote origin refs/heads/main` both identify
+  `442f637003264360b6f821aab61532df16285e0a`. Working tree was clean at takeover.
+- Arduino CLI still reports 1.3.1. Both host suites were rebuilt with C++17,
+  `-Wall -Wextra -Werror` and passed. Executables were written under `$TMPDIR`,
+  not `/tmp`.
+- Initial serial observation was garbled. A controlled RTS reset with DTR
+  deasserted produced readable startup at 115200 8N1: normal firmware
+  `v1-0.2.3`, OLED detected at `0x3C`, and OTA ready. The initial garble's
+  cause is not established; do not infer a firmware or wiring fault.
+- OLED address acknowledgement does not verify visible pixels or readability.
+  Next: user confirmation of the welcome screen and mechanical BOOT behavior,
+  then every-card readability, fifty presses/thirty minutes, and power checks.
+- `gh` is not installed; remote commit comparison used Git. No publishing done.
+
+## Previous verification — October 29, 2026
 
 ## Current checkpoint
 

@@ -1,7 +1,7 @@
 # Wi-Fi firmware updates
 
 Requested October 29, 2026. Required for V1 and carried forward to V2.
-Status: implemented, host-tested, ESP32-compiled, initially USB-flashed, and now running v1-0.2.3 via OTA. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery verified. See BRINGUP.md for actual results.
+Status: implemented, host-tested, ESP32-compiled and hardware-verified on prior firmware. Currently running v1-0.2.4 after a USB upload correcting the OLED driver to SH1106; OTA code and credentials are unchanged and serial confirms OTA readiness. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified before this driver correction. See BRINGUP.md for actual results.
 
 ## Behavior
 
@@ -29,7 +29,7 @@ Implementation reference: [Espressif ArduinoOTA example](https://github.com/espr
 
 ## V1 implementation and commands
 
-Pinned target: Arduino CLI 1.3.1, Espressif core 3.3.2; SSD1306 2.5.15,
+Pinned target: Arduino CLI 1.3.1, Espressif core 3.3.2; SH110X 2.1.14,
 GFX 1.13.0 and BusIO 1.17.4. Install pinned libraries with `--no-deps` after
 installing BusIO to prevent transitive upgrades. This core uses
 SHA256 password hashes and PBKDF2-HMAC-SHA256 challenge/response with 10,000

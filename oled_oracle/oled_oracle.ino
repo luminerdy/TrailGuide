@@ -1,13 +1,13 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <Adafruit_SH110X.h>
 #include <esp_system.h>
 #include "ota_support.h"
 
-constexpr const char *FIRMWARE_VERSION = "v1-0.2.3";
+constexpr const char *FIRMWARE_VERSION = "v1-0.2.4";
 
 // V1: classic ESP-WROOM-32. Not the incoming round ESP32-S3.
-Adafruit_SSD1306 display(128, 64, &Wire, -1);
+Adafruit_SH1106G display(128, 64, &Wire, -1);
 constexpr uint8_t BUTTON_PIN = 0;
 bool displayReady = false;
 struct Card { const char *title; const char *body; };
@@ -51,7 +51,7 @@ void drawCard() {
     display.clearDisplay();
     display.setCursor(0, 0);
     display.print(cards[lastCard].title);
-    display.drawLine(0, 14, 127, 14, SSD1306_WHITE);
+    display.drawLine(0, 14, 127, 14, SH110X_WHITE);
     display.setCursor(0, 20);
     display.print(cards[lastCard].body);
     display.setCursor(0, 56);
@@ -80,14 +80,14 @@ void setup() {
     Serial.println("OLED not found at 0x3C or 0x3D. Check wiring. Serial-only mode.");
     return;
   }
-  if (!display.begin(SSD1306_SWITCHCAPVCC, address, true, false)) {
+  if (!display.begin(address, true)) {
     Serial.println("OLED framebuffer allocation failed. Serial-only mode.");
     return;
   }
   displayReady = true;
-  Serial.printf("OLED address: 0x%02X\n", address);
+  Serial.printf("OLED: SH1106 128x64, address: 0x%02X\n", address);
   display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
+  display.setTextColor(SH110X_WHITE);
   display.setTextWrap(false);
   display.clearDisplay();
   display.setCursor(0, 0); display.print("FRONTIER OPS");

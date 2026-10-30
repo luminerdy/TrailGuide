@@ -2,8 +2,12 @@
 #include <iostream>
 #include <set>
 #include <sstream>
+#include <type_traits>
+#include <Adafruit_SH110X.h>
 #define TRAILGUIDE_DISABLE_WIFI 1
 #include "../oled_oracle/oled_oracle.ino"
+static_assert(std::is_same<decltype(display), Adafruit_SH1106G>::value,
+              "Actual Hosyond OLED requires SH1106 page addressing, not SSD1306");
 
 void runFor(unsigned ms) { for (unsigned i = 0; i < ms; ++i) loop(); }
 void reset() {

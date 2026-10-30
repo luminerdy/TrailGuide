@@ -1,0 +1,13 @@
+build/
+.pio/
+.arduino/
+*.bin
+*.elf
+*.map
+.env
+.env.*
+!.env.example
+secrets.h
+__pycache__/
+.DS_Store
+Thumbs.db

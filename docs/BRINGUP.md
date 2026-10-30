@@ -82,6 +82,12 @@ Use USB recovery with the known build's original partition settings; prefer the 
 
 The content contract test was run before the expanded catalog existed and failed for the expected missing-catalog condition. After adding structured JSON and its readable Markdown view, it passed: forty unique card IDs/titles, eight themes with five cards each, required guidance fields, recognized situation tags, and verbatim preservation of the twelve original V1 actions. Both C++17 host suites were rebuilt with warnings as errors and passed. No firmware source was changed and no device was reset or flashed. All forty entries remain editorial drafts, not facilitator-approved or hardware-layout-verified content.
 
+## Agent workflow content validation
+
+Ten existing cards now carry draft CLI-agent variants with bounded prompts, human checks and separate Codex/Claude Code notes. The base actions, stable IDs, eight themes and forty-card count are unchanged. The ten adapted entries advanced to revision 2. A cross-theme collection and readable guide are authored; collection UI, variant tracking and tool-note display are not implemented.
+
+The new content test first failed for the expected missing-collection condition, then passed after adding metadata and synchronized catalog/guide content. Official project-instruction documentation was inspected; guidance asks facilitators to verify installed versions, settings and active instructions rather than assuming identical tool behavior. No firmware was changed, reset or flashed.
+
 ## Documentation validation
 
 The living product specification has fifteen stable P-IDs. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.

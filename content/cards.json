@@ -1,6 +1,25 @@
 {
   "schema_version": 1,
   "status": "Draft editorial content; not loaded into firmware or approved for hardware layout.",
+  "collections": [
+    {
+      "collection_id": "agent-workflow",
+      "title": "Agent Workflow",
+      "description": "An optional cross-theme collection for supervising CLI coding agents. These are adaptations of existing cards, not extra cards or a ninth theme.",
+      "card_ids": [
+        "tg-009",
+        "tg-036",
+        "tg-024",
+        "tg-004",
+        "tg-003",
+        "tg-026",
+        "tg-038",
+        "tg-011",
+        "tg-018",
+        "tg-035"
+      ]
+    }
+  ],
   "themes": [
     {"theme_id": "explore", "label": "Explore", "need": "We need possibilities."},
     {"theme_id": "clarify", "label": "Clarify", "need": "We're not sure what we're solving."},
@@ -61,12 +80,29 @@
       "minutes": 4, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
     },
     {
-      "card_id": "tg-009", "revision": 1, "theme": "clarify", "title": "MAP THE GAPS",
+      "card_id": "tg-009",
+      "revision": 2,
+      "theme": "clarify",
+      "title": "MAP THE GAPS",
       "action": "Ask AI to separate known facts from its assumptions.",
       "question": "What did we supply as evidence, and what is being filled in?",
       "activity": "Take one AI answer. Mark claims grounded in the supplied material, assumptions and unanswered questions. Have a person check those labels against the original material; AI's own labels are not verification.",
       "ai_prompt": "Using only this supplied material: [material], separate supported claims, assumptions and open questions in this answer: [answer]. Quote short supporting passages where available. Say when support is missing.",
-      "minutes": 4, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": true, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Read the terrain",
+        "prompt": "Inspect this repository before editing. Explain the relevant files, active project instructions, existing behavior and uncertainties. Cite file paths. Do not change files or execute project scripts yet.",
+        "check": "A person can identify the relevant files and assumptions; no edits or project-script execution occurred.",
+        "tool_notes": {
+          "codex": "Ask Codex to identify the applicable AGENTS.md guidance and any overrides before proposing changes.",
+          "claude_code": "Ask Claude Code which project instructions are active. Check the installed version and settings rather than assuming how CLAUDE.md and AGENTS.md interact."
+        }
+      }
     },
     {
       "card_id": "tg-010", "revision": 1, "theme": "clarify", "title": "SHOW THE TARGET",
@@ -93,12 +129,29 @@
       "minutes": 3, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-004", "revision": 1, "theme": "experiment", "title": "SMALL STEPS",
+      "card_id": "tg-004",
+      "revision": 2,
+      "theme": "experiment",
+      "title": "SMALL STEPS",
       "action": "Ask AI for a test you can finish in ten minutes.",
       "question": "What can we learn with a small, safe test rather than a full build?",
       "activity": "Choose one uncertain assumption. Define a reversible test with an observable result and a stop condition. Use synthetic or approved material, run the test, and record what it did and did not show.",
       "ai_prompt": "Propose a safe, reversible test of [assumption] that takes at most ten minutes using synthetic data. State the steps, observable result and stop condition. Do not treat a small test as proof of general success.",
-      "minutes": 10, "situation_tags": ["out-of-time"], "legacy_v1": true, "review_state": "draft"
+      "minutes": 10,
+      "situation_tags": [
+        "out-of-time"
+      ],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Set the boundary",
+        "prompt": "Implement only [agreed step] within [allowed scope]. Leave unrelated files alone. Ask before adding dependencies, changing configuration, accessing external services or taking destructive actions. Stop if the boundary prevents a correct solution.",
+        "check": "The diff matches the agreed step, and scope changes were raised rather than silently included.",
+        "tool_notes": {
+          "codex": "Inspect the actual Codex sandbox and approval settings before starting. A narrow prompt supplements technical controls; it does not replace them.",
+          "claude_code": "Inspect Claude Code permissions before starting. Keep action approvals appropriate to the exercise rather than disabling safeguards to avoid interruptions."
+        }
+      }
     },
     {
       "card_id": "tg-006", "revision": 1, "theme": "experiment", "title": "FALSE SUMMIT",
@@ -109,12 +162,27 @@
       "minutes": 5, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": true, "review_state": "draft"
     },
     {
-      "card_id": "tg-018", "revision": 1, "theme": "experiment", "title": "ONE VARIABLE",
+      "card_id": "tg-018",
+      "revision": 2,
+      "theme": "experiment",
+      "title": "ONE VARIABLE",
       "action": "Change one part of a prompt. Compare the outputs against the same criterion.",
       "question": "What changed, and can we reasonably connect it to this one difference?",
       "activity": "Keep the task and input fixed. Change one prompt instruction, compare results against one agreed criterion and note variability. One comparison is a clue, not a reliable performance estimate.",
       "ai_prompt": "For this task: [task], propose two prompts differing in exactly one instruction. Name the difference and one criterion for comparing their outputs. Do not predict a winner.",
-      "minutes": 5, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 5,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Compare the approach",
+        "prompt": "In your separate practice copy, solve [small task] against [shared acceptance checks]. Stay within [scope]. Report the diff and executed checks. Do not edit another agent's working copy or commit and push without approval.",
+        "check": "Both attempts start from the same baseline in separate copies. Compare observable results, trade-offs and review effort, not writing style.",
+        "tool_notes": {
+          "codex": "Use a separate practice copy for Codex. Record the selected version and model locally so comparison limits are visible.",
+          "claude_code": "Use a separate practice copy for Claude Code with the same baseline and task. Different settings and models limit what a single comparison can establish."
+        }
+      }
     },
     {
       "card_id": "tg-019", "revision": 1, "theme": "experiment", "title": "TRAIL SAMPLE",
@@ -133,12 +201,29 @@
       "minutes": 5, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-003", "revision": 1, "theme": "verify", "title": "CHECK BEARINGS",
+      "card_id": "tg-003",
+      "revision": 2,
+      "theme": "verify",
+      "title": "CHECK BEARINGS",
       "action": "Which claims need checking? Verify one independently.",
       "question": "Which claim would matter most if it were wrong?",
       "activity": "Select one consequential factual claim. Check the original source, direct observation or a trusted reference independently of AI. If you cannot check it now, label it unverified and do not use it to justify a risky action.",
       "ai_prompt": "From this answer: [answer], identify consequential factual claims and suggest how a person could verify each independently. Do not invent citations, sources or verification results.",
-      "minutes": 5, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": true, "review_state": "draft"
+      "minutes": 5,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Show the evidence",
+        "prompt": "Run the agreed, reviewed checks using [approved commands]. Report each command, observed result and any checks not run. Distinguish test evidence from assumptions and stop for approval if a command exceeds scope.",
+        "check": "The team can see real check results, including failures and gaps, rather than only a confident completion summary.",
+        "tool_notes": {
+          "codex": "Ask Codex to distinguish commands it executed from commands it merely recommends. Independently inspect consequential results.",
+          "claude_code": "Ask Claude Code to distinguish executed checks from suggested checks. Missing dependencies or denied permissions are limitations, not passing tests."
+        }
+      }
     },
     {
       "card_id": "tg-021", "revision": 1, "theme": "verify", "title": "FOLLOW THE SOURCE",
@@ -165,12 +250,27 @@
       "minutes": 4, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-024", "revision": 1, "theme": "verify", "title": "SAFE TO SHARE",
+      "card_id": "tg-024",
+      "revision": 2,
+      "theme": "verify",
+      "title": "SAFE TO SHARE",
       "action": "Before submitting a prompt, remove private details and use synthetic examples where possible.",
       "question": "What information does this task really require us to share?",
       "activity": "Review the proposed input locally before sending anything. Remove identifying, confidential and unnecessary details; follow the tool's approved-use policy. If unsure, use a synthetic example or do not submit it.",
       "ai_prompt": "Help with this clearly synthetic example: [synthetic example]. Do not request real names, credentials, private records or confidential material. Explain what additional non-sensitive context would help.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Permission pause",
+        "prompt": "Before taking [proposed action], explain what it reads or changes, any external access, the scope of permission needed and how we could recover. Wait for a decision. Do not reveal credentials or read private files to justify the request.",
+        "check": "The human understands the proposed side effects and approves only the intended scope; refusal does not trigger a workaround.",
+        "tool_notes": {
+          "codex": "Review the actual Codex request and configured controls. Do not solve a denied action by switching to an unrestricted mode.",
+          "claude_code": "Read the actual Claude Code permission request before approving. If denied, choose a permitted alternative or stop; do not bypass the control."
+        }
+      }
     },
     {
       "card_id": "tg-008", "revision": 1, "theme": "reflect", "title": "LEAVE MARKERS",
@@ -181,12 +281,29 @@
       "minutes": 3, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
     },
     {
-      "card_id": "tg-011", "revision": 1, "theme": "reflect", "title": "MAKE CAMP",
+      "card_id": "tg-011",
+      "revision": 2,
+      "theme": "reflect",
+      "title": "MAKE CAMP",
       "action": "Summarize progress, open questions, and the next step.",
       "question": "What can the next person pick up without repeating our whole discussion?",
       "activity": "Say or write three bullets: progress supported by evidence, open questions and the next concrete action. Name an owner for the next action with their agreement. Keep private discussion out of shared summaries.",
       "ai_prompt": "Using only these sanitized notes: [notes], draft three bullets: evidenced progress, open questions and next action. Mark missing information rather than inventing decisions or owners.",
-      "minutes": 3, "situation_tags": ["out-of-time"], "legacy_v1": true, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "out-of-time"
+      ],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Leave a handoff",
+        "prompt": "Draft a concise handoff: changes made, checks actually run and results, remaining uncertainties, and the next safe action. Do not include secrets or personal details. Do not write, commit or push it without approval.",
+        "check": "Another person can resume using evidence and explicit limits without reconstructing the entire chat.",
+        "tool_notes": {
+          "codex": "Keep stable project rules in the appropriate instruction file and task-specific progress in a separate handoff. Do not turn one-off context into permanent rules.",
+          "claude_code": "Keep reusable project instructions separate from temporary task notes. Do not assume another person or tool shares the current conversation or private memory."
+        }
+      }
     },
     {
       "card_id": "tg-025", "revision": 1, "theme": "reflect", "title": "SURPRISE ON THE TRAIL",
@@ -197,12 +314,27 @@
       "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-026", "revision": 1, "theme": "reflect", "title": "KEEP OR ADAPT",
+      "card_id": "tg-026",
+      "revision": 2,
+      "theme": "reflect",
+      "title": "KEEP OR ADAPT",
       "action": "Name one move to keep, one to change and one thing you still cannot conclude.",
       "question": "What is worth repeating, and what should change next time?",
       "activity": "Review one completed attempt. Name a useful move, a specific adjustment and a limit of the evidence. If using Team Trail later, attach feedback only to the attempt actually recorded, not the team's overall performance.",
       "ai_prompt": "Based only on these observations: [observations], suggest one practice to keep, one adjustment and one conclusion the evidence does not support. Avoid rating the people or team.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Inspect the footprints",
+        "prompt": "Review the current diff against [agreed scope] without editing. Explain changed files, unexpected changes, risks and unverified behavior. Point to concrete locations for human inspection. Do not discard any changes.",
+        "check": "A human reviews the diff and can explain important behavior changes; generated explanations are checked against the actual changes.",
+        "tool_notes": {
+          "codex": "Ask Codex for a read-only diff review. A second review is additional scrutiny, not independent proof of correctness.",
+          "claude_code": "Ask Claude Code for a read-only diff review. If comparing with another agent, preserve the same diff and acceptance criteria."
+        }
+      }
     },
     {
       "card_id": "tg-027", "revision": 1, "theme": "reflect", "title": "TEACH THE NEXT GUIDE",
@@ -285,20 +417,54 @@
       "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-035", "revision": 1, "theme": "include", "title": "PASS THE CONTROLS",
+      "card_id": "tg-035",
+      "revision": 2,
+      "theme": "include",
+      "title": "PASS THE CONTROLS",
       "action": "Offer a new driver and a reviewer. Keep participation optional and accessible.",
       "question": "Would another role or way of contributing help someone participate?",
       "activity": "Offer roles such as prompt driver, questioner, reviewer or observer. Invite a voluntary swap and agree when to check in. Do not assume everyone wants to type, speak publicly or use the same interface.",
       "ai_prompt": "Suggest complementary roles for a small team doing [generic task] with AI. Include a non-typing role and an observer option. Keep role changes voluntary and avoid judging individual ability.",
-      "minutes": 3, "situation_tags": ["nobodys-talking"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "nobodys-talking"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Rotate the human roles",
+        "prompt": "For [small task], suggest a driver, reviewer and questioner role, with an observer or non-typing alternative. Keep participation voluntary. The people, not the agent, decide who takes a role and who approves actions.",
+        "check": "More than one person has an accessible way to contribute; driving the CLI is not treated as the only valuable role.",
+        "tool_notes": {
+          "codex": "The human driving Codex narrates the task and approval requests; another person checks the diff and evidence.",
+          "claude_code": "The human driving Claude Code narrates the task and approval requests; rotate roles by agreement rather than making tool ownership permanent."
+        }
+      }
     },
     {
-      "card_id": "tg-036", "revision": 1, "theme": "decide", "title": "CHOOSE THE COMPASS",
+      "card_id": "tg-036",
+      "revision": 2,
+      "theme": "decide",
+      "title": "CHOOSE THE COMPASS",
       "action": "Agree on two criteria before comparing options.",
       "question": "What should matter most in this choice?",
       "activity": "Name two criteria linked to the team's outcome. Separate mandatory safety or policy constraints from preferences. Compare options using available evidence and leave unknowns visible instead of inventing scores.",
       "ai_prompt": "Compare [options] using these agreed criteria: [criteria], and only this evidence: [evidence]. Mark unknowns and non-negotiable constraints. Do not invent numerical scores or make the decision for us.",
-      "minutes": 4, "situation_tags": ["too-many-ideas"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "too-many-ideas"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Agree the route",
+        "prompt": "Propose a small plan for [task]. List likely files, scope boundaries, acceptance checks and unresolved questions. Do not edit or run project scripts yet. Wait for our agreement before implementation.",
+        "check": "The team agrees on a bounded task, what is out of scope and observable acceptance checks.",
+        "tool_notes": {
+          "codex": "Give Codex the same written acceptance criteria the team will use to review its changes.",
+          "claude_code": "Give Claude Code the same written acceptance criteria; a plan is a proposal, not permission to execute every later action."
+        }
+      }
     },
     {
       "card_id": "tg-037", "revision": 1, "theme": "decide", "title": "TWO TRAILS",
@@ -309,12 +475,30 @@
       "minutes": 4, "situation_tags": ["too-many-ideas"], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-038", "revision": 1, "theme": "decide", "title": "REVERSIBLE STEP",
+      "card_id": "tg-038",
+      "revision": 2,
+      "theme": "decide",
+      "title": "REVERSIBLE STEP",
       "action": "Choose a low-risk next step you can undo. Agree when to reconsider it.",
       "question": "Can we learn by moving without locking ourselves into this choice?",
       "activity": "Check authority, safety and reversibility first. If the step is low-risk, agree an owner, a stopping rule and a review point. If consequences are significant or hard to reverse, seek appropriate review instead.",
       "ai_prompt": "For this possible next step: [step], list questions about reversibility, authorization, risks and stopping conditions. Suggest a limited trial only if the stated constraints allow one. Do not execute actions.",
-      "minutes": 4, "situation_tags": ["too-many-ideas", "out-of-time"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "too-many-ideas",
+        "out-of-time"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "agent_workflow": {
+        "label": "Practice recovery",
+        "prompt": "In a disposable practice copy, first inspect existing changes and propose one harmless edit plus a scoped recovery plan. Wait for agreement. Never overwrite unrelated work, run broad cleanup or use a destructive reset as a shortcut.",
+        "check": "The team can identify and undo only the approved practice change while preserving pre-existing work. A checkpoint or commit alone is not a complete backup.",
+        "tool_notes": {
+          "codex": "Before Codex edits, inspect repository status and agree on a safe checkpoint. Have a human review the scoped recovery action before it runs.",
+          "claude_code": "Before Claude Code edits, inspect repository status and agree on a checkpoint. Verify the actual recovery result rather than assuming conversation recovery restores every file or external action."
+        }
+      }
     },
     {
       "card_id": "tg-039", "revision": 1, "theme": "decide", "title": "NAME THE OWNER",

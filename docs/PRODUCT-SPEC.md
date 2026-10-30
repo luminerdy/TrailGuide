@@ -54,7 +54,7 @@ Show a readable scrolling list, not eight tiny targets around the circle. Select
 
 The core card view shows title, theme and concise action. Actions: **Used it**, **Save**, **Another idea**. Back and Home must remain accessible. The exact arrangement requires a round-screen prototype; do not squeeze all controls into an unreadable screen.
 
-Optional **Show me how** opens a detail view with a spoken facilitation question, a small team activity, an example AI prompt where relevant, and an indicative time box. Build the detail view after the core path works; no live AI generates this content.
+Optional **Show me how** opens a detail view with a spoken facilitation question, a small team activity, an example AI prompt where relevant, and an indicative time box. Build the detail view after the core path works; no live AI generates this content. For cards in the Agent Workflow collection, optionally reveal a tool-neutral agent task and human check, with separate Codex and Claude Code notes. Tool notes are curated guidance, not executable integrations. Collection selection and tool-note panels are enhancements, not implemented UI.
 
 Drawing, scrolling, Back, waking and opening details never create a use event. Shake, if enabled, means draw only in an appropriate draw/card context, never while editing, confirming use, viewing history or navigating. Animation must not queue additional draws.
 
@@ -103,6 +103,10 @@ Initial situations: Too many ideas; Nobody's talking; AI sounds convincing; We'r
 
 The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each entry has revision, theme, action, team question, activity, optional AI prompt, suggested minutes, situation tags and draft review state. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
 
+An optional [Agent Workflow collection](AGENT-WORKFLOW.md) now adapts ten existing cards for supervising CLI coding agents. It does not create a ninth theme or increase the forty-card count. Structured collection metadata references stable card IDs; each adapted card has agent_workflow label, prompt, human check and codex/claude_code tool notes. Ten adapted entries are revision 2; other entries remain revision 1. These optional additions retain schema_version 1 and leave existing base fields intact. Unsupported optional fields may be ignored by readers; required data remains validated.
+
+Keep general advice tool-neutral. Confirm tool versions, settings and active project instructions before using product-specific guidance; do not teach permission bypass as a default. No CLI command, session or private prompt is executed or collected by TrailGuide. The collection and notes are authored drafts, not evidence of runtime support.
+
 Card fields:
 
 - Stable card_id, content revision, primary theme and optional situation tags.
@@ -126,7 +130,7 @@ Pool state may restart after reboot; durable use history must not. A one-card po
 
 - Team: stable team_id, non-identifying label, created order and archive state.
 - Card: stable card_id, revision and versioned content or a retained snapshot.
-- Use event: event_id, team_id, card_id/revision or snapshot reference, event sequence, session/boot ID, optional trusted wall time and optional feedback.
+- Use event: event_id, team_id, card_id/revision or snapshot reference, event sequence, session/boot ID, optional trusted wall time and optional feedback. A future optional variant_id can distinguish agent-workflow use from the base activity without changing card identity; migration and display behavior must be tested before introducing it. Do not store raw CLI transcripts or prompt inputs.
 - Reversal: event_id and referenced use event.
 - Saved reference: team_id or personal scope, card_id and saved order.
 - Follow-up: use-event reference and selected outcome; deferred until P-08.
@@ -201,6 +205,8 @@ For each meaningful change:
 - Expand from a shuffled advice oracle toward a pocket facilitator with themes, simple start, Team Trail and supporting facilitation ideas. Added eight proposed themes, team-scoped deliberate-use tracking, saved ideas and phased follow-through. Hardware work remains gated on board availability and inspection.
 
 - Content expansion: forty draft cards, five per theme, with stable IDs/revisions and optional guidance. Keep JSON as the canonical editorial source and the Markdown catalog synchronized. Preserve V1's twelve titles/actions without a firmware change; facilitator review and hardware layout acceptance remain separate gates.
+
+- Agent workflow: adapt ten existing cards for CLI-agent supervision, keeping forty cards and eight themes. Add a cross-theme collection, optional tool notes and human evidence checks rather than duplicating cards or replacing general facilitation guidance. Collection UI remains deferred until the core path works.
 
 ### Open validation decisions
 

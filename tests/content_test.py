@@ -11,6 +11,34 @@ SITUATIONS = {'too-many-ideas', 'nobodys-talking', 'ai-sounds-convincing', 'out-
 
 
 class ContentTest(unittest.TestCase):
+    def test_agent_workflow_collection(self):
+        data = json.loads((ROOT / 'content/cards.json').read_text())
+        groups = {g['collection_id']: g for g in data.get('collections', [])}
+        self.assertIn('agent-workflow', groups, 'Agent workflow collection is missing')
+        group = groups['agent-workflow']
+        self.assertEqual(len(group['card_ids']), 10)
+        self.assertEqual(len(set(group['card_ids'])), 10)
+        by_id = {c['card_id']: c for c in data['cards']}
+        self.assertTrue(set(group['card_ids']) <= set(by_id))
+        catalog = (ROOT / 'docs/CARD-CATALOG.md').read_text()
+        guide = (ROOT / 'docs/AGENT-WORKFLOW.md').read_text()
+        for card_id in group['card_ids']:
+            with self.subTest(card=card_id):
+                card = by_id[card_id]
+                self.assertGreaterEqual(card['revision'], 2)
+                variant = card['agent_workflow']
+                for key in ['label', 'prompt', 'check']:
+                    self.assertTrue(variant[key].strip())
+                    self.assertIn(variant[key], catalog)
+                    self.assertIn(variant[key], guide)
+                self.assertEqual(set(variant['tool_notes']), {'codex', 'claude_code'})
+                for note in variant['tool_notes'].values():
+                    self.assertTrue(note.strip())
+                    self.assertIn(note, catalog)
+                    self.assertIn(note, guide)
+        adapted = {c['card_id'] for c in data['cards'] if 'agent_workflow' in c}
+        self.assertEqual(adapted, set(group['card_ids']))
+
     def test_complete_catalog_contract(self):
         path = ROOT / 'content/cards.json'
         self.assertTrue(path.is_file(), 'The expanded structured card catalog is missing')

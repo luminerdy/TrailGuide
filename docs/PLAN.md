@@ -20,7 +20,7 @@ Exit: V1 acceptance evidence recorded, recovery usable and all remaining limitat
 Status: product spec and forty-card draft catalog authored; content-contract tests pass. Facilitator review, circular-screen prototype and runtime integration remain pending.
 
 - Stable IDs/revisions are assigned to all forty draft cards, preserving the twelve existing titles/actions without changing V1 firmware.
-- Eight themes have five cards each in [CARD-CATALOG.md](CARD-CATALOG.md), sourced from [content/cards.json](../content/cards.json). Complete facilitator editorial review before inclusion.
+- Eight themes have five cards each in [CARD-CATALOG.md](CARD-CATALOG.md), sourced from [content/cards.json](../content/cards.json). Ten existing cards also have draft agent-workflow variants with Codex/Claude Code notes and human checks, indexed in [AGENT-WORKFLOW.md](AGENT-WORKFLOW.md). No new theme or cards are added. Complete facilitator editorial review before inclusion.
 - Prototype Home, Quick bearing, themes, card actions, team picker and Team Trail on a circular 360x360 canvas.
 - Review No team, saved-vs-used, team switch, confirmation/Undo, empty trail and write-failure states.
 - Define synthetic fixtures and tests for content/deck/use-event/storage logic.
@@ -60,7 +60,7 @@ Status: planned, dependent on core acceptance.
 Priority order:
 1. Show me how: spoken question, activity and optional example AI prompt.
 2. Dismissible follow-through with Try again / Adapt it / Move on.
-3. Situation shortcuts and personal favorites.
+3. Situation shortcuts, personal favorites and optional Agent Workflow collection selection/tool-note panels. Preserve base card identity; variant attribution is a separately tested storage enhancement.
 4. Explicit local export/backup and restore tool; decide before workshop collection whether proceeding without backup is acceptable.
 
 Each addition needs its own tests and screen/readability check. Defer features rather than compromise Phase 3 reliability. Free-text notes, live AI, cloud sync, audio and analytics are out of the first release.

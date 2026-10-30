@@ -10,6 +10,7 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 ## Start here
 
 - [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
+- [Agent Workflow — Codex and Claude Code facilitation](docs/AGENT-WORKFLOW.md)
 - [Structured card content](content/cards.json)
 - [Living product specification — themes, touchscreen and Team Trail](docs/PRODUCT-SPEC.md)
 - [Delivery plan](docs/PLAN.md)

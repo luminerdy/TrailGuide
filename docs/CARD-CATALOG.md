@@ -4,6 +4,10 @@ Forty draft cards across eight themes, five per theme. The original twelve V1 ca
 
 Canonical structured source: [content/cards.json](../content/cards.json). Requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md).
 
+## Agent Workflow collection
+
+Ten existing cards now include optional CLI-agent guidance for Codex and Claude Code. The total stays forty, with eight themes. See the [Agent Workflow guide](AGENT-WORKFLOW.md) for the suggested sequence, safety boundaries and tool-instruction references. Collection UI and tool-note display are planned, not implemented.
+
 ## Using the catalog
 
 - Each card has a short action plus optional deeper guidance. Time boxes are suggestions, not timers.
@@ -106,7 +110,7 @@ Revision 1 | Draft | Preserved V1 card | About 4 minutes
 
 ### tg-009 - MAP THE GAPS
 
-Revision 1 | Draft | Preserved V1 card | About 4 minutes
+Revision 2 | Draft | Preserved V1 card | About 4 minutes
 
 **Bearing:** Ask AI to separate known facts from its assumptions.
 
@@ -117,6 +121,17 @@ Revision 1 | Draft | Preserved V1 card | About 4 minutes
 **Optional AI prompt:** Using only this supplied material: [material], separate supported claims, assumptions and open questions in this answer: [answer]. Quote short supporting passages where available. Say when support is missing.
 
 **Situation tags:** ai-sounds-convincing
+
+**Agent Workflow - Read the terrain**
+
+**Agent prompt:** Inspect this repository before editing. Explain the relevant files, active project instructions, existing behavior and uncertainties. Cite file paths. Do not change files or execute project scripts yet.
+
+**Human check:** A person can identify the relevant files and assumptions; no edits or project-script execution occurred.
+
+**Codex note:** Ask Codex to identify the applicable AGENTS.md guidance and any overrides before proposing changes.
+
+**Claude Code note:** Ask Claude Code which project instructions are active. Check the installed version and settings rather than assuming how CLAUDE.md and AGENTS.md interact.
+
 
 ### tg-010 - SHOW THE TARGET
 
@@ -162,7 +177,7 @@ We need something small to try.
 
 ### tg-004 - SMALL STEPS
 
-Revision 1 | Draft | Preserved V1 card | About 10 minutes
+Revision 2 | Draft | Preserved V1 card | About 10 minutes
 
 **Bearing:** Ask AI for a test you can finish in ten minutes.
 
@@ -173,6 +188,17 @@ Revision 1 | Draft | Preserved V1 card | About 10 minutes
 **Optional AI prompt:** Propose a safe, reversible test of [assumption] that takes at most ten minutes using synthetic data. State the steps, observable result and stop condition. Do not treat a small test as proof of general success.
 
 **Situation tags:** out-of-time
+
+**Agent Workflow - Set the boundary**
+
+**Agent prompt:** Implement only [agreed step] within [allowed scope]. Leave unrelated files alone. Ask before adding dependencies, changing configuration, accessing external services or taking destructive actions. Stop if the boundary prevents a correct solution.
+
+**Human check:** The diff matches the agreed step, and scope changes were raised rather than silently included.
+
+**Codex note:** Inspect the actual Codex sandbox and approval settings before starting. A narrow prompt supplements technical controls; it does not replace them.
+
+**Claude Code note:** Inspect Claude Code permissions before starting. Keep action approvals appropriate to the exercise rather than disabling safeguards to avoid interruptions.
+
 
 ### tg-006 - FALSE SUMMIT
 
@@ -190,7 +216,7 @@ Revision 1 | Draft | Preserved V1 card | About 5 minutes
 
 ### tg-018 - ONE VARIABLE
 
-Revision 1 | Draft | New card | About 5 minutes
+Revision 2 | Draft | New card | About 5 minutes
 
 **Bearing:** Change one part of a prompt. Compare the outputs against the same criterion.
 
@@ -199,6 +225,17 @@ Revision 1 | Draft | New card | About 5 minutes
 **Try it:** Keep the task and input fixed. Change one prompt instruction, compare results against one agreed criterion and note variability. One comparison is a clue, not a reliable performance estimate.
 
 **Optional AI prompt:** For this task: [task], propose two prompts differing in exactly one instruction. Name the difference and one criterion for comparing their outputs. Do not predict a winner.
+
+**Agent Workflow - Compare the approach**
+
+**Agent prompt:** In your separate practice copy, solve [small task] against [shared acceptance checks]. Stay within [scope]. Report the diff and executed checks. Do not edit another agent's working copy or commit and push without approval.
+
+**Human check:** Both attempts start from the same baseline in separate copies. Compare observable results, trade-offs and review effort, not writing style.
+
+**Codex note:** Use a separate practice copy for Codex. Record the selected version and model locally so comparison limits are visible.
+
+**Claude Code note:** Use a separate practice copy for Claude Code with the same baseline and task. Different settings and models limit what a single comparison can establish.
+
 
 ### tg-019 - TRAIL SAMPLE
 
@@ -230,7 +267,7 @@ Can we trust this?
 
 ### tg-003 - CHECK BEARINGS
 
-Revision 1 | Draft | Preserved V1 card | About 5 minutes
+Revision 2 | Draft | Preserved V1 card | About 5 minutes
 
 **Bearing:** Which claims need checking? Verify one independently.
 
@@ -241,6 +278,17 @@ Revision 1 | Draft | Preserved V1 card | About 5 minutes
 **Optional AI prompt:** From this answer: [answer], identify consequential factual claims and suggest how a person could verify each independently. Do not invent citations, sources or verification results.
 
 **Situation tags:** ai-sounds-convincing
+
+**Agent Workflow - Show the evidence**
+
+**Agent prompt:** Run the agreed, reviewed checks using [approved commands]. Report each command, observed result and any checks not run. Distinguish test evidence from assumptions and stop for approval if a command exceeds scope.
+
+**Human check:** The team can see real check results, including failures and gaps, rather than only a confident completion summary.
+
+**Codex note:** Ask Codex to distinguish commands it executed from commands it merely recommends. Independently inspect consequential results.
+
+**Claude Code note:** Ask Claude Code to distinguish executed checks from suggested checks. Missing dependencies or denied permissions are limitations, not passing tests.
+
 
 ### tg-021 - FOLLOW THE SOURCE
 
@@ -286,7 +334,7 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-024 - SAFE TO SHARE
 
-Revision 1 | Draft | New card | About 3 minutes
+Revision 2 | Draft | New card | About 3 minutes
 
 **Bearing:** Before submitting a prompt, remove private details and use synthetic examples where possible.
 
@@ -295,6 +343,17 @@ Revision 1 | Draft | New card | About 3 minutes
 **Try it:** Review the proposed input locally before sending anything. Remove identifying, confidential and unnecessary details; follow the tool's approved-use policy. If unsure, use a synthetic example or do not submit it.
 
 **Optional AI prompt:** Help with this clearly synthetic example: [synthetic example]. Do not request real names, credentials, private records or confidential material. Explain what additional non-sensitive context would help.
+
+**Agent Workflow - Permission pause**
+
+**Agent prompt:** Before taking [proposed action], explain what it reads or changes, any external access, the scope of permission needed and how we could recover. Wait for a decision. Do not reveal credentials or read private files to justify the request.
+
+**Human check:** The human understands the proposed side effects and approves only the intended scope; refusal does not trigger a workaround.
+
+**Codex note:** Review the actual Codex request and configured controls. Do not solve a denied action by switching to an unrestricted mode.
+
+**Claude Code note:** Read the actual Claude Code permission request before approving. If denied, choose a permitted alternative or stop; do not bypass the control.
+
 
 ## Reflect
 
@@ -314,7 +373,7 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 
 ### tg-011 - MAKE CAMP
 
-Revision 1 | Draft | Preserved V1 card | About 3 minutes
+Revision 2 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Summarize progress, open questions, and the next step.
 
@@ -325,6 +384,17 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 **Optional AI prompt:** Using only these sanitized notes: [notes], draft three bullets: evidenced progress, open questions and next action. Mark missing information rather than inventing decisions or owners.
 
 **Situation tags:** out-of-time
+
+**Agent Workflow - Leave a handoff**
+
+**Agent prompt:** Draft a concise handoff: changes made, checks actually run and results, remaining uncertainties, and the next safe action. Do not include secrets or personal details. Do not write, commit or push it without approval.
+
+**Human check:** Another person can resume using evidence and explicit limits without reconstructing the entire chat.
+
+**Codex note:** Keep stable project rules in the appropriate instruction file and task-specific progress in a separate handoff. Do not turn one-off context into permanent rules.
+
+**Claude Code note:** Keep reusable project instructions separate from temporary task notes. Do not assume another person or tool shares the current conversation or private memory.
+
 
 ### tg-025 - SURPRISE ON THE TRAIL
 
@@ -340,7 +410,7 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-026 - KEEP OR ADAPT
 
-Revision 1 | Draft | New card | About 4 minutes
+Revision 2 | Draft | New card | About 4 minutes
 
 **Bearing:** Name one move to keep, one to change and one thing you still cannot conclude.
 
@@ -349,6 +419,17 @@ Revision 1 | Draft | New card | About 4 minutes
 **Try it:** Review one completed attempt. Name a useful move, a specific adjustment and a limit of the evidence. If using Team Trail later, attach feedback only to the attempt actually recorded, not the team's overall performance.
 
 **Optional AI prompt:** Based only on these observations: [observations], suggest one practice to keep, one adjustment and one conclusion the evidence does not support. Avoid rating the people or team.
+
+**Agent Workflow - Inspect the footprints**
+
+**Agent prompt:** Review the current diff against [agreed scope] without editing. Explain changed files, unexpected changes, risks and unverified behavior. Point to concrete locations for human inspection. Do not discard any changes.
+
+**Human check:** A human reviews the diff and can explain important behavior changes; generated explanations are checked against the actual changes.
+
+**Codex note:** Ask Codex for a read-only diff review. A second review is additional scrutiny, not independent proof of correctness.
+
+**Claude Code note:** Ask Claude Code for a read-only diff review. If comparing with another agent, preserve the same diff and acceptance criteria.
+
 
 ### tg-027 - TEACH THE NEXT GUIDE
 
@@ -490,7 +571,7 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-035 - PASS THE CONTROLS
 
-Revision 1 | Draft | New card | About 3 minutes
+Revision 2 | Draft | New card | About 3 minutes
 
 **Bearing:** Offer a new driver and a reviewer. Keep participation optional and accessible.
 
@@ -502,13 +583,24 @@ Revision 1 | Draft | New card | About 3 minutes
 
 **Situation tags:** nobodys-talking
 
+**Agent Workflow - Rotate the human roles**
+
+**Agent prompt:** For [small task], suggest a driver, reviewer and questioner role, with an observer or non-typing alternative. Keep participation voluntary. The people, not the agent, decide who takes a role and who approves actions.
+
+**Human check:** More than one person has an accessible way to contribute; driving the CLI is not treated as the only valuable role.
+
+**Codex note:** The human driving Codex narrates the task and approval requests; another person checks the diff and evidence.
+
+**Claude Code note:** The human driving Claude Code narrates the task and approval requests; rotate roles by agreement rather than making tool ownership permanent.
+
+
 ## Decide
 
 We need to choose and move.
 
 ### tg-036 - CHOOSE THE COMPASS
 
-Revision 1 | Draft | New card | About 4 minutes
+Revision 2 | Draft | New card | About 4 minutes
 
 **Bearing:** Agree on two criteria before comparing options.
 
@@ -519,6 +611,17 @@ Revision 1 | Draft | New card | About 4 minutes
 **Optional AI prompt:** Compare [options] using these agreed criteria: [criteria], and only this evidence: [evidence]. Mark unknowns and non-negotiable constraints. Do not invent numerical scores or make the decision for us.
 
 **Situation tags:** too-many-ideas
+
+**Agent Workflow - Agree the route**
+
+**Agent prompt:** Propose a small plan for [task]. List likely files, scope boundaries, acceptance checks and unresolved questions. Do not edit or run project scripts yet. Wait for our agreement before implementation.
+
+**Human check:** The team agrees on a bounded task, what is out of scope and observable acceptance checks.
+
+**Codex note:** Give Codex the same written acceptance criteria the team will use to review its changes.
+
+**Claude Code note:** Give Claude Code the same written acceptance criteria; a plan is a proposal, not permission to execute every later action.
+
 
 ### tg-037 - TWO TRAILS
 
@@ -536,7 +639,7 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-038 - REVERSIBLE STEP
 
-Revision 1 | Draft | New card | About 4 minutes
+Revision 2 | Draft | New card | About 4 minutes
 
 **Bearing:** Choose a low-risk next step you can undo. Agree when to reconsider it.
 
@@ -547,6 +650,17 @@ Revision 1 | Draft | New card | About 4 minutes
 **Optional AI prompt:** For this possible next step: [step], list questions about reversibility, authorization, risks and stopping conditions. Suggest a limited trial only if the stated constraints allow one. Do not execute actions.
 
 **Situation tags:** too-many-ideas, out-of-time
+
+**Agent Workflow - Practice recovery**
+
+**Agent prompt:** In a disposable practice copy, first inspect existing changes and propose one harmless edit plus a scoped recovery plan. Wait for agreement. Never overwrite unrelated work, run broad cleanup or use a destructive reset as a shortcut.
+
+**Human check:** The team can identify and undo only the approved practice change while preserving pre-existing work. A checkpoint or commit alone is not a complete backup.
+
+**Codex note:** Before Codex edits, inspect repository status and agree on a safe checkpoint. Have a human review the scoped recovery action before it runs.
+
+**Claude Code note:** Before Claude Code edits, inspect repository status and agree on a checkpoint. Verify the actual recovery result rather than assuming conversation recovery restores every file or external action.
+
 
 ### tg-039 - NAME THE OWNER
 

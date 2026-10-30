@@ -10,7 +10,7 @@
 The agent needs an actual shell/SSH route. Cloning this repository or moving a conversation does not grant remote access.
 
 ## Agent setup
-Inspect OS/CPU architecture and installed tools. Install Git and Arduino CLI from official sources. Configure Espressif's package index, install the ESP32 core and Adafruit SSD1306/GFX dependencies. Record versions. Check serial permissions; use the appropriate serial group and reconnect if needed, not world-writable device nodes.
+Inspect OS/CPU architecture and installed tools. Install Git and Arduino CLI from official sources. Configure Espressif's package index, install the ESP32 core and Adafruit SH110X/GFX/BusIO dependencies for the SH1106 OLED. Record versions. Check serial permissions; use the appropriate serial group and reconnect if needed, not world-writable device nodes.
 
 Use `arduino-cli board list` to identify the port. V1 target is `esp32:esp32:esp32`. Never flash a guessed serial device.
 
@@ -28,7 +28,7 @@ These commands are a starting point, not a record of successful execution.
 - Pi OS/architecture:
 - Arduino CLI:
 - ESP32 core:
-- SSD1306 / GFX / BusIO:
+- SH110X / GFX / BusIO:
 - Board and serial port:
 - Compile command/result:
 - Upload command/result:

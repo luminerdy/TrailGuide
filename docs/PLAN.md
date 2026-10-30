@@ -1,7 +1,6 @@
 # Delivery plan
 
-Last updated: October 30, 2026.
-Goal: dependable offline facilitation support for Frontier Ops, November 9–12, 2026. Preserve V1 as the fallback.
+Goal: dependable offline facilitation support for AI workshops using the reusable Frontier Ops theme. Preserve V1 as the fallback.
 
 Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Hardware contracts: [V1](V1-SPEC.md), [V2](V2-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
 
@@ -16,7 +15,7 @@ Status: in progress. v1-0.2.4 SH1106 display and mechanical BOOT behavior are us
 
 Exit: V1 acceptance evidence recorded, recovery usable and all remaining limitations stated.
 
-## Phase 1 — Content and workflow design, before V2 arrival
+## Phase 1 — Content and workflow design, before V2 integration
 
 Status: product spec drafted; content expansion and prototype not started.
 
@@ -26,11 +25,11 @@ Status: product spec drafted; content expansion and prototype not started.
 - Review No team, saved-vs-used, team switch, confirmation/Undo, empty trail and write-failure states.
 - Define synthetic fixtures and tests for content/deck/use-event/storage logic.
 
-Exit: Scotty reviews navigation and representative cards; stable data contracts and acceptance tests are defined. Prototype approval does not establish hardware readiness.
+Exit: facilitator review of navigation and representative cards is complete; stable data contracts and acceptance tests are defined. Prototype approval does not establish hardware readiness.
 
-## Phase 2 — V2 hardware bring-up, after arrival
+## Phase 2 — V2 hardware bring-up, when hardware is available
 
-Status: blocked on board arrival, expected November 1, 2026.
+Status: pending actual-board inspection and bring-up.
 
 - Identify exact board/revision, touch/display/IMU drivers, pins, memory, partition layout and storage budget.
 - Run manufacturer display, touch and sensor examples before application integration.
@@ -40,7 +39,7 @@ Status: blocked on board arrival, expected November 1, 2026.
 
 Exit: core touch/display path works on actual hardware with evidence. No team-history release until durable storage passes Phase 3.
 
-## Phase 3 — Workshop core: themes and Team Trail
+## Phase 3 — Core release: themes and Team Trail
 
 Status: planned. Requirements P-01–P-07 and P-10–P-15 in PRODUCT-SPEC.md.
 
@@ -56,7 +55,7 @@ Exit: all applicable product-spec acceptance checks pass; actual-device screen r
 
 ## Phase 4 — Depth and follow-through, only after core
 
-Status: planned, schedule-dependent.
+Status: planned, dependent on core acceptance.
 
 Priority order:
 1. Show me how: spoken question, activity and optional example AI prompt.
@@ -68,17 +67,17 @@ Each addition needs its own tests and screen/readability check. Defer features r
 
 ## Phase 5 — Freeze, rehearsal and workshop readiness
 
-Targets, not completion promises:
+Acceptance-gated sequence:
 
-- November 6: scope freeze; choose tested V2 core or V1 fallback based on evidence.
-- November 7–8: fixes only, facilitator rehearsal, power/runtime and recovery checks.
-- November 9–12: workshop operation with known working fallback and explicit limitations.
+- Freeze scope once core acceptance passes; choose tested V2 core or V1 fallback based on evidence.
+- Stabilize with fixes, facilitator rehearsal, power/runtime and recovery checks.
+- Release for workshop use with a known working fallback and explicit limitations.
 
 Power/case work requires verified connector, polarity, charging requirements and fit. Measure actual runtime/charging with final firmware before claiming battery readiness. Retain USB cable/power option, source, local recovery builds and V1 fallback.
 
 ## Working agreement
 
-The agent handles software/docs/tests; Scotty handles physical wiring and reports visible/hands-on results. Update PRODUCT-SPEC.md as requirements evolve, PLAN.md as scope changes and BRINGUP.md with real evidence. Publish verified commits to luminerdy/TrailGuide; never publish credentials, credential-bearing binaries, private logs or real Team Trail data.
+Software contributors handle code/docs/tests; hardware operators handle physical wiring and report visible/hands-on results. Update PRODUCT-SPEC.md as requirements evolve, PLAN.md as scope changes and BRINGUP.md with real evidence. Publish verified commits to the configured project origin; never publish credentials, credential-bearing binaries, private logs or real Team Trail data.
 
 ## Current implementation summary
 

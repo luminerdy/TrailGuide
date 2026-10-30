@@ -1,8 +1,6 @@
 # TrailGuide — Living product specification
 
 Status: approved product direction; implementation pending unless explicitly marked verified below.
-Last updated: October 30, 2026.
-Owner: Scotty. Repository: luminerdy/TrailGuide.
 
 ## 1. Purpose and source of truth
 
@@ -10,7 +8,7 @@ TrailGuide is an offline pocket facilitator for helping workshop teams work with
 
 This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md) and [V2-SPEC.md](V2-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
 
-Scotty endorsed Team Trail, theme selection, a simple start mode and the supporting facilitation ideas on October 30. Numeric limits, exact labels and phase boundaries below are proposed engineering defaults, not individually user-approved decisions. Validate them during prototype review.
+The product direction includes Team Trail, theme selection, a simple start mode and supporting facilitation ideas. Numeric limits, exact labels and phase boundaries below are proposed engineering defaults, not individually user-approved decisions. Validate them during prototype review.
 
 ## 2. Principles
 
@@ -27,17 +25,17 @@ Scotty endorsed Team Trail, theme selection, a simple start mode and the support
 
 V1: ESP32 + SH1106 OLED, BOOT input, firmware v1-0.2.4 with twelve cards in a single shuffled deck. It has no implemented themes, team storage, saved cards or history UI. The user confirmed display/button behavior; full acceptance remains open in BRINGUP.md.
 
-V2: ordered round touchscreen board, expected November 1, 2026. Exact revision, touch/display/sensor dependencies, memory layout and usable storage must be verified on arrival. There is no V2 firmware or simulator yet. A mockup is not hardware verification.
+V2: planned round touchscreen target. Exact revision, touch/display/sensor dependencies, memory layout and usable storage must be verified on the actual hardware. There is no V2 firmware or simulator yet. A mockup is not hardware verification.
 
 ## 4. Experience and navigation
 
-### P-01: Home and quick start — workshop core
+### P-01: Home and quick start — core release
 
 Home offers three large actions: **Quick bearing**, **Help my team**, **Team Trail**. A small team indicator shows the active team or **No team**. Team setup is never required to draw advice.
 
 Quick bearing draws from the whole deck. Help my team opens theme selection; situation shortcuts are an enhancement. Back returns one level without marking, saving or drawing. Home remains reachable without a deep menu.
 
-### P-02: Themes — workshop core
+### P-02: Themes — core release
 
 Eight themes organize the content. Each card has one primary theme; optional tags support future cross-theme situations.
 
@@ -52,7 +50,7 @@ Eight themes organize the content. Each card has one primary theme; optional tag
 
 Show a readable scrolling list, not eight tiny targets around the circle. Selecting a theme draws from that theme. The active filter remains visible and is easy to clear.
 
-### P-03: Card and optional depth — workshop core / enhancement
+### P-03: Card and optional depth — core release / enhancement
 
 The core card view shows title, theme and concise action. Actions: **Used it**, **Save**, **Another idea**. Back and Home must remain accessible. The exact arrangement requires a round-screen prototype; do not squeeze all controls into an unreadable screen.
 
@@ -60,7 +58,7 @@ Optional **Show me how** opens a detail view with a spoken facilitation question
 
 Drawing, scrolling, Back, waking and opening details never create a use event. Shake, if enabled, means draw only in an appropriate draw/card context, never while editing, confirming use, viewing history or navigating. Animation must not queue additional draws.
 
-### P-04: Team context — workshop core
+### P-04: Team context — core release
 
 Default to No team. Offer a small local roster using non-identifying labels such as Team 1; do not require touchscreen typing. Proposed first limit: eight teams with labels up to 24 characters. Renaming is secondary and may initially use a local provisioning tool.
 
@@ -68,7 +66,7 @@ Changing team updates a clearly visible indicator. An open card may remain visib
 
 Without an active team, Used it opens a team picker with Cancel; cancellation records nothing. Quick bearing continues to work without a team.
 
-### P-05: Used it and feedback — workshop core
+### P-05: Used it and feedback — core release
 
 Used it asks **Record for Team N?**. Confirm durably appends one use event; double taps cannot duplicate it. Show **Recorded** only after storage succeeds. A failed write shows an error and allows retry without double counting.
 
@@ -76,11 +74,11 @@ Offer Undo for the latest action while on that card, and allow undo from recent 
 
 After recording, optional **Helpful / Not yet / Skip** feedback attaches to that event. Skip is the default absence of feedback, not a negative rating. Feedback is subjective facilitator input, not a team-performance measure. Reusing the card on another occasion is allowed through an explicit Use again action/confirmation; an incidental second tap must not record another use.
 
-### P-06: Saved cards — workshop core
+### P-06: Saved cards — core release
 
 Save is a toggle, scoped to the active team or a separate personal list when No team is active. Saving never marks Used. Offer a saved list and an explicit unsave action. Changing teams does not move saved items between teams.
 
-### P-07: Team Trail — workshop core
+### P-07: Team Trail — core release
 
 Select a team to see:
 
@@ -168,7 +166,7 @@ A compass needle is a visual metaphor, not a magnetic heading instrument. Do not
 
 Each requirement must be labeled Planned, Implemented, Host-tested, Prototype-reviewed or Hardware-verified with evidence. Do not infer completion from a checked task list or generated code.
 
-Required checks for the workshop core:
+Required checks for the core release:
 
 - P-01/02/03: Quick bearing works without setup; eight themes filter correctly; back/wake/draw never mark use.
 - P-04/05: switching teams cannot misattribute a use; cancel writes nothing; rapid double taps record once; confirmed reuse records separately; Undo and feedback affect the intended event only.
@@ -182,25 +180,25 @@ Host tests are required for deck, event attribution, deduplication, reversal, co
 
 ## 9. Delivery scope and fallback
 
-Workshop core: P-01 through P-07, P-10 through P-15; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+Core release: P-01 through P-07, P-10 through P-15; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
-Target workshop: November 9–12, 2026. Freeze workshop scope November 6; reserve November 7–8 for fixes, power checks, recovery and rehearsal. These are targets, not guarantees. If core V2 fails acceptance, use tested V1; a stable basic V2 may be retained only with missing Team Trail features clearly disclosed. Do not present incomplete history as working.
+Freeze release scope after core acceptance; reserve a stabilization phase for fixes, power checks, recovery and facilitator rehearsal. Releases are gated by evidence, not a specific workshop date. If core V2 fails acceptance, use tested V1; a stable basic V2 may be retained only with missing Team Trail features clearly disclosed. Do not present incomplete history as working.
 
 ## 10. Living-spec maintenance
 
 For each meaningful change:
 
 1. Update the affected P-ID and acceptance criteria before or alongside implementation.
-2. Add a dated decision below, describing why scope/behavior changed.
+2. Add a decision below describing why scope/behavior changed; use Git history for chronology rather than embedding calendar dates.
 3. Update PLAN.md status and BRINGUP.md execution evidence; record known blockers.
 4. Keep planned behavior separate from shipped behavior and preserve requirement IDs.
 5. Commit related code/tests/docs together; publish and verify GitHub readback. Never include credentials, private builds or real team trails.
 
 ### Decision log
 
-- October 30, 2026: expand from a shuffled advice oracle toward a pocket facilitator. Scotty endorsed themes, simple start, Team Trail and supporting facilitation ideas. Added eight proposed themes, team-scoped deliberate-use tracking, saved ideas and phased follow-through. Hardware work remains gated on board arrival and inspection.
+- Expand from a shuffled advice oracle toward a pocket facilitator with themes, simple start, Team Trail and supporting facilitation ideas. Added eight proposed themes, team-scoped deliberate-use tracking, saved ideas and phased follow-through. Hardware work remains gated on board availability and inspection.
 
 ### Open validation decisions
 
@@ -208,4 +206,4 @@ For each meaningful change:
 - Review a circular-screen prototype for card actions, confirmations and theme navigation.
 - Review forty-card editorial set before publishing or loading it.
 - Measure storage budget and choose persistence/backup implementation on the actual V2 board.
-- Confirm which enhancements fit before the November 6 scope freeze; core reliability wins.
+- Confirm which enhancements fit before the release scope freeze; core reliability wins.

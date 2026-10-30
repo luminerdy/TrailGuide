@@ -1,6 +1,6 @@
 # TrailGuide
 
-An offline advice oracle for Trail Guides at the Frontier Ops AI workshop, November 9–12, 2026. Draw a new bearing: a practical question or experiment that helps teams learn to work with AI.
+An offline advice oracle and pocket facilitator for AI workshops, using the reusable Frontier Ops theme. Draw a new bearing: a practical question or experiment that helps teams learn to work with AI.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |

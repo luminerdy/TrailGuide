@@ -1,6 +1,6 @@
 # Wi-Fi firmware updates
 
-Requested October 29, 2026. Required for V1 and carried forward to V2.
+Required for V1 and carried forward to V2.
 Status: implemented, host-tested, ESP32-compiled and hardware-verified on prior firmware. Currently running v1-0.2.4 after a USB upload correcting the OLED driver to SH1106; OTA code and credentials are unchanged and serial confirms OTA readiness. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified before this driver correction. See BRINGUP.md for actual results.
 
 ## Behavior

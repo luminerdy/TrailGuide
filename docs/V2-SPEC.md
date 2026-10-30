@@ -5,9 +5,9 @@
 The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Quick bearing, eight themes, team selection, deliberate Used it tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. None of these features is implemented yet.
 
 ## Target
-Ordered Waveshare ESP32-S3-Touch-LCD-1.85, expected November 1, 2026: 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
+Planned target: Waveshare ESP32-S3-Touch-LCD-1.85; 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
 
-Verify the exact revision, touch variant, display driver, pins and manufacturer example dependencies on arrival. Do not reuse V1 OLED pins or firmware unchanged.
+Verify the exact revision, touch variant, display driver, pins and manufacturer example dependencies on the actual hardware. Do not reuse V1 OLED pins or firmware unchanged.
 
 ## Experience
 - Compass home screen: Frontier Ops / Trail Guide / Find your next bearing.
@@ -38,7 +38,7 @@ USB first. Battery and case are deferred. Before selecting a cell, verify exact 
 - Battery operation is only declared ready after runtime and charging tests.
 
 ## Deferred
-Real north requires a magnetometer; QMI8658 alone cannot supply magnetic heading. Audio, live AI, cloud sync, free-text notes and analytics are deferred. Themes and durable Team Trail history are now workshop-core requirements, superseding their earlier deferral. Follow-through, favorites and situation shortcuts follow only after the core works. Optional authenticated local firmware updates remain required; advice and team history never require internet access.
+Real north requires a magnetometer; QMI8658 alone cannot supply magnetic heading. Audio, live AI, cloud sync, free-text notes and analytics are deferred. Themes and durable Team Trail history are now core-release requirements, superseding their earlier deferral. Follow-through, favorites and situation shortcuts follow only after the core works. Optional authenticated local firmware updates remain required; advice and team history never require internet access.
 
 Status: specification only; no V2 firmware or simulator implemented.
 

@@ -11,3 +11,7 @@ secrets.h
 __pycache__/
 .DS_Store
 Thumbs.db
+
+# Local device/network records must never be published.
+*.log
+wifi.txt

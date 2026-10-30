@@ -4,7 +4,7 @@ An offline advice oracle for Trail Guides at the Frontier Ops AI workshop, Novem
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
-| V1 | HiLetgo ESP-WROOM-32 + Hosyond SSD1306 128x64 OLED | Onboard BOOT button | Starter firmware; not compiled or hardware-tested |
+| V1 | HiLetgo ESP-WROOM-32 + Hosyond SSD1306 128x64 OLED | Onboard BOOT button | USB and OTA verified; OLED acceptance pending |
 | V2 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Tap and shake, compass animation | Planned |
 
 ## Start here
@@ -13,6 +13,8 @@ An offline advice oracle for Trail Guides at the Frontier Ops AI workshop, Novem
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 specifications](docs/V2-SPEC.md)
 - [Raspberry Pi handoff](docs/PI-HANDOFF.md)
+- [Wi-Fi update requirements](docs/WIFI-UPDATES.md)
+- [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.

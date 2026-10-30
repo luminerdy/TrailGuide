@@ -11,7 +11,7 @@ Verify the exact revision, touch variant, display driver, pins and manufacturer 
 - Reuse V1 advice meanings and shuffle behavior, with a readable circular layout.
 - Ignore extra draw events during animation; tune shake threshold and cooldown on hardware.
 - Keep current advice until another draw. Idle dimming and wake preserve it; wake touch must not accidentally skip it.
-- Entirely offline.
+- Advice works entirely offline. Preserve the optional local Wi-Fi update capability described in [Wi-Fi updates](WIFI-UPDATES.md).
 
 ## Architecture
 Extract shared advice/deck logic from V1 and keep independent hardware targets. Inputs feed one draw action. States: Home, Drawing, Advice, Idle/Dimmed. Use nonblocking animation.

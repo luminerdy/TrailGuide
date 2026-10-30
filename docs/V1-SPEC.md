@@ -20,7 +20,7 @@ Start with twelve cards in the sketch, expanding toward forty after readability 
 Use size-one 6x8 text, up to 21 characters per line. Title occupies the top 16 pixels; body starts at y=20 with at most four lines; footer at y=56. Hand-wrap ASCII advice. Confirm every card fits on the actual display.
 
 ## Software
-Arduino C++; ESP32 Dev Module target (`esp32:esp32:esp32`); Adafruit SSD1306, GFX and dependencies. Probe 0x3C/0x3D; report display detection and selected cards over serial at 115200 baud. Keep Wi-Fi off. Record exact working dependency versions after compilation.
+Arduino C++; ESP32 Dev Module target (`esp32:esp32:esp32`); Adafruit SSD1306, GFX and dependencies. Probe 0x3C/0x3D; report display detection and selected cards over serial at 115200 baud. Keep Wi-Fi off when update credentials are not configured; see [Wi-Fi updates](WIFI-UPDATES.md). Advice remains fully offline. Record exact working dependency versions after compilation.
 
 ## Acceptance
 - Compile and upload from the Pi; record exact versions, port, commands and results.
@@ -29,7 +29,7 @@ Arduino C++; ESP32 Dev Module target (`esp32:esp32:esp32`); Adafruit SSD1306, GF
 - All twelve cards appear once per deck; no immediate boundary repeat.
 - At least fifty presses and thirty minutes without a crash.
 - Reset, power-cycle and USB reconnect work.
-- Missing OLED yields a clear serial error.
+- Missing OLED yields a clear serial error and BOOT continues to draw advice over serial.
 
 ## Boundaries and status
-Starter firmware exists but has not been compiled or hardware-tested. V1 uses USB power. Battery, case, shake, audio, live AI, networking and magnetic heading are deferred. Do not hold BOOT during normal reset/power-on.
+Firmware v1-0.2.3 is ESP32-compiled and running after USB and OTA uploads; serial startup and GPIO0 input cycles are verified. OLED acceptance remains pending; direct-IP OTA is hardware-verified. V1 uses USB power. Battery, case, shake, audio, live AI and magnetic heading are deferred. Do not hold BOOT during normal reset/power-on.

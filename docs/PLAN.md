@@ -8,6 +8,8 @@ Goal: dependable offline advice oracle before Frontier Ops, November 9–12, 202
 - Clone TrailGuide; install Git, Arduino CLI, Espressif board support and Adafruit libraries from official sources.
 - Detect the real serial port; record exact working versions and commands.
 
+- Implement and verify password-protected local Wi-Fi updates before the first USB flash; see [Wi-Fi updates](WIFI-UPDATES.md).
+
 ## 2. V1 bring-up
 - Wire one OLED with USB unplugged, check connections, reconnect.
 - Compile, upload, and read serial diagnostics.
@@ -29,4 +31,4 @@ Goal: dependable offline advice oracle before Frontier Ops, November 9–12, 202
 - Retain source, tested firmware, recovery instructions, USB cable and V1 fallback.
 
 ## Current status
-Starter V1 sketch with twelve cards, address detection, debounce and shuffled draws. No compile or hardware tests completed. Pi setup/access pending. Round display ordered. Power and enclosure deferred. No V2 firmware or simulator yet.
+V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and password-protected OTA support. Host tests and ESP32 compilation pass; v1-0.2.3 is running after verified USB and OTA uploads. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery verified. OLED and full hardware acceptance remain pending. Round display ordered. Power and enclosure deferred. No V2 firmware or simulator yet.

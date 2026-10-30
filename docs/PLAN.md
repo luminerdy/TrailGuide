@@ -1,34 +1,87 @@
 # Delivery plan
 
-Goal: dependable offline advice oracle before Frontier Ops, November 9–12, 2026. Preserve V1 as the fallback. The human connects hardware; the agent handles software once terminal access is available.
+Last updated: October 30, 2026.
+Goal: dependable offline facilitation support for Frontier Ops, November 9–12, 2026. Preserve V1 as the fallback.
 
-## 1. Pi handoff and toolchain
-- Establish Pi network and SSH access.
-- Inspect OS, architecture, disk space, tools, serial devices and permissions.
-- Clone TrailGuide; install Git, Arduino CLI, Espressif board support and Adafruit libraries from official sources.
-- Detect the real serial port; record exact working versions and commands.
+Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Hardware contracts: [V1](V1-SPEC.md), [V2](V2-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
 
-- Implement and verify password-protected local Wi-Fi updates before the first USB flash; see [Wi-Fi updates](WIFI-UPDATES.md).
+## Phase 0 — Finish and preserve V1
 
-## 2. V1 bring-up
-- Wire one OLED with USB unplugged, check connections, reconnect.
-- Compile, upload, and read serial diagnostics.
-- Run V1 acceptance checks; fix display layout and input problems.
-- Review starter advice before expanding toward forty cards.
-- Save a tested V1 release and recovery instructions.
+Status: in progress. v1-0.2.4 SH1106 display and mechanical BOOT behavior are user-confirmed; full acceptance is not complete.
 
-## 3. V2 after arrival (expected Nov. 1)
-- Identify board/revision and run manufacturer display, touch and sensor examples.
-- Extract shared content and shuffle logic.
-- Implement round UI and tap-to-draw first.
-- Add needle animation, shake detection and idle dimming.
-- Run V2 acceptance checks with USB power.
+- Finish fifty-press/thirty-minute, full-deck readability, restart and independent-power checks.
+- Record human observations separately from serial/host-test results.
+- Preserve known working firmware, credentials and USB recovery instructions locally; publish source/docs only.
+- Keep V1's twelve-card whole deck stable while V2 develops.
 
-## 4. Workshop readiness
-- Select battery/case only after checking actual requirements.
-- Measure runtime and charging.
-- Freeze essential features several days before November 9.
-- Retain source, tested firmware, recovery instructions, USB cable and V1 fallback.
+Exit: V1 acceptance evidence recorded, recovery usable and all remaining limitations stated.
 
-## Current status
-V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and password-protected OTA support. Host tests and ESP32 compilation pass; v1-0.2.4 is running after a USB upload correcting the actual OLED to SH1106. The user confirmed the display works and mechanical BOOT advances once per press without repeating while held. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified on prior firmware; OTA code is unchanged. Every-card readability, fifty presses/thirty minutes and independent-power acceptance remain pending. Round display ordered. Power and enclosure deferred. No V2 firmware or simulator yet.
+## Phase 1 — Content and workflow design, before V2 arrival
+
+Status: product spec drafted; content expansion and prototype not started.
+
+- Establish stable IDs/revisions for the twelve existing cards without silently changing V1 behavior.
+- Draft eight themes and forty-card V2 target, five per theme; editorial review before inclusion.
+- Prototype Home, Quick bearing, themes, card actions, team picker and Team Trail on a circular 360x360 canvas.
+- Review No team, saved-vs-used, team switch, confirmation/Undo, empty trail and write-failure states.
+- Define synthetic fixtures and tests for content/deck/use-event/storage logic.
+
+Exit: Scotty reviews navigation and representative cards; stable data contracts and acceptance tests are defined. Prototype approval does not establish hardware readiness.
+
+## Phase 2 — V2 hardware bring-up, after arrival
+
+Status: blocked on board arrival, expected November 1, 2026.
+
+- Identify exact board/revision, touch/display/IMU drivers, pins, memory, partition layout and storage budget.
+- Run manufacturer display, touch and sensor examples before application integration.
+- Pin actual working toolchain/dependencies; retain compatible authenticated OTA and USB recovery.
+- Build independent V2 target with shared tested content/deck logic, readable card view and tap-to-draw.
+- Add nonblocking animation, optional shake, idle/wake; suppress accidental queued actions.
+
+Exit: core touch/display path works on actual hardware with evidence. No team-history release until durable storage passes Phase 3.
+
+## Phase 3 — Workshop core: themes and Team Trail
+
+Status: planned. Requirements P-01–P-07 and P-10–P-15 in PRODUCT-SPEC.md.
+
+- Quick bearing without setup; eight-theme selection.
+- Small preset team roster and persistent active-team indicator.
+- Used it confirmation, deduplicated durable event, Undo and optional feedback.
+- Team-scoped saved ideas; personal saves when No team is selected.
+- Team Trail: recent uses, separate saves, themes explored and last tried prompt.
+- Recoverable bounded storage, honest event ordering without an assumed real-time clock, schema/version safeguards and explicit full/error states.
+- Validate privacy, accidental input prevention, attribution, reboot, power-interrupted writes, migration and corruption behavior with synthetic data.
+
+Exit: all applicable product-spec acceptance checks pass; actual-device screen review, retained-trail reboot, one-hour USB soak and V2 OTA/data-retention checks recorded. No real team data in GitHub.
+
+## Phase 4 — Depth and follow-through, only after core
+
+Status: planned, schedule-dependent.
+
+Priority order:
+1. Show me how: spoken question, activity and optional example AI prompt.
+2. Dismissible follow-through with Try again / Adapt it / Move on.
+3. Situation shortcuts and personal favorites.
+4. Explicit local export/backup and restore tool; decide before workshop collection whether proceeding without backup is acceptable.
+
+Each addition needs its own tests and screen/readability check. Defer features rather than compromise Phase 3 reliability. Free-text notes, live AI, cloud sync, audio and analytics are out of the first release.
+
+## Phase 5 — Freeze, rehearsal and workshop readiness
+
+Targets, not completion promises:
+
+- November 6: scope freeze; choose tested V2 core or V1 fallback based on evidence.
+- November 7–8: fixes only, facilitator rehearsal, power/runtime and recovery checks.
+- November 9–12: workshop operation with known working fallback and explicit limitations.
+
+Power/case work requires verified connector, polarity, charging requirements and fit. Measure actual runtime/charging with final firmware before claiming battery readiness. Retain USB cable/power option, source, local recovery builds and V1 fallback.
+
+## Working agreement
+
+The agent handles software/docs/tests; Scotty handles physical wiring and reports visible/hands-on results. Update PRODUCT-SPEC.md as requirements evolve, PLAN.md as scope changes and BRINGUP.md with real evidence. Publish verified commits to luminerdy/TrailGuide; never publish credentials, credential-bearing binaries, private logs or real Team Trail data.
+
+## Current implementation summary
+
+V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and authenticated OTA. Host tests and ESP32 compilation passed; v1-0.2.4 was USB-flashed and serial-verified after correcting the OLED driver to SH1106. User confirmed display/button behavior. Prior firmware verified wireless updates, password rejection, reconnect and interrupted-transfer recovery; OTA code is unchanged. Remaining acceptance is tracked in BRINGUP.md.
+
+V2 firmware, prototype, theme filtering, expanded content, teams and history are not implemented. The new product specification defines intended behavior, not a shipped feature set.

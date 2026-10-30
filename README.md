@@ -9,6 +9,7 @@ An offline advice oracle for Trail Guides at the Frontier Ops AI workshop, Novem
 
 ## Start here
 
+- [Living product specification — themes, touchscreen and Team Trail](docs/PRODUCT-SPEC.md)
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 specifications](docs/V2-SPEC.md)

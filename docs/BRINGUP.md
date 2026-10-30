@@ -14,6 +14,32 @@
 - Both host suites were rebuilt and passed before publication with C++17 and
   `-Wall -Wextra -Werror`. Hardware was not reflashed during this handoff.
 
+## Product planning and acceptance update — October 30, 2026
+
+- After reporting forty clicks with a good display, the user responded Done
+  to the request for ten more presses. Fifty mechanical presses are therefore
+  user-reported complete. A thirty-minute reminder was scheduled; the soak
+  result has not yet been reported. Independent-power acceptance remains open.
+- User endorsed themes, simple start, team-scoped tracking and Team Trail,
+  then requested a plan and living specs maintained in GitHub.
+- Added docs/PRODUCT-SPEC.md as canonical product requirements; revised PLAN.md,
+  V2-SPEC.md and README links. Eight themes, forty-card content target, persistent
+  deliberate-use tracking, saves and Team Trail are planned, not implemented.
+- Scope includes phased follow-through, situation shortcuts and favorites,
+  explicit data/privacy/error behavior and verifiable release gates.
+- Validation passed: local links across five changed documents, fifteen unique
+  product requirement IDs, git diff whitespace check and both rebuilt C++17 host
+  suites with warnings as errors. V2 behavior itself is not implemented or tested.
+- This work changes documentation only; no firmware was flashed or hardware
+  reset. Publication status must be checked against GitHub, not inferred here.
+
+## User display check — October 30, 2026
+
+- User reports forty mechanical BOOT clicks and says the display looks good.
+- This is human-observed display/button testing, not a serial-monitored run.
+  Complete deck coverage, fifty total presses, thirty-minute operation and
+  independent-power checks are not yet confirmed.
+
 ## SH1106 correction — October 30, 2026
 
 - User photo shows a narrow band of text with random pixels below. User's

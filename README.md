@@ -9,6 +9,8 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 
 ## Start here
 
+- [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
+- [Structured card content](content/cards.json)
 - [Living product specification — themes, touchscreen and Team Trail](docs/PRODUCT-SPEC.md)
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
@@ -17,6 +19,8 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 - [Wi-Fi update requirements](docs/WIFI-UPDATES.md)
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
+
+The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

@@ -17,10 +17,10 @@ Exit: V1 acceptance evidence recorded, recovery usable and all remaining limitat
 
 ## Phase 1 — Content and workflow design, before V2 integration
 
-Status: product spec drafted; content expansion and prototype not started.
+Status: product spec and forty-card draft catalog authored; content-contract tests pass. Facilitator review, circular-screen prototype and runtime integration remain pending.
 
-- Establish stable IDs/revisions for the twelve existing cards without silently changing V1 behavior.
-- Draft eight themes and forty-card V2 target, five per theme; editorial review before inclusion.
+- Stable IDs/revisions are assigned to all forty draft cards, preserving the twelve existing titles/actions without changing V1 firmware.
+- Eight themes have five cards each in [CARD-CATALOG.md](CARD-CATALOG.md), sourced from [content/cards.json](../content/cards.json). Complete facilitator editorial review before inclusion.
 - Prototype Home, Quick bearing, themes, card actions, team picker and Team Trail on a circular 360x360 canvas.
 - Review No team, saved-vs-used, team switch, confirmation/Undo, empty trail and write-failure states.
 - Define synthetic fixtures and tests for content/deck/use-event/storage logic.
@@ -83,4 +83,4 @@ Software contributors handle code/docs/tests; hardware operators handle physical
 
 V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and authenticated OTA. Host tests and ESP32 compilation passed; v1-0.2.4 was USB-flashed and serial-verified after correcting the OLED driver to SH1106. User confirmed display/button behavior. Prior firmware verified wireless updates, password rejection, reconnect and interrupted-transfer recovery; OTA code is unchanged. Remaining acceptance is tracked in BRINGUP.md.
 
-V2 firmware, prototype, theme filtering, expanded content, teams and history are not implemented. The new product specification defines intended behavior, not a shipped feature set.
+The expanded forty-card draft catalog and its structured content are authored and content-tested. V2 firmware, circular-screen prototype, runtime theme filtering, teams and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.

@@ -9,7 +9,8 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - v1-0.2.4 was ESP32-compiled, USB-flashed and serial-verified: correct version, SH1106 at 0x3C and OTA readiness.
 - Human-observed checks confirm readable sampled cards, one new card per BOOT press, no repeated advance while held, and fifty mechanical presses. Full-deck readability, thirty-minute soak result and independent-power acceptance remain unconfirmed.
 - Host suites passed with C++17 and warnings as errors. These do not verify physical pixels or power behavior.
-- V2 touchscreen firmware, expanded content, themes, team storage and Team Trail remain planned, not implemented. See [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
+- The expanded content catalog is authored as forty draft cards across eight themes, with structured JSON and a readable catalog. Content tests pass; facilitator review and hardware layout checks remain pending.
+- V2 touchscreen firmware, theme-filter runtime behavior, team storage and Team Trail remain planned, not implemented. V1 source and flashed firmware are unchanged. See [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
 
 ## Verified V1 toolchain
 
@@ -76,6 +77,10 @@ Use USB recovery with the known build's original partition settings; prefer the 
 - Verify reset, power-cycle, USB reconnect and USB-independent power operation.
 - Router/AP disappearance and return, mDNS upload, and power loss during transfer remain untested. Direct-IP OTA is verified; no automatic rollback is claimed.
 - Inspect V2 hardware before implementing its drivers or persistence layer.
+
+## Content expansion validation
+
+The content contract test was run before the expanded catalog existed and failed for the expected missing-catalog condition. After adding structured JSON and its readable Markdown view, it passed: forty unique card IDs/titles, eight themes with five cards each, required guidance fields, recognized situation tags, and verbatim preservation of the twelve original V1 actions. Both C++17 host suites were rebuilt with warnings as errors and passed. No firmware source was changed and no device was reset or flashed. All forty entries remain editorial drafts, not facilitator-approved or hardware-layout-verified content.
 
 ## Documentation validation
 

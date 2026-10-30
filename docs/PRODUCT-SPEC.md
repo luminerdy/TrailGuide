@@ -101,7 +101,7 @@ Initial situations: Too many ideas; Nobody's talking; AI sounds convincing; We'r
 
 ### P-10: Structured, reviewed content
 
-Proposed initial V2 target: forty cards, five per theme. Preserve the twelve V1 meanings and assign stable IDs before expanding. Forty is a content target, not the number currently implemented.
+The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each entry has revision, theme, action, team question, activity, optional AI prompt, suggested minutes, situation tags and draft review state. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
 
 Card fields:
 
@@ -199,6 +199,8 @@ For each meaningful change:
 ### Decision log
 
 - Expand from a shuffled advice oracle toward a pocket facilitator with themes, simple start, Team Trail and supporting facilitation ideas. Added eight proposed themes, team-scoped deliberate-use tracking, saved ideas and phased follow-through. Hardware work remains gated on board availability and inspection.
+
+- Content expansion: forty draft cards, five per theme, with stable IDs/revisions and optional guidance. Keep JSON as the canonical editorial source and the Markdown catalog synchronized. Preserve V1's twelve titles/actions without a firmware change; facilitator review and hardware layout acceptance remain separate gates.
 
 ### Open validation decisions
 

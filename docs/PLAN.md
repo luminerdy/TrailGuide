@@ -2,7 +2,7 @@
 
 Goal: dependable offline facilitation support for AI workshops using the reusable Frontier Ops theme. Preserve V1 as the fallback.
 
-Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Hardware contracts: [V1](V1-SPEC.md), [V2](V2-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
+Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Hardware contracts: [V1](V1-SPEC.md), [V2](V2-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
 
 ## Phase 0 — Finish and preserve V1
 
@@ -21,7 +21,8 @@ Status: product spec and forty-card draft catalog authored; content-contract tes
 
 - Stable IDs/revisions are assigned to all forty draft cards, preserving the twelve existing titles/actions without changing V1 firmware.
 - Eight themes have five cards each in [CARD-CATALOG.md](CARD-CATALOG.md), sourced from [content/cards.json](../content/cards.json). Ten existing cards also have draft agent-workflow variants with Codex/Claude Code notes and human checks, indexed in [AGENT-WORKFLOW.md](AGENT-WORKFLOW.md). No new theme or cards are added. Complete facilitator editorial review before inclusion.
-- Prototype Home, Quick bearing, themes, card actions, team picker and Team Trail on a circular 360x360 canvas.
+- Author/review paired Ask, Notice and Follow-up guidance using existing card IDs, beginning with representative cards across all eight themes; preserve existing action text and agent variants.
+- Prototype default Ask the Team, Try a Move, core Guide me, linked-face navigation, themes, action sheet, team picker and Team Trail on a circular 360x360 canvas. Mode entry draws immediately without setup.
 - Review No team, saved-vs-used, team switch, confirmation/Undo, empty trail and write-failure states.
 - Define synthetic fixtures and tests for content/deck/use-event/storage logic.
 
@@ -41,11 +42,12 @@ Exit: core touch/display path works on actual hardware with evidence. No team-hi
 
 ## Phase 3 — Core release: themes and Team Trail
 
-Status: planned. Requirements P-01–P-07 and P-10–P-15 in PRODUCT-SPEC.md.
+Status: planned. Requirements P-01–P-07 and P-10–P-16 in PRODUCT-SPEC.md.
 
-- Quick bearing without setup; eight-theme selection.
+- Ask/Try entry without setup; Ask defaults on fresh sessions; optional eight-theme filtering; core Guide me in both modes.
+- Mode-aware eligibility/pool tests, linked-face behavior and card revisions. Integrate reviewed paired content without duplicating the catalog.
 - Small preset team roster and persistent active-team indicator.
-- Used it confirmation, deduplicated durable event, Undo and optional feedback.
+- Used it confirmation with actual Ask/Try mode and team, deduplicated durable event, Undo and optional feedback. Test legacy-mode migration before enabling history.
 - Team-scoped saved ideas; personal saves when No team is selected.
 - Team Trail: recent uses, separate saves, themes explored and last tried prompt.
 - Recoverable bounded storage, honest event ordering without an assumed real-time clock, schema/version safeguards and explicit full/error states.
@@ -58,7 +60,7 @@ Exit: all applicable product-spec acceptance checks pass; actual-device screen r
 Status: planned, dependent on core acceptance.
 
 Priority order:
-1. Show me how: spoken question, activity and optional example AI prompt.
+1. Expanded Show me how: additional activity and optional example AI prompts. Core Ask/Notice/Follow-up Guide me is already required by P-16.
 2. Dismissible follow-through with Try again / Adapt it / Move on.
 3. Situation shortcuts, personal favorites and optional Agent Workflow collection selection/tool-note panels. Preserve base card identity; variant attribution is a separately tested storage enhancement.
 4. Explicit local export/backup and restore tool; decide before workshop collection whether proceeding without backup is acceptable.
@@ -84,3 +86,7 @@ Software contributors handle code/docs/tests; hardware operators handle physical
 V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and authenticated OTA. Host tests and ESP32 compilation passed; v1-0.2.4 was USB-flashed and serial-verified after correcting the OLED driver to SH1106. User confirmed display/button behavior. Prior firmware verified wireless updates, password rejection, reconnect and interrupted-transfer recovery; OTA code is unchanged. Remaining acceptance is tracked in BRINGUP.md.
 
 The expanded forty-card draft catalog and its structured content are authored and content-tested. V2 firmware, circular-screen prototype, runtime theme filtering, teams and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
+
+## Immediate two-mode handoff
+
+Follow FACILITATOR-MODES.md section 11: inspect current checkout, map schema/tests, author representative paired content, prototype and review, complete catalog, test pools/events/migration, then integrate on verified V2 hardware. This documentation update changes no firmware or content JSON and establishes no new hardware verification. Preserve V1 while work continues.

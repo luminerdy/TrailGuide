@@ -10,7 +10,7 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Human-observed checks confirm readable sampled cards, one new card per BOOT press, no repeated advance while held, and fifty mechanical presses. Full-deck readability, thirty-minute soak result and independent-power acceptance remain unconfirmed.
 - Host suites passed with C++17 and warnings as errors. These do not verify physical pixels or power behavior.
 - The expanded content catalog is authored as forty draft cards across eight themes, with structured JSON and a readable catalog. Content tests pass; facilitator review and hardware layout checks remain pending.
-- V2 touchscreen firmware, theme-filter runtime behavior, team storage and Team Trail remain planned, not implemented. V1 source and flashed firmware are unchanged. See [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
+- V2 touchscreen firmware, production theme-filter behavior, real team storage and Team Trail remain unimplemented. An initial read-only eight-card browser preview and draft paired content exist; review-only team codes and fixtures do not store interventions. V1 source and flashed firmware are unchanged. See [PROTOTYPE-REVIEW.md](PROTOTYPE-REVIEW.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
 
 ## Verified V1 toolchain
 
@@ -98,7 +98,19 @@ A separate read-only UX critique supported short pages, one help entry, mode-spe
 
 Final documentation checks passed: thirteen circle-contained rectangle envelopes, seventeen unique requirement IDs, parseable illustrative JSON, relative links, generic public wording and documentation-only scope. Both Python content tests and both rebuilt C++17 suites passed. None of these checks establishes actual font rendering, touch accuracy or new runtime behavior.
 
-No content JSON, firmware or storage schema was changed. No prototype was built and no device was reset/flashed. The next implementation gate is representative paired draft content and a read-only UI review; full catalog enrichment, eligibility/pools and mode-aware storage follow only after that review.
+During the preceding specification-only step, no content JSON, firmware or storage schema was changed and no prototype was built. The subsequent prototype build is recorded below. No device was reset/flashed; full catalog enrichment, production eligibility/pools and mode-aware storage still follow facilitator review.
+
+## Initial read-only prototype build and QA
+
+Eight representative cards now carry additive draft Ask/Notice/Follow-up and Try invitation/Notice/Follow-up fields. Each affected revision advanced once; base wording, all forty stable IDs, eight themes and existing agent variants are unchanged. The content test first failed for missing paired fields, then passed after authoring and catalog synchronization. All scopes remain draft; structural validation is not editorial approval.
+
+A portable prototype/template and standard-library builder now exist. The initial parent verification ran eight Python tests, including actual Chromium navigation, canonical-copy fit and pointer safeguards; they passed. Both existing C++17 suites also passed, and V1 firmware remained unchanged. The parent separately opened the actual file in a browser and exercised Ask, Guide me, paging, Back and disabled tracking controls with real pointer clicks. This is browser evidence only, not facilitator or hardware acceptance.
+
+The initial review found three regression issues: reopening Team inside its picker overwrote return context; a 320-pixel viewport clipped the left of the fixed-size circle; duplicate theme metadata passed the unique-theme count check. A separate fix context added failing regressions and corrected all three. The parent reran all eleven Python tests successfully and independently rechecked double-open/Back and actual 320-pixel layout in the browser: card/mode/draw count were preserved and the circle started at x=0 in a horizontally scrollable region while remaining 360 pixels wide. Browser-helper screenshots were intermittently unavailable, but that does not replace functional checks or justify claiming a screen was inspected when it was not.
+
+The independent full-code review found no security concerns and one blocking outside-and-back mouse-drag defect. A separate fix added a real Chromium CDP regression: it failed before the fix with draw count 2 instead of 1, then passed after leaving the dial canceled both pending press/release. Normal mouse taps and Enter-key activation also passed. The parent reran all eleven Python tests successfully after this correction. A separate narrowly scoped re-review approved the pointerleave fix with no security or logic findings; it did not independently rerun tests. The parent also reran the builder freshness check and both C++17 suites. Arbitrary custom theme-label width remains a review consideration; the canonical labels are covered by browser fit checks.
+
+Implementation adjustments for this review artifact: compact menu context sits at y=111 rather than the initial y=116; the full title has a separate Guide page; overflow uses an explicit Full text: Guide me route rather than scroll-only access. Review these choices with the facilitator before treating them as final interaction decisions. Recording, saving and history remain unavailable, and synthetic fixtures are not real cards or team records.
 
 ## Documentation validation
 

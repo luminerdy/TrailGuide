@@ -25,7 +25,7 @@ The product direction includes Team Trail, theme selection, a simple start mode 
 
 V1: ESP32 + SH1106 OLED, BOOT input, firmware v1-0.2.4 with twelve cards in a single shuffled deck. It has no implemented themes, team storage, saved cards or history UI. The user confirmed display/button behavior; full acceptance remains open in BRINGUP.md.
 
-V2: planned round touchscreen target. Exact revision, touch/display/sensor dependencies, memory layout and usable storage must be verified on the actual hardware. There is no V2 firmware or simulator yet. A mockup is not hardware verification.
+V2: planned round touchscreen target. Exact revision, touch/display/sensor dependencies, memory layout and usable storage must be verified on the actual hardware. There is no production V2 firmware yet. A read-only eight-card browser preview demonstrates the proposed UI; it is not board emulation, hardware verification or a claim of durable tracking.
 
 ## 4. Experience and navigation
 
@@ -112,7 +112,7 @@ Approved direction; implementation pending. Detailed content, UI, storage and ha
 
 ### P-17: Round-screen simplicity and prototype gate — core release
 
-Proposed design, not implemented. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
+An initial read-only browser preview is built for eight representative draft pairs. Production firmware/tracking and facilitator/actual-hardware acceptance remain pending. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
 
 - Prioritize the question/action. Main card bottom actions are Guide me and Another; Back, team and More stay visible. Keep full title/reference in guidance/details and secondary operations in a paged action list.
 - Guide me is the only help entry; later Steps/AI/tool notes extend it, not a second Show me how button. Record-use labels are Asked this / Offered this move, with a separate named-team/mode confirmation.
@@ -125,9 +125,9 @@ Proposed design, not implemented. Detailed coordinates, task paths, overflow han
 
 ### P-10: Structured, reviewed content
 
-The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each existing entry has revision, theme, action, `question`, activity, optional AI prompt, suggested minutes, situation tags and draft review state. P-16 adds proposed separately reviewed Ask and Try Guide me fields; these are not yet authored across the catalog or integrated at runtime. FACILITATOR-MODES.md defines exact draft/reviewed/retired scopes and all-entry-point eligibility; no existing `question` or draft action is automatically approved by those proposals. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
+The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each existing entry has revision, theme, action, `question`, activity, optional AI prompt, suggested minutes, situation tags and draft review state. Eight representative cards, one per theme, now have additive draft Ask/Notice/Follow-up and Try invitation/Notice/Follow-up fields. Their revisions advanced and the readable catalog is synchronized. The other thirty-two cards do not yet have paired guidance. None is editorially reviewed or integrated into production firmware. FACILITATOR-MODES.md defines exact draft/reviewed/retired scopes and all-entry-point eligibility; no existing `question` or draft action is automatically approved by those proposals. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
 
-An optional [Agent Workflow collection](AGENT-WORKFLOW.md) now adapts ten existing cards for supervising CLI coding agents. It does not create a ninth theme or increase the forty-card count. Structured collection metadata references stable card IDs; each adapted card has agent_workflow label, prompt, human check and codex/claude_code tool notes. Ten adapted entries are revision 2; other entries remain revision 1. These optional additions retain schema_version 1 and leave existing base fields intact. Unsupported optional fields may be ignored by readers; required data remains validated.
+An optional [Agent Workflow collection](AGENT-WORKFLOW.md) now adapts ten existing cards for supervising CLI coding agents. It does not create a ninth theme or increase the forty-card count. Structured collection metadata references stable card IDs; each adapted card has agent_workflow label, prompt, human check and codex/claude_code tool notes. Agent-workflow entries have revision 2 or later; paired facilitator enrichment advances the affected card revision again. Canonical JSON is authoritative for each revision. These optional additions retain schema_version 1 and leave existing base fields intact. Unsupported optional fields may be ignored by readers; required data remains validated.
 
 Keep general advice tool-neutral. Confirm tool versions, settings and active project instructions before using product-specific guidance; do not teach permission bypass as a default. No CLI command, session or private prompt is executed or collected by TrailGuide. The collection and notes are authored drafts, not evidence of runtime support.
 

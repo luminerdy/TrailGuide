@@ -2,7 +2,7 @@
 
 ## Product requirements
 
-The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Ask/Try unfiltered draws, eight themes, team selection, deliberate mode-aware tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. The proposed safe-circle layout, text/touch budgets and read-only prototype gates are specified in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. None of these features is implemented yet.
+The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Ask/Try unfiltered draws, eight themes, team selection, deliberate mode-aware tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. The proposed safe-circle layout, text/touch budgets and read-only prototype gates are specified in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. An initial read-only browser preview demonstrates eight paired cards; production features and actual-hardware acceptance remain pending.
 
 ## Target
 Planned target: Waveshare ESP32-S3-Touch-LCD-1.85; 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
@@ -43,6 +43,6 @@ USB first. Battery and case are deferred. Before selecting a cell, verify exact 
 ## Deferred
 Real north requires a magnetometer; QMI8658 alone cannot supply magnetic heading. Audio, live AI, cloud sync, free-text notes and analytics are deferred. Themes and durable Team Trail history are now core-release requirements, superseding their earlier deferral. Follow-through, favorites and situation shortcuts follow only after the core works. Optional authenticated local firmware updates remain required; advice and team history never require internet access.
 
-Status: specification only; no V2 firmware or simulator implemented.
+Status: production V2 firmware and board emulation are not implemented. An initial read-only browser UI preview exists for facilitator review; it does not establish display/touch/IMU behavior on the actual board.
 
 [Manufacturer reference](https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.85)

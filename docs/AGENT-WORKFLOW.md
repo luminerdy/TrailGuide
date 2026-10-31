@@ -2,7 +2,7 @@
 
 An optional cross-theme collection for supervising CLI coding agents. These are adaptations of existing cards, not extra cards or a ninth theme.
 
-Status: draft editorial guidance for review. No collection UI, tool integration or new firmware is implemented. The catalog remains forty cards across eight themes; ten existing cards have optional CLI-agent variants at revision 2. Other cards remain at revision 1.
+Status: draft editorial guidance for review. No collection UI, tool integration or new firmware is implemented. The catalog remains forty cards across eight themes; ten existing cards have optional CLI-agent variants. Some cards have later revisions after paired facilitator guidance was added; use the canonical JSON revision rather than assuming all variants are revision 2.
 
 [Full card catalog](CARD-CATALOG.md) | [Canonical structured content](../content/cards.json) | [Product requirements](PRODUCT-SPEC.md)
 

@@ -32,12 +32,38 @@
   ],
   "cards": [
     {
-      "card_id": "tg-001", "revision": 1, "theme": "explore", "title": "SCOUT",
+      "card_id": "tg-001",
+      "revision": 2,
+      "theme": "explore",
+      "title": "SCOUT",
       "action": "Ask AI for three very different approaches.",
       "question": "What would a genuinely different approach look like?",
       "activity": "Name the current approach. Ask for three alternatives with different starting assumptions, then choose one difference worth exploring. Do not select a winner yet.",
       "ai_prompt": "For this non-sensitive challenge: [challenge], suggest three approaches with different starting assumptions. State each assumption and one trade-off. Avoid three minor variations of the same idea.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "facilitator": {
+        "ask": "What different approaches have you considered?",
+        "notice": [
+          "Listen for alternatives that change the approach, not just the wording. A single idea can be a starting point rather than a failure."
+        ],
+        "follow_ups": [
+          "What assumption could you change?",
+          "What would a very different starting point look like?"
+        ],
+        "try_invitation": "Would it help to explore three different approaches?",
+        "try_notice": [
+          "Look for a useful difference between the options. The team can reject AI suggestions or decide not to use AI."
+        ],
+        "try_follow_ups": [
+          "Which difference is worth exploring next?",
+          "What would you want to learn before choosing?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
+      }
     },
     {
       "card_id": "tg-005", "revision": 1, "theme": "explore", "title": "NEW PERSPECTIVE",
@@ -72,12 +98,38 @@
       "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-002", "revision": 1, "theme": "clarify", "title": "FOG AHEAD",
+      "card_id": "tg-002",
+      "revision": 2,
+      "theme": "clarify",
+      "title": "FOG AHEAD",
       "action": "Ask AI to ask you one clarifying question at a time.",
       "question": "Which unanswered question would most change our next step?",
       "activity": "Give a short, non-sensitive challenge description. Answer up to three clarifying questions, one at a time. Stop and rewrite the challenge using what changed; do not let questioning replace action.",
       "ai_prompt": "Help clarify this challenge: [challenge]. Ask one question at a time, starting with the answer most likely to change the approach. After three questions, help me restate the challenge without inventing missing facts.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "facilitator": {
+        "ask": "What are you trying to make easier, and for whom?",
+        "notice": [
+          "Listen for an intended user and a concrete difficulty. A requested output format alone may not explain what would help."
+        ],
+        "follow_ups": [
+          "What would a useful result let them do?",
+          "Which uncertainty matters most before you start?"
+        ],
+        "try_invitation": "Would one clarifying question at a time help?",
+        "try_notice": [
+          "Notice whether the questions change the team's understanding. Stop when enough is clear to take a useful step; more questions are not always better."
+        ],
+        "try_follow_ups": [
+          "What became clearer?",
+          "What can you try with what you know now?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
+      }
     },
     {
       "card_id": "tg-009",
@@ -130,7 +182,7 @@
     },
     {
       "card_id": "tg-004",
-      "revision": 2,
+      "revision": 3,
       "theme": "experiment",
       "title": "SMALL STEPS",
       "action": "Ask AI for a test you can finish in ten minutes.",
@@ -151,6 +203,26 @@
           "codex": "Inspect the actual Codex sandbox and approval settings before starting. A narrow prompt supplements technical controls; it does not replace them.",
           "claude_code": "Inspect Claude Code permissions before starting. Keep action approvals appropriate to the exercise rather than disabling safeguards to avoid interruptions."
         }
+      },
+      "facilitator": {
+        "ask": "What is the smallest thing you could try to learn more?",
+        "notice": [
+          "Listen for one uncertainty and a result the team could observe. A smaller deliverable is useful only if it answers something that matters."
+        ],
+        "follow_ups": [
+          "What do you expect to see?",
+          "What result would make you change your approach?"
+        ],
+        "try_invitation": "Would a small, safe test help you learn more?",
+        "try_notice": [
+          "Look for an actual observation, a safe stopping point and the limits of the test. Finishing a test does not prove the whole idea works."
+        ],
+        "try_follow_ups": [
+          "What did you observe?",
+          "What can you conclude, and what remains uncertain?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
       }
     },
     {
@@ -202,7 +274,7 @@
     },
     {
       "card_id": "tg-003",
-      "revision": 2,
+      "revision": 3,
       "theme": "verify",
       "title": "CHECK BEARINGS",
       "action": "Which claims need checking? Verify one independently.",
@@ -223,6 +295,26 @@
           "codex": "Ask Codex to distinguish commands it executed from commands it merely recommends. Independently inspect consequential results.",
           "claude_code": "Ask Claude Code to distinguish executed checks from suggested checks. Missing dependencies or denied permissions are limitations, not passing tests."
         }
+      },
+      "facilitator": {
+        "ask": "Which part would matter most if it were wrong?",
+        "notice": [
+          "Listen for a specific claim and its consequence. If useful, invite the team to select a concrete sentence. Fluent wording is not evidence of accuracy."
+        ],
+        "follow_ups": [
+          "How could you check that independently?",
+          "What would you do if you could not check it today?"
+        ],
+        "try_invitation": "Would it help to check one claim together?",
+        "try_notice": [
+          "Look for an original source, direct observation or trusted reference. A repeated AI answer is not an independent check. Unavailable checks leave a claim unverified."
+        ],
+        "try_follow_ups": [
+          "What did the check establish?",
+          "What remains unverified?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
       }
     },
     {
@@ -282,7 +374,7 @@
     },
     {
       "card_id": "tg-011",
-      "revision": 2,
+      "revision": 3,
       "theme": "reflect",
       "title": "MAKE CAMP",
       "action": "Summarize progress, open questions, and the next step.",
@@ -303,6 +395,26 @@
           "codex": "Keep stable project rules in the appropriate instruction file and task-specific progress in a separate handoff. Do not turn one-off context into permanent rules.",
           "claude_code": "Keep reusable project instructions separate from temporary task notes. Do not assume another person or tool shares the current conversation or private memory."
         }
+      },
+      "facilitator": {
+        "ask": "What changed in your approach after that attempt?",
+        "notice": [
+          "Listen for a concrete observation or adjustment, including one prompted by an unsuccessful attempt. The team may not have enough evidence to name a lesson yet."
+        ],
+        "follow_ups": [
+          "What surprised you?",
+          "What would you try next time?"
+        ],
+        "try_invitation": "Would a short progress-and-next-step summary help?",
+        "try_notice": [
+          "Notice whether the summary separates observed progress from open questions. A proposed next action needs an owner's agreement; do not infer it from silence."
+        ],
+        "try_follow_ups": [
+          "Does this summary match what happened?",
+          "What is the next useful step?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
       }
     },
     {
@@ -361,12 +473,41 @@
       "minutes": 4, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
     },
     {
-      "card_id": "tg-028", "revision": 1, "theme": "unstick", "title": "NAME THE BLOCKER",
+      "card_id": "tg-028",
+      "revision": 2,
+      "theme": "unstick",
+      "title": "NAME THE BLOCKER",
       "action": "Decide whether you lack information, a decision or a workable next action.",
       "question": "What is stopping us right now, in one sentence?",
       "activity": "Each person may name the blocker. Agree whether the next move is to obtain information, ask a decision-maker or reduce the task. Pick one action that addresses that blocker instead of generating more ideas.",
       "ai_prompt": "Here is where we are stuck: [description]. Suggest whether the main gap is information, a decision or an actionable step. Explain uncertainty and ask one question before suggesting a move.",
-      "minutes": 3, "situation_tags": ["too-many-ideas", "out-of-time"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "too-many-ideas",
+        "out-of-time"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "facilitator": {
+        "ask": "Where did progress stop?",
+        "notice": [
+          "Listen for task ambiguity, tool friction or a choice the team has not resolved. Ask rather than diagnosing motivation or ability."
+        ],
+        "follow_ups": [
+          "What is missing for one small next step?",
+          "What could you set aside for now?"
+        ],
+        "try_invitation": "Would it help to name the blocker before making more ideas?",
+        "try_notice": [
+          "Notice whether the team identifies information, a decision or an actionable step it needs. Several blockers may coexist; choosing one need not dismiss the others."
+        ],
+        "try_follow_ups": [
+          "Which blocker should you address first?",
+          "What action would address that blocker?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
+      }
     },
     {
       "card_id": "tg-029", "revision": 1, "theme": "unstick", "title": "SHRINK THE CLIMB",
@@ -385,12 +526,40 @@
       "minutes": 3, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
     },
     {
-      "card_id": "tg-031", "revision": 1, "theme": "include", "title": "QUIET FIRST",
+      "card_id": "tg-031",
+      "revision": 2,
+      "theme": "include",
+      "title": "QUIET FIRST",
       "action": "Give everyone quiet thinking time before discussion or AI suggestions.",
       "question": "What do we each notice before seeing someone else's answer?",
       "activity": "Allow one minute for private thinking, writing or drawing. Invite sharing without requiring it, then group contributions before asking AI. Offer a spoken or paired alternative for anyone who prefers it.",
       "ai_prompt": "Using these voluntarily shared, sanitized ideas: [ideas], group similar points without ranking contributors. Preserve distinctive ideas and ask before merging points whose meanings differ.",
-      "minutes": 3, "situation_tags": ["nobodys-talking"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "nobodys-talking"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "facilitator": {
+        "ask": "What do you notice before seeing someone else's answer?",
+        "notice": [
+          "Give people time to think before inviting responses. Silence does not tell you whether someone understands, agrees or wants to speak."
+        ],
+        "follow_ups": [
+          "Would thinking alone or in pairs first help?",
+          "What is another way you could contribute?"
+        ],
+        "try_invitation": "Would a quiet minute before sharing help?",
+        "try_notice": [
+          "Look for room to think independently and accessible ways to contribute. Sharing is optional; accept passing without asking people to justify it."
+        ],
+        "try_follow_ups": [
+          "What would anyone like to share, or pass on?",
+          "What distinct ideas should the team keep in view?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
+      }
     },
     {
       "card_id": "tg-032", "revision": 1, "theme": "include", "title": "MAKE ROOM",
@@ -443,7 +612,7 @@
     },
     {
       "card_id": "tg-036",
-      "revision": 2,
+      "revision": 3,
       "theme": "decide",
       "title": "CHOOSE THE COMPASS",
       "action": "Agree on two criteria before comparing options.",
@@ -464,6 +633,26 @@
           "codex": "Give Codex the same written acceptance criteria the team will use to review its changes.",
           "claude_code": "Give Claude Code the same written acceptance criteria; a plan is a proposal, not permission to execute every later action."
         }
+      },
+      "facilitator": {
+        "ask": "What matters most in choosing your next step?",
+        "notice": [
+          "Listen for criteria tied to the intended outcome and for unresolved trade-offs. Keep safety or policy constraints separate from preferences."
+        ],
+        "follow_ups": [
+          "Which trade-off are you willing to accept?",
+          "What evidence would change your choice?"
+        ],
+        "try_invitation": "Would agreeing on two criteria help you compare options?",
+        "try_notice": [
+          "Look for criteria the team actually agreed to and evidence relevant to them. Unknowns should stay visible rather than becoming invented scores."
+        ],
+        "try_follow_ups": [
+          "How do the options compare on those criteria?",
+          "What is still unknown before you choose?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft"
       }
     },
     {

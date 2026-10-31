@@ -17,7 +17,7 @@ Exit: V1 acceptance evidence recorded, recovery usable and all remaining limitat
 
 ## Phase 1 — Content and workflow design, before V2 integration
 
-Status: product spec and forty-card draft catalog authored; content-contract tests pass. Facilitator review, circular-screen prototype and runtime integration remain pending.
+Status: forty-card draft catalog and eight representative paired faces authored; content-contract tests pass. An initial read-only round browser preview is built and scripted/browser checks pass. Facilitator editorial/interaction review and production runtime integration remain pending.
 
 - Stable IDs/revisions are assigned to all forty draft cards, preserving the twelve existing titles/actions without changing V1 firmware.
 - Eight themes have five cards each in [CARD-CATALOG.md](CARD-CATALOG.md), sourced from [content/cards.json](../content/cards.json). Ten existing cards also have draft agent-workflow variants with Codex/Claude Code notes and human checks, indexed in [AGENT-WORKFLOW.md](AGENT-WORKFLOW.md). No new theme or cards are added. Complete facilitator editorial review before inclusion.
@@ -85,8 +85,8 @@ Software contributors handle code/docs/tests; hardware operators handle physical
 
 V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and authenticated OTA. Host tests and ESP32 compilation passed; v1-0.2.4 was USB-flashed and serial-verified after correcting the OLED driver to SH1106. User confirmed display/button behavior. Prior firmware verified wireless updates, password rejection, reconnect and interrupted-transfer recovery; OTA code is unchanged. Remaining acceptance is tracked in BRINGUP.md.
 
-The expanded forty-card draft catalog and its structured content are authored and content-tested. V2 firmware, circular-screen prototype, runtime theme filtering, teams and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
+The expanded forty-card catalog and eight paired draft faces are authored and content-tested. An initial read-only circular browser preview exercises modes/themes and synthetic team context. Production V2 firmware, real team storage and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
 
 ## Immediate two-mode handoff
 
-Follow FACILITATOR-MODES.md section 11 and ROUND-UI-SPEC.md UX-A through UX-D: inspect checkout/schema/tests; author eight representative pairs; build/review a read-only round prototype and overflow fixture; then complete paired content and eligibility tests, implement pools/events/migration, and integrate on inspected V2 hardware. This documentation update changes no firmware or content JSON and establishes no new hardware verification. Preserve V1 while work continues.
+Follow FACILITATOR-MODES.md section 11 and ROUND-UI-SPEC.md UX-A through UX-D: inspect checkout/schema/tests; author eight representative pairs; build/review a read-only round prototype and overflow fixture; then complete paired content and eligibility tests, implement pools/events/migration, and integrate on inspected V2 hardware. The browser preview and eight draft pairs advance this plan without changing V1 firmware or establishing new hardware verification. Preserve V1 while work continues.

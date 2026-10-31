@@ -8,6 +8,10 @@ Canonical structured source: [content/cards.json](../content/cards.json). Requir
 
 Ten existing cards now include optional CLI-agent guidance for Codex and Claude Code. The total stays forty, with eight themes. See the [Agent Workflow guide](AGENT-WORKFLOW.md) for the suggested sequence, safety boundaries and tool-instruction references. Collection UI and tool-note display are planned, not implemented.
 
+## Paired facilitator preview
+
+Eight existing cards, one per theme, now have draft Ask/Notice/Follow-up and Try invitation/Notice/Follow-up guidance. Their revisions advanced; IDs, base actions, theme membership and existing agent variants are preserved. The other thirty-two cards remain without these paired fields. No entry is promoted to reviewed release content. See [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md) for the read-only prototype review gate.
+
 ## Using the catalog
 
 - Each card has a short action plus optional deeper guidance. Time boxes are suggestions, not timers.
@@ -34,7 +38,7 @@ We need possibilities.
 
 ### tg-001 - SCOUT
 
-Revision 1 | Draft | Preserved V1 card | About 3 minutes
+Revision 2 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Ask AI for three very different approaches.
 
@@ -43,6 +47,28 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 **Try it:** Name the current approach. Ask for three alternatives with different starting assumptions, then choose one difference worth exploring. Do not select a winner yet.
 
 **Optional AI prompt:** For this non-sensitive challenge: [challenge], suggest three approaches with different starting assumptions. State each assumption and one trade-off. Avoid three minor variations of the same idea.
+
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What different approaches have you considered?
+
+**Ask / Notice:**
+- Listen for alternatives that change the approach, not just the wording. A single idea can be a starting point rather than a failure.
+
+**Ask / Optional follow-up:**
+- What assumption could you change?
+- What would a very different starting point look like?
+
+**Try / Say:** Would it help to explore three different approaches?
+
+**Try / Notice:**
+- Look for a useful difference between the options. The team can reject AI suggestions or decide not to use AI.
+
+**Try / Optional follow-up:**
+- Which difference is worth exploring next?
+- What would you want to learn before choosing?
 
 ### tg-005 - NEW PERSPECTIVE
 
@@ -98,7 +124,7 @@ We're not sure what we're solving.
 
 ### tg-002 - FOG AHEAD
 
-Revision 1 | Draft | Preserved V1 card | About 4 minutes
+Revision 2 | Draft | Preserved V1 card | About 4 minutes
 
 **Bearing:** Ask AI to ask you one clarifying question at a time.
 
@@ -107,6 +133,28 @@ Revision 1 | Draft | Preserved V1 card | About 4 minutes
 **Try it:** Give a short, non-sensitive challenge description. Answer up to three clarifying questions, one at a time. Stop and rewrite the challenge using what changed; do not let questioning replace action.
 
 **Optional AI prompt:** Help clarify this challenge: [challenge]. Ask one question at a time, starting with the answer most likely to change the approach. After three questions, help me restate the challenge without inventing missing facts.
+
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What are you trying to make easier, and for whom?
+
+**Ask / Notice:**
+- Listen for an intended user and a concrete difficulty. A requested output format alone may not explain what would help.
+
+**Ask / Optional follow-up:**
+- What would a useful result let them do?
+- Which uncertainty matters most before you start?
+
+**Try / Say:** Would one clarifying question at a time help?
+
+**Try / Notice:**
+- Notice whether the questions change the team's understanding. Stop when enough is clear to take a useful step; more questions are not always better.
+
+**Try / Optional follow-up:**
+- What became clearer?
+- What can you try with what you know now?
 
 ### tg-009 - MAP THE GAPS
 
@@ -177,7 +225,7 @@ We need something small to try.
 
 ### tg-004 - SMALL STEPS
 
-Revision 2 | Draft | Preserved V1 card | About 10 minutes
+Revision 3 | Draft | Preserved V1 card | About 10 minutes
 
 **Bearing:** Ask AI for a test you can finish in ten minutes.
 
@@ -199,6 +247,27 @@ Revision 2 | Draft | Preserved V1 card | About 10 minutes
 
 **Claude Code note:** Inspect Claude Code permissions before starting. Keep action approvals appropriate to the exercise rather than disabling safeguards to avoid interruptions.
 
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What is the smallest thing you could try to learn more?
+
+**Ask / Notice:**
+- Listen for one uncertainty and a result the team could observe. A smaller deliverable is useful only if it answers something that matters.
+
+**Ask / Optional follow-up:**
+- What do you expect to see?
+- What result would make you change your approach?
+
+**Try / Say:** Would a small, safe test help you learn more?
+
+**Try / Notice:**
+- Look for an actual observation, a safe stopping point and the limits of the test. Finishing a test does not prove the whole idea works.
+
+**Try / Optional follow-up:**
+- What did you observe?
+- What can you conclude, and what remains uncertain?
 
 ### tg-006 - FALSE SUMMIT
 
@@ -267,7 +336,7 @@ Can we trust this?
 
 ### tg-003 - CHECK BEARINGS
 
-Revision 2 | Draft | Preserved V1 card | About 5 minutes
+Revision 3 | Draft | Preserved V1 card | About 5 minutes
 
 **Bearing:** Which claims need checking? Verify one independently.
 
@@ -289,6 +358,27 @@ Revision 2 | Draft | Preserved V1 card | About 5 minutes
 
 **Claude Code note:** Ask Claude Code to distinguish executed checks from suggested checks. Missing dependencies or denied permissions are limitations, not passing tests.
 
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** Which part would matter most if it were wrong?
+
+**Ask / Notice:**
+- Listen for a specific claim and its consequence. If useful, invite the team to select a concrete sentence. Fluent wording is not evidence of accuracy.
+
+**Ask / Optional follow-up:**
+- How could you check that independently?
+- What would you do if you could not check it today?
+
+**Try / Say:** Would it help to check one claim together?
+
+**Try / Notice:**
+- Look for an original source, direct observation or trusted reference. A repeated AI answer is not an independent check. Unavailable checks leave a claim unverified.
+
+**Try / Optional follow-up:**
+- What did the check establish?
+- What remains unverified?
 
 ### tg-021 - FOLLOW THE SOURCE
 
@@ -373,7 +463,7 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 
 ### tg-011 - MAKE CAMP
 
-Revision 2 | Draft | Preserved V1 card | About 3 minutes
+Revision 3 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Summarize progress, open questions, and the next step.
 
@@ -395,6 +485,27 @@ Revision 2 | Draft | Preserved V1 card | About 3 minutes
 
 **Claude Code note:** Keep reusable project instructions separate from temporary task notes. Do not assume another person or tool shares the current conversation or private memory.
 
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What changed in your approach after that attempt?
+
+**Ask / Notice:**
+- Listen for a concrete observation or adjustment, including one prompted by an unsuccessful attempt. The team may not have enough evidence to name a lesson yet.
+
+**Ask / Optional follow-up:**
+- What surprised you?
+- What would you try next time?
+
+**Try / Say:** Would a short progress-and-next-step summary help?
+
+**Try / Notice:**
+- Notice whether the summary separates observed progress from open questions. A proposed next action needs an owner's agreement; do not infer it from silence.
+
+**Try / Optional follow-up:**
+- Does this summary match what happened?
+- What is the next useful step?
 
 ### tg-025 - SURPRISE ON THE TRAIL
 
@@ -473,7 +584,7 @@ Revision 1 | Draft | Preserved V1 card | About 4 minutes
 
 ### tg-028 - NAME THE BLOCKER
 
-Revision 1 | Draft | New card | About 3 minutes
+Revision 2 | Draft | New card | About 3 minutes
 
 **Bearing:** Decide whether you lack information, a decision or a workable next action.
 
@@ -484,6 +595,28 @@ Revision 1 | Draft | New card | About 3 minutes
 **Optional AI prompt:** Here is where we are stuck: [description]. Suggest whether the main gap is information, a decision or an actionable step. Explain uncertainty and ask one question before suggesting a move.
 
 **Situation tags:** too-many-ideas, out-of-time
+
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** Where did progress stop?
+
+**Ask / Notice:**
+- Listen for task ambiguity, tool friction or a choice the team has not resolved. Ask rather than diagnosing motivation or ability.
+
+**Ask / Optional follow-up:**
+- What is missing for one small next step?
+- What could you set aside for now?
+
+**Try / Say:** Would it help to name the blocker before making more ideas?
+
+**Try / Notice:**
+- Notice whether the team identifies information, a decision or an actionable step it needs. Several blockers may coexist; choosing one need not dismiss the others.
+
+**Try / Optional follow-up:**
+- Which blocker should you address first?
+- What action would address that blocker?
 
 ### tg-029 - SHRINK THE CLIMB
 
@@ -517,7 +650,7 @@ We need more voices involved.
 
 ### tg-031 - QUIET FIRST
 
-Revision 1 | Draft | New card | About 3 minutes
+Revision 2 | Draft | New card | About 3 minutes
 
 **Bearing:** Give everyone quiet thinking time before discussion or AI suggestions.
 
@@ -528,6 +661,28 @@ Revision 1 | Draft | New card | About 3 minutes
 **Optional AI prompt:** Using these voluntarily shared, sanitized ideas: [ideas], group similar points without ranking contributors. Preserve distinctive ideas and ask before merging points whose meanings differ.
 
 **Situation tags:** nobodys-talking
+
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What do you notice before seeing someone else's answer?
+
+**Ask / Notice:**
+- Give people time to think before inviting responses. Silence does not tell you whether someone understands, agrees or wants to speak.
+
+**Ask / Optional follow-up:**
+- Would thinking alone or in pairs first help?
+- What is another way you could contribute?
+
+**Try / Say:** Would a quiet minute before sharing help?
+
+**Try / Notice:**
+- Look for room to think independently and accessible ways to contribute. Sharing is optional; accept passing without asking people to justify it.
+
+**Try / Optional follow-up:**
+- What would anyone like to share, or pass on?
+- What distinct ideas should the team keep in view?
 
 ### tg-032 - MAKE ROOM
 
@@ -600,7 +755,7 @@ We need to choose and move.
 
 ### tg-036 - CHOOSE THE COMPASS
 
-Revision 2 | Draft | New card | About 4 minutes
+Revision 3 | Draft | New card | About 4 minutes
 
 **Bearing:** Agree on two criteria before comparing options.
 
@@ -622,6 +777,27 @@ Revision 2 | Draft | New card | About 4 minutes
 
 **Claude Code note:** Give Claude Code the same written acceptance criteria; a plan is a proposal, not permission to execute every later action.
 
+**Facilitator faces - Draft preview only**
+
+These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+
+**Ask the Team:** What matters most in choosing your next step?
+
+**Ask / Notice:**
+- Listen for criteria tied to the intended outcome and for unresolved trade-offs. Keep safety or policy constraints separate from preferences.
+
+**Ask / Optional follow-up:**
+- Which trade-off are you willing to accept?
+- What evidence would change your choice?
+
+**Try / Say:** Would agreeing on two criteria help you compare options?
+
+**Try / Notice:**
+- Look for criteria the team actually agreed to and evidence relevant to them. Unknowns should stay visible rather than becoming invented scores.
+
+**Try / Optional follow-up:**
+- How do the options compare on those criteria?
+- What is still unknown before you choose?
 
 ### tg-037 - TWO TRAILS
 

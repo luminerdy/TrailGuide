@@ -1,6 +1,6 @@
 # Two-mode facilitation — implementation handoff
 
-Status: approved product direction; documentation only. Content examples and UI details below are proposed implementation defaults requiring editorial and prototype review. No new firmware, content schema, tracking migration or hardware behavior is implemented by this document.
+Status: approved product direction with eight authored draft pairs and an initial read-only browser preview. Editorial/facilitator review and production implementation remain pending. No mode-aware tracking migration, production eligibility engine or hardware readiness is claimed. The preview reads additive draft fields and records nothing.
 
 This is the detailed companion to [PRODUCT-SPEC.md](PRODUCT-SPEC.md), requirement P-16. The proposed round-screen layout, progressive guidance and prototype gates are in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. The product spec remains canonical. [PLAN.md](PLAN.md) defines sequencing. Preserve the verified V1 fallback and authenticated OTA behavior.
 
@@ -150,7 +150,7 @@ Try release eligibility requires card `review_state = reviewed`, valid nonempty 
 
 Use a single eligibility decision for each entry point: random draws, related faces, reopening saves and explicit reuse from history. Empty/ineligible pools explain the absence. A record confirmation must be tied to an eligible face and frozen card/revision/team/mode context; reject a stale confirmation after the context changes. Viewing a recorded historical snapshot remains read-only and clearly distinguished from new-use eligibility.
 
-Review prototypes may expose drafts only with a persistent Draft preview indication; recording and saving are disabled. All current catalog entries are draft. These fields, enum transitions and eligibility behavior are a proposed contract, not implemented JSON/runtime changes. Existing content tests currently assume draft status; extend them through failing tests before introducing reviewed/retired data. Preserve earlier content revisions or snapshots before future history can refer to them.
+Review prototypes may expose drafts only with a persistent Draft preview indication; recording and saving are disabled. All current catalog entries are draft. Eight representative cards now carry the proposed facilitator fields as draft editorial content; the remaining thirty-two do not. Reviewed/retired transitions and production eligibility behavior remain unimplemented. A draft-only review prototype does not establish release eligibility. Existing content tests currently assume draft status; extend them through failing tests before introducing reviewed/retired data. Preserve earlier content revisions or snapshots before future history can refer to them.
 
 Rules:
 - Explicitly validate supported review_state values and required nonempty fields.

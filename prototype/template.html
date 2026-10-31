@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>TrailGuide · Frontier Ops draft preview</title>
+<style>
+:root{color-scheme:dark;--ground:#171713;--surface:#25251e;--ink:#f5efdc;--muted:#c8c1ad;--amber:#e7b866;--edge:#7c7662}
+*{box-sizing:border-box}body{margin:0;background:#10110f;color:var(--ink);font-family:Arial,'DejaVu Sans',sans-serif;font-size:16px}main{max-width:820px;margin:28px auto;padding:0 16px}h1{font-size:24px;font-weight:500;margin:0 0 8px;letter-spacing:.02em}.kicker{font-size:12px;letter-spacing:.16em;color:var(--amber);margin:0 0 10px}.intro{color:var(--muted);line-height:1.5;margin:0 0 24px;max-width:620px}.stage{display:flex;gap:32px;align-items:center;flex-wrap:wrap}.bezel{width:360px;height:360px;flex:none;border-radius:50%;box-shadow:0 0 0 1px #77715f,0 0 0 8px #292a23}
+#device-scroll{width:376px;max-width:100%;padding:8px;flex:none;overflow-x:auto}#viewport-note{display:none;font-size:14px;line-height:1.5;color:var(--muted)}
+#dial{width:360px;height:360px;position:relative;isolation:isolate;background:var(--ground);border-radius:50%;clip-path:circle(50% at 50% 50%);touch-action:none;user-select:none}
+#dial:before{content:'';position:absolute;inset:12px;border:1px solid #484637;border-radius:50%;pointer-events:none}#dial:after{content:'';position:absolute;width:2px;height:9px;background:var(--amber);left:179px;top:18px;pointer-events:none}
+button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--edge);border-radius:8px;cursor:pointer;line-height:20px;padding:6px 8px;touch-action:none}button:hover:not(:disabled){background:#38372b;border-color:var(--amber)}button:active:not(:disabled){background:#49412e}button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}button:disabled{cursor:default;color:#c0b9a6;border-style:dashed;border-color:#68634f;background:#201f19}button.primary{background:var(--ink);color:#202018;border-color:var(--ink);font-weight:700}button.primary:hover{background:#e8d9b6;color:#202018}button.accent{border-color:var(--amber);color:var(--amber)}
+#dial button{position:absolute;white-space:normal;font-size:16px;overflow-wrap:normal}#draft{position:absolute;left:105px;top:39px;width:150px;height:20px;text-align:center;font-size:14px;line-height:20px;color:var(--amber)}
+#context{position:absolute;left:70px;top:116px;width:220px;height:22px;font-size:14px;line-height:20px;color:var(--muted);white-space:nowrap}#context.menu{top:111px;height:17px;line-height:17px}
+#body-copy{position:absolute;left:70px;top:142px;width:220px;height:78px;font-size:20px;line-height:26px;font-weight:400;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+#body-copy .line{display:block;height:26px}#continuation{display:block;color:var(--amber);font-size:16px;line-height:26px}
+#reference{position:absolute;left:90px;top:289px;width:180px;height:18px;color:var(--muted);font-size:12px;line-height:18px;text-align:center;white-space:nowrap}
+.review{max-width:340px;flex:1;min-width:230px}.review h2{font-size:16px;margin:0 0 12px}.review p,.notes{font-size:14px;line-height:1.5;color:var(--muted)}.fixtures{display:grid;gap:10px}.fixtures button{min-height:46px;text-align:left;font-size:14px}.notes{margin-top:30px;max-width:650px}#fixture-status{color:var(--amber);min-height:21px} @media(max-width:430px){main{padding:0;margin:20px 0}h1,.kicker,.intro,.review,.notes{margin-left:16px;margin-right:16px}.stage{justify-content:center}.review{max-width:calc(100% - 32px);width:360px;flex:0 1 360px;min-width:0}.intro{font-size:14px}#device-scroll{width:360px;padding:0;min-width:0;flex:0 1 360px}.bezel{box-shadow:none}}@media(max-width:375px){#viewport-note{display:block;margin:0 16px 20px}#dial,#dial button{touch-action:pan-x}}
+</style>
+</head>
+<body>
+<main>
+<p class="kicker">FRONTIER OPS / FIELD COMPANION</p>
+<h1>TrailGuide</h1>
+<p class="intro">Read-only interaction review. Eight draft card pairs; no recording, saving or team history. Open this file directly — nothing connects or persists.</p>
+<p id="viewport-note">The circle stays 360 logical pixels wide. On a narrow viewport, scroll the device area horizontally to reach both edges.</p>
+<div class="stage">
+<div id="device-scroll" tabindex="0" role="region" aria-label="Device preview" aria-describedby="viewport-note"><div class="bezel"><section id="dial" aria-label="TrailGuide circular screen"></section></div></div>
+<aside class="review" aria-label="External review controls">
+<h2>Review fixtures <span aria-hidden="true">/</span> outside the device</h2>
+<p>Synthetic layout checks are not additional deck cards. Team codes are synthetic context only.</p>
+<div class="fixtures">
+<button id="fixture-long">Long-text fixture · complete-content route</button>
+<button id="fixture-empty">Empty / ineligible pool fixture</button>
+<button id="fixture-unavailable">Draft Ask / unavailable related face</button>
+<button id="reset">Reset preview · return to real draft deck</button>
+</div><p id="fixture-status" role="status">Real eight-card draft deck</p>
+</aside></div>
+<p class="notes">Tap a mode to draw. Guide me holds complete wording and listening cues. In a single-theme preview there is only one representative card, so Another can repeat it. Back and team selection never draw. Prototype-tested is not hardware-verified.</p>
+</main>
+<script id="content-data" type="application/json">__CONTENT_JSON__</script>
+<script>
+'use strict';
+(() => {
+const content=JSON.parse(document.getElementById('content-data').textContent);
+const dial=document.getElementById('dial');
+const font="20px Arial, 'DejaVu Sans', sans-serif";
+const measure=document.createElement('canvas').getContext('2d');measure.font=font;
+let s, pools, teamReturn, trailReturn, themeReturn, pages=[], pressed=null, release=null;
+const themeLabel=id=>content.themes.find(t=>t.theme_id===id)?.label || 'All themes';
+const modeLabel=()=>s.mode==='ask'?'Ask':'Try';
+const isDraftFace=(card,mode)=>Boolean(card && card.review_state==='draft' && card.facilitator && card.facilitator[mode==='ask'?'review_state':'try_review_state']==='draft');
+function snapshot(){return {view:s.view,mode:s.mode,filter:s.filter,team:s.team,card:s.card?.card_id||null,revision:s.card?.revision||null,draws:s.draws,fixture:s.fixture,guidePage:s.guidePage};}
+function wrapped(text){
+ const words=text.trim().split(/\s+/), lines=[];let line='';
+ for(const word of words){
+  if(measure.measureText((line?line+' ':'')+word).width<=220){line+=(line?' ':'')+word;continue;}
+  if(line){lines.push(line);line='';}
+  let part='';for(const char of word){if(measure.measureText(part+char).width>220){lines.push(part);part='';}part+=char;}line=part;
+ }
+ if(line)lines.push(line);return lines;
+}
+function paginate(section,text){const lines=wrapped(text), result=[];for(let n=0;n<lines.length;n+=3)result.push({section,lines:lines.slice(n,n+3)});return result;}
+function guidePages(){
+ if(!s.card)return [];
+ const c=s.card,f=c.facilitator,ask=s.mode==='ask';
+ let result=paginate('Title',c.title);
+ // Try action remains available in full even when its main viewport overflows.
+ if(!ask)result.push(...paginate('Move',c.action));
+ result.push(...paginate('Say',ask?f.ask:f.try_invitation));
+ for(const text of ask?f.notice:f.try_notice)result.push(...paginate('Notice',text));
+ for(const text of ask?f.follow_ups:f.try_follow_ups)result.push(...paginate('Follow up',text));
+ return result;
+}
+function button(id,label,x,y,w,h,fn,disabled=false,kind=''){
+ const b=document.createElement('button');b.id=id;b.textContent=label;b.disabled=disabled;b.className=kind;
+ Object.assign(b.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+ b.addEventListener('click',event=>{if(!b.isConnected || b.disabled || event.detail>1)return;if(event.detail!==0 && release!==b)return;release=null;fn();});dial.append(b);return b;
+}
+function label(id,text,x,y,w,h){const e=document.createElement('div');e.id=id;e.textContent=text;e.dataset.envelope='';if(x!==undefined)Object.assign(e.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px',position:'absolute'});dial.append(e);return e;}
+function context(text,menu=false){const e=label('context',text);if(menu)e.className='menu';}
+function body(lines,continued=false){const e=label('body-copy','');for(const line of lines){const span=document.createElement('span');span.className='line';span.textContent=line;e.append(span);}if(continued){const cue=document.createElement('span');cue.id='continuation';cue.textContent='Full text: Guide me';e.append(cue);}}
+function header(back,third,thirdAction){button('back','Back',70,64,64,48,back);button('team',s.team||'No team',148,64,64,48,()=>openTeams(),s.view==='teams');if(third)button(third==='More'?'more':'page',third,226,64,64,48,thirdAction);}
+function footer(left,leftFn,right,rightFn,leftDisabled=false,rightDisabled=false){button(left==='Guide me'?'guide':'previous',left,70,232,104,52,leftFn,leftDisabled,'accent');button(right==='Another'?'another':'next',right,186,232,104,52,rightFn,rightDisabled);}
+function go(view){s.view=view;render();}
+function home(){go('home');}
+function pool(){return s.fixture==='empty'?[]:content.cards.filter(c=>(!s.filter || c.theme===s.filter)&&isDraftFace(c,s.mode));}
+function draw(){
+ const eligible=pool();if(!eligible.length){s.card=null;go('empty');return;}
+ const key=s.mode+'|'+(s.filter||'all');let p=pools.get(key);if(!p){p={remaining:[],last:null};pools.set(key,p);}
+ if(!p.remaining.length){p.remaining=eligible.slice();for(let i=p.remaining.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p.remaining[i],p.remaining[j]]=[p.remaining[j],p.remaining[i]];}if(p.remaining.length>1 && p.remaining[0].card_id===p.last)[p.remaining[0],p.remaining[1]]=[p.remaining[1],p.remaining[0]];}
+ s.card=p.remaining.shift();p.last=s.card.card_id;s.draws++;s.guidePage=0;go('card');
+}
+function start(mode){s.mode=mode;s.filter=null;if(s.fixture && s.fixture!=='empty'){s.fixture=null;status();}draw();}
+function openTeams(){teamReturn={view:s.view,page:s.page};s.page=0;go('teams');}
+function openTrail(){trailReturn={view:s.view,page:s.page};s.guidePage=0;go('trail');}
+function backTrail(){s.page=trailReturn.page;go(trailReturn.view);}
+function openThemes(){themeReturn={view:s.view,page:s.page};s.page=0;go('themes');}
+function pickTheme(value){s.page=themeReturn.page;if(value===s.filter){go(s.card?'card':themeReturn.view);return;}s.filter=value;s.fixture=null;status();draw();}
+function menuRows(items){items.slice(s.page*3,s.page*3+3).forEach((item,n)=>button(item.id||'choice-'+(s.page*3+n),item.label,70,128+n*56,220,48,item.action,item.disabled||false));}
+function pageHeader(back,count){header(back,s.page===count-1?'First':'Next',()=>{s.page=s.page===count-1?0:s.page+1;render();});}
+function status(){document.getElementById('fixture-status').textContent=s.fixture?'Synthetic fixture: '+s.fixture+' · not a real card':'Real eight-card draft deck';}
+function render(){
+ dial.replaceChildren();dial.dataset.state=s.view;dial.dataset.cardId=s.card?.card_id||'';dial.dataset.mode=s.mode;dial.dataset.revision=s.card?String(s.card.revision):'';dial.dataset.filter=s.filter||'all';dial.dataset.team=s.team||'none';dial.dataset.fixture=s.fixture||'';
+ label('draft','Draft preview');
+ if(s.view==='home'){
+  header(()=>{},null,null);document.getElementById('back').disabled=true;
+  button('ask','Ask the Team',70,124,220,56,()=>start('ask'),false,'primary');
+  button('try','Try a Move',70,188,220,56,()=>start('try'));
+  button('trail','Team Trail',96,252,168,48,openTrail);return;
+ }
+ if(s.view==='card'){
+  header(home,'More',()=>{s.page=0;go('actions');});context(modeLabel()+' / '+themeLabel(s.card.theme));
+  const lines=wrapped(s.mode==='ask'?s.card.facilitator.ask:s.card.action);body(lines.length>3?lines.slice(0,2):lines,lines.length>3);
+  footer('Guide me',()=>go('guide'),'Another',()=>{if(s.fixture){s.fixture=null;status();}draw();});return;
+ }
+ if(s.view==='guide'){
+  pages=guidePages();s.guidePage=Math.min(s.guidePage,pages.length-1);const page=pages[s.guidePage];
+  header(()=>go('card'),null,null);context(page.section+' '+(s.guidePage+1)+'/'+pages.length);body(page.lines);
+  footer('Previous',()=>{s.guidePage--;render();},'Next',()=>{s.guidePage++;render();},s.guidePage===0,s.guidePage===pages.length-1);
+  label('reference',s.card.card_id+' / r'+s.card.revision+' / '+modeLabel());return;
+ }
+ if(s.view==='actions'){
+  pageHeader(()=>go('card'),2);context('Actions '+(s.page+1)+'/2 · read-only',true);
+  const available=isDraftFace(s.card,s.mode==='ask'?'try':'ask');
+  menuRows([
+   {id:'record',label:s.mode==='ask'?'Asked this · disabled':'Offered this move · disabled',disabled:true},
+   {id:'save',label:'Save · disabled',disabled:true},
+   {id:'related',label:available?(s.mode==='ask'?'Try this move · draft':'Ask about this · draft'):'Related face unavailable',disabled:!available,action:()=>{s.mode=s.mode==='ask'?'try':'ask';s.guidePage=0;go('card');}},
+   {id:'themes',label:'Themes',action:openThemes},{id:'trail',label:'Team Trail · unavailable',action:openTrail},{id:'home',label:'Home',action:home}
+  ]);return;
+ }
+ if(s.view==='themes'){
+  pageHeader(()=>{s.page=themeReturn.page;go(themeReturn.view);},3);context('Themes '+(s.page+1)+'/3',true);
+  menuRows([{label:'All themes'+(!s.filter?' · active':''),action:()=>pickTheme(null)},...content.themes.map(t=>({label:t.label+(s.filter===t.theme_id?' · active':''),action:()=>pickTheme(t.theme_id)}))]);return;
+ }
+ if(s.view==='teams'){
+  pageHeader(()=>{s.page=teamReturn.page;go(teamReturn.view);},3);context('Synthetic teams '+(s.page+1)+'/3',true);
+  const choices=[null,'T1','T2','T3','T4','T5','T6','T7','T8'];menuRows(choices.map(code=>({label:code?code+' / Team '+code.slice(1):'No team',action:()=>{s.team=code;s.page=teamReturn.page;go(teamReturn.view);}})));return;
+ }
+ if(s.view==='empty'){
+  header(home,null,null);context(modeLabel()+' / '+themeLabel(s.filter));body(['No eligible cards.','Nothing was drawn.','Choose another pool.']);
+  button('themes','Themes',70,232,104,52,openThemes);button('home','Home',186,232,104,52,home);return;
+ }
+ if(s.view==='trail'){
+  const info=paginate('Team Trail','Team Trail is unavailable in this read-only preview. Synthetic teams change context only. No history is stored.');
+  s.guidePage=Math.min(s.guidePage,info.length-1);header(backTrail,null,null);context('Team Trail '+(s.guidePage+1)+'/'+info.length);body(info[s.guidePage].lines);
+  footer('Previous',()=>{s.guidePage--;render();},'Next',()=>{s.guidePage++;render();},s.guidePage===0,s.guidePage===info.length-1);
+ }
+}
+function synthetic(kind){
+ s.fixture=kind;s.guidePage=0;
+ if(kind==='empty'){s.card=null;s.view='home';status();render();return;}
+ s.mode='ask';const long='This synthetic question checks a complete route for long wording. Read every page before choosing a next step. Participation is optional; invite people to pass, reflect quietly, or stop. Keep the entire safety condition, including this FINAL QUALIFIER';
+ s.card={card_id:'fixture-'+kind,revision:1,theme:'explore',title:'SYNTHETIC LAYOUT FIXTURE — NOT A DECK CARD',review_state:'draft',action:'Try a synthetic layout check.',activity:'Synthetic only.',facilitator:{ask:kind==='long'?long:'What happens when the related face is unavailable?',notice:['Notice whether the complete wording stays readable.'],follow_ups:['Could you find the full text without a gesture?'],try_invitation:'Would a synthetic layout check help?',try_notice:['This is not team data.'],try_follow_ups:['Was the text complete?'],review_state:'draft',try_review_state:kind==='unavailable'?'retired':'draft'}};
+ s.view='card';status();render();
+}
+function reset(){s={view:'home',mode:'ask',filter:null,team:null,card:null,draws:0,fixture:null,guidePage:0,page:0};pools=new Map();pressed=null;release=null;status();render();}
+// Release must stay in the same target and safe circle; dragging never activates.
+const safe=event=>{const r=dial.getBoundingClientRect();return Math.hypot(event.clientX-r.left-180,event.clientY-r.top-180)<=168;};
+dial.addEventListener('pointerdown',event=>{release=null;pressed=safe(event)?{button:event.target.closest('button'),x:event.clientX,y:event.clientY,id:event.pointerId}:null;},true);
+dial.addEventListener('pointermove',event=>{if(pressed && Math.hypot(event.clientX-pressed.x,event.clientY-pressed.y)>8)pressed=null;},true);
+dial.addEventListener('pointerup',event=>{release=pressed && pressed.id===event.pointerId && safe(event) && pressed.button===event.target.closest('button') && Math.hypot(event.clientX-pressed.x,event.clientY-pressed.y)<=8?pressed.button:null;pressed=null;},true);
+dial.addEventListener('pointercancel',()=>{pressed=null;release=null;},true);
+dial.addEventListener('pointerleave',()=>{pressed=null;release=null;});
+dial.addEventListener('click',event=>{if(event.detail && !safe(event)){event.preventDefault();event.stopImmediatePropagation();}},true);
+for(const kind of ['long','empty','unavailable'])document.getElementById('fixture-'+kind).addEventListener('click',()=>synthetic(kind));
+document.getElementById('reset').addEventListener('click',reset);
+window.preview=Object.freeze({snapshot,guidePages:()=>guidePages().map(p=>({...p,lines:p.lines.slice()}))});
+reset();
+})();
+</script>
+</body>
+</html>

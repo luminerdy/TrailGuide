@@ -1,6 +1,6 @@
 # Round-screen UX and UI specification
 
-Status: proposed design and implementation plan, not a completed prototype or firmware feature. Numeric budgets below are starting points for review. Geometry has been checked against an assumed circular canvas; readability, touch accuracy, bezel clearance, memory use and performance require prototype and actual-hardware tests.
+Status: an initial eight-card read-only browser preview now exists at prototype/index.html; the design below remains subject to facilitator and actual-hardware review. Production firmware/tracking is not implemented. Geometry and browser layout checks do not establish physical readability, touch accuracy, bezel clearance, memory use or device performance. Numeric budgets remain review inputs.
 
 Canonical requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md), P-17. Behavior/content/tracking contract: [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. Hardware gates: [V2-SPEC.md](V2-SPEC.md). Sequencing: [PLAN.md](PLAN.md).
 
@@ -177,11 +177,13 @@ Author draft Ask/Notice/Follow-up and Try guidance for these existing intents, p
 - Include: tg-031 QUIET FIRST.
 - Decide: tg-036 CHOOSE THE COMPASS.
 
-Use reviewed wording or a prominent Draft preview label. This document does not author or approve these pairs. Include a separate synthetic overflow fixture so long-copy handling is exercised even if the initial examples fit.
+These eight pairs are now authored as draft fields in canonical JSON and the readable catalog. They remain prominently draft-labeled in the preview; authoring and structural tests do not constitute editorial approval. Include a separate synthetic overflow fixture so long-copy handling is exercised even if the initial examples fit.
 
 ### UX-B: read-only interactive round prototype
 
-Implement Home, Ask/Try card, Guide me pages, related faces, More pages, theme pages, empty/ineligible states and a synthetic team-context picker. Team Trail shows a clearly labeled static preview or unavailable message; no recording, saving, storage migrations or fake success messages.
+The initial portable browser artifact is built; use the [review walkthrough](PROTOTYPE-REVIEW.md) and verify regenerated output with tools/build_prototype.py --check. Its review scope is Home, Ask/Try card, Guide me pages, related faces, More pages, theme pages, empty/ineligible states and a synthetic team-context picker. Team Trail shows a clearly labeled static preview or unavailable message; no recording, saving, storage migrations or fake success messages.
+
+Initial implementation adjustments for review: menu context is compacted to y=111 to leave space above the first choice row; the full title gets a separate Guide page; overflow uses a visible Full text: Guide me route instead of scroll-only access. Narrow viewports keep the 360-pixel canvas and show an explicit horizontal-scroll explanation instead of silently shrinking it. These are prototype-tested choices, not settled physical-device design decisions.
 
 Validate exact-circle clipping, font metrics, button/scroll separation, Back behavior and all long-text/empty states. Keyboard/mouse preview aids do not prove touchscreen accessibility. This is workflow review, not actual hardware execution.
 

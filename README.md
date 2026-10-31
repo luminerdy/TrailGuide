@@ -17,7 +17,7 @@ Eight themes cover exploration, clarification, experiments, verification, reflec
 
 ## Development status
 
-The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. The touchscreen Ask/Try modes, Guide me and Team Trail are specified but not implemented. The expanded forty-card catalog is drafted for review.
+The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. A read-only browser prototype demonstrates Ask/Try and Guide me using eight draft card pairs. Production touchscreen firmware, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
@@ -27,6 +27,8 @@ The pitch above describes the intended end product. **V1 is our starting point a
 ## Start here
 
 - [Two-mode facilitator coaching — Ask the Team / Try a Move](docs/FACILITATOR-MODES.md)
+- [Downloadable read-only prototype source](prototype/index.html)
+- [Prototype review walkthrough](docs/PROTOTYPE-REVIEW.md)
 - [Round-screen UX/UI specification and prototype plan](docs/ROUND-UI-SPEC.md)
 
 - [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
@@ -41,7 +43,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
-The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The planned two-mode experience helps the facilitator ask questions, listen and offer activities; it is not implemented yet. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
+The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview demonstrates eight draft paired faces; it is not production firmware. The other thirty-two catalog entries do not yet have paired guidance. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

@@ -9,6 +9,8 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 
 ## Start here
 
+- [Two-mode facilitator coaching — Ask the Team, Try a Move and Guide me](docs/FACILITATOR-MODES.md)
+
 - [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
 - [Agent Workflow — Codex and Claude Code facilitation](docs/AGENT-WORKFLOW.md)
 - [Structured card content](content/cards.json)
@@ -21,7 +23,7 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
-The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
+The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The planned two-mode experience helps the facilitator ask questions, listen and offer activities; it is not implemented yet. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

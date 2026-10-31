@@ -1,6 +1,19 @@
 # TrailGuide
 
-An offline advice oracle and pocket facilitator for AI workshops, using the reusable Frontier Ops theme. Draw a new bearing: a practical question or experiment that helps teams learn to work with AI.
+**Help your team find its next move with AI.**
+
+TrailGuide is an offline pocket facilitator for AI workshops. It gives you a question to ask, something to listen for and a practical activity to offer, so you can spend less time searching your notes and more time with the team. It uses the reusable Frontier Ops theme.
+
+The planned touchscreen experience pairs **Ask the Team** with **Try a Move**. **Guide me** offers follow-up support; **Team Trail** will help you remember what you tried.
+
+### A glimpse of the experience
+
+- **An AI answer sounds convincing.** Ask: "Which part would matter most if it were wrong?" Offer a move: check one consequential claim against an original source.
+- **The discussion needs more voices.** Ask: "What do we each notice before seeing someone else's answer?" Offer quiet thinking time, then invite sharing with passing welcome.
+
+The **40-card draft catalog spans eight themes**, with guidance for Codex and Claude Code workflows. The device's guidance works without a live AI connection.
+
+**Build status:** V1 runs twelve button-driven cards. The touchscreen modes and Team Trail are specified, not implemented; these examples illustrate the planned experience.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |

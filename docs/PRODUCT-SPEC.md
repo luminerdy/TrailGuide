@@ -25,7 +25,7 @@ The product direction includes Team Trail, theme selection, a simple start mode 
 
 V1: ESP32 + SH1106 OLED, BOOT input, firmware v1-0.2.4 with twelve cards in a single shuffled deck. It has no implemented themes, team storage, saved cards or history UI. The user confirmed display/button behavior; full acceptance remains open in BRINGUP.md.
 
-V2: current ESP32-C6 1.47-inch 172x320 portrait capacitive-touch target with pin headers. USB enumeration is observed; chip/revision, flash/partitions, drivers and display/touch behavior remain unverified. V2 needs a separate portrait layout, not a scaled round UI.
+V2: current ESP32-C6 1.47-inch 172x320 portrait capacitive-touch target with pin headers. C6 silicon revision 0.2 and 8MB flash are probed; the original image is preserved in two matching full-flash reads. The manufacturer LVGL display/touch demo is compiled, USB-flashed and serial-verified, not a TrailGuide application. Visible pixels/touch mapping and physical PCB identity still need human checks; runtime memory/performance remains unmeasured. See [V2-BRINGUP.md](V2-BRINGUP.md). V2 needs a separate portrait layout, not a scaled round UI.
 
 V3: future round Waveshare ESP32-S3-Touch-LCD-1.85 target, nominal 360x360. The existing eight-card circular browser preview is retained for V3 and shared workflow review; it is not V2 portrait acceptance, board emulation, hardware verification or durable tracking. No production V2/V3 firmware exists.
 

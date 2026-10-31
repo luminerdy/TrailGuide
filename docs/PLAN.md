@@ -30,7 +30,7 @@ Exit: facilitator review of navigation and representative cards is complete; sta
 
 ## Phase 2 — Current V2: portrait ESP32-C6 bring-up
 
-Status: a new Espressif USB JTAG/serial interface is enumerated; physical board/chip/flash and display/touch operation are not yet verified. The supplied target is ESP32-C6 1.47-inch portrait touch with pin headers.
+Status: C6 revision 0.2 and 8MB flash are probed; two full original-flash reads match. The manufacturer LVGL display/touch example has been compiled, USB-flashed and serial-verified through setup. Human-visible display/touch checks, exact PCB identity and runtime memory/performance remain open. See [V2-BRINGUP.md](V2-BRINGUP.md); this demo is not the TrailGuide application and does not implement OTA.
 
 - Identify exact C6 board/revision, display/touch drivers, pins, memory, partitions and storage budget. Retain the original firmware if readable before an authorized write; keep V1 excluded from C6 commands.
 - Run the correct C6 manufacturer display/touch examples before integration; verify any optional sensors independently. Review a separate 172x320 portrait layout/preview rather than scaling the existing circle.

@@ -2,7 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## Target designation update
+## V2 C6 first USB bring-up
+
+- C6 silicon revision 0.2 and 8MB flash were probed. Secure boot and flash encryption were reported disabled. The original full flash was preserved in two matching 8,388,608-byte reads before any write.
+- The correct manufacturer LVGL 8.4.0 display/touch example was built with Arduino core 3.3.2 and bundled GFX 1.5.9, uploaded only to C6, and hash-verified. A controlled C6 reset produced the example banner, LVGL version, touch-driver initialization data and `Setup done` over serial.
+- Physical display/readability, touch mapping, exact PCB identification and runtime performance are not yet accepted. The temporary demo has no TrailGuide content, storage or OTA implementation; reserved OTA slots alone are not functional OTA.
+- V1 was not reset, flashed or opened for serial monitoring during this work. Details, package-label caveat, source checksum, pins, partitions, reproducible build and private-image recovery procedure are in [V2-BRINGUP.md](V2-BRINGUP.md).
+- This checkpoint supersedes the pending probe/backup/demo items in the earlier designation-only record below; it does not turn that earlier documentation update into a hardware test.
+
+## Earlier target designation update
 
 - V1 remains the classic ESP32/SH1106 working fallback.
 - V2 is now the supplied ESP32-C6 1.47-inch 172x320 portrait capacitive-touch board with pin headers. V3 is the future round ESP32-S3-Touch-LCD-1.85 target.
@@ -20,7 +28,7 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Human-observed checks confirm readable sampled cards, one new card per BOOT press, no repeated advance while held, and fifty mechanical presses. Full-deck readability, thirty-minute soak result and independent-power acceptance remain unconfirmed.
 - Host suites passed with C++17 and warnings as errors. These do not verify physical pixels or power behavior.
 - The expanded content catalog is authored as forty draft cards across eight themes, with structured JSON and a readable catalog. Content tests pass; facilitator review and hardware layout checks remain pending.
-- V2 touchscreen firmware, production theme-filter behavior, real team storage and Team Trail remain unimplemented. An initial read-only eight-card browser preview and draft paired content exist; review-only team codes and fixtures do not store interventions. V1 source and flashed firmware are unchanged. See [PROTOTYPE-REVIEW.md](PROTOTYPE-REVIEW.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
+- The V2 TrailGuide application, production theme-filter behavior, real team storage and Team Trail remain unimplemented; the flashed manufacturer demo is only hardware bring-up. An initial read-only eight-card browser preview and draft paired content exist; review-only team codes and fixtures do not store interventions. V1 source and flashed firmware are unchanged. See [PROTOTYPE-REVIEW.md](PROTOTYPE-REVIEW.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
 
 ## Verified V1 toolchain
 

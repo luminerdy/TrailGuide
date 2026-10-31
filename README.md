@@ -22,7 +22,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
-| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | Current target; USB interface detected; board/display/touch verification pending |
+| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | C6/8MB flash probed; manufacturer LVGL demo flashed and serial-verified; visible display/touch confirmation pending |
 | V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
 
 ## Start here
@@ -39,6 +39,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 portrait ESP32-C6 specifications](docs/V2-SPEC.md)
+- [V2 display/touch bring-up and original-image recovery](docs/V2-BRINGUP.md)
 - [V3 round ESP32-S3 specifications](docs/V3-SPEC.md)
 - [Raspberry Pi handoff](docs/PI-HANDOFF.md)
 - [Wi-Fi update requirements](docs/WIFI-UPDATES.md)

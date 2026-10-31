@@ -1,6 +1,6 @@
 # V2 — ESP32-C6 portrait touchscreen
 
-Status: current touchscreen development target. Board description is supplied; USB enumeration is observed. Exact PCB/revision, chip/flash identity, display/touch operation, partition layout and usable memory are not yet hardware-verified. No TrailGuide firmware has been built or flashed for this target.
+Status: current touchscreen development target. ESP32-C6 silicon revision 0.2 and 8MB flash have been probed; the original full flash was backed up with two matching reads. The manufacturer's LVGL display/touch demo has been compiled, USB-flashed and serial-verified through `Setup done`. Human display/touch confirmation, exact PCB/revision and runtime memory/performance remain pending. No TrailGuide application has been built or flashed for this target. See [V2 bring-up evidence and recovery](V2-BRINGUP.md).
 
 ## Version assignment
 
@@ -14,7 +14,7 @@ This supersedes the earlier use of V2 for the round board. The existing round br
 
 The supplied description appears to match the Waveshare ESP32-C6-Touch-LCD-1.47 family with pin headers. Confirm the PCB marking/revision and exact variant before selecting drivers or examples.
 
-- Reported ESP32-C6 architecture and onboard 8MB flash.
+- ESP32-C6 family and 8MB flash are now independently probed. Package labels differ between esptool versions; see the bring-up record rather than inferring the exact PCB variant.
 - Reported 1.47-inch IPS capacitive touch display, 172x320 pixels.
 - Reported AXS5106L touch controller.
 - Manufacturer family documentation identifies a JD9853 display controller; confirm the actual board's resources/schematic and downloaded example configuration before using it.

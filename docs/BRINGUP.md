@@ -88,9 +88,21 @@ Ten existing cards now carry draft CLI-agent variants with bounded prompts, huma
 
 The new content test first failed for the expected missing-collection condition, then passed after adding metadata and synchronized catalog/guide content. Official project-instruction documentation was inspected; guidance asks facilitators to verify installed versions, settings and active instructions rather than assuming identical tool behavior. No firmware was changed, reset or flashed.
 
+## Round UI and two-mode specification refinement
+
+Refined the documentation contract with a single Guide me entry, Asked this / Offered this move labels, the existing `question` field name, explicit proposed draft/reviewed/retired scopes and eligibility on draws/linked faces/saves/history reuse. Recorded historical snapshots stay distinguishable from eligible content for new use.
+
+Added ROUND-UI-SPEC.md with proposed circle-safe coordinates, typography/touch budgets, three-choice paged menus, overflow behavior, explicit return context and an eight-card read-only prototype plan. All thirteen proposed rectangle envelopes were mathematically checked inside a radius-168 circle on an assumed 360x360 canvas. This is geometry evidence only: no font rendering, touch accuracy, readability, runtime performance or hardware clearance was established. Proposed thresholds and dimensions remain review inputs.
+
+A separate read-only UX critique supported short pages, one help entry, mode-specific recording and eight representative pairs. It also prompted explicit Home-without-auto-draw behavior and a circular input mask, not just visual clipping. The critique did not run geometry or hardware tests. Independent geometry checking and existing-suite results are reported separately.
+
+Final documentation checks passed: thirteen circle-contained rectangle envelopes, seventeen unique requirement IDs, parseable illustrative JSON, relative links, generic public wording and documentation-only scope. Both Python content tests and both rebuilt C++17 suites passed. None of these checks establishes actual font rendering, touch accuracy or new runtime behavior.
+
+No content JSON, firmware or storage schema was changed. No prototype was built and no device was reset/flashed. The next implementation gate is representative paired draft content and a read-only UI review; full catalog enrichment, eligibility/pools and mode-aware storage follow only after that review.
+
 ## Documentation validation
 
-The living product specification has fifteen stable P-IDs. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.
+The product specification defines stable requirement IDs; the current document includes P-01 through P-17. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.
 
 ## Two-mode facilitation specification
 

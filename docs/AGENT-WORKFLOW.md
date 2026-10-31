@@ -152,4 +152,4 @@ Existing card: **PASS THE CONTROLS** | Theme: include
 
 When Team Trail is implemented, using a variant records the underlying stable card ID and its content revision. An optional variant ID can distinguish agent-workflow from the base activity without inventing a new card. Draws, comparisons and permission requests do not automatically mark a card used. Do not store CLI transcripts, model credentials or raw prompts in Team Trail.
 
-Collection selection and tool-specific Show me how panels require separate implementation and acceptance checks. Review prompts with facilitators and test layout on actual hardware before release.
+Collection selection and tool-specific panels inside the single Guide me view require separate implementation and acceptance checks. Review prompts with facilitators and test layout on actual hardware before release.

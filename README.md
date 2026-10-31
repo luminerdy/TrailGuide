@@ -9,7 +9,8 @@ An offline advice oracle and pocket facilitator for AI workshops, using the reus
 
 ## Start here
 
-- [Two-mode facilitator coaching — Ask the Team, Try a Move and Guide me](docs/FACILITATOR-MODES.md)
+- [Two-mode facilitator coaching — Ask the Team / Try a Move](docs/FACILITATOR-MODES.md)
+- [Round-screen UX/UI specification and prototype plan](docs/ROUND-UI-SPEC.md)
 
 - [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
 - [Agent Workflow — Codex and Claude Code facilitation](docs/AGENT-WORKFLOW.md)

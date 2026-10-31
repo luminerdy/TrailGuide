@@ -2,7 +2,7 @@
 
 Status: approved product direction; documentation only. Content examples and UI details below are proposed implementation defaults requiring editorial and prototype review. No new firmware, content schema, tracking migration or hardware behavior is implemented by this document.
 
-This is the detailed companion to [PRODUCT-SPEC.md](PRODUCT-SPEC.md), requirement P-16. The product spec remains canonical. [PLAN.md](PLAN.md) defines sequencing. Preserve the verified V1 fallback and authenticated OTA behavior.
+This is the detailed companion to [PRODUCT-SPEC.md](PRODUCT-SPEC.md), requirement P-16. The proposed round-screen layout, progressive guidance and prototype gates are in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. The product spec remains canonical. [PLAN.md](PLAN.md) defines sequencing. Preserve the verified V1 fallback and authenticated OTA behavior.
 
 ## 1. What changes and why
 
@@ -25,10 +25,11 @@ Home presents Ask the Team and Try a Move as its primary large actions, with Tea
 
 Tapping either mode immediately draws from all eligible cards in that mode; do not require theme selection first. Theme filtering is optional and reachable from the card/navigation controls. Retain Quick bearing as the behavior of an unfiltered draw, not an additional mandatory home step.
 
-Ask card primary content: natural spoken question, title, theme and clear Ask label.
-Try card primary content: concise activity/action, title, theme and clear Try label.
+Ask card primary content: natural spoken question, theme and clear Ask label.
+Try card primary content: concise activity/action, theme and clear Try label.
+The full card title/reference is available in Guide me and event/confirmation detail rather than competing with main copy. The main card keeps only Guide me and Another as bottom actions; Back, team and More remain visible above. See ROUND-UI-SPEC.md for proposed safe-circle coordinates and measured-text overflow requirements.
 
-Keep Guide me and Another question / Another move accessible. Used it and Save remain deliberate actions, but may live on a secondary action sheet so the circular screen is readable. Navigation affordances must be discoverable; do not depend on undocumented gestures.
+Keep Guide me and Another accessible; the mode label makes Another question/move explicit. More opens the paged action list. Use Asked this in Ask and Offered this move in Try, plus Save/Saved and a related-face choice. This replaces the generic Used it label in this flow. A named team/mode confirmation is required before recording. Navigation affordances must be discoverable; do not depend on undocumented gestures.
 
 Guide me opens:
 1. Say — the question or invitation the facilitator can use.
@@ -36,7 +37,7 @@ Guide me opens:
 3. Follow up — one or two optional open questions, chosen by the human.
 4. Optional Try a Move — the related activity, offered without starting or recording it.
 
-Short pages or scrolling are acceptable. Do not cram every field onto one screen. The initial question remains the most prominent text. Back returns to the same card, mode, filter and scroll position where practical.
+Guide me is the only help entry; do not add a competing Show me how button. Core Say/Notice/Follow-up comes first. Optional Steps, AI prompt and tool notes are later depth inside the same view. Use visible Previous/Next paging, one optional follow-up per page, and an explicit overflow route; no automatic advancement. The initial question remains the most prominent card text. Header Back returns to the same card, mode, filter and text position where practical.
 
 ## 3. A complete example
 
@@ -89,10 +90,10 @@ These examples are draft copy, not new card IDs or approved production wording. 
 
 ## 6. Mode and navigation rules
 
-- Fresh session/reboot defaults to Ask; no persistence of mode is required initially. Durable team data is unaffected.
+- Fresh session/reboot opens Home, with Ask visually prioritized and no automatic draw. A deliberate mode tap draws immediately. Returning Home alone does not draw or reset pools; no persistence of mode is required initially. Durable team data is unaffected.
 - Show mode and active theme/filter on card screens. Do not communicate mode by color alone.
 - Another question/move draws in the current mode and pool.
-- Related Try a Move from an Ask card opens the same card ID/revision's Try face. Related Ask from Try returns to that intent's question.
+- Related Try a Move from an Ask card opens the same card ID/revision's eligible Try face. Related Ask from Try returns to that intent's eligible question. Related-face navigation must apply the same release-eligibility checks as new draws; if unavailable, explain and disable the option instead of silently showing draft copy.
 - Switching the face of the same card does not consume another random draw or reset a deck cycle. A later Another draw uses the destination mode pool's state. Independent pool cycles can legitimately revisit the linked card; only their own draws consume their state.
 - A Home mode action is a new draw; a related-face action preserves card identity.
 - Theme changes affect only selection; team changes affect attribution, not content or mode.
@@ -119,12 +120,37 @@ Recommended additive field on a reviewed card:
       "What would you do if you could not check it today?"
     ],
     "try_invitation": "Would it help to check one claim together?",
-    "review_state": "draft"
+    "try_notice": [
+      "Look for an actual check and whether it supports the selected claim."
+    ],
+    "try_follow_ups": [
+      "What did the check establish, and what remains unverified?"
+    ],
+    "review_state": "draft",
+    "try_review_state": "draft"
   }
 }
 ```
 
-Use the existing action/activity fields for Try, rather than duplicating their text in a competing source. Existing team_question may seed Ask during authoring, but a runtime missing-field fallback must not silently present an instruction as a question. Review Ask wording independently.
+Use the existing action/activity fields for Try, rather than duplicating their text in a competing source. Existing `question` may seed Ask during authoring (`team_question` is not a current JSON field), but a runtime missing-field fallback must not silently present an instruction as a question. Review Ask wording independently.
+
+### Proposed review states and release eligibility
+
+Supported states are exactly `draft`, `reviewed` and `retired`. Missing/unknown states are ineligible and produce validation errors rather than an implicit approval. Structural validation is not editorial review. Do not mark a field reviewed merely because its schema test passed.
+
+Review scopes:
+
+- Existing card `review_state`: review of base Try action/activity and shared identity/theme. `retired` removes the intent from all new-use paths.
+- `facilitator.review_state`: review of Ask wording, Ask Notice/follow-ups and its use of the shared title/theme.
+- `facilitator.try_review_state`: review of the Try Guide me invitation, Try Notice and Try follow-ups. This permits separate review of observation-first and activity coaching without duplicating base action/activity text.
+
+Ask release eligibility requires a supported ID/revision, a non-retired card, `facilitator.review_state = reviewed`, a nonempty `ask`, at least one nonempty `notice` entry and one or two nonempty `follow_ups`. A base Try action may remain draft while Ask is reviewed; it cannot then be offered as a release Try face.
+
+Try release eligibility requires card `review_state = reviewed`, valid nonempty `action` and `activity`, `facilitator.try_review_state = reviewed`, a nonempty `try_invitation`, at least one nonempty `try_notice` and one or two nonempty `try_follow_ups`. Try Say uses the invitation; Steps later uses the existing activity field. Do not reuse Ask observation cues blindly after an activity has started.
+
+Use a single eligibility decision for each entry point: random draws, related faces, reopening saves and explicit reuse from history. Empty/ineligible pools explain the absence. A record confirmation must be tied to an eligible face and frozen card/revision/team/mode context; reject a stale confirmation after the context changes. Viewing a recorded historical snapshot remains read-only and clearly distinguished from new-use eligibility.
+
+Review prototypes may expose drafts only with a persistent Draft preview indication; recording and saving are disabled. All current catalog entries are draft. These fields, enum transitions and eligibility behavior are a proposed contract, not implemented JSON/runtime changes. Existing content tests currently assume draft status; extend them through failing tests before introducing reviewed/retired data. Preserve earlier content revisions or snapshots before future history can refer to them.
 
 Rules:
 - Explicitly validate supported review_state values and required nonempty fields.
@@ -136,15 +162,15 @@ Rules:
 - Store Ask/Guide me details in the recorded revision or snapshot so later edits cannot rewrite history.
 - Do not change the flashed V1 deck just to make it match the expanded catalog.
 
-First author/review representative pairs across all eight themes, then complete Ask/Guide me coverage for the forty-card catalog. This is editorial enrichment, not a requirement for forty new cards.
+First author/review one representative pair per theme and review an eight-card read-only prototype under ROUND-UI-SPEC.md before completing Ask/Guide me coverage for the forty-card catalog. This is editorial enrichment, not a requirement for forty new cards.
 
 ## 8. Pools, saves and history
 
 Pool keys include mode, theme/situation filters and optional collection. Retain P-11 no-repeat rules within each eligible pool. Mode switching must not reset unrelated pool states. Related-face navigation is not a draw.
 
-A save refers to the underlying card plus originating mode, so reopening it restores the intended face. Uniqueness is per existing scope + card ID: saving its other face does not create a duplicate save. If already saved, show Saved; do not silently change its originating mode. If face-specific saves are later desired, that requires a separate requirement change.
+A save refers to the underlying card plus originating mode, so reopening it requests the intended face. Validate that face/revision's current eligibility before presenting it for new use. If unavailable, show a clear explanation and optional explicit move to a reviewed current revision; do not silently change mode, substitute a card or rewrite the saved attribution. Uniqueness is per existing scope + card ID: saving its other face does not create a duplicate save. If already saved, show Saved; do not silently change its originating mode. If face-specific saves are later desired, that requires a separate requirement change.
 
-Used it stays an explicit confirmed action. Record the mode actually used: ask or try. Merely drawing, reading Guide me, switching faces or opening a saved card is not use.
+Asked this / Offered this move stay explicit confirmed actions; Used it is the underlying generic concept, not the primary two-mode button label. Record the mode actually used: ask or try. Merely drawing, reading Guide me, switching faces or opening a saved card is not use.
 
 - Ask means the facilitator actually used the question with the team.
 - Try means the facilitator actually offered/started that activity, not that the team completed it successfully.
@@ -154,7 +180,7 @@ Used it stays an explicit confirmed action. Record the mode actually used: ask o
 - Team Trail labels Asked / Tried. These describe the recorded intervention, not measured learner performance.
 - Themes explored count non-reversed use events as before; do not equate counts with mastery.
 - Undo and optional feedback attach to the exact event. Helpful remains subjective.
-- Old records missing mode display Legacy/unspecified. Never guess that an old use was Asked or Tried.
+- Recorded snapshots remain viewable as clearly labeled history even if the current card is draft or retired; historical viewing never grants release eligibility or silently enables reuse. Old records missing mode display Legacy/unspecified. Never guess that an old use was Asked or Tried.
 - Preserve saves and events during migration; reject unsupported newer storage schemas without overwriting them.
 
 Mode-aware tracking is required before releasing two-mode Used it/history, not a prerequisite to a read-only prototype. If tracking is unavailable, disclose it and do not fake persistence.
@@ -171,7 +197,9 @@ Suggested state additions: ModeCard(ask|try), GuideMe, RelatedFace, ActionSheet.
 
 Content:
 - All existing IDs, V1 action wording, theme membership and agent variants are preserved unless an explicit reviewed revision changes them.
-- Every release-eligible Ask has a real question, Notice and at least one follow-up.
+- Every release-eligible Ask has a real question, Notice and one or two follow-ups; every release-eligible Try has reviewed base action/activity and reviewed Try invitation/Notice/follow-ups.
+- Tests cover draft/reviewed/retired/missing/unknown states through draws, linked faces, saves and explicit history reuse. Recorded snapshots are still distinguishable as history, not release-eligible content.
+- Asked this / Offered this move are unambiguous and require a named team/mode confirmation; stale contexts and double taps cannot misattribute or duplicate an event.
 - Follow-ups are optional, readable and nonjudgmental; no fake response interpretation.
 - Canonical JSON and generated catalog agree.
 - Editorial review is distinct from structural test passing.
@@ -183,7 +211,7 @@ Selection/navigation:
 - Linked-face navigation preserves card/revision and does not consume a draw.
 - Back from Guide me preserves card/context.
 - Scrolling, wake, shaking in disabled states and rapid input cannot record use or queue draws.
-- Remaining text and controls are readable inside the actual 360x360 circle; use multiple pages where needed.
+- Remaining text and controls are readable inside the actual circle; use multiple pages where needed. P-17/ROUND-UI-SPEC.md safe-circle bounds, font/target budgets, single-help-entry behavior and unprompted prototype tasks are also required; initial pixel values remain proposed until tested.
 
 Tracking/storage:
 - A read-only prototype records nothing.
@@ -204,9 +232,9 @@ Regression:
 1. Pull current main without overwriting local changes. Read AGENTS.md, PRODUCT-SPEC.md, this document, PLAN.md and BRINGUP.md. Inspect current state; do not assume earlier observations are live.
 2. Report how existing card schema, generator and tests can support paired faces without duplicate IDs.
 3. Author representative Ask/Notice/Follow-up pairs spanning the eight themes; keep review state explicit.
-4. Build a 360x360 interactive prototype for default Ask, Try, Guide me, linked-face navigation and action sheet. Use synthetic teams/history only.
+4. Build the read-only eight-card 360x360 prototype in ROUND-UI-SPEC.md: default Ask, Try, one Guide me entry, linked-face eligibility, paged actions/themes and overflow fixtures. Use a synthetic team context. Recording/saving remain explicitly disabled; Team Trail is unavailable or a labeled static preview. Do not build storage migration or show fake recording success.
 5. Review the interaction with the facilitator. Refine labels/layout without losing stable mode values.
-6. Extend remaining catalog entries and content tests; regenerate derived docs.
+6. Only after prototype review, extend remaining catalog entries and content tests; regenerate derived docs. Keep structural tests, editorial approval and hardware readability distinct.
 7. Implement/test mode-aware pools and events/storage migration before enabling tracking.
 8. Integrate into V2 after actual-hardware bring-up; preserve V1 fallback and OTA compatibility.
 9. Run relevant existing suites plus new mode tests. Record executed checks, observed results and remaining acceptance in BRINGUP.md.

@@ -31,7 +31,7 @@ V2: planned round touchscreen target. Exact revision, touch/display/sensor depen
 
 ### P-01: Home and quick start — core release
 
-Home offers two primary actions: **Ask the Team** and **Try a Move**, with **Team Trail** secondary and a visible active-team/No team indicator. Ask is the fresh-session default. Each mode starts an unfiltered draw immediately; no team or theme setup is required.
+Home offers two primary actions: **Ask the Team** and **Try a Move**, with **Team Trail** secondary and a visible active-team/No team indicator. Ask is the visually prioritized fresh-session choice. Fresh opening/reboot lands on Home without an automatic draw. A deliberate mode tap starts an unfiltered draw immediately; no team or theme setup is required.
 
 Quick bearing remains the behavior of an unfiltered draw, rather than an extra home step. Themes are optional filters in either mode. Back returns one level without marking, saving or drawing. P-16 and [FACILITATOR-MODES.md](FACILITATOR-MODES.md) define the two-mode flow.
 
@@ -52,9 +52,9 @@ Show a readable scrolling list, not eight tiny targets around the circle. Select
 
 ### P-03: Card and optional depth — core release / enhancement
 
-The core card view shows title, theme, mode and either a spoken question (Ask) or concise action (Try). **Guide me** is core facilitator support in both modes, with Say, Notice and optional Follow up; it is not a third mode. Actions: **Used it**, **Save**, **Another idea**. Back and Home must remain accessible. The exact arrangement requires a round-screen prototype; do not squeeze all controls into an unreadable screen.
+The main card prioritizes theme, mode and either a spoken question (Ask) or concise action (Try). The full title/reference is accessible in Guide me and event/confirmation detail rather than crowding the question. **Guide me** and **Another** are the two bottom actions; header Back, team and More remain visible. More holds **Asked this** or **Offered this move**, **Save/Saved** and related-face navigation. **Guide me** is core facilitator support in both modes, with Say, Notice and optional Follow up; it is not a third mode. P-17 and ROUND-UI-SPEC.md define the proposed circular layout and discoverable navigation.
 
-Beyond core Guide me, optional **Show me how** opens a detail view with a spoken facilitation question, a small team activity, an example AI prompt where relevant, and an indicative time box. Build the detail view after the core path works; no live AI generates this content. For cards in the Agent Workflow collection, optionally reveal a tool-neutral agent task and human check, with separate Codex and Claude Code notes. Tool notes are curated guidance, not executable integrations. Collection selection and tool-note panels are enhancements, not implemented UI.
+There is one help entry: **Guide me**. After core Say/Notice/Follow-up works, optional Steps and AI prompt pages add depth inside that view; do not create a competing Show me how button. No live AI generates this content. For cards in the Agent Workflow collection, optionally reveal a tool-neutral agent task and human check, with separate Codex and Claude Code notes. Tool notes are curated guidance, not executable integrations. Collection selection and tool-note panels are enhancements, not implemented UI.
 
 Drawing, scrolling, Back, waking and opening details never create a use event. Shake, if enabled, means draw only in an appropriate draw/card context, never while editing, confirming use, viewing history or navigating. Animation must not queue additional draws.
 
@@ -62,13 +62,13 @@ Drawing, scrolling, Back, waking and opening details never create a use event. S
 
 Default to No team. Offer a small local roster using non-identifying labels such as Team 1; do not require touchscreen typing. Proposed first limit: eight teams with labels up to 24 characters. Renaming is secondary and may initially use a local provisioning tool.
 
-Changing team updates a clearly visible indicator. An open card may remain visible, but every Used it confirmation names the destination team. Never silently attribute a card to the previously active team.
+Changing team updates a clearly visible indicator. An open card may remain visible, but every record-use confirmation names the destination team and mode. Never silently attribute a card to the previously active team.
 
-Without an active team, Used it opens a team picker with Cancel; cancellation records nothing. Quick bearing continues to work without a team.
+Without an active team, Asked this / Offered this move opens a team picker with Cancel; cancellation records nothing. Quick bearing continues to work without a team.
 
-### P-05: Used it and feedback — core release
+### P-05: Recording use and feedback — core release
 
-Used it asks **Record for Team N?**. Confirm durably appends one use event; double taps cannot duplicate it. Show **Recorded** only after storage succeeds. A failed write shows an error and allows retry without double counting.
+The underlying record-use action is labeled **Asked this** in Ask and **Offered this move** in Try, reached through More. Its confirmation names the full team identity and mode: **Record Asked for Team N?** or **Record Offered move for Team N?**. Confirm durably appends one use event; double taps cannot duplicate it. Show **Recorded** only after storage succeeds. A failed write shows an error and allows retry without double counting.
 
 Offer Undo for the latest action while on that card, and allow undo from recent history. Undo creates a reversal linked to the original event rather than losing the audit relationship. A reversal does not count as use.
 
@@ -76,7 +76,7 @@ After recording, optional **Helpful / Not yet / Skip** feedback attaches to that
 
 ### P-06: Saved cards — core release
 
-Save is a toggle, scoped to the active team or a separate personal list when No team is active. Saving never marks Used. Offer a saved list and an explicit unsave action. Changing teams does not move saved items between teams.
+Save is scoped to the active team or a separate personal list when No team is active. An already-saved card shows Saved; Unsave is a separate explicit action, not a side effect of reopening Saved. Saving never marks Used. Offer a saved list and an explicit unsave action. Changing teams does not move saved items between teams.
 
 ### P-07: Team Trail — core release
 
@@ -104,17 +104,28 @@ Approved direction; implementation pending. Detailed content, UI, storage and ha
 - **Ask the Team** gives a natural open question. **Try a Move** gives a practical activity. Ask is the default for a fresh session.
 - **Guide me** coaches the facilitator: Say, observable Notice cues and optional Follow up. It is available in both modes and is core, not deferred Show me how content.
 - Reuse forty stable card identities and eight themes; author reviewed paired faces rather than duplicate cards or create mode-specific themes. Preserve V1 and existing agent variants.
-- Mode is independent of team, theme and optional Agent Workflow collection. Missing/unreviewed Ask content is excluded from release Ask pools; empty pools explain the absence without silently substituting advice.
-- Related-face navigation preserves the current card/revision. Another draws within current mode/filter. Shake draws only from main card screens; Guide me and other navigation/confirmation states suppress it.
+- Mode is independent of team, theme and optional Agent Workflow collection. FACILITATOR-MODES.md defines the proposed draft/reviewed/retired state scopes and separate Ask/Try Guide me eligibility. Apply one eligibility decision across draws, linked faces, saves and explicit reuse; empty pools explain the absence without silently substituting advice. Historical snapshots remain clearly labeled read-only history.
+- Related-face navigation preserves the current card/revision. Another draws within current mode/filter. Shake draws only from main card screens; Guide me and other navigation/confirmation states suppress it. One Guide me entry contains core support and later depth; record labels are Asked this / Offered this move.
 - Asking, reading, waiting and switching faces record nothing. Deliberate confirmed use records the actual mode and destination team. Ask records use of a question; Try records offering/starting an activity, not completion or learning.
 - Save remains per scope/card and retains originating mode. History migration preserves old records as unspecified. Do not enable mode-aware history before durability/migration checks pass.
 - No answer capture, voice listening, automated learner diagnosis or mandatory transition into advice.
+
+### P-17: Round-screen simplicity and prototype gate — core release
+
+Proposed design, not implemented. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
+
+- Prioritize the question/action. Main card bottom actions are Guide me and Another; Back, team and More stay visible. Keep full title/reference in guidance/details and secondary operations in a paged action list.
+- Guide me is the only help entry; later Steps/AI/tool notes extend it, not a second Show me how button. Record-use labels are Asked this / Offered this move, with a separate named-team/mode confirmation.
+- Start from a 360x360 canvas and a proposed 12-pixel radial inset. Validate full rectangles, text, focus rings and scroll cues against the circle. Proposed fonts, 48-pixel minimum target heights and 52-pixel primary controls need actual rendering/touch review; geometry alone is not acceptance.
+- Use measured text layout, readable type, explicit paging/overflow and labeled tap paths. Do not truncate essential copy, shrink text to fit or rely on hidden gestures. Wake/scroll/navigation cannot record or draw unexpectedly.
+- First author eight representative draft pairs, one per theme, and a read-only round prototype with an overflow fixture. Recording/saving remain visibly disabled; use synthetic team context and no fake persisted history.
+- Review unprompted facilitator task completion and revise before completing forty paired faces or implementing storage migration. Eligibility, pools, durability and actual V2 display/touch/OTA gates follow; preserve V1 throughout.
 
 ## 5. Content specification
 
 ### P-10: Structured, reviewed content
 
-The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each existing entry has revision, theme, action, team question, activity, optional AI prompt, suggested minutes, situation tags and draft review state. P-16 adds planned reviewed facilitator Ask/Notice/Follow-up fields; these are not yet authored across the catalog or integrated at runtime. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
+The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each existing entry has revision, theme, action, `question`, activity, optional AI prompt, suggested minutes, situation tags and draft review state. P-16 adds proposed separately reviewed Ask and Try Guide me fields; these are not yet authored across the catalog or integrated at runtime. FACILITATOR-MODES.md defines exact draft/reviewed/retired scopes and all-entry-point eligibility; no existing `question` or draft action is automatically approved by those proposals. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
 
 An optional [Agent Workflow collection](AGENT-WORKFLOW.md) now adapts ten existing cards for supervising CLI coding agents. It does not create a ninth theme or increase the forty-card count. Structured collection metadata references stable card IDs; each adapted card has agent_workflow label, prompt, human check and codex/claude_code tool notes. Ten adapted entries are revision 2; other entries remain revision 1. These optional additions retain schema_version 1 and leave existing base fields intact. Unsupported optional fields may be ignored by readers; required data remains validated.
 
@@ -198,7 +209,7 @@ Host tests are required for deck, event attribution, deduplication, reversal, co
 
 ## 9. Delivery scope and fallback
 
-Core release: P-01 through P-07, P-10 through P-16; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+Core release: P-01 through P-07, P-10 through P-17; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
@@ -223,6 +234,8 @@ For each meaningful change:
 - Agent workflow: adapt ten existing cards for CLI-agent supervision, keeping forty cards and eight themes. Add a cross-theme collection, optional tool notes and human evidence checks rather than duplicating cards or replacing general facilitation guidance. Collection UI remains deferred until the core path works.
 
 - Facilitator coaching: introduce Ask the Team and Try a Move with default Ask and core Guide me support. Supersede the earlier three-action home proposal. Preserve card identities, V1 firmware and optional agent variants; require mode-aware tracking and migration before releasing two-mode history. Detailed implementation handoff is FACILITATOR-MODES.md.
+
+- Round UI planning: use a single Guide me entry, mode-specific recording labels and progressively disclosed controls. Correct the existing `question` field reference, define proposed review/eligibility scopes across all new-use paths, and gate full content/runtime expansion on an eight-card read-only round prototype. Numeric layout and interaction parameters remain proposed until reviewed and measured.
 
 ### Open validation decisions
 

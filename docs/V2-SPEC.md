@@ -2,7 +2,7 @@
 
 ## Product requirements
 
-The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Quick bearing, eight themes, team selection, deliberate Used it tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. None of these features is implemented yet.
+The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Ask/Try unfiltered draws, eight themes, team selection, deliberate mode-aware tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. The proposed safe-circle layout, text/touch budgets and read-only prototype gates are specified in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. None of these features is implemented yet.
 
 ## Target
 Planned target: Waveshare ESP32-S3-Touch-LCD-1.85; 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
@@ -11,9 +11,9 @@ Verify the exact revision, touch variant, display driver, pins and manufacturer 
 
 ## Experience
 - Compass home screen: Frontier Ops / Trail Guide / Find your next bearing.
-- Home prioritizes Ask the Team and Try a Move; fresh sessions default to Ask. Either mode immediately draws without team/theme setup.
+- Home prioritizes Ask the Team and Try a Move; fresh opening/reboot shows Home with Ask visually prioritized and no automatic draw. Tapping either mode immediately draws without team/theme setup.
 - Tap Another or a deliberate shake on the main card screen spins the needle and reveals a question/activity within the active mode. Suppress shakes in Guide me and other non-card states.
-- Core Guide me offers Say, Notice and optional Follow up; linked Ask/Try faces preserve card identity.
+- One core Guide me entry offers Say, Notice and optional Follow up; optional Steps/tool notes live inside it later. Linked Ask/Try faces preserve identity and obey release eligibility. More exposes Asked this / Offered this move and Save without crowding the main question.
 - Reuse V1 advice meanings and shuffle behavior, with a readable circular layout.
 - Ignore extra draw events during animation; tune shake threshold and cooldown on hardware.
 - Keep current advice until another draw. Idle dimming and wake preserve it; wake touch must not accidentally skip it.
@@ -27,11 +27,11 @@ USB first. Battery and case are deferred. Before selecting a cell, verify exact 
 
 ## Acceptance
 - Manufacturer display, touch and IMU examples run on received hardware.
-- All cards fit the circle and are readable under workshop lighting.
+- All content/control/focus bounds fit the measured safe circle; verify longest copy, overflow handling, real font metrics and proposed P-17 touch targets in workshop lighting. Geometric containment is not proof of readability or accurate touch.
 - At least twenty deliberate shakes register; ordinary handling does not repeatedly draw.
 - Tap fallback is reliable; animation cannot queue unwanted draws.
 - Mode/filter pools obey eligibility and uniqueness/boundary-repeat rules, including empty and single-card pools; linked-face navigation does not consume a draw.
-- P-16 Guide me/navigation, mode-aware saves/events and legacy-mode migration pass FACILITATOR-MODES.md acceptance.
+- P-16 Guide me/navigation, all-path release eligibility, mode-aware saves/events and legacy migration pass FACILITATOR-MODES.md acceptance. P-17 read-only prototype tasks and actual-hardware UI/touch checks pass ROUND-UI-SPEC.md acceptance.
 - Quick start needs no team; recording requires explicit attribution and confirmation.
 - Team Trail, saves, feedback and Undo pass product-spec isolation/deduplication tests.
 - Trail data survives reboot; interrupted writes, full storage and schema migration have tested explicit outcomes.

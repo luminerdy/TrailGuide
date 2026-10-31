@@ -1,19 +1,23 @@
 # TrailGuide
 
+## The product vision
+
 **Help your team find its next move with AI.**
 
-TrailGuide is an offline pocket facilitator for AI workshops. It gives you a question to ask, something to listen for and a practical activity to offer, so you can spend less time searching your notes and more time with the team. It uses the reusable Frontier Ops theme.
+TrailGuide is a pocket touchscreen companion for people leading AI workshops. Ask a useful question, notice what the team is telling you, and offer a small activity when it helps. Spend less time searching your notes and more time with the people in front of you.
 
-The planned touchscreen experience pairs **Ask the Team** with **Try a Move**. **Guide me** offers follow-up support; **Team Trail** will help you remember what you tried.
+Tap **Ask the Team** for a question or **Try a Move** for an activity. **Guide me** helps you listen and follow up. **Team Trail** remembers which questions and moves you used with each team, so you can return to the conversation with context.
 
 ### A glimpse of the experience
 
 - **An AI answer sounds convincing.** Ask: "Which part would matter most if it were wrong?" Offer a move: check one consequential claim against an original source.
 - **The discussion needs more voices.** Ask: "What do we each notice before seeing someone else's answer?" Offer quiet thinking time, then invite sharing with passing welcome.
 
-The **40-card draft catalog spans eight themes**, with guidance for Codex and Claude Code workflows. The device's guidance works without a live AI connection.
+Eight themes cover exploration, clarification, experiments, verification, reflection, getting unstuck, inclusion and decisions. Optional guidance supports teams working with Codex and Claude Code. The reusable Frontier Ops theme gives the device its character; the guidance works offline, without a live AI connection.
 
-**Build status:** V1 runs twelve button-driven cards. The touchscreen modes and Team Trail are specified, not implemented; these examples illustrate the planned experience.
+## Development status
+
+The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. The touchscreen Ask/Try modes, Guide me and Team Trail are specified but not implemented. The expanded forty-card catalog is drafted for review.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |

@@ -4,7 +4,7 @@ Status: approved product direction; implementation pending unless explicitly mar
 
 ## 1. Purpose and source of truth
 
-TrailGuide is an offline pocket facilitator for helping workshop teams work with AI. It offers a useful next move, remembers which moves a facilitator tried with each team, and supports follow-through without distracting from the people.
+TrailGuide is an offline pocket facilitator for helping workshop teams work with AI. It helps the facilitator ask useful questions, listen and choose an optional activity through Ask the Team and Try a Move modes. It offers a useful next move, remembers which moves a facilitator tried with each team, and supports follow-through without distracting from the people.
 
 This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md) and [V2-SPEC.md](V2-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
 
@@ -31,9 +31,9 @@ V2: planned round touchscreen target. Exact revision, touch/display/sensor depen
 
 ### P-01: Home and quick start — core release
 
-Home offers three large actions: **Quick bearing**, **Help my team**, **Team Trail**. A small team indicator shows the active team or **No team**. Team setup is never required to draw advice.
+Home offers two primary actions: **Ask the Team** and **Try a Move**, with **Team Trail** secondary and a visible active-team/No team indicator. Ask is the fresh-session default. Each mode starts an unfiltered draw immediately; no team or theme setup is required.
 
-Quick bearing draws from the whole deck. Help my team opens theme selection; situation shortcuts are an enhancement. Back returns one level without marking, saving or drawing. Home remains reachable without a deep menu.
+Quick bearing remains the behavior of an unfiltered draw, rather than an extra home step. Themes are optional filters in either mode. Back returns one level without marking, saving or drawing. P-16 and [FACILITATOR-MODES.md](FACILITATOR-MODES.md) define the two-mode flow.
 
 ### P-02: Themes — core release
 
@@ -52,9 +52,9 @@ Show a readable scrolling list, not eight tiny targets around the circle. Select
 
 ### P-03: Card and optional depth — core release / enhancement
 
-The core card view shows title, theme and concise action. Actions: **Used it**, **Save**, **Another idea**. Back and Home must remain accessible. The exact arrangement requires a round-screen prototype; do not squeeze all controls into an unreadable screen.
+The core card view shows title, theme, mode and either a spoken question (Ask) or concise action (Try). **Guide me** is core facilitator support in both modes, with Say, Notice and optional Follow up; it is not a third mode. Actions: **Used it**, **Save**, **Another idea**. Back and Home must remain accessible. The exact arrangement requires a round-screen prototype; do not squeeze all controls into an unreadable screen.
 
-Optional **Show me how** opens a detail view with a spoken facilitation question, a small team activity, an example AI prompt where relevant, and an indicative time box. Build the detail view after the core path works; no live AI generates this content. For cards in the Agent Workflow collection, optionally reveal a tool-neutral agent task and human check, with separate Codex and Claude Code notes. Tool notes are curated guidance, not executable integrations. Collection selection and tool-note panels are enhancements, not implemented UI.
+Beyond core Guide me, optional **Show me how** opens a detail view with a spoken facilitation question, a small team activity, an example AI prompt where relevant, and an indicative time box. Build the detail view after the core path works; no live AI generates this content. For cards in the Agent Workflow collection, optionally reveal a tool-neutral agent task and human check, with separate Codex and Claude Code notes. Tool notes are curated guidance, not executable integrations. Collection selection and tool-note panels are enhancements, not implemented UI.
 
 Drawing, scrolling, Back, waking and opening details never create a use event. Shake, if enabled, means draw only in an appropriate draw/card context, never while editing, confirming use, viewing history or navigating. Animation must not queue additional draws.
 
@@ -82,7 +82,7 @@ Save is a toggle, scoped to the active team or a separate personal list when No 
 
 Select a team to see:
 
-- Recent use events, newest first, with card title, theme and optional feedback.
+- Recent use events, newest first, with card title, theme, Asked/Tried mode label and optional feedback. Legacy events without mode are labeled unspecified, never guessed.
 - Saved ideas, separately labeled from used cards.
 - Themes explored, counted from non-reversed use events, not draws.
 - Last tried card as a follow-through prompt: **What happened when you tried this?**
@@ -97,11 +97,24 @@ On a team's return, offer a dismissible Last tried prompt. Optional follow-up ou
 
 Initial situations: Too many ideas; Nobody's talking; AI sounds convincing; We're out of time. Each maps to a reviewed set of card IDs/tags across themes. Show the situation filter, avoid immediate repeats and allow clearing it. Empty results explain the situation and offer all themes; do not silently substitute unrelated advice.
 
+### P-16: Two-mode facilitator coaching — core release
+
+Approved direction; implementation pending. Detailed content, UI, storage and handoff requirements: [FACILITATOR-MODES.md](FACILITATOR-MODES.md).
+
+- **Ask the Team** gives a natural open question. **Try a Move** gives a practical activity. Ask is the default for a fresh session.
+- **Guide me** coaches the facilitator: Say, observable Notice cues and optional Follow up. It is available in both modes and is core, not deferred Show me how content.
+- Reuse forty stable card identities and eight themes; author reviewed paired faces rather than duplicate cards or create mode-specific themes. Preserve V1 and existing agent variants.
+- Mode is independent of team, theme and optional Agent Workflow collection. Missing/unreviewed Ask content is excluded from release Ask pools; empty pools explain the absence without silently substituting advice.
+- Related-face navigation preserves the current card/revision. Another draws within current mode/filter. Shake draws only from main card screens; Guide me and other navigation/confirmation states suppress it.
+- Asking, reading, waiting and switching faces record nothing. Deliberate confirmed use records the actual mode and destination team. Ask records use of a question; Try records offering/starting an activity, not completion or learning.
+- Save remains per scope/card and retains originating mode. History migration preserves old records as unspecified. Do not enable mode-aware history before durability/migration checks pass.
+- No answer capture, voice listening, automated learner diagnosis or mandatory transition into advice.
+
 ## 5. Content specification
 
 ### P-10: Structured, reviewed content
 
-The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each entry has revision, theme, action, team question, activity, optional AI prompt, suggested minutes, situation tags and draft review state. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
+The [card catalog](CARD-CATALOG.md) now contains forty draft cards, five per theme, backed by [structured content](../content/cards.json). The twelve V1 titles and action meanings are preserved verbatim with stable IDs tg-001 through tg-012; twenty-eight new cards use tg-013 through tg-040. Each existing entry has revision, theme, action, team question, activity, optional AI prompt, suggested minutes, situation tags and draft review state. P-16 adds planned reviewed facilitator Ask/Notice/Follow-up fields; these are not yet authored across the catalog or integrated at runtime. Content-contract tests pass; facilitator editorial review, screen-layout review and runtime integration remain pending. V1 still runs its unchanged twelve-card deck.
 
 An optional [Agent Workflow collection](AGENT-WORKFLOW.md) now adapts ten existing cards for supervising CLI coding agents. It does not create a ninth theme or increase the forty-card count. Structured collection metadata references stable card IDs; each adapted card has agent_workflow label, prompt, human check and codex/claude_code tool notes. Ten adapted entries are revision 2; other entries remain revision 1. These optional additions retain schema_version 1 and leave existing base fields intact. Unsupported optional fields may be ignored by readers; required data remains validated.
 
@@ -120,7 +133,7 @@ Review for practical action, clarity, respectful participation and safe verifica
 
 ### P-11: Draw policy
 
-Shuffle without repeats within each active pool cycle and avoid an immediate repeat when reshuffling. Whole-deck, theme and situation pools have distinct cycle state. Used and saved cards are not automatically excluded: an explicitly reused exercise may still be useful. Future Untried only is optional and must handle exhausted pools explicitly.
+Shuffle without repeats within each active pool cycle and avoid an immediate repeat when reshuffling. Pool keys include mode and active whole-deck/theme/situation/collection filters, with distinct cycle state. Linked Ask/Try face navigation preserves card identity and does not consume a random draw; see P-16. Used and saved cards are not automatically excluded: an explicitly reused exercise may still be useful. Future Untried only is optional and must handle exhausted pools explicitly.
 
 Pool state may restart after reboot; durable use history must not. A one-card pool may repeat and must not hang attempting to avoid the unavoidable repeat. V1 retains its existing whole-deck behavior until a separately tested change is accepted.
 
@@ -130,9 +143,9 @@ Pool state may restart after reboot; durable use history must not. A one-card po
 
 - Team: stable team_id, non-identifying label, created order and archive state.
 - Card: stable card_id, revision and versioned content or a retained snapshot.
-- Use event: event_id, team_id, card_id/revision or snapshot reference, event sequence, session/boot ID, optional trusted wall time and optional feedback. A future optional variant_id can distinguish agent-workflow use from the base activity without changing card identity; migration and display behavior must be tested before introducing it. Do not store raw CLI transcripts or prompt inputs.
+- Use event: event_id, team_id, mode (ask/try; legacy unspecified), card_id/revision or snapshot reference, event sequence, session/boot ID, optional trusted wall time and optional feedback. A future optional variant_id can distinguish agent-workflow use from the base activity without changing card identity; migration and display behavior must be tested before introducing it. Do not store raw CLI transcripts or prompt inputs.
 - Reversal: event_id and referenced use event.
-- Saved reference: team_id or personal scope, card_id and saved order.
+- Saved reference: team_id or personal scope, card_id, originating mode and saved order. Deduplicate per scope/card, retain originating mode, and do not duplicate saves when opening the other face.
 - Follow-up: use-event reference and selected outcome; deferred until P-08.
 - Settings: schema version, roster, active team, display/interaction preferences.
 
@@ -177,6 +190,7 @@ Required checks for the core release:
 - P-06/07: saved and used are separate, team trails are isolated, reversals update counts, empty states and theme coverage are correct.
 - P-10/11: all published cards validate; stable IDs/revisions survive edits; every pool cycles correctly including one/zero-card cases.
 - P-12/13/14: reboot, interrupted writes, full storage, recoverable corruption, schema migration and unknown-schema behavior are tested with synthetic data. No real team data enters Git or diagnostics.
+- P-16: default Ask, immediate mode entry, Guide me, linked-face navigation, mode-aware pools/eligibility/saves/events and legacy migration pass FACILITATOR-MODES.md checks. No question/activity is automatically recorded.
 - P-15: every screen/card fits and is readable on the actual circle; scroll/wake/shake cannot cause accidental recording; essential paths work by touch.
 - Real hardware: manufacturer examples, one-hour USB soak, reboot and retained trail, plus OTA retention/recovery checks on the V2 implementation. Battery readiness requires separate measured tests.
 
@@ -184,7 +198,7 @@ Host tests are required for deck, event attribution, deduplication, reversal, co
 
 ## 9. Delivery scope and fallback
 
-Core release: P-01 through P-07, P-10 through P-15; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+Core release: P-01 through P-07, P-10 through P-16; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
@@ -207,6 +221,8 @@ For each meaningful change:
 - Content expansion: forty draft cards, five per theme, with stable IDs/revisions and optional guidance. Keep JSON as the canonical editorial source and the Markdown catalog synchronized. Preserve V1's twelve titles/actions without a firmware change; facilitator review and hardware layout acceptance remain separate gates.
 
 - Agent workflow: adapt ten existing cards for CLI-agent supervision, keeping forty cards and eight themes. Add a cross-theme collection, optional tool notes and human evidence checks rather than duplicating cards or replacing general facilitation guidance. Collection UI remains deferred until the core path works.
+
+- Facilitator coaching: introduce Ask the Team and Try a Move with default Ask and core Guide me support. Supersede the earlier three-action home proposal. Preserve card identities, V1 firmware and optional agent variants; require mode-aware tracking and migration before releasing two-mode history. Detailed implementation handoff is FACILITATOR-MODES.md.
 
 ### Open validation decisions
 

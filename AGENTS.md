@@ -6,14 +6,14 @@ Develop a dependable offline pocket facilitator for AI workshops. Frontier Ops i
 
 ## Start here
 
-Read README.md, docs/PRODUCT-SPEC.md, docs/PLAN.md, docs/BRINGUP.md, docs/V1-SPEC.md and docs/WIFI-UPDATES.md before continuing. Read docs/V2-SPEC.md for touchscreen work. Recheck Git status, available tools, actual hardware and serial devices; prior observations are not live state.
+Read README.md, docs/PRODUCT-SPEC.md, docs/PLAN.md, docs/BRINGUP.md, docs/V1-SPEC.md and docs/WIFI-UPDATES.md before continuing. Read docs/V2-SPEC.md for the current portrait ESP32-C6 target and docs/V3-SPEC.md for the future round ESP32-S3 target. Recheck Git status, available tools, actual hardware and serial devices; prior observations are not live state.
 
 ## Hardware and architecture
 
 - V1 uses classic ESP-WROOM-32, BOOT on GPIO0 and an SH1106 128x64 I2C OLED at SDA21/SCL22, powered at 3V3. The earlier SSD1306 assumption was incorrect.
 - Disconnect power before wiring. Do not hold BOOT during normal reset or power-on.
 - Identify the actual board and serial port before flashing; never guess a port.
-- Preserve V1 as a fallback. V2 is a separate Waveshare ESP32-S3-Touch-LCD-1.85 target; inspect its exact revision before implementing support.
+- Preserve V1 as a fallback. V2 is the ESP32-C6 1.47-inch 172x320 portrait touch target with pin headers. V3 is the separate round Waveshare ESP32-S3-Touch-LCD-1.85 target. Re-identify each board/revision and port before selecting drivers or flashing; never assume cross-target binaries, pin maps or partitions are compatible.
 - Preserve compatible OTA partitions and authenticated local updates. Advice and Team Trail must work without internet access.
 
 ## Build and verification

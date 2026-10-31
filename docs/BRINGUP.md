@@ -2,6 +2,16 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## Target designation update
+
+- V1 remains the classic ESP32/SH1106 working fallback.
+- V2 is now the supplied ESP32-C6 1.47-inch 172x320 portrait capacitive-touch board with pin headers. V3 is the future round ESP32-S3-Touch-LCD-1.85 target.
+- USB inspection sees an Espressif USB JTAG/serial interface at /dev/ttyACM0 and the original CP2102 interface at /dev/ttyUSB0. These are enumeration observations, not C6 chip/revision/flash probes or display/touch verification. Re-identify both before any upload; ports may change.
+- The family description matches manufacturer documentation, but exact PCB/revision, drivers, flash/partitions and original-firmware recovery remain pending. No reset, serial probing or flashing was performed for this update.
+- V2-SPEC.md now defines the portrait target; the prior round contract is preserved in V3-SPEC.md. Existing circular HTML/content/tests are unchanged and remain the V3/shared-flow preview. Earlier records using V2 for the round board are superseded by this designation.
+- Documentation checks passed: generic wording, local links, eighteen stable requirement IDs and correct V2/V3 target mapping. The unchanged round preview passed its freshness check and all eleven existing Python tests passed. Source, content and device firmware are unchanged; this is not C6 build/display/touch acceptance.
+- Next V2 work is safe identification/recovery preparation, correct manufacturer display/touch bring-up and a separate portrait UI adaptation. Do not shrink the circular coordinates or copy binaries across targets.
+
 ## Current checkpoint
 
 - V1 hardware previously identified as ESP32-D0WD-V3 revision 3.1, 40 MHz crystal, 4 MB flash, CP2102 USB UART. Re-identify the actual board/port before flashing.
@@ -114,7 +124,7 @@ Implementation adjustments for this review artifact: compact menu context sits a
 
 ## Documentation validation
 
-The product specification defines stable requirement IDs; the current document includes P-01 through P-17. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.
+The product specification defines stable requirement IDs; the current document includes P-01 through P-18. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.
 
 ## Two-mode facilitation specification
 

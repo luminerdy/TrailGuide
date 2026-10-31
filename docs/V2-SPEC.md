@@ -1,48 +1,52 @@
-# V2 — Round Trail Guide Compass
+# V2 — ESP32-C6 portrait touchscreen
 
-## Product requirements
+Status: current touchscreen development target. Board description is supplied; USB enumeration is observed. Exact PCB/revision, chip/flash identity, display/touch operation, partition layout and usable memory are not yet hardware-verified. No TrailGuide firmware has been built or flashed for this target.
 
-The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Ask/Try unfiltered draws, eight themes, team selection, deliberate mode-aware tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. The proposed safe-circle layout, text/touch budgets and read-only prototype gates are specified in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. An initial read-only browser preview demonstrates eight paired cards; production features and actual-hardware acceptance remain pending.
+## Version assignment
 
-## Target
-Planned target: Waveshare ESP32-S3-Touch-LCD-1.85; 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
+- V1: classic ESP32 plus SH1106 OLED; preserve as the working fallback.
+- V2: ESP32-C6 1.47-inch capacitive touchscreen, nominal 172x320 portrait display, pin-header variant.
+- V3: the planned round ESP32-S3 1.85-inch touchscreen; see [V3-SPEC.md](V3-SPEC.md).
 
-Verify the exact revision, touch variant, display driver, pins and manufacturer example dependencies on the actual hardware. Do not reuse V1 OLED pins or firmware unchanged.
+This supersedes the earlier use of V2 for the round board. The existing round browser preview remains a V3 design artifact, not a portrait-board test.
 
-## Experience
-- Compass home screen: Frontier Ops / Trail Guide / Find your next bearing.
-- Home prioritizes Ask the Team and Try a Move; fresh opening/reboot shows Home with Ask visually prioritized and no automatic draw. Tapping either mode immediately draws without team/theme setup.
-- Tap Another or a deliberate shake on the main card screen spins the needle and reveals a question/activity within the active mode. Suppress shakes in Guide me and other non-card states.
-- One core Guide me entry offers Say, Notice and optional Follow up; optional Steps/tool notes live inside it later. Linked Ask/Try faces preserve identity and obey release eligibility. More exposes Asked this / Offered this move and Save without crowding the main question.
-- Reuse V1 advice meanings and shuffle behavior, with a readable circular layout.
-- Ignore extra draw events during animation; tune shake threshold and cooldown on hardware.
-- Keep current advice until another draw. Idle dimming and wake preserve it; wake touch must not accidentally skip it.
-- Advice works entirely offline. Preserve the optional local Wi-Fi update capability described in [Wi-Fi updates](WIFI-UPDATES.md).
+## Expected hardware, pending identification
 
-## Architecture
-Extract shared advice/deck logic from V1 and keep independent hardware targets. Separate content, pool selection, team/use-event model, persistent storage and hardware UI so they can be tested independently. States include Home, Theme selection, Team selection, Drawing, Advice, Details, Record confirmation, Saved, Team Trail and Idle/Dimmed. Inputs are context-specific: draw gestures cannot confirm recording. Use nonblocking animation. Durability, deduplication, event ordering and migration requirements are specified in PRODUCT-SPEC.md.
+The supplied description appears to match the Waveshare ESP32-C6-Touch-LCD-1.47 family with pin headers. Confirm the PCB marking/revision and exact variant before selecting drivers or examples.
 
-## Power and case
-USB first. Battery and case are deferred. Before selecting a cell, verify exact connector, polarity, charge current, chemistry and fit for this board. Secure wiring and battery, retain USB access, and measure actual runtime/charging with final firmware. Battery readiness is not established by a capacity estimate.
+- Reported ESP32-C6 architecture and onboard 8MB flash.
+- Reported 1.47-inch IPS capacitive touch display, 172x320 pixels.
+- Reported AXS5106L touch controller.
+- Manufacturer family documentation identifies a JD9853 display controller; confirm the actual board's resources/schematic and downloaded example configuration before using it.
+- Do not copy V1 wiring, GPIO assignments, partitions or binaries, or assume the V3 board's memory/peripherals apply to V2.
+
+Reference: [manufacturer hardware documentation](https://docs.waveshare.com/ESP32-C6-Touch-LCD-1.47). Example names, dependencies and pin maps must be checked against the actual C6 hardware, not a similarly sized non-touch board or an unrelated S3 example.
+
+## First bring-up gates
+
+1. Re-enumerate USB and identify the intended physical board/serial port independently of V1. A USB interface alone is not a chip or flash-capacity probe.
+2. Inspect exact board/revision, available toolchain and manufacturer sources. Keep V1 connected safely but excluded from any C6 upload command.
+3. Before an authorized write, identify chip/flash/partition/security state and retain the original firmware if readable, plus a documented recovery procedure. These operations may reset the C6; enumeration itself does not authorize resetting/flashing either board.
+4. Compile and run the correct manufacturer's display and touch examples, preserving evidence of each stage separately. Test orientation, visible pixels, touch mapping and edges on the actual board.
+5. Measure usable RAM, flash and drawing performance with pinned dependencies. Do not assume the browser preview proves LVGL, framebuffer or board support.
+6. Build a separate V2 target with compatible authenticated OTA, reviewed partitions and USB recovery. Keep advice functional without Wi-Fi. Do not reuse a V1 application binary.
+
+## Product and portrait UI
+
+Shared requirements remain in [PRODUCT-SPEC.md](PRODUCT-SPEC.md), especially P-16 Ask/Try behavior and new P-18 portrait adaptation. [FACILITATOR-MODES.md](FACILITATOR-MODES.md) defines content/review/recording semantics for all touchscreen targets.
+
+Use the same stable cards, themes and explicit tracking model. The portrait view needs its own layout and readable text/page budget; do not shrink or crop the 360x360 circle to fit 172x320. Start with stacked labeled controls, one Guide me entry, short guidance pages and a read-only eight-card portrait preview before enabling storage or claiming UI acceptance. Exact dimensions/fonts remain a design task pending orientation and hardware review.
+
+Touch is the essential input. Motion/compass animation is optional and requires separately verified hardware and input safeguards. Do not assume a sensor or shake behavior merely because it was specified for V3.
 
 ## Acceptance
-- Manufacturer display, touch and IMU examples run on received hardware.
-- All content/control/focus bounds fit the measured safe circle; verify longest copy, overflow handling, real font metrics and proposed P-17 touch targets in workshop lighting. Geometric containment is not proof of readability or accurate touch.
-- At least twenty deliberate shakes register; ordinary handling does not repeatedly draw.
-- Tap fallback is reliable; animation cannot queue unwanted draws.
-- Mode/filter pools obey eligibility and uniqueness/boundary-repeat rules, including empty and single-card pools; linked-face navigation does not consume a draw.
-- P-16 Guide me/navigation, all-path release eligibility, mode-aware saves/events and legacy migration pass FACILITATOR-MODES.md acceptance. P-17 read-only prototype tasks and actual-hardware UI/touch checks pass ROUND-UI-SPEC.md acceptance.
-- Quick start needs no team; recording requires explicit attribution and confirmation.
-- Team Trail, saves, feedback and Undo pass product-spec isolation/deduplication tests.
-- Trail data survives reboot; interrupted writes, full storage and schema migration have tested explicit outcomes.
-- All product-core acceptance checks in PRODUCT-SPEC.md pass; no team data leaks into shared diagnostics.
-- Idle/wake preserves advice and does not record or draw accidentally.
-- One-hour USB soak and reboot pass.
-- Battery operation is only declared ready after runtime and charging tests.
 
-## Deferred
-Real north requires a magnetometer; QMI8658 alone cannot supply magnetic heading. Audio, live AI, cloud sync, free-text notes and analytics are deferred. Themes and durable Team Trail history are now core-release requirements, superseding their earlier deferral. Follow-through, favorites and situation shortcuts follow only after the core works. Optional authenticated local firmware updates remain required; advice and team history never require internet access.
+- Actual C6 board, revision, port, flash/partitions and working dependency versions are recorded without private identifiers.
+- Display and touch examples run with visibly correct orientation and input mapping.
+- Portrait text, buttons and complete-copy navigation are reviewed on the actual 172x320 screen, including edge taps and longest representative copy.
+- Eight paired draft cards support read-only Ask/Try/Guide me review without fake recording or hidden gesture dependencies.
+- Content eligibility, pools, explicit team/mode confirmation, deduplication, Undo, save/event migration and durable tracking pass the shared contracts before tracking is enabled.
+- Offline operation, reboot, soak, OTA retention and USB recovery are independently verified for V2; prior V1 results are not substituted.
+- V1 firmware/recovery is preserved and V3 retains a separate hardware/layout contract.
 
-Status: production V2 firmware and board emulation are not implemented. An initial read-only browser UI preview exists for facilitator review; it does not establish display/touch/IMU behavior on the actual board.
-
-[Manufacturer reference](https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.85)
+Power starts with USB. Battery, charging and enclosure readiness require actual-board verification and measurement; do not infer them from product-family marketing.

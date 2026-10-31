@@ -1,6 +1,6 @@
 # Wi-Fi firmware updates
 
-Required for V1 and carried forward to V2.
+Required for V1 and carried forward independently to V2 (portrait ESP32-C6) and V3 (round ESP32-S3). Verify each target's flash/partition layout, update implementation and recovery; a V1 OTA test is not verification of either new target.
 Status: implemented, host-tested, ESP32-compiled and hardware-verified on prior firmware. Currently running v1-0.2.4 after a USB upload correcting the OLED driver to SH1106; OTA code and credentials are unchanged and serial confirms OTA readiness. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified before this driver correction. See BRINGUP.md for actual results.
 
 ## Behavior

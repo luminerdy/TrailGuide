@@ -17,12 +17,13 @@ Eight themes cover exploration, clarification, experiments, verification, reflec
 
 ## Development status
 
-The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. A read-only browser prototype demonstrates Ask/Try and Guide me using eight draft card pairs. Production touchscreen firmware, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
+The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. A read-only round browser prototype demonstrates Ask/Try and Guide me using eight draft card pairs for the future V3 layout. V2 is now the portrait ESP32-C6 target and needs a separate layout adaptation. Production touchscreen firmware, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
-| V2 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Tap and shake, compass animation | Planned |
+| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | Current target; USB interface detected; board/display/touch verification pending |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
 
 ## Start here
 
@@ -37,13 +38,14 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Living product specification — themes, touchscreen and Team Trail](docs/PRODUCT-SPEC.md)
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
-- [V2 specifications](docs/V2-SPEC.md)
+- [V2 portrait ESP32-C6 specifications](docs/V2-SPEC.md)
+- [V3 round ESP32-S3 specifications](docs/V3-SPEC.md)
 - [Raspberry Pi handoff](docs/PI-HANDOFF.md)
 - [Wi-Fi update requirements](docs/WIFI-UPDATES.md)
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
-The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview demonstrates eight draft paired faces; it is not production firmware. The other thirty-two catalog entries do not yet have paired guidance. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either hardware target.
+The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview demonstrates eight draft paired faces; it is not production firmware. The other thirty-two catalog entries do not yet have paired guidance. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either touchscreen target.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

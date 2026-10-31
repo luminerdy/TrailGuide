@@ -2,7 +2,7 @@
 
 Goal: dependable offline facilitation support for AI workshops using the reusable Frontier Ops theme. Preserve V1 as the fallback.
 
-Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Proposed circular UX and prototype gates: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md). Hardware contracts: [V1](V1-SPEC.md), [V2](V2-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
+Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Proposed circular UX and prototype gates: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md). Hardware contracts: [V1 OLED](V1-SPEC.md), [V2 portrait C6](V2-SPEC.md), [V3 round S3](V3-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
 
 ## Phase 0 — Finish and preserve V1
 
@@ -28,21 +28,21 @@ Status: forty-card draft catalog and eight representative paired faces authored;
 
 Exit: facilitator review of navigation and representative cards is complete; stable data contracts and acceptance tests are defined. Prototype approval does not establish hardware readiness.
 
-## Phase 2 — V2 hardware bring-up, when hardware is available
+## Phase 2 — Current V2: portrait ESP32-C6 bring-up
 
-Status: pending actual-board inspection and bring-up.
+Status: a new Espressif USB JTAG/serial interface is enumerated; physical board/chip/flash and display/touch operation are not yet verified. The supplied target is ESP32-C6 1.47-inch portrait touch with pin headers.
 
-- Identify exact board/revision, touch/display/IMU drivers, pins, memory, partition layout and storage budget.
-- Run manufacturer display, touch and sensor examples before application integration.
+- Identify exact C6 board/revision, display/touch drivers, pins, memory, partitions and storage budget. Retain the original firmware if readable before an authorized write; keep V1 excluded from C6 commands.
+- Run the correct C6 manufacturer display/touch examples before integration; verify any optional sensors independently. Review a separate 172x320 portrait layout/preview rather than scaling the existing circle.
 - Pin actual working toolchain/dependencies; retain compatible authenticated OTA and USB recovery.
 - Build independent V2 target with shared tested content/deck logic, readable card view and tap-to-draw.
-- Add nonblocking animation, optional shake, idle/wake; suppress accidental queued actions.
+- Keep touch-first controls and idle/wake behavior simple. Defer animation/shake until the relevant hardware and input safeguards are verified; suppress accidental queued actions.
 
 Exit: core touch/display path works on actual hardware with evidence. No team-history release until durable storage passes Phase 3.
 
 ## Phase 3 — Core release: themes and Team Trail
 
-Status: planned. Requirements P-01–P-07 and P-10–P-17 in PRODUCT-SPEC.md.
+Status: planned. Shared requirements are P-01–P-07 and P-10–P-16 in PRODUCT-SPEC.md; P-18 applies to current V2 portrait and P-17 to future V3 round. V2 release does not wait for V3 hardware acceptance.
 
 - Ask/Try entry without setup; Ask defaults on fresh sessions; optional eight-theme filtering; core Guide me in both modes.
 - Mode-aware eligibility/pool tests, linked-face behavior and card revisions. Integrate reviewed paired content without duplicating the catalog.
@@ -77,6 +77,10 @@ Acceptance-gated sequence:
 
 Power/case work requires verified connector, polarity, charging requirements and fit. Measure actual runtime/charging with final firmware before claiming battery readiness. Retain USB cable/power option, source, local recovery builds and V1 fallback.
 
+## Future V3 — round ESP32-S3 port
+
+The planned Waveshare ESP32-S3-Touch-LCD-1.85 is V3. Preserve V3-SPEC.md, ROUND-UI-SPEC.md and the existing circular browser preview. After V2 establishes the shared content/behavior layer, inspect the exact S3 board and port only the target-specific display/input/layout/storage boundaries. V2 results do not verify V3 hardware, partitions, memory or OTA.
+
 ## Working agreement
 
 Software contributors handle code/docs/tests; hardware operators handle physical wiring and report visible/hands-on results. Update PRODUCT-SPEC.md as requirements evolve, PLAN.md as scope changes and BRINGUP.md with real evidence. Publish verified commits to the configured project origin; never publish credentials, credential-bearing binaries, private logs or real Team Trail data.
@@ -89,4 +93,4 @@ The expanded forty-card catalog and eight paired draft faces are authored and co
 
 ## Immediate two-mode handoff
 
-Follow FACILITATOR-MODES.md section 11 and ROUND-UI-SPEC.md UX-A through UX-D: inspect checkout/schema/tests; author eight representative pairs; build/review a read-only round prototype and overflow fixture; then complete paired content and eligibility tests, implement pools/events/migration, and integrate on inspected V2 hardware. The browser preview and eight draft pairs advance this plan without changing V1 firmware or establishing new hardware verification. Preserve V1 while work continues.
+Follow FACILITATOR-MODES.md section 11 and ROUND-UI-SPEC.md UX-A through UX-D: inspect checkout/schema/tests; author eight representative pairs; build/review a read-only round prototype and overflow fixture; then complete paired content and eligibility tests, implement pools/events/migration, adapt/review the portrait layout under V2-SPEC.md/P-18, and integrate on inspected C6 V2 hardware. Retain the round preview for future V3. The browser preview and eight draft pairs advance this plan without changing V1 firmware or establishing new hardware verification. Preserve V1 while work continues.

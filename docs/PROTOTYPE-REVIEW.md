@@ -1,6 +1,6 @@
 # Read-only prototype review
 
-This review covers the first eight-card browser preview, not firmware or hardware readiness. All paired guidance is draft. Team selection uses synthetic labels; recording and saving must remain unavailable. The preview must never claim that it stored a team intervention.
+This review covers the first eight-card round browser preview, now the V3 layout reference, not V2 portrait readiness, firmware or hardware readiness. Current V2 is the 172x320 portrait ESP32-C6 and needs a separate layout preview. All paired guidance is draft. Team selection uses synthetic labels; recording and saving must remain unavailable. The preview must never claim that it stored a team intervention.
 
 ## Open it
 

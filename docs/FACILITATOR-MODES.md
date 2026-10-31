@@ -185,11 +185,11 @@ Asked this / Offered this move stay explicit confirmed actions; Used it is the u
 
 Mode-aware tracking is required before releasing two-mode Used it/history, not a prerequisite to a read-only prototype. If tracking is unavailable, disclose it and do not fake persistence.
 
-## 9. V1 / V2 delivery boundaries
+## 9. V1 / V2 / V3 delivery boundaries
 
 V1 remains the verified twelve-card SH1106 fallback. This documentation does not authorize replacing its one-button controls or reflashing it. Optional OLED mode experiments require a separately tested input design; do not casually overload BOOT with undiscoverable long-press actions.
 
-V2 is the main target for the two-mode UI. Inspect actual board/revision and retain manufacturer bring-up gates. Keep shared content/deck logic independent of display, input and storage.
+V2 is now the current ESP32-C6 172x320 portrait touch target; V3 is the future 360x360 round ESP32-S3 target. The existing round preview and ROUND-UI-SPEC.md apply to V3, not the portrait layout. Shared two-mode/content/recording semantics apply to both. Review a separate portrait layout before V2 integration. Inspect each actual board/revision and retain manufacturer bring-up gates. Keep shared content/deck logic independent of display, input and storage.
 
 Suggested state additions: ModeCard(ask|try), GuideMe, RelatedFace, ActionSheet. Extend existing state machine rather than creating duplicate implementations for each mode. Core Ask/Guide me content should be offline; memory/flash budget must be measured on the actual board.
 
@@ -211,7 +211,7 @@ Selection/navigation:
 - Linked-face navigation preserves card/revision and does not consume a draw.
 - Back from Guide me preserves card/context.
 - Scrolling, wake, shaking in disabled states and rapid input cannot record use or queue draws.
-- Remaining text and controls are readable inside the actual circle; use multiple pages where needed. P-17/ROUND-UI-SPEC.md safe-circle bounds, font/target budgets, single-help-entry behavior and unprompted prototype tasks are also required; initial pixel values remain proposed until tested.
+- Remaining text and controls are readable within the active target geometry: V2 portrait or V3 circle; use multiple pages where needed. P-17/ROUND-UI-SPEC.md safe-circle budgets apply to V3; P-18/V2-SPEC.md requires a separately reviewed portrait layout. Single-help-entry behavior and unprompted task review apply to both; initial pixel values remain proposed until tested.
 
 Tracking/storage:
 - A read-only prototype records nothing.
@@ -232,7 +232,7 @@ Regression:
 1. Pull current main without overwriting local changes. Read AGENTS.md, PRODUCT-SPEC.md, this document, PLAN.md and BRINGUP.md. Inspect current state; do not assume earlier observations are live.
 2. Report how existing card schema, generator and tests can support paired faces without duplicate IDs.
 3. Author representative Ask/Notice/Follow-up pairs spanning the eight themes; keep review state explicit.
-4. Build the read-only eight-card 360x360 prototype in ROUND-UI-SPEC.md: default Ask, Try, one Guide me entry, linked-face eligibility, paged actions/themes and overflow fixtures. Use a synthetic team context. Recording/saving remain explicitly disabled; Team Trail is unavailable or a labeled static preview. Do not build storage migration or show fake recording success.
+4. Preserve the existing 360x360 round preview for V3. For current V2, adapt and review a separate 172x320 portrait preview under V2-SPEC.md/P-18 with the same eight paired intents, one Guide me entry, linked-face eligibility, menus and overflow fixtures. Use synthetic team context; recording/saving remain disabled and Team Trail stays unavailable or a labeled static preview. Do not claim the existing circular artifact fits the portrait board.
 5. Review the interaction with the facilitator. Refine labels/layout without losing stable mode values.
 6. Only after prototype review, extend remaining catalog entries and content tests; regenerate derived docs. Keep structural tests, editorial approval and hardware readability distinct.
 7. Implement/test mode-aware pools and events/storage migration before enabling tracking.

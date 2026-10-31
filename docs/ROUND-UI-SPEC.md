@@ -1,8 +1,10 @@
-# Round-screen UX and UI specification
+# V3 round-screen UX and UI specification
+
+Scope: the existing circular preview is retained for future V3. Current V2 is the portrait ESP32-C6 board described in [V2-SPEC.md](V2-SPEC.md); it requires a separate layout, not a shrunken circle.
 
 Status: an initial eight-card read-only browser preview now exists at prototype/index.html; the design below remains subject to facilitator and actual-hardware review. Production firmware/tracking is not implemented. Geometry and browser layout checks do not establish physical readability, touch accuracy, bezel clearance, memory use or device performance. Numeric budgets remain review inputs.
 
-Canonical requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md), P-17. Behavior/content/tracking contract: [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. Hardware gates: [V2-SPEC.md](V2-SPEC.md). Sequencing: [PLAN.md](PLAN.md).
+Canonical requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md), P-17. Behavior/content/tracking contract: [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. Hardware gates: [V3-SPEC.md](V3-SPEC.md). Sequencing: [PLAN.md](PLAN.md).
 
 ## 1. Design decisions
 
@@ -204,7 +206,7 @@ Record observed mis-taps, route confusion, unreadable text and unprompted comple
 
 ### UX-D: implementation gates after review
 
-Then complete content/editorial review; implement and test eligibility and pools; implement mode-aware events, saves and migration; enable tracking only after durability tests; integrate on inspected V2 hardware; verify real display/touch, memory budget, soak and OTA retention. Preserve V1 throughout. A successful prototype does not skip these gates.
+Then complete content/editorial review; implement and test eligibility and pools; implement mode-aware events, saves and migration; enable tracking only after durability tests; integrate on inspected V3 hardware; verify real display/touch, memory budget, soak and OTA retention. Preserve V1 throughout. A successful prototype does not skip these gates.
 
 ## 9. Acceptance and evidence
 

@@ -6,7 +6,7 @@ Status: approved product direction; implementation pending unless explicitly mar
 
 TrailGuide is an offline pocket facilitator for helping workshop teams work with AI. It helps the facilitator ask useful questions, listen and choose an optional activity through Ask the Team and Try a Move modes. It offers a useful next move, remembers which moves a facilitator tried with each team, and supports follow-through without distracting from the people.
 
-This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md) and [V2-SPEC.md](V2-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
+This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md), [V2-SPEC.md](V2-SPEC.md) and [V3-SPEC.md](V3-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
 
 The product direction includes Team Trail, theme selection, a simple start mode and supporting facilitation ideas. Numeric limits, exact labels and phase boundaries below are proposed engineering defaults, not individually user-approved decisions. Validate them during prototype review.
 
@@ -25,7 +25,9 @@ The product direction includes Team Trail, theme selection, a simple start mode 
 
 V1: ESP32 + SH1106 OLED, BOOT input, firmware v1-0.2.4 with twelve cards in a single shuffled deck. It has no implemented themes, team storage, saved cards or history UI. The user confirmed display/button behavior; full acceptance remains open in BRINGUP.md.
 
-V2: planned round touchscreen target. Exact revision, touch/display/sensor dependencies, memory layout and usable storage must be verified on the actual hardware. There is no production V2 firmware yet. A read-only eight-card browser preview demonstrates the proposed UI; it is not board emulation, hardware verification or a claim of durable tracking.
+V2: current ESP32-C6 1.47-inch 172x320 portrait capacitive-touch target with pin headers. USB enumeration is observed; chip/revision, flash/partitions, drivers and display/touch behavior remain unverified. V2 needs a separate portrait layout, not a scaled round UI.
+
+V3: future round Waveshare ESP32-S3-Touch-LCD-1.85 target, nominal 360x360. The existing eight-card circular browser preview is retained for V3 and shared workflow review; it is not V2 portrait acceptance, board emulation, hardware verification or durable tracking. No production V2/V3 firmware exists.
 
 ## 4. Experience and navigation
 
@@ -110,7 +112,7 @@ Approved direction; implementation pending. Detailed content, UI, storage and ha
 - Save remains per scope/card and retains originating mode. History migration preserves old records as unspecified. Do not enable mode-aware history before durability/migration checks pass.
 - No answer capture, voice listening, automated learner diagnosis or mandatory transition into advice.
 
-### P-17: Round-screen simplicity and prototype gate — core release
+### P-17: V3 round-screen simplicity and prototype gate
 
 An initial read-only browser preview is built for eight representative draft pairs. Production firmware/tracking and facilitator/actual-hardware acceptance remain pending. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
 
@@ -119,7 +121,18 @@ An initial read-only browser preview is built for eight representative draft pai
 - Start from a 360x360 canvas and a proposed 12-pixel radial inset. Validate full rectangles, text, focus rings and scroll cues against the circle. Proposed fonts, 48-pixel minimum target heights and 52-pixel primary controls need actual rendering/touch review; geometry alone is not acceptance.
 - Use measured text layout, readable type, explicit paging/overflow and labeled tap paths. Do not truncate essential copy, shrink text to fit or rely on hidden gestures. Wake/scroll/navigation cannot record or draw unexpectedly.
 - First author eight representative draft pairs, one per theme, and a read-only round prototype with an overflow fixture. Recording/saving remain visibly disabled; use synthetic team context and no fake persisted history.
-- Review unprompted facilitator task completion and revise before completing forty paired faces or implementing storage migration. Eligibility, pools, durability and actual V2 display/touch/OTA gates follow; preserve V1 throughout.
+- Review unprompted facilitator task completion and revise before completing forty paired faces or implementing storage migration. Eligibility, pools, durability and actual V3 display/touch/OTA gates follow; preserve V1 throughout.
+
+### P-18: V2 portrait ESP32-C6 adaptation — current target
+
+The current V2 is the 1.47-inch ESP32-C6 capacitive-touch board with pin headers and nominal 172x320 portrait screen. V3 is the future round ESP32-S3 board. Hardware and bring-up contract: [V2-SPEC.md](V2-SPEC.md); preserve the separate [V3 contract](V3-SPEC.md).
+
+- Re-identify the physical board/revision, chip, flash/partitions, drivers and serial port before selecting examples or writing firmware. USB enumeration is not chip/display/touch verification.
+- Preserve V1 as fallback and retain original C6 firmware if readable before an authorized write. No V1 binary, wiring map or V3 display configuration is assumed compatible.
+- Reuse stable cards, themes and P-16 behavior; make a separate portrait layout with readable text and stacked labeled controls. Do not shrink/crop the circular preview to fit 172x320.
+- Establish correct manufacturer display/touch examples, orientation, touch mapping and actual memory budget before TrailGuide integration. Validate a read-only eight-card portrait preview and actual-device readability before enabling tracking.
+- Authenticate updates and independently verify partitions, data retention, reboot, soak and recovery on V2. Prior V1 tests and browser results do not prove C6 behavior.
+- Keep motion/animation optional and gated by separately verified hardware. Preserve the existing round preview and P-17 as V3 work, not completed V2 acceptance.
 
 ## 5. Content specification
 
@@ -184,7 +197,7 @@ A local export/backup and restore tool is a post-core priority, using explicit u
 
 ### P-15: Readability and input
 
-Keep text and controls inside the actual usable circle and away from clipped edges. Prefer large tap targets, short pages, high contrast and text labels instead of color-only meanings. Validate on real hardware in workshop lighting; numeric sizing must follow actual display dimensions and touch calibration.
+Keep text and controls inside the active display's usable area: rectangular portrait for V2, circle-safe for V3. Prefer large tap targets, short pages, high contrast and text labels instead of color-only meanings. Validate on real hardware in workshop lighting; numeric sizing must follow actual display dimensions and touch calibration.
 
 Scrolling must not trigger buttons. Wake preserves the current card and consumes the first touch instead of marking use or drawing. Disable shake where handling could mutate history. Idle dimming does not lose team context or saved state. All essential actions work by touch; shaking is optional.
 
@@ -202,14 +215,14 @@ Required checks for the core release:
 - P-10/11: all published cards validate; stable IDs/revisions survive edits; every pool cycles correctly including one/zero-card cases.
 - P-12/13/14: reboot, interrupted writes, full storage, recoverable corruption, schema migration and unknown-schema behavior are tested with synthetic data. No real team data enters Git or diagnostics.
 - P-16: default Ask, immediate mode entry, Guide me, linked-face navigation, mode-aware pools/eligibility/saves/events and legacy migration pass FACILITATOR-MODES.md checks. No question/activity is automatically recorded.
-- P-15: every screen/card fits and is readable on the actual circle; scroll/wake/shake cannot cause accidental recording; essential paths work by touch.
+- P-15: every screen/card fits and is readable on the active target geometry (V2 portrait or V3 round); scroll/wake/shake cannot cause accidental recording; essential paths work by touch.
 - Real hardware: manufacturer examples, one-hour USB soak, reboot and retained trail, plus OTA retention/recovery checks on the V2 implementation. Battery readiness requires separate measured tests.
 
 Host tests are required for deck, event attribution, deduplication, reversal, counts, persistence failure handling and migration logic. A browser/mock UI review can validate workflow but cannot prove ESP32 performance, touch accuracy or flash durability.
 
 ## 9. Delivery scope and fallback
 
-Core release: P-01 through P-07, P-10 through P-17; P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+Shared core release: P-01 through P-07 and P-10 through P-16. Apply P-18 for current V2 portrait and P-17 for future V3 round; do not require V3 hardware acceptance to release V2. P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
@@ -236,6 +249,8 @@ For each meaningful change:
 - Facilitator coaching: introduce Ask the Team and Try a Move with default Ask and core Guide me support. Supersede the earlier three-action home proposal. Preserve card identities, V1 firmware and optional agent variants; require mode-aware tracking and migration before releasing two-mode history. Detailed implementation handoff is FACILITATOR-MODES.md.
 
 - Round UI planning: use a single Guide me entry, mode-specific recording labels and progressively disclosed controls. Correct the existing `question` field reference, define proposed review/eligibility scopes across all new-use paths, and gate full content/runtime expansion on an eight-card read-only round prototype. Numeric layout and interaction parameters remain proposed until reviewed and measured.
+
+- Hardware sequence: the newly connected portrait ESP32-C6 is V2 and the future round ESP32-S3 is V3. Preserve V1 as fallback, retain the round preview/spec as V3 work, and require a separately reviewed portrait adaptation plus actual C6 bring-up for V2. No device was reset or flashed by the designation change.
 
 ### Open validation decisions
 

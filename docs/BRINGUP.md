@@ -91,3 +91,9 @@ The new content test first failed for the expected missing-collection condition,
 ## Documentation validation
 
 The living product specification has fifteen stable P-IDs. Related document links and whitespace checks passed when the specification was added, alongside both rebuilt host suites. Planned V2 behavior is not verified by those V1 tests. Keep generic public docs separate from private operational context and preserve Git history unless a rewrite is explicitly authorized.
+
+## Two-mode facilitation specification
+
+Added FACILITATOR-MODES.md with Ask the Team / Try a Move, core Guide me support, paired-content authoring, navigation rules, mode-aware saves/use events, legacy migration, acceptance checks and a development-host implementation sequence. Added stable requirement P-16 and reconciled home navigation, core scope, delivery sequencing and V2 requirements. README links to the handoff.
+
+GitHub readback verified the exact published contents of the handoff, product spec, plan, V2 spec and README. This is documentation verification only. No firmware, content JSON, test code or device state was changed; no host suites, compile, upload or hardware checks were run for this documentation update. Paired facilitator content, prototype, mode-aware storage and V2 implementation remain pending.

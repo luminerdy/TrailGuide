@@ -2,7 +2,14 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 conversational cue flow — v2-0.1.5
+## Coaching direction and project handoff
+
+- Added COACHING-DIRECTION.md and HANDOFF.md to capture facilitator development alongside team support, appropriate AI reliance, voluntary/access-aware participation and a proposed before/during/after coaching pattern. Research findings, practice materials, a pilot and additional interfaces remain pending; endorsement of direction is not evidence of effectiveness.
+- Added planned P-19 without renumbering prior requirements or changing the existing core release scope. README, PLAN.md and the legacy Pi setup handoff now point to the current documents.
+- Handoff covers the v2-0.1.5 implementation baseline, V1/V2/V3 boundaries, canonical content, exact build/test/OTA entry points, private configuration/recovery, actual evidence and remaining acceptance. Scheduled research is not presented as completed work.
+- Documentation checks passed for generic wording, relative file/section links, nineteen unique requirement IDs and preserved core scope. All nineteen existing Python tests and generated-content/round-preview freshness checks passed. No application code, canonical content, firmware, private credentials or hardware state was changed by this documentation task.
+
+## Earlier V2 conversational cue flow — v2-0.1.5
 
 - Observation bodies now flow directly from What to listen for / What to notice instead of repeating Listen for / Look for / Notice. Only a matching leading instruction is removed; the remaining cue, cautions and negations are preserved, with sentence casing that retains mixed-case names and acronyms.
 - You could ask and If helpful, offer replace formal follow-up/invitation captions. Main questions/actions, activities, title/Back context, canonical JSON, card IDs, revisions and draft review states remain unchanged.

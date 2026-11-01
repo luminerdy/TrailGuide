@@ -1,5 +1,7 @@
 # Raspberry Pi handoff
 
+This is the original V1 host-setup guide, not the current C6 development checkpoint. Start with the [project and coaching handoff](HANDOFF.md) and [verification record](BRINGUP.md). Do not apply these V1 OLED/board commands to V2.
+
 ## Human setup
 1. Finish Raspberry Pi OS setup and connect to the network.
 2. Enable SSH using Pi settings or Imager configuration.

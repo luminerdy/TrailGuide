@@ -25,7 +25,14 @@ The pitch above describes the intended end product. **V1 is our starting point a
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.5 read-only trial; authenticated Wi-Fi updates and reconnection verified; full human acceptance pending |
 | V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
 
+## Coaching direction — planned
+
+TrailGuide should help facilitators grow as well as help teams find their next move: invite uncertainty, draw out thinking, offer a manageable next step and reflect on the conversation. The goal is appropriate judgment about AI, not maximum trust or maximum usage. Research, facilitator-practice material and any new training interface remain proposed and review-gated; see the [coaching direction](docs/COACHING-DIRECTION.md).
+
 ## Start here
+
+- [Current project and coaching handoff](docs/HANDOFF.md)
+- [Facilitator-development direction, examples and research gates](docs/COACHING-DIRECTION.md)
 
 - [Two-mode facilitator coaching — Ask the Team / Try a Move](docs/FACILITATOR-MODES.md)
 - [Downloadable read-only prototype source](prototype/index.html)

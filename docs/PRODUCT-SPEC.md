@@ -134,6 +134,24 @@ The current V2 is the 1.47-inch ESP32-C6 capacitive-touch board with pin headers
 - Authenticate updates and independently verify partitions, data retention, reboot, soak and recovery on V2. Prior V1 tests and browser results do not prove C6 behavior.
 - Keep motion/animation optional and gated by separately verified hardware. Preserve the existing round preview and P-17 as V3 work, not completed V2 acceptance.
 
+### P-19: Facilitator development and calibrated reliance — research-gated direction
+
+Status: planned, with product direction endorsed. Detailed training content, effectiveness claims and any new interface require evidence/editorial review and a bounded human pilot; they are not implemented by this specification.
+
+Support both the team's learning and the facilitator's development: invite uncertainty without embarrassment, draw out thinking before supplying a solution, offer accessible participation and passing, and help judge a particular AI contribution in context. Appropriate reliance, learner agency and a legitimate non-AI path take priority over increasing AI usage or assigning trust/ability labels to people.
+
+Explore a before/during/after pattern: a small synthetic facilitator rehearsal outside the live tool; glanceable Ask/Try/Guide support during the conversation; optional reflection on the facilitator's own choices afterward. Notice → Invite → Listen → Offer a small next step → Reflect is a proposed scaffold, not a validated TrailGuide protocol. Preserve the current home/help structure unless a separately reviewed need justifies an extension.
+
+Acceptance for a scoped increment:
+
+- A cited evidence brief distinguishes original findings, practitioner guidance and hypotheses; records context/limitations; considers both AI benefits and harms; and does not equate assisted output with durable learning.
+- Draft synthetic examples and practice exercises preserve consent, uncertainty, access alternatives and passing, without interrogation or pressure to use AI.
+- A small human pilot has explicit agreed observations/voluntary feedback and avoids hidden learner inference, profiles, diagnoses, recording or scoring.
+- Existing card identity/review, privacy, complete-copy navigation and actual-screen readability contracts remain intact. Planned Team Trail records deliberate facilitator interventions, not inferred learning outcomes.
+- New practice modes, automated role-play, situation shortcuts or additional storage receive their own scope/tests rather than being implied by approval of this direction.
+
+This parallel content/research track can begin without a firmware change. P-19 does not silently add a new core release blocker or waive P-01–P-18 acceptance. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and [HANDOFF.md](HANDOFF.md).
+
 ## 5. Content specification
 
 ### P-10: Structured, reviewed content
@@ -239,6 +257,8 @@ For each meaningful change:
 5. Commit related code/tests/docs together; publish and verify GitHub readback. Never include credentials, private builds or real team trails.
 
 ### Decision log
+
+- Facilitator development: add the research-gated P-19 direction to support the facilitator as well as the team, with invitation/listening/scaffolding, appropriate reliance and optional before/after practice. Preserve the live Ask/Try/Guide structure, learner agency and privacy. Research/practice proposals are not shipped features or evidence of effectiveness; current continuity is recorded in HANDOFF.md.
 
 - Expand from a shuffled advice oracle toward a pocket facilitator with themes, simple start, Team Trail and supporting facilitation ideas. Added eight proposed themes, team-scoped deliberate-use tracking, saved ideas and phased follow-through. Hardware work remains gated on board availability and inspection.
 

@@ -77,6 +77,16 @@ Acceptance-gated sequence:
 
 Power/case work requires verified connector, polarity, charging requirements and fit. Measure actual runtime/charging with final firmware before claiming battery readiness. Retain USB cable/power option, source, local recovery builds and V1 fallback.
 
+## Parallel coaching research and practice track — P-19
+
+Status: product direction endorsed; evidence synthesis, practice companion, pilot and additional interfaces are pending. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and the [current handoff](HANDOFF.md).
+
+- Investigate invitation, listening, feedback, useful effort, accessible participation and appropriate AI reliance. Distinguish study design, domain/transfer limits, uncertainty and contradictions; do not present scheduled research as completed evidence.
+- Draft a small before/during/after facilitator-practice companion with synthetic scenarios. Start outside the live device and review the existing eight pairs before expanding menus or the catalog.
+- Co-design and pilot with consent, passing and non-AI/access alternatives. Evaluate agreed observable usefulness and voluntary feedback, not inferred learner ability or AI-use counts.
+- Select the smallest next content/UI increment after evidence and human review. New practice modes or automated role-play require a separate scope decision.
+- Keep this track independent of firmware changes while preserving all existing privacy, content, storage and release gates. No hidden recording, profiling or learning-outcome claims.
+
 ## Future V3 — round ESP32-S3 port
 
 The planned Waveshare ESP32-S3-Touch-LCD-1.85 is V3. Preserve V3-SPEC.md, ROUND-UI-SPEC.md and the existing circular browser preview. After V2 establishes the shared content/behavior layer, inspect the exact S3 board and port only the target-specific display/input/layout/storage boundaries. V2 results do not verify V3 hardware, partitions, memory or OTA.
@@ -93,4 +103,4 @@ The expanded forty-card catalog and eight paired draft faces are authored and co
 
 ## Immediate two-mode handoff
 
-Follow FACILITATOR-MODES.md section 11 and ROUND-UI-SPEC.md UX-A through UX-D: inspect checkout/schema/tests; author eight representative pairs; build/review a read-only round prototype and overflow fixture; then complete paired content and eligibility tests, implement pools/events/migration, adapt/review the portrait layout under V2-SPEC.md/P-18, and integrate on inspected C6 V2 hardware. Retain the round preview for future V3. The browser preview and eight draft pairs advance this plan without changing V1 firmware or establishing new hardware verification. Preserve V1 while work continues.
+Use HANDOFF.md for the current checkpoint rather than repeating completed bootstrap work. Preserve the running v2-0.1.5 eight-pair portrait trial, authenticated OTA and V1 fallback. Finish human guide/readability/input review and the P-19 evidence/practice brief; then choose a bounded next increment. Complete paired-content review and production eligibility/pools/events/migration before enabling recording. Retain the older round preview for V3 and align it separately; browser/synthetic results do not establish new physical acceptance. FACILITATOR-MODES.md and V2-SPEC.md/P-18 remain the runtime contracts.

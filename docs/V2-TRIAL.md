@@ -1,6 +1,6 @@
 # TrailGuide V2 — first portrait hardware trial
 
-Status: `v2-0.1.1 DRAFT`, compiled, USB-flashed and serial-verified on the C6. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
+Status: `v2-0.1.4 DRAFT`, compiled and wirelessly installed on the C6, with running version and OTA readiness verified remotely. The initial OTA bootstrap used USB. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
 
 ## Available now
 
@@ -12,7 +12,7 @@ Status: `v2-0.1.1 DRAFT`, compiled, USB-flashed and serial-verified on the C6. T
 - Portrait 172x320 layout, 20px main copy, 18px guidance, fixed 48–56px-high navigation buttons, and vertical overflow scrolling. Smaller 14/16px text is used for metadata and button captions; actual-device readability still requires human review.
 - Offline operation without network configuration or a development-host connection after boot. Power still needs USB; independent-power and soak acceptance have not been completed.
 
-No theme picker, linked-face shortcut, team roster, saving, recording, Team Trail, Wi-Fi or OTA listener is implemented in this trial. No disabled feature pretends to have succeeded. The existing two-slot 8MB partition layout is preserved, but authenticated updates are still a future acceptance gate. All displayed content remains explicitly DRAFT review material.
+No theme picker, linked-face shortcut, team roster, saving, recording or Team Trail is implemented in this trial. No disabled feature pretends to have succeeded. Authenticated local Wi-Fi/OTA is now implemented on the existing two-slot 8MB layout, with offline/reconnect and two wireless updates verified; see [V2-WIFI-UPDATES.md](V2-WIFI-UPDATES.md). This is not internet/cloud updating or a durable-data-retention test. All displayed content remains explicitly DRAFT review material.
 
 ## Hardware and recovery boundaries
 
@@ -27,7 +27,7 @@ Use Arduino CLI 1.3.1, Espressif core 3.3.2 and the manufacturer bundle's GFX 1.
 ```sh
 python3 tools/build_v2_content.py
 python3 tools/prepare_v2_panel.py
-ROOT="$PWD/build/v2-0.1.1"
+ROOT="$PWD/build/v2-0.1.4"
 PANEL="$PWD/build/v2-0.1.0/generated"
 SKETCH="$PWD/trailguide_v2"
 LIBS="$PWD/build/v2-c6-bringup/vendor/Arduino/libraries"
@@ -39,7 +39,7 @@ arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$LIBS" \
   --output-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The unchanged manufacturer panel header is still prepared in the initial trial's generated directory and reused by this patch build. The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 615,004 application bytes and 80,612 bytes of globals. These static figures are not total runtime memory measurements.
+The unchanged manufacturer panel header is still prepared in the initial trial's generated directory and reused by this patch build. The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 1,415,126 application bytes and 113,348 bytes of globals. These static figures are not total runtime memory measurements.
 
 ## Upload and diagnostics
 
@@ -50,7 +50,7 @@ arduino-cli upload --fqbn "$FQBN" --port PORT \
   --input-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The executed upload verified hashes. A C6-only controlled reset produced `TrailGuide v2-0.1.1 DRAFT`, touch startup data, `READY: 172x320 Home; 8 DRAFT pairs; offline` and a measured startup free-heap value of 364,092 bytes. That single reading is not a leak, stress or soak test.
+The OTA-enabled bootstrap v2-0.1.2 was USB-flashed with verified hashes and then updated over the network to v2-0.1.3 and v2-0.1.4. The final running version, OTA readiness and active application slot were read back remotely. Earlier free-heap readings from USB-only firmware are not substituted for a Wi-Fi runtime budget; sustained memory/soak checks remain open.
 
 At 115200 baud, send uppercase `T` over USB to run synthetic UI diagnostics. The executed on-device diagnostic passed both modes, eight cards, sixteen guidance faces, full-text comparisons, button bounds, Back and Another, then returned to Home. This invokes software click events; it does not physically touch the panel or establish pixel readability. Keep raw logs private.
 
@@ -74,4 +74,4 @@ The last command builds the real bundled LVGL on the host with AddressSanitizer 
 4. Check longest questions, every card, edge taps and finger-held/swipe behavior. Report unreadable text, clipping, unwanted activations or missed actions.
 5. After interaction acceptance, verify restart, independent power, runtime memory and soak separately. Do not interrupt an agreed soak with uploads or resets.
 
-Next: refine the portrait layout from hands-on feedback, implement production eligibility/pools and authenticated OTA, then test durable recording before enabling Team Trail. See [V2-SPEC.md](V2-SPEC.md), [FACILITATOR-MODES.md](FACILITATOR-MODES.md) and [PLAN.md](PLAN.md).
+Next: refine the portrait layout from hands-on feedback, complete sustained Wi-Fi/power checks and production eligibility/pools, then test durable recording before enabling Team Trail. See [V2-SPEC.md](V2-SPEC.md), [FACILITATOR-MODES.md](FACILITATOR-MODES.md) and [PLAN.md](PLAN.md).

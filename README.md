@@ -17,12 +17,12 @@ Eight themes cover exploration, clarification, experiments, verification, reflec
 
 ## Development status
 
-The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED with twelve button-driven cards. V2 now runs an initial read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; it is compiled, flashed and serial-verified, with human interaction review pending. A separate round browser preview is retained for future V3. Production touchscreen behavior, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
+The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED with twelve button-driven cards. V2 now runs an initial read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; it is running on C6 with remotely verified wireless updating, while full human interaction acceptance remains pending. A separate round browser preview is retained for future V3. Production touchscreen behavior, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
-| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.1 read-only TrailGuide trial flashed and serial-verified; human review pending |
+| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.4 read-only trial; authenticated Wi-Fi updates and reconnection verified; full human acceptance pending |
 | V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
 
 ## Start here
@@ -39,6 +39,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 portrait ESP32-C6 specifications](docs/V2-SPEC.md)
+- [V2 wireless updates — setup, verified tests and limits](docs/V2-WIFI-UPDATES.md)
 - [Try TrailGuide V2 — portrait firmware, build and review](docs/V2-TRIAL.md)
 - [V2 display/touch bring-up and original-image recovery](docs/V2-BRINGUP.md)
 - [V3 round ESP32-S3 specifications](docs/V3-SPEC.md)

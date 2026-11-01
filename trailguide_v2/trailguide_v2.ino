@@ -1,9 +1,16 @@
-// TrailGuide portrait ESP32-C6 hardware trial. Draft content; no persistence or network.
+// TrailGuide portrait ESP32-C6 hardware trial. Draft content; optional authenticated local OTA.
 #include <Arduino.h>
 #include <Arduino_GFX_Library.h>
 #include <lvgl.h>
 #include "esp_lcd_touch_axs5106l.h"
 #include "ui.h"
+#include "ota_support.h"
+#ifdef TRAILGUIDE_WIFI_CONFIGURED
+#include <WebServer.h>
+#include <esp_ota_ops.h>
+static WebServer statusServer(80);
+static bool statusStarted = false;
+#endif
 #if !defined(CONFIG_IDF_TARGET_ESP32C6)
 #error "TrailGuide V2 requires the identified ESP32-C6 target, not V1 or V3"
 #endif
@@ -17,6 +24,32 @@ static lv_color_t pixels[172 * 40];
 static lv_disp_draw_buf_t drawBuffer;
 static lv_disp_drv_t displayDriver;
 static lv_indev_drv_t inputDriver;
+
+static void updateOverlay() {
+  ui.setUpdating(updateInProgress);
+  lv_refr_now(nullptr);
+}
+static void beginStatus() {
+#ifdef TRAILGUIDE_WIFI_CONFIGURED
+  statusServer.on("/status", HTTP_GET, []() {
+    char response[220];
+    const esp_partition_t *partition = esp_ota_get_running_partition();
+    snprintf(response, sizeof(response),
+      "{\"device\":\"trailguide-v2\",\"version\":\"%s\",\"ota_ready\":%s,\"uptime_ms\":%lu,\"slot\":\"0x%lx\"}",
+      TRAILGUIDE_VERSION, otaReady ? "true" : "false", static_cast<unsigned long>(millis()),
+      static_cast<unsigned long>(partition ? partition->address : 0));
+    statusServer.sendHeader("Cache-Control", "no-store");
+    statusServer.send(200, "application/json", response);
+  });
+#endif
+}
+static void serviceStatus() {
+#ifdef TRAILGUIDE_WIFI_CONFIGURED
+  if (otaReady && !statusStarted) { statusServer.begin(); statusStarted = true; }
+  if (!otaReady && statusStarted) { statusServer.stop(); statusStarted = false; }
+  if (statusStarted) statusServer.handleClient();
+#endif
+}
 
 static void fatal(const char *message) {
   Serial.println(message);
@@ -79,7 +112,7 @@ static void selfTest() {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("TrailGuide v2-0.1.1 DRAFT");
+  Serial.println("TrailGuide " TRAILGUIDE_VERSION " DRAFT");
   if (!gfx->begin()) fatal("FATAL: display begin failed");
   lcd_reg_init(); gfx->setRotation(0); gfx->fillScreen(RGB565_BLACK);
   pinMode(23, OUTPUT); digitalWrite(23, HIGH);
@@ -98,12 +131,28 @@ void setup() {
   inputDriver.read_cb = readTouch;
   if (!lv_indev_drv_register(&inputDriver)) fatal("FATAL: LVGL input registration failed");
   ui.render(); lv_refr_now(nullptr);
+  onUpdateState = updateOverlay;
+  beginStatus();
+  beginUpdates();
   Serial.printf("READY: 172x320 Home; 8 DRAFT pairs; offline; free heap=%u\n", ESP.getFreeHeap());
-  Serial.println("No saving, tracking or OTA. USB T runs synthetic UI diagnostics.");
+  Serial.println("No saving or tracking. USB T runs synthetic UI diagnostics; local OTA is optional.");
 }
 void loop() {
   lv_timer_handler();
-  if (Serial.available() && Serial.read() == 'T') selfTest();
+  serviceUpdates();
+  ui.setConnection(otaReady);
+  serviceStatus();
+  if (Serial.available()) {
+    const int command = Serial.read();
+    if (command == 'T') selfTest();
+#if defined(TRAILGUIDE_BENCH_TESTS) && defined(TRAILGUIDE_WIFI_CONFIGURED)
+    if (command == 'N') {
+      WiFi.disconnect(false, false);
+      wifiAttemptAt = millis();
+      Serial.println("BENCH: Wi-Fi disconnected; retry is due in thirty seconds.");
+    }
+#endif
+  }
   static int oldView = -1, oldMode = -1, oldIndex = -1;
   const int view = static_cast<int>(ui.model.view), mode = static_cast<int>(ui.model.mode);
   const int index = static_cast<int>(ui.model.index);

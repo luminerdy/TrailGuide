@@ -2,7 +2,17 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 guidance refinement — v2-0.1.1
+## V2 authenticated Wi-Fi/OTA — v2-0.1.4
+
+- Optional station Wi-Fi and authenticated ArduinoOTA are implemented independently for C6, with a unique hostname/password, background connection/retry, an updating overlay and a read-only version/status endpoint. Credentials, raw logs and firmware binaries are local/ignored; public examples contain placeholders only. V1 was not reset, flashed or modified.
+- The v2-0.1.2 USB bootstrap preserved the verified 8MB two-slot layout. A deliberate bench Wi-Fi disconnect left synthetic Ask/Try/Guide navigation working; automatic retry restored OTA and remote status. The final images omit the temporary disconnect hook.
+- Incorrect-password rejection and an authenticated transfer interrupted after at least 10% were hardware-tested. The old application/version/slot remained running and OTA/status recovered. No automatic rollback or interrupted-power safety is claimed.
+- Two authenticated network updates installed v2-0.1.3 at 0x340000, then v2-0.1.4 at 0x10000; running versions, active slots and continuing OTA readiness were read back over the LAN. A fixed Pi callback port initially hit TIME_WAIT before the second transfer; available ephemeral callback selection fixed it and passed a regression test.
+- The final compiled application uses 1,415,126 bytes and 113,348 globals. Eighteen Python tests, V2 network/disabled-config tests, actual-LVGL ASan/UBSan checks (including update-overlay input suppression/context preservation) and both V1 C++ suites passed. Missing-formatter, overlay, image-validation, callback-selection and malformed-status tests were observed failing before the corresponding implementations/fixes.
+- USB is no longer needed for the verified network update path, but the device still needs power and reachable trusted local Wi-Fi. Battery endurance, prolonged network soak, physical updating-screen review and retained future Team Trail data are separate acceptance gates. Internet-exposed, TLS-encrypted or signed-firmware updating is not implemented.
+- Operating/build/security/recovery details: [V2-WIFI-UPDATES.md](V2-WIFI-UPDATES.md). Original factory backups, pre-network images and the known-working bootstrap remain private and preserved.
+
+## Earlier V2 guidance refinement — v2-0.1.1
 
 - Hands-on review identified redundant repetition at the start of Guide me. Ask now opens with What to listen for and follow-ups, without repeating its main question. Try opens with How to run it, then What to notice and follow-ups; a distinct suggested invitation is last, and exact action/activity duplicates are omitted. Card title and Back context remain unchanged.
 - Regression tests first failed for the missing progressive formatter, then passed across all eight pairs, including per-card generated-guide checks and duplicate-invitation suppression. All fourteen Python tests and the actual-LVGL ASan/UBSan navigation/scrolling suite passed. Canonical card text, IDs, revisions and review states are unchanged.

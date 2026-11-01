@@ -2,6 +2,7 @@
 #include <lvgl.h>
 #include "model.h"
 #include "cards_generated.h"
+#include "version.h"
 
 namespace trailguide {
 class Ui {
@@ -10,11 +11,40 @@ class Ui {
   Model model;
   lv_obj_t *first = nullptr, *second = nullptr, *backButton = nullptr;
   lv_obj_t *body = nullptr, *scroll = nullptr;
+  lv_obj_t *connectionLabel = nullptr, *overlay = nullptr;
+  bool updating = false;
+  bool connectionReady = false;
+
+  void setConnection(bool ready) {
+    if (connectionReady == ready) return;
+    connectionReady = ready;
+    if (connectionLabel) lv_label_set_text(connectionLabel, ready ? "Draft | WiFi/OTA" : "Draft | Offline");
+  }
+  void setUpdating(bool active) {
+    updating = active;
+    if (active && !overlay) {
+      overlay = lv_obj_create(lv_layer_top());
+      lv_obj_remove_style_all(overlay);
+      lv_obj_set_pos(overlay, 0, 0); lv_obj_set_size(overlay, 172, 320);
+      lv_obj_clear_flag(overlay, LV_OBJ_FLAG_SCROLLABLE);
+      lv_obj_add_flag(overlay, LV_OBJ_FLAG_CLICKABLE);
+      lv_obj_set_style_bg_opa(overlay, LV_OPA_COVER, 0);
+      lv_obj_set_style_bg_color(overlay, lv_color_hex(0x101c24), 0);
+      lv_obj_set_style_text_color(overlay, lv_color_hex(0xf3f5ee), 0);
+      auto *message = label(overlay, "Updating...\nKeep power\nconnected.", 0, 0, 156, &lv_font_montserrat_20);
+      lv_obj_set_style_text_align(message, LV_TEXT_ALIGN_CENTER, 0);
+      lv_obj_center(message);
+    } else if (!active && overlay) {
+      lv_obj_del(overlay); overlay = nullptr;
+      if (auto *input = lv_indev_get_next(nullptr)) lv_indev_wait_release(input);
+    }
+  }
 
   void render() {
     auto *root = lv_scr_act();
     lv_obj_clean(root);
     first = second = backButton = body = scroll = nullptr;
+    connectionLabel = nullptr;
     lv_obj_clear_flag(root, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_pad_all(root, 0, 0);
     lv_obj_set_style_bg_color(root, lv_color_hex(0x101c24), 0);
@@ -22,11 +52,11 @@ class Ui {
     lv_obj_set_style_text_font(root, &lv_font_montserrat_18, 0);
     if (model.view == View::Home) {
       label(root, "TrailGuide", 6, 12, 160, &lv_font_montserrat_22);
-      label(root, "Offline draft trial", 6, 44, 160, &lv_font_montserrat_14);
+      connectionLabel = label(root, connectionReady ? "Draft | WiFi/OTA" : "Draft | Offline", 6, 44, 160, &lv_font_montserrat_14);
       first = button(Action::Ask, "Ask the Team", 6, 78, 160, 56);
       second = button(Action::Try, "Try a Move", 6, 146, 160, 56);
       label(root, "8 paired cards\nGuide me for help\nNo saving or tracking", 6, 224, 160, &lv_font_montserrat_14);
-      label(root, "v2-0.1.1", 6, 297, 160, &lv_font_montserrat_14);
+      label(root, TRAILGUIDE_VERSION, 6, 297, 160, &lv_font_montserrat_14);
       return;
     }
     const auto &card = cards[model.index];
@@ -49,6 +79,7 @@ class Ui {
   }
 
   void perform(Action action) {
+    if (updating) return;
     switch (action) {
       case Action::Ask: model.start(Mode::Ask); break;
       case Action::Try: model.start(Mode::Try); break;

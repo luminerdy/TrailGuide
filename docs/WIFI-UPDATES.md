@@ -1,7 +1,9 @@
 # Wi-Fi firmware updates
 
 Required for V1 and carried forward independently to V2 (portrait ESP32-C6) and V3 (round ESP32-S3). Verify each target's flash/partition layout, update implementation and recovery; a V1 OTA test is not verification of either new target.
-Status: implemented, host-tested, ESP32-compiled and hardware-verified on prior firmware. Currently running v1-0.2.4 after a USB upload correcting the OLED driver to SH1106; OTA code and credentials are unchanged and serial confirms OTA readiness. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified before this driver correction. See BRINGUP.md for actual results.
+V1 status: implemented, host-tested, ESP32-compiled and hardware-verified on prior firmware. Currently running v1-0.2.4 after a USB upload correcting the OLED driver to SH1106; OTA code and credentials are unchanged and serial confirms OTA readiness. Two consecutive wireless updates, password rejection, reconnect and interrupted-transfer recovery were verified before this driver correction. See BRINGUP.md for actual results.
+
+V2 status: authenticated local Wi-Fi/OTA is implemented and hardware-tested through v2-0.1.4, including two successful wireless updates, password rejection, interrupted-transfer recovery and offline/reconnect checks. See [V2-WIFI-UPDATES.md](V2-WIFI-UPDATES.md) for its separate credentials, safe uploader, ephemeral callback port and remote version verification. V3 remains independent/unverified.
 
 ## Behavior
 
@@ -17,7 +19,7 @@ Network connection and reconnect attempts must not block button handling or disp
 
 - Record the ESP32 core, Arduino CLI, partition scheme and actual USB port.
 - Compile the OTA-enabled sketch and flash it over USB.
-- With the OLED absent, verify serial advice and BOOT still work.
+- For V1, with the OLED absent verify serial advice and BOOT still work; for V2, verify touchscreen guidance remains available while offline.
 - Send an application with a changed version identifier over Wi-Fi; verify reboot into that version and a second successful wireless update.
 - Verify an incorrect OTA password is rejected.
 - Verify startup without the network and a later reconnect; advice remains usable.

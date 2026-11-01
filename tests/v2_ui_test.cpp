@@ -32,5 +32,20 @@ int main() {
     }
     assert(ui.model.index == 0); click(ui.backButton); assert(ui.model.view == trailguide::View::Home);
   }
+  ui.setConnection(true);
+  assert(std::strstr(lv_label_get_text(ui.connectionLabel), "WiFi/OTA"));
+  click(ui.first); click(ui.first);
+  const auto index = ui.model.index;
+  ui.setUpdating(true);
+  assert(ui.updating && ui.overlay);
+  lv_obj_update_layout(lv_layer_top());
+  assert(lv_obj_get_width(ui.overlay) == 172 && lv_obj_get_height(ui.overlay) == 320);
+  ui.perform(trailguide::Ui::Action::Home);
+  assert(ui.model.view == trailguide::View::Guide && ui.model.index == index);
+  ui.setUpdating(false);
+  assert(!ui.updating && !ui.overlay && ui.model.view == trailguide::View::Guide);
+  click(ui.backButton); click(ui.backButton);
+  ui.setConnection(false);
+  assert(std::strstr(lv_label_get_text(ui.connectionLabel), "Offline"));
   lv_refr_now(nullptr);
 }

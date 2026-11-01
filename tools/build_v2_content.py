@@ -11,6 +11,20 @@ from build_prototype import IDS, select_content
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def build_guides(card):
+    """Add coaching depth without repeating the main question or action."""
+    f = card['facilitator']
+    ask = (card['title'] + '\n\nWhat to listen for\n' + '\n\n'.join(f['notice'])
+           + '\n\nFollow up\n' + '\n\n'.join(f['follow_ups']))
+    move = (card['title'] + '\n\nHow to run it\n' + card['activity']
+            + '\n\nWhat to notice\n' + '\n\n'.join(f['try_notice'])
+            + '\n\nFollow up\n' + '\n\n'.join(f['try_follow_ups']))
+    invitation = f['try_invitation'].strip()
+    if invitation.casefold() not in {card['action'].strip().casefold(), card['activity'].strip().casefold()}:
+        move += '\n\nSuggested invitation\n' + invitation
+    return ask, move
+
+
 def render(data):
     selected = select_content(data)
     themes = {t['theme_id']: t['label'] for t in selected['themes']}
@@ -20,8 +34,7 @@ def render(data):
              'static const Card cards[] = {']
     for c in selected['cards']:
         f = c['facilitator']
-        ask = c['title'] + '\n\nSay\n' + f['ask'] + '\n\nNotice\n' + '\n\n'.join(f['notice']) + '\n\nFollow up\n' + '\n\n'.join(f['follow_ups'])
-        move = c['title'] + '\n\nOffer\n' + f['try_invitation'] + '\n\nActivity\n' + c['activity'] + '\n\nNotice\n' + '\n\n'.join(f['try_notice']) + '\n\nFollow up\n' + '\n\n'.join(f['try_follow_ups'])
+        ask, move = build_guides(c)
         values = [c['card_id'], c['revision'], themes[c['theme']], c['title'], f['ask'], c['action'], ask, move]
         if any(isinstance(v, str) and not v.isascii() for v in values):
             raise ValueError('Preview font support requires explicit review of non-ASCII copy')

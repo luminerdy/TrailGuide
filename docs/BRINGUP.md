@@ -2,7 +2,14 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 first read-only TrailGuide application
+## V2 guidance refinement — v2-0.1.1
+
+- Hands-on review identified redundant repetition at the start of Guide me. Ask now opens with What to listen for and follow-ups, without repeating its main question. Try opens with How to run it, then What to notice and follow-ups; a distinct suggested invitation is last, and exact action/activity duplicates are omitted. Card title and Back context remain unchanged.
+- Regression tests first failed for the missing progressive formatter, then passed across all eight pairs, including per-card generated-guide checks and duplicate-invitation suppression. All fourteen Python tests and the actual-LVGL ASan/UBSan navigation/scrolling suite passed. Canonical card text, IDs, revisions and review states are unchanged.
+- v2-0.1.1 compiled with 615,004 application bytes and 80,612 globals. C6-only USB upload verified four image hashes. Serial startup confirmed v2-0.1.1, Home and 364,092 free-heap bytes; the synthetic on-device diagnostic passed and returned to Home. V1 and the two-slot partition layout were unchanged.
+- Updated physical readability/touch acceptance and independent-power/soak results remain open. A disconnected USB interval was not treated as a failed upload or as battery acceptance. The older round browser artifact remains unchanged and needs its guidance-order alignment separately.
+
+## Earlier V2 first read-only TrailGuide application
 
 - Basic manufacturer-demo operation was human-reported as working before replacement. No detailed edge/soak acceptance is inferred from that report.
 - v2-0.1.0 DRAFT is compiled, C6-only USB-flashed with verified hashes and serial-verified. It opens Home and provides Ask/Try, Guide me, vertical full-copy scrolling and ordered Another using eight canonical draft pairs. No editorial state/revision was changed.

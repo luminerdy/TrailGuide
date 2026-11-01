@@ -79,7 +79,7 @@ static void selfTest() {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("TrailGuide v2-0.1.0 DRAFT");
+  Serial.println("TrailGuide v2-0.1.1 DRAFT");
   if (!gfx->begin()) fatal("FATAL: display begin failed");
   lcd_reg_init(); gfx->setRotation(0); gfx->fillScreen(RGB565_BLACK);
   pinMode(23, OUTPUT); digitalWrite(23, HIGH);

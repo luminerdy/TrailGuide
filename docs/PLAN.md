@@ -30,7 +30,7 @@ Exit: facilitator review of navigation and representative cards is complete; sta
 
 ## Phase 2 — Current V2: portrait ESP32-C6 bring-up
 
-Status: C6 revision 0.2 and 8MB flash are probed; two full original-flash reads match. The manufacturer demo was reported working. An initial read-only TrailGuide portrait application, v2-0.1.0 DRAFT, now runs on C6 with eight pairs, Ask/Try, Guide me and ordered Another. Actual-LVGL host tests and synthetic on-device navigation passed. Human TrailGuide screen/touch review, exact PCB identity and sustained memory/performance remain open. See [V2-TRIAL.md](V2-TRIAL.md). Filtering, tracking and authenticated OTA remain unimplemented; this trial is not Phase 2/3 release acceptance.
+Status: C6 revision 0.2 and 8MB flash are probed; two full original-flash reads match. The manufacturer demo was reported working. An initial read-only TrailGuide portrait application, v2-0.1.1 DRAFT, now runs on C6 with eight pairs, Ask/Try, Guide me and ordered Another. Actual-LVGL host tests and synthetic on-device navigation passed. Human TrailGuide screen/touch review, exact PCB identity and sustained memory/performance remain open. See [V2-TRIAL.md](V2-TRIAL.md). Filtering, tracking and authenticated OTA remain unimplemented; this trial is not Phase 2/3 release acceptance.
 
 - Identify exact C6 board/revision, display/touch drivers, pins, memory, partitions and storage budget. Retain the original firmware if readable before an authorized write; keep V1 excluded from C6 commands.
 - Run the correct C6 manufacturer display/touch examples before integration; verify any optional sensors independently. Review a separate 172x320 portrait layout/preview rather than scaling the existing circle.
@@ -60,7 +60,7 @@ Exit: all applicable product-spec acceptance checks pass; actual-device screen r
 Status: planned, dependent on core acceptance.
 
 Priority order:
-1. Additional Steps and AI prompt pages inside the single Guide me view. Core Say/Notice/Follow-up is required by P-16; no separate Show me how entry.
+1. Additional Steps and AI prompt pages inside the single Guide me view. Core listening/activity guidance and follow-ups are required by P-16; no separate Show me how entry.
 2. Dismissible follow-through with Try again / Adapt it / Move on.
 3. Situation shortcuts, personal favorites and optional Agent Workflow collection selection/tool-note panels. Preserve base card identity; variant attribution is a separately tested storage enhancement.
 4. Explicit local export/backup and restore tool; decide before workshop collection whether proceeding without backup is acceptable.

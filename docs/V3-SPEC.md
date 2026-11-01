@@ -15,7 +15,7 @@ Verify the exact revision, touch variant, display driver, pins and manufacturer 
 - Compass home screen: Frontier Ops / Trail Guide / Find your next bearing.
 - Home prioritizes Ask the Team and Try a Move; fresh opening/reboot shows Home with Ask visually prioritized and no automatic draw. Tapping either mode immediately draws without team/theme setup.
 - Tap Another or a deliberate shake on the main card screen spins the needle and reveals a question/activity within the active mode. Suppress shakes in Guide me and other non-card states.
-- One core Guide me entry offers Say, Notice and optional Follow up; optional Steps/tool notes live inside it later. Linked Ask/Try faces preserve identity and obey release eligibility. More exposes Asked this / Offered this move and Save without crowding the main question.
+- One core Guide me entry adds listening-first Ask or activity-first Try coaching without repeating the main card, followed by Notice/Follow up; optional Steps/tool notes live inside it later. Linked Ask/Try faces preserve identity and obey release eligibility. More exposes Asked this / Offered this move and Save without crowding the main question.
 - Reuse V1 advice meanings and shuffle behavior, with a readable circular layout.
 - Ignore extra draw events during animation; tune shake threshold and cooldown on hardware.
 - Keep current advice until another draw. Idle dimming and wake preserve it; wake touch must not accidentally skip it.

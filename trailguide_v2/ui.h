@@ -26,7 +26,7 @@ class Ui {
       first = button(Action::Ask, "Ask the Team", 6, 78, 160, 56);
       second = button(Action::Try, "Try a Move", 6, 146, 160, 56);
       label(root, "8 paired cards\nGuide me for help\nNo saving or tracking", 6, 224, 160, &lv_font_montserrat_14);
-      label(root, "v2-0.1.0", 6, 297, 160, &lv_font_montserrat_14);
+      label(root, "v2-0.1.1", 6, 297, 160, &lv_font_montserrat_14);
       return;
     }
     const auto &card = cards[model.index];

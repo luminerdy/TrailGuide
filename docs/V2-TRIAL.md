@@ -1,13 +1,13 @@
 # TrailGuide V2 — first portrait hardware trial
 
-Status: `v2-0.1.0 DRAFT`, compiled, USB-flashed and serial-verified on the C6. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
+Status: `v2-0.1.1 DRAFT`, compiled, USB-flashed and serial-verified on the C6. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
 
 ## Available now
 
 - Home with **Ask the Team** and **Try a Move**. Reboot opens Home without drawing a card.
 - Eight canonical draft pairs, one per theme, generated from `content/cards.json` without changing editorial states or existing card revisions.
 - Main Ask question or Try action, visible theme/mode, one **Guide me** entry and **Another**.
-- Guide me shows complete mode-specific Say/Offer, Activity where applicable, Notice and Follow up text. Swipe vertically to read longer text; Back returns to the same card.
+- Guide me adds depth without repeating the main question/action. Ask starts with What to listen for, then Follow up. Try starts with How to run it, then What to notice and Follow up; a distinct Suggested invitation is last and omitted when it duplicates the action/activity. Swipe vertically to read longer text; Back returns to the same card.
 - Another cycles the eight cards in their fixed review order, without an adjacent repeat. This deliberately supports repeatable hardware review; it is not the future production shuffled/filterable pool.
 - Portrait 172x320 layout, 20px main copy, 18px guidance, fixed 48–56px-high navigation buttons, and vertical overflow scrolling. Smaller 14/16px text is used for metadata and button captions; actual-device readability still requires human review.
 - Offline operation without network configuration or a development-host connection after boot. Power still needs USB; independent-power and soak acceptance have not been completed.
@@ -27,18 +27,19 @@ Use Arduino CLI 1.3.1, Espressif core 3.3.2 and the manufacturer bundle's GFX 1.
 ```sh
 python3 tools/build_v2_content.py
 python3 tools/prepare_v2_panel.py
-ROOT="$PWD/build/v2-0.1.0"
+ROOT="$PWD/build/v2-0.1.1"
+PANEL="$PWD/build/v2-0.1.0/generated"
 SKETCH="$PWD/trailguide_v2"
 LIBS="$PWD/build/v2-c6-bringup/vendor/Arduino/libraries"
 FQBN='esp32:esp32:esp32c6:CDCOnBoot=cdc,FlashSize=8M,PartitionScheme=default_8MB,FlashMode=qio,FlashFreq=80'
-FLAGS="-I$SKETCH -I$ROOT/generated -DLV_CONF_INCLUDE_SIMPLE"
+FLAGS="-I$SKETCH -I$PANEL -DLV_CONF_INCLUDE_SIMPLE"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$LIBS" \
   --build-property "compiler.cpp.extra_flags=$FLAGS" \
   --build-property "compiler.c.extra_flags=$FLAGS" \
   --output-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 615,100 application bytes and 80,612 bytes of globals. These static figures are not total runtime memory measurements.
+The unchanged manufacturer panel header is still prepared in the initial trial's generated directory and reused by this patch build. The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 615,004 application bytes and 80,612 bytes of globals. These static figures are not total runtime memory measurements.
 
 ## Upload and diagnostics
 
@@ -49,7 +50,7 @@ arduino-cli upload --fqbn "$FQBN" --port PORT \
   --input-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The executed upload verified hashes. A C6-only controlled reset produced `TrailGuide v2-0.1.0 DRAFT`, touch startup data, `READY: 172x320 Home; 8 DRAFT pairs; offline` and a measured startup free-heap value of 364,092 bytes. That single reading is not a leak, stress or soak test.
+The executed upload verified hashes. A C6-only controlled reset produced `TrailGuide v2-0.1.1 DRAFT`, touch startup data, `READY: 172x320 Home; 8 DRAFT pairs; offline` and a measured startup free-heap value of 364,092 bytes. That single reading is not a leak, stress or soak test.
 
 At 115200 baud, send uppercase `T` over USB to run synthetic UI diagnostics. The executed on-device diagnostic passed both modes, eight cards, sixteen guidance faces, full-text comparisons, button bounds, Back and Another, then returned to Home. This invokes software click events; it does not physically touch the panel or establish pixel readability. Keep raw logs private.
 

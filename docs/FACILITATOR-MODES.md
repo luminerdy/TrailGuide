@@ -32,12 +32,13 @@ The full card title/reference is available in Guide me and event/confirmation de
 Keep Guide me and Another accessible; the mode label makes Another question/move explicit. More opens the paged action list. Use Asked this in Ask and Offered this move in Try, plus Save/Saved and a related-face choice. This replaces the generic Used it label in this flow. A named team/mode confirmation is required before recording. Navigation affordances must be discoverable; do not depend on undocumented gestures.
 
 Guide me opens:
-1. Say — the question or invitation the facilitator can use.
-2. Notice — observable things to listen/look for, with uncertainty acknowledged.
+1. Ask starts with What to listen for; do not repeat the question already visible on the main card.
+2. Try starts with How to run it using the existing activity, followed by What to notice. Do not repeat the short main action as the opening.
 3. Follow up — one or two optional open questions, chosen by the human.
-4. Optional Try a Move — the related activity, offered without starting or recording it.
+4. A distinct suggested activity invitation may appear later when it adds useful wording; omit an exact duplicate of the action/activity.
+5. Optional related Try a Move remains a separate eligible-face navigation, never automatic activity start or recording.
 
-Guide me is the only help entry; do not add a competing Show me how button. Core Say/Notice/Follow-up comes first. Optional Steps, AI prompt and tool notes are later depth inside the same view. Use visible Previous/Next paging, one optional follow-up per page, and an explicit overflow route; no automatic advancement. The initial question remains the most prominent card text. Header Back returns to the same card, mode, filter and text position where practical.
+Guide me is the only help entry; do not add a competing Show me how button. Core listening/activity coaching comes first, with no repeated main question/action. Retain the title for context and Back to the original card. This ordering is implemented in portrait v2-0.1.1; the existing round browser preview still reflects the earlier Say-first order and awaits alignment. Optional Steps, AI prompt and tool notes are later depth inside the same view. Use visible Previous/Next paging, one optional follow-up per page, and an explicit overflow route; no automatic advancement. The initial question remains the most prominent card text. Header Back returns to the same card, mode, filter and text position where practical.
 
 ## 3. A complete example
 
@@ -146,7 +147,7 @@ Review scopes:
 
 Ask release eligibility requires a supported ID/revision, a non-retired card, `facilitator.review_state = reviewed`, a nonempty `ask`, at least one nonempty `notice` entry and one or two nonempty `follow_ups`. A base Try action may remain draft while Ask is reviewed; it cannot then be offered as a release Try face.
 
-Try release eligibility requires card `review_state = reviewed`, valid nonempty `action` and `activity`, `facilitator.try_review_state = reviewed`, a nonempty `try_invitation`, at least one nonempty `try_notice` and one or two nonempty `try_follow_ups`. Try Say uses the invitation; Steps later uses the existing activity field. Do not reuse Ask observation cues blindly after an activity has started.
+Try release eligibility requires card `review_state = reviewed`, valid nonempty `action` and `activity`, `facilitator.try_review_state = reviewed`, a nonempty `try_invitation`, at least one nonempty `try_notice` and one or two nonempty `try_follow_ups`. Try guidance starts with the existing activity field; a distinct invitation can be offered later rather than repeating the main action first. Do not reuse Ask observation cues blindly after an activity has started.
 
 Use a single eligibility decision for each entry point: random draws, related faces, reopening saves and explicit reuse from history. Empty/ineligible pools explain the absence. A record confirmation must be tied to an eligible face and frozen card/revision/team/mode context; reject a stale confirmation after the context changes. Viewing a recorded historical snapshot remains read-only and clearly distinguished from new-use eligibility.
 

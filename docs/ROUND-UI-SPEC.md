@@ -11,7 +11,7 @@ Canonical requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md), P-17. Behavior/conte
 - Start with **Ask the Team** and **Try a Move**. Fresh opening/reboot lands on Home with Ask visually prioritized; it does not automatically draw a card. Tapping either mode performs the draw. Returning to Home alone neither draws nor resets existing pool states.
 - The question or action is the focal point. Theme, mode and team are context; the full card title moves into Guide me rather than competing with the question.
 - The main card has two large bottom actions: **Guide me** and **Another**. Back, team and More stay visible above it. Keep recording, saving and other navigation out of the main text area.
-- **Guide me is the only help entry.** Say, Notice and optional Follow up are core. Later Steps, AI prompt and tool notes extend that same view; there is no separate Show me how button.
+- **Guide me is the only help entry.** Listening-first Ask and activity-first Try guidance, followed by Notice/Follow up, are core; do not repeat the main card as the opening. Later Steps, AI prompt and tool notes extend that same view; there is no separate Show me how button.
 - Use **Asked this** in Ask and **Offered this move** in Try. The latter means offered/started, not completed successfully. Team Trail may retain the short Asked/Tried labels with this distinction explained in event detail.
 - Touch is sufficient for every action. No required swipes, long presses, hidden edge taps, shake or automatic movement.
 - Keep the compass theme through restrained styling. A decorative needle must not take space from a question or imply actual magnetic heading.
@@ -105,17 +105,17 @@ Independent mode pools may revisit the linked card on a later random draw. Prefe
 
 ## 4. One help entry and progressive guidance
 
-Guide me reuses the current card and mode; it does not draw, save or record. Its context label shows a compact card reference, section and page position. The Say section contains the full title as a secondary body heading and the complete spoken text, with additional pages if needed. Do not squeeze a full title plus reference into the single context line or shrink either to make it fit.
+Guide me reuses the current card and mode; it does not draw, save or record. Its context label shows a compact card reference, section and page position. The opening contains the full title as a secondary body heading, then listening cues for Ask or activity instructions for Try, with additional pages if needed. Do not repeat the main question/action. The existing round browser artifact still uses the earlier Say-first order and awaits this alignment; current portrait v2-0.1.1 implements the revised order. Do not squeeze a full title plus reference into the single context line or shrink either to make it fit.
 
 Core sections:
 
-- Say: an open question in Ask; a human invitation in Try.
+- Ask opens with What to listen for; Try opens with How to run it. A distinct optional invitation can appear later, not as a repeated opening.
 - Notice: observable cues, not a diagnosis or test score.
 - Follow up: one optional question per page, with permission to pause or stop.
 
 Use visible Previous and Next page targets in the bottom two-button layout. Header Back always exits to the same card, not the previous guidance page. Display section name and position, for example Notice 2/4. The page count includes overflow pages, not just section names. On the first/last page disable unavailable navigation clearly.
 
-Do not present Say, Notice, two follow-ups, Steps, AI prompt and two tool notes on one screen. Later depth lives under an explicit More guidance section inside Guide me; it is not appended to every core path. Only show content that exists and is eligible. No automatic branch selection based on a team's answer.
+Do not present an activity, Notice, two follow-ups, an optional invitation, AI prompt and two tool notes on one screen. Later depth lives under an explicit More guidance section inside Guide me; it is not appended to every core path. Only show content that exists and is eligible. No automatic branch selection based on a team's answer.
 
 Guide me never starts the related activity. The optional invitation offers a human choice; the related-face action remains an explicit navigation operation. Back preserves the card and its text position where practical.
 

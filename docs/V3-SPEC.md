@@ -1,6 +1,8 @@
 # V3 — Round Trail Guide Compass
 
-Version assignment: this is the future round target. The current V2 is the portrait ESP32-C6 board described in [V2-SPEC.md](V2-SPEC.md). The existing round browser preview is retained for V3; renumbering does not verify new hardware or port the UI.
+Version assignment: this is the round target now in initial hardware bring-up. The current V2 is the separate portrait ESP32-C6 board described in [V2-SPEC.md](V2-SPEC.md). The existing round browser preview is retained for V3; neither renumbering nor browser work verifies the attached board or ports the UI.
+
+[V3-BRINGUP.md](V3-BRINGUP.md) records measured S3 revision v0.2, 16 MB flash, the silicon's 8 MB PSRAM feature report, two matching full original-flash backups and a compiled manufacturer example. No V3 firmware was written. Exact physical model/revision, runtime PSRAM, display/touch/IMU and the reference demo's runtime compatibility remain unverified; confirm the rear markings before choosing a test image. The bundled all-peripheral example includes microphone/audio and a separate speech-model partition, not a minimal TrailGuide deployment.
 
 ## Product requirements
 

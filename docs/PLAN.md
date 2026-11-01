@@ -103,9 +103,11 @@ Status: draft materials and separately collected research inputs exist; human re
 - Select the smallest next content/UI increment after evidence and human review. New practice modes or automated role-play require a separate scope decision.
 - Keep this track independent of firmware changes while preserving all existing privacy, content, storage and release gates. No hidden recording, profiling or learning-outcome claims.
 
-## Future V3 — round ESP32-S3 port
+## V3 — round ESP32-S3 bring-up and later port
 
 The planned Waveshare ESP32-S3-Touch-LCD-1.85 is V3. Preserve V3-SPEC.md, ROUND-UI-SPEC.md and the existing full-flow circular browser preview. A separate [shake/reveal browser experience study](V3-EXPERIENCE.md) under P-20 explores the endorsed novelty now: deliberate shake → one random curated question/move → gradual text, with a tap fallback, Reveal all and Instant text. It is a simulation, not IMU firmware, a replacement for Guide me/navigation or a reason to change V2.
+
+The initial [V3 bring-up checkpoint](V3-BRINGUP.md) now has measured S3/16MB identity, two matching private original-flash backups and a successful manufacturer-example host build. No firmware was written. Confirm the physical rear model/revision markings and review the all-peripheral demo's audio/speech-model packaging before selecting a minimal display/touch test. Compiling it does not prove runtime compatibility.
 
 Before a real port, inspect the exact S3 board and port only target-specific display/input/layout/storage boundaries. Verify the IMU, rest/cooldown detection, accidental-handling suppression, responsive nonblocking reveal/cancellation and all non-card input gates. Review whether the pause is fun and useful, rather than assuming novelty improves learning. V2 results do not verify V3 hardware, partitions, memory or OTA; P-20 does not block the primary track or V2 acceptance.
 

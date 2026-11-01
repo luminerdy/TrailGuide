@@ -2,6 +2,13 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 initial silicon/backup/build checkpoint
+
+- Probed a separately attached native-USB S3: revision v0.2, 40 MHz crystal, 16 MB JEDEC flash and an embedded 8 MB PSRAM silicon feature report. Secure Boot/Flash Encryption were disabled. USB/chip identity is not proof of the exact physical display board or PCB revision; rear markings remain required.
+- Two independent complete 16,777,216-byte original-flash reads matched by SHA-256 and byte-for-byte comparison. Their sizes, hashes, mode-600 permissions and private mode-700 directory were independently rechecked. Factory images, raw logs and device identifiers remain ignored/private. No flash erase/write or firmware installation was performed; a RAM read stub and S3-only resets were used.
+- The manufacturer-linked original-model demo archive was retrieved and checksum-pinned; the inspected local application and package hashes/sizes were independently rechecked. The unmodified board-level LVGL example compiled with existing core 3.3.2 and bundled LVGL 8.3.10/audio 2.0.0, reporting 2,489,075 application bytes and 188,396 globals. This is outside the manufacturer's stated core range, so host build success is not runtime compatibility or display/touch/IMU acceptance.
+- The reference is an all-peripheral demo, including microphone/audio, Wi-Fi scanning and speech recognition, not a minimal TrailGuide application. Its exported merged image omits the separate speech-model payload; its partition layout differs from the original image. No candidate was flashed. Detailed source, reference pin map, exact build command, preservation/recovery and remaining gates are in V3-BRINGUP.md.
+
 ## V2 whole-answer emergence — v2-0.1.7
 
 - Replaced the rejected typewriter effect with the complete answer emerging together from darkness, Magic-8-Ball-style. Text, UTF-8 bytes, wrapping and geometry stay fixed throughout; only whole-label opacity changes using integer smoothstep. Nominal timing remains a 160ms settling beat and 2800ms fade. Reveal all restores full opacity on the same card; Guide/Back remain instant. No sensor, new input shortcut, new mode, content or tracking is added.

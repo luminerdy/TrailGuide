@@ -18,7 +18,7 @@ This handoff records a checkpoint, not a guarantee of live hardware availability
 4. [Delivery plan](PLAN.md) and [actual verification record](BRINGUP.md).
 5. [Two-mode content/navigation contract](FACILITATOR-MODES.md).
 6. [V2 trial build/review](V2-TRIAL.md), [V2 Wi-Fi/OTA](V2-WIFI-UPDATES.md) and [original-image recovery](V2-BRINGUP.md).
-7. [V3 experience study and hardware boundaries](V3-EXPERIENCE.md), separate from the retained full-flow round preview.
+7. [V3 initial chip/backup/build evidence](V3-BRINGUP.md) and [experience study boundaries](V3-EXPERIENCE.md), separate from the retained full-flow round preview.
 8. Repository `AGENTS.md` before taking development actions. Its contributor instructions remain unchanged in this increment; any protected-file alignment requires separate approval.
 
 The older [Pi handoff](PI-HANDOFF.md) is V1 host-setup guidance, not the current project status.
@@ -63,11 +63,13 @@ Implemented trial:
 
 Not implemented: theme picker, production eligibility/pools, linked-face shortcut, team roster, saving/recording, durable Team Trail, facilitator practice mode, live AI, learner monitoring or cloud updating. Reserved partitions or tests must not be mistaken for those features.
 
-### V3 — future round target
+### V3 — round target, initial bring-up started
 
 Separate Waveshare ESP32-S3-Touch-LCD-1.85, nominal 360x360 round. Its original full-flow circular browser preview is retained for V3/shared design, not C6 hardware emulation. That artifact still has older guidance order and requires separate alignment/review. Do not reuse C6 binaries, partitions or geometry blindly.
 
-The independent `prototype/v3-experience.html` study uses the same eight draft pairs and a simulated shake to explore shuffled ideas, settling and gradual reveal. It is offline, read-only and without sensor APIs, tracking or persistent preferences. The simplified screen and outside-circle review controls do not implement Guide me, themes, team history or the full P-17 flow. See V3-EXPERIENCE.md for build/tests and the actual-board IMU/reveal gates. Preserve touch parity and optional instant text; no gesture or reveal counts as use. Novelty is not proof of usefulness or learning.
+The attached unit was probed as S3 revision v0.2 with 16 MB flash; the silicon reports embedded 8 MB PSRAM, not a tested runtime allocation. Two private 16 MB original-flash reads matched byte-for-byte and by hash. The manufacturer example compiled using bundled local libraries and existing core 3.3.2, outside the manufacturer's stated 3.0.2–3.1.1 range; it was not flashed. Exact rear model/revision markings and actual display/touch/IMU operation remain open. The reference initializes audio/microphone and needs a separately packaged speech model; it is not a minimal TrailGuide image. See V3-BRINGUP.md before any write.
+
+The independent `prototype/v3-experience.html` study uses the same eight draft pairs and a simulated shake to explore shuffled ideas, settling and gradual reveal. It retains the older character-reveal appearance and is not the corrected whole-answer-emergence visual target. It is offline, read-only and without sensor APIs, tracking or persistent preferences. The simplified screen and outside-circle review controls do not implement Guide me, themes, team history or the full P-17 flow. See V3-EXPERIENCE.md for build/tests and the actual-board IMU/reveal gates. Preserve touch parity and optional instant text; no gesture or reveal counts as use. Novelty is not proof of usefulness or learning.
 
 ### Content
 

@@ -22,7 +22,7 @@ Checking claims, respecting privacy and choosing an appropriate level of AI help
 
 Tap **Ask the Team** for a question or **Try a Move** for an activity; **Guide me** supports listening and follow-up. Eight themes offer exploration, clarification, experiments, verification, reflection, getting unstuck, inclusion and decisions. Optional agent-workflow material covers Codex and Claude Code. Frontier Ops remains a reusable theme, and curated advice works offline without live AI.
 
-For future **V3**, **shake for an idea, then watch the words gradually appear**. Randomness offers a possible next move, not a command or a diagnosis. Touch can do the same job; Reveal all and Instant text keep the playful pause optional. Planned **Team Trail** remembers deliberately recorded questions/moves—not inferred learning or screen views.
+For **V3's planned experience**, **shake for an idea, then watch the whole answer emerge together**. Randomness offers a possible next move, not a command or a diagnosis. Touch can do the same job; Reveal all and Instant text keep the playful pause optional. Planned **Team Trail** remembers deliberately recorded questions/moves—not inferred learning or screen views.
 
 The device is a fun building project and possible shared learning aid, not a prerequisite for mentoring, a container for every material or evidence of better learning. Try the separate [V3 shake/reveal browser study](prototype/v3-experience.html); its shake is simulated, not sensor-tested.
 
@@ -36,7 +36,7 @@ The pitch above describes the intended direction, not a shipped coaching system.
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.7 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake and gradual reveal | Future hardware; separate full-flow preview and simulated shake/reveal study |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 target, nominal 360x360 round | Planned touch, optional shake and whole-answer emergence | S3/16MB probed; matching full backups and manufacturer-example build verified; physical variant and display/touch pending |
 
 ## Mentoring first; hardware alongside
 
@@ -66,6 +66,7 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 - [Try TrailGuide V2 — portrait firmware, build and review](docs/V2-TRIAL.md)
 - [V2 display/touch bring-up and original-image recovery](docs/V2-BRINGUP.md)
 - [V3 round ESP32-S3 specifications](docs/V3-SPEC.md)
+- [V3 initial identification, original-image backup and host-build evidence](docs/V3-BRINGUP.md)
 - [Raspberry Pi handoff](docs/PI-HANDOFF.md)
 - [Wi-Fi update requirements](docs/WIFI-UPDATES.md)
 - [Current Pi development results](docs/BRINGUP.md)

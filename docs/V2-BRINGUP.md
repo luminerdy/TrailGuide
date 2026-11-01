@@ -2,7 +2,7 @@
 
 ## Evidence and limits
 
-The current V2 target has been probed, backed up, USB-flashed with the manufacturer LVGL demo, and serial-verified after a controlled application reset. This is a hardware bring-up image, not the TrailGuide application or production acceptance. V1 was excluded from every reset, probe and upload command.
+This record describes the initial V2 probe, backup, manufacturer LVGL demo upload and serial verification after a controlled application reset. Basic demo operation was subsequently human-confirmed; detailed orientation/edge acceptance was not. The demo has since been replaced by the first [TrailGuide portrait trial](V2-TRIAL.md). Its local binaries and original-image backups are preserved. V1 was excluded from every reset, probe and upload command.
 
 - Chip family: ESP32-C6, silicon revision 0.2, 40 MHz crystal. Reported security state: secure boot and flash encryption disabled.
 - Flash capacity: 8 MB detected. Two independent full 8,388,608-byte reads matched byte-for-byte before any write. The original image and verification logs remain private and ignored under `build/v2-c6-bringup/`.
@@ -11,7 +11,7 @@ The current V2 target has been probed, backed up, USB-flashed with the manufactu
 - Built the downloaded manufacturer's unmodified `04_lvgl_arduino_v8` example using its bundled libraries. Compiler reported 657,214 bytes of application usage and 67,292 bytes of globals; these are static build figures, not measured runtime free memory or frame rate.
 - Upload verified hashes for bootloader, partition table, OTA initialization image and application, then reset the C6.
 - Serial startup after an additional controlled C6-only reset showed the C6 ROM boot, `Arduino_GFX LVGL_Arduino_v8 example`, `V8.4.0`, touch-driver initialization output `read: 8161`, and `Setup done`. The touch driver prints three decimal register bytes without separators; do not interpret that concatenation as a decoded part ID. No I2C failure or display-begin failure message appeared in the captured startup.
-- Visible pixels, orientation, edge mapping and a real touch action still require human observation. Serial initialization is not proof of a readable display or correct touch coordinates.
+- Basic demo operation was reported working by a human after these serial checks. This does not establish detailed edge mapping, longest-copy readability, soak or the later TrailGuide application's physical acceptance. Serial initialization alone is not proof of those results.
 - The demo does not implement TrailGuide cards, team storage, Wi-Fi updates or authenticated OTA. Two OTA-capable application slots are provisioned, but that alone does not install or verify OTA functionality.
 
 ## Manufacturer source and configuration
@@ -76,7 +76,7 @@ This overwrites the C6's entire flash, including partitions and NVS, with the pr
 
 ## Next gates
 
-1. Human confirmation that the widgets are visible and a real button/slider reacts correctly; check orientation and edges.
+1. Basic demo functioning is human-reported; complete detailed orientation/edge and TrailGuide readability checks under V2-TRIAL.md.
 2. Confirm the printed PCB variant/revision, runtime memory budget and optional peripherals separately.
 3. Build/review the separate read-only portrait TrailGuide layout with eight draft pairs, rather than shrinking the circular preview.
 4. Implement and test the C6-specific offline application, authenticated OTA and durable storage before any production claim. See [V2-SPEC.md](V2-SPEC.md) and [PLAN.md](PLAN.md).

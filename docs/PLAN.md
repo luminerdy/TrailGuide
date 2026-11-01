@@ -30,7 +30,7 @@ Exit: facilitator review of navigation and representative cards is complete; sta
 
 ## Phase 2 — Current V2: portrait ESP32-C6 bring-up
 
-Status: C6 revision 0.2 and 8MB flash are probed; two full original-flash reads match. The manufacturer LVGL display/touch example has been compiled, USB-flashed and serial-verified through setup. Human-visible display/touch checks, exact PCB identity and runtime memory/performance remain open. See [V2-BRINGUP.md](V2-BRINGUP.md); this demo is not the TrailGuide application and does not implement OTA.
+Status: C6 revision 0.2 and 8MB flash are probed; two full original-flash reads match. The manufacturer demo was reported working. An initial read-only TrailGuide portrait application, v2-0.1.0 DRAFT, now runs on C6 with eight pairs, Ask/Try, Guide me and ordered Another. Actual-LVGL host tests and synthetic on-device navigation passed. Human TrailGuide screen/touch review, exact PCB identity and sustained memory/performance remain open. See [V2-TRIAL.md](V2-TRIAL.md). Filtering, tracking and authenticated OTA remain unimplemented; this trial is not Phase 2/3 release acceptance.
 
 - Identify exact C6 board/revision, display/touch drivers, pins, memory, partitions and storage budget. Retain the original firmware if readable before an authorized write; keep V1 excluded from C6 commands.
 - Run the correct C6 manufacturer display/touch examples before integration; verify any optional sensors independently. Review a separate 172x320 portrait layout/preview rather than scaling the existing circle.
@@ -89,7 +89,7 @@ Software contributors handle code/docs/tests; hardware operators handle physical
 
 V1 has twelve cards, address detection, debounce, shuffled draws, serial fallback and authenticated OTA. Host tests and ESP32 compilation passed; v1-0.2.4 was USB-flashed and serial-verified after correcting the OLED driver to SH1106. User confirmed display/button behavior. Prior firmware verified wireless updates, password rejection, reconnect and interrupted-transfer recovery; OTA code is unchanged. Remaining acceptance is tracked in BRINGUP.md.
 
-The expanded forty-card catalog and eight paired draft faces are authored and content-tested. An initial read-only circular browser preview exercises modes/themes and synthetic team context. Production V2 firmware, real team storage and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
+The expanded forty-card catalog and eight paired draft faces are authored and content-tested. An initial read-only circular browser preview exercises modes/themes and synthetic team context for V3/shared design. V2 also has its first read-only portrait hardware trial; all eight pairs remain draft, review order is fixed and physical acceptance is pending. Production V2 behavior, real team storage and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
 
 ## Immediate two-mode handoff
 

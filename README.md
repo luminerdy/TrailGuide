@@ -17,12 +17,12 @@ Eight themes cover exploration, clarification, experiments, verification, reflec
 
 ## Development status
 
-The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED. It runs twelve button-driven cards. A read-only round browser prototype demonstrates Ask/Try and Guide me using eight draft card pairs for the future V3 layout. V2 is now the portrait ESP32-C6 target and needs a separate layout adaptation. Production touchscreen firmware, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
+The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED with twelve button-driven cards. V2 now runs an initial read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; it is compiled, flashed and serial-verified, with human interaction review pending. A separate round browser preview is retained for future V3. Production touchscreen behavior, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
-| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | C6/8MB flash probed; manufacturer LVGL demo flashed and serial-verified; visible display/touch confirmation pending |
+| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.0 read-only TrailGuide trial flashed and serial-verified; human review pending |
 | V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
 
 ## Start here
@@ -39,6 +39,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 portrait ESP32-C6 specifications](docs/V2-SPEC.md)
+- [Try TrailGuide V2 — portrait firmware, build and review](docs/V2-TRIAL.md)
 - [V2 display/touch bring-up and original-image recovery](docs/V2-BRINGUP.md)
 - [V3 round ESP32-S3 specifications](docs/V3-SPEC.md)
 - [Raspberry Pi handoff](docs/PI-HANDOFF.md)
@@ -46,7 +47,7 @@ The pitch above describes the intended end product. **V1 is our starting point a
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
-The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview demonstrates eight draft paired faces; it is not production firmware. The other thirty-two catalog entries do not yet have paired guidance. The working V1 firmware still contains its original twelve cards; the expanded catalog is not yet loaded into either touchscreen target.
+The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview and initial V2 hardware trial use eight draft pairs; neither is production acceptance. The other thirty-two catalog entries do not yet have paired guidance or touchscreen integration. The working V1 firmware still contains its original twelve cards.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

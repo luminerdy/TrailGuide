@@ -1,6 +1,6 @@
 # V2 — ESP32-C6 portrait touchscreen
 
-Status: current touchscreen development target. ESP32-C6 silicon revision 0.2 and 8MB flash have been probed; the original full flash was backed up with two matching reads. The manufacturer's LVGL display/touch demo has been compiled, USB-flashed and serial-verified through `Setup done`. Human display/touch confirmation, exact PCB/revision and runtime memory/performance remain pending. No TrailGuide application has been built or flashed for this target. See [V2 bring-up evidence and recovery](V2-BRINGUP.md).
+Status: current touchscreen development target. ESP32-C6 silicon revision 0.2 and 8MB flash are probed, with two matching original-flash backups retained. Basic manufacturer-demo operation was human-confirmed. The first read-only TrailGuide application, v2-0.1.0 DRAFT, is compiled, USB-flashed and serial-verified; synthetic on-device navigation checks passed. Actual TrailGuide readability/touch acceptance, exact PCB/revision and sustained runtime performance remain pending. See [trial firmware and review](V2-TRIAL.md) and [bring-up evidence/recovery](V2-BRINGUP.md). This is not a production release or functional OTA implementation.
 
 ## Version assignment
 

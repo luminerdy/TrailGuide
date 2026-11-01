@@ -2,7 +2,17 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 C6 first USB bring-up
+## V2 first read-only TrailGuide application
+
+- Basic manufacturer-demo operation was human-reported as working before replacement. No detailed edge/soak acceptance is inferred from that report.
+- v2-0.1.0 DRAFT is compiled, C6-only USB-flashed with verified hashes and serial-verified. It opens Home and provides Ask/Try, Guide me, vertical full-copy scrolling and ordered Another using eight canonical draft pairs. No editorial state/revision was changed.
+- Actual LVGL host tests passed with ASan/UBSan across both modes, all eight cards and sixteen guidance faces, button bounds and scrolling. Pure model tests passed 1,000 advances without adjacent repeats and preserved card context across Guide/Back. New generator tests first failed for missing implementation, then passed. All thirteen Python tests, both V1 C++ suites and generated-content/round-preview freshness checks passed.
+- The on-device synthetic diagnostic passed both modes, all eight cards/sixteen guidance faces, complete-copy comparisons, bounds, Back and Another, returning to Home. Startup measured 364,092 free-heap bytes; static compilation reported 615,100 application bytes and 80,612 globals. Neither is a sustained memory/soak test.
+- Human TrailGuide readability, actual touch/drag/edge behavior, reset/independent power and soak remain open. Theme filtering, linked-face shortcuts, team selection, recording/saving, Team Trail and authenticated OTA remain unimplemented. This is not production release acceptance.
+- Independent review of the full code diff found no blocking security or logic defects. Non-blocking follow-ups are stronger host-object cache invalidation and per-record generated-content assertions; existing real-LVGL, generator and on-device checks passed as described above.
+- Source/build/review details: [V2-TRIAL.md](V2-TRIAL.md). V1 was untouched. Original backups and working demo binaries remain private/ignored; the 8MB two-slot layout is unchanged from the verified demo.
+
+## Earlier V2 C6 first USB bring-up
 
 - C6 silicon revision 0.2 and 8MB flash were probed. Secure boot and flash encryption were reported disabled. The original full flash was preserved in two matching 8,388,608-byte reads before any write.
 - The correct manufacturer LVGL 8.4.0 display/touch example was built with Arduino core 3.3.2 and bundled GFX 1.5.9, uploaded only to C6, and hash-verified. A controlled C6 reset produced the example banner, LVGL version, touch-driver initialization data and `Setup done` over serial.
@@ -28,7 +38,7 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Human-observed checks confirm readable sampled cards, one new card per BOOT press, no repeated advance while held, and fifty mechanical presses. Full-deck readability, thirty-minute soak result and independent-power acceptance remain unconfirmed.
 - Host suites passed with C++17 and warnings as errors. These do not verify physical pixels or power behavior.
 - The expanded content catalog is authored as forty draft cards across eight themes, with structured JSON and a readable catalog. Content tests pass; facilitator review and hardware layout checks remain pending.
-- The V2 TrailGuide application, production theme-filter behavior, real team storage and Team Trail remain unimplemented; the flashed manufacturer demo is only hardware bring-up. An initial read-only eight-card browser preview and draft paired content exist; review-only team codes and fixtures do not store interventions. V1 source and flashed firmware are unchanged. See [PROTOTYPE-REVIEW.md](PROTOTYPE-REVIEW.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
+- The first read-only V2 TrailGuide trial is now implemented; production theme-filter behavior, real team storage and Team Trail remain unimplemented. The round browser preview is retained for V3/shared design. Neither artifact stores interventions. V1 source and flashed firmware are unchanged. See [V2-TRIAL.md](V2-TRIAL.md), [PROTOTYPE-REVIEW.md](PROTOTYPE-REVIEW.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [PLAN.md](PLAN.md).
 
 ## Verified V1 toolchain
 

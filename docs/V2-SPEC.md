@@ -1,6 +1,6 @@
 # V2 — ESP32-C6 portrait touchscreen
 
-Status: current touchscreen development target. ESP32-C6 silicon revision 0.2 and 8MB flash are probed, with two matching original-flash backups retained. Basic manufacturer-demo operation was human-confirmed. The read-only TrailGuide application is now v2-0.1.5 DRAFT, compiled and wirelessly installed from an initial USB bootstrap, with running version and OTA readiness verified remotely. Earlier synthetic on-device navigation and current real-LVGL host regression checks passed. Actual TrailGuide readability/touch acceptance, exact PCB/revision and sustained runtime performance remain pending. See [trial firmware and review](V2-TRIAL.md) and [bring-up evidence/recovery](V2-BRINGUP.md). Authenticated local Wi-Fi/OTA is now implemented and network-verified; see [V2-WIFI-UPDATES.md](V2-WIFI-UPDATES.md). This remains a draft trial, not a production release or internet/cloud update service.
+Status: current touchscreen development target. ESP32-C6 silicon revision 0.2 and 8MB flash are probed, with two matching original-flash backups retained. Basic manufacturer-demo operation was human-confirmed. The read-only TrailGuide application is now v2-0.1.6 DRAFT, compiled and wirelessly installed from an initial USB bootstrap, with running version and OTA readiness verified remotely. Earlier synthetic on-device navigation and current real-LVGL host regression checks passed. Actual TrailGuide readability/touch acceptance, exact PCB/revision and sustained runtime performance remain pending. See [trial firmware and review](V2-TRIAL.md) and [bring-up evidence/recovery](V2-BRINGUP.md). Authenticated local Wi-Fi/OTA is now implemented and network-verified; see [V2-WIFI-UPDATES.md](V2-WIFI-UPDATES.md). This remains a draft trial, not a production release or internet/cloud update service.
 
 ## Version assignment
 
@@ -37,7 +37,9 @@ Shared requirements remain in [PRODUCT-SPEC.md](PRODUCT-SPEC.md), especially P-1
 
 Use the same stable cards, themes and explicit tracking model. The portrait view needs its own layout and readable text/page budget; do not shrink or crop the 360x360 circle to fit 172x320. Start with stacked labeled controls, one Guide me entry, short guidance pages and a read-only eight-card portrait preview before enabling storage or claiming UI acceptance. Exact dimensions/fonts remain a design task pending orientation and hardware review.
 
-Touch is the essential input. Motion/compass animation is optional and requires separately verified hardware and input safeguards. Do not assume a sensor or shake behavior merely because it was specified for V3.
+Touch is the essential input. Software text reveal does not require a motion sensor: on a new Ask/Try card draw, allow a short nonblocking settling beat followed by gradual main-copy reveal. During the effect, the existing Another position offers Reveal all, completing that same card before returning to Another. Guide me and Back-to-the-same-card remain immediate; Home, navigation, rerender and Updating must cancel any active reveal safely. Keep original complete copy, readable fonts and scrolling. A brief effect is optional presentation, not live AI generation.
+
+Actual motion sensing/shake still requires separately verified hardware and input safeguards. Do not assume a sensor or shake behavior merely because it was specified for V3. A touch-triggered reveal does not implement V3 motion input, random pools or learning-outcome tracking.
 
 ## Acceptance
 
@@ -45,6 +47,7 @@ Touch is the essential input. Motion/compass animation is optional and requires 
 - Display and touch examples run with visibly correct orientation and input mapping.
 - Portrait text, buttons and complete-copy navigation are reviewed on the actual 172x320 screen, including edge taps and longest representative copy.
 - Eight paired draft cards support read-only Ask/Try/Guide me review without fake recording or hidden gesture dependencies.
+- Main-card reveal is nonblocking, UTF-8-safe and bounded; Reveal all keeps the same card; Guide/Back stay instant; stale timers cannot change a different view or overwrite an OTA overlay. Test timing/cancellation with actual LVGL and review the feel/readability on the device separately.
 - Content eligibility, pools, explicit team/mode confirmation, deduplication, Undo, save/event migration and durable tracking pass the shared contracts before tracking is enabled.
 - Offline operation, reboot, soak, OTA retention and USB recovery are independently verified for V2; prior V1 results are not substituted.
 - V1 firmware/recovery is preserved and V3 retains a separate hardware/layout contract.

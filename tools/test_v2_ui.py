@@ -7,7 +7,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 LVGL = ROOT / 'build/v2-c6-bringup/vendor/Arduino/libraries/lvgl'
-OUT = ROOT / 'build/v2-0.1.0/host'
+OUT = ROOT / 'build/v2-0.1.6/host'
 OUT.mkdir(parents=True, exist_ok=True)
 flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer', '-DLV_CONF_INCLUDE_SIMPLE', '-I'+str(ROOT/'trailguide_v2'), '-I'+str(LVGL)]
 config = hashlib.sha256((ROOT/'trailguide_v2/lv_conf.h').read_bytes()).hexdigest()[:12]
@@ -28,4 +28,4 @@ with ThreadPoolExecutor(max_workers=2) as pool:
 exe = OUT/'v2-ui-test'
 subprocess.run(['g++', '-std=c++17', '-Wall', '-Wextra', '-Werror', *flags, str(ROOT/'tests/v2_ui_test.cpp'), *objects, '-lm', '-o', str(exe)], check=True)
 subprocess.run([str(exe)], cwd=ROOT, check=True, timeout=30)
-print('PASS: actual LVGL, both modes, all eight cards/guides, complete-copy scrolling and button bounds; ASan/UBSan enabled.')
+print('PASS: actual LVGL, both modes/all eight cards, settle/intermediate/2960ms completion, same-card Reveal all, Guide/Back, cancellation/OTA/teardown, UTF-8/long text, complete-copy scrolling and button/caption bounds; ASan/UBSan enabled.')

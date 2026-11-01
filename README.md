@@ -30,12 +30,12 @@ The device is a fun building project and possible shared learning aid, not a pre
 
 The pitch above describes the intended direction, not a shipped coaching system. Draft [mentoring practice](docs/COACHING-DIRECTION.md) and a [portable AI-coaching starter](docs/PROJECT-COACH.md) can be reviewed without hardware; they are not a validated curriculum or an integrated AI service. The separate V3 experience study explores shuffled curated ideas and gradual reveal in a browser only.
 
-**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 runs a read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; authenticated wireless updating is verified, while full human interaction acceptance remains pending. The original full-flow round browser preview is retained unchanged. Production V3 firmware, physical shake detection, recording/saving and Team Trail remain unimplemented. The forty-card catalog remains draft; no canonical content/review states or V1/V2 firmware are changed by the new project direction.
+**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 runs a read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs. Its deployed v2-0.1.6 adds gradual main-card reveal with same-card Reveal all; Guide me/Back remain instant. Authenticated wireless updating is verified, while physical pacing and full human interaction acceptance remain pending. The original full-flow round browser preview is retained unchanged. Production V3 firmware, physical shake detection, recording/saving and Team Trail remain unimplemented. The forty-card catalog and review states stay unchanged; the V2 reveal is a separate presentation-only increment, not new content or learning evidence.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
-| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.5 read-only trial; authenticated Wi-Fi updates and reconnection verified; full human acceptance pending |
+| V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.6 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
 | V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake and gradual reveal | Future hardware; separate full-flow preview and simulated shake/reveal study |
 
 ## Mentoring first; hardware alongside

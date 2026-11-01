@@ -1,12 +1,25 @@
 #pragma once
 #include <lvgl.h>
+#include <string>
 #include "model.h"
+#include "reveal.h"
 #include "cards_generated.h"
 #include "version.h"
 
 namespace trailguide {
 class Ui {
  public:
+  Ui() = default;
+  Ui(const Ui &) = delete;
+  Ui &operator=(const Ui &) = delete;
+  ~Ui() {
+    cancelReveal();
+    if (first) lv_obj_del(first);
+    if (second) lv_obj_del(second);
+    if (backButton) lv_obj_del(backButton);
+    if (scroll) lv_obj_del(scroll);
+    if (overlay) lv_obj_del(overlay);
+  }
   enum class Action { Ask, Try, Home, Guide, Another, Back };
   Model model;
   lv_obj_t *first = nullptr, *second = nullptr, *backButton = nullptr;
@@ -21,9 +34,11 @@ class Ui {
     if (connectionLabel) lv_label_set_text(connectionLabel, ready ? "Draft | WiFi/OTA" : "Draft | Offline");
   }
   void setUpdating(bool active) {
+    if (active && revealTimer) finishReveal();
     updating = active;
     if (active && !overlay) {
       overlay = lv_obj_create(lv_layer_top());
+      lv_obj_add_event_cb(overlay, objectDeleted, LV_EVENT_DELETE, this);
       lv_obj_remove_style_all(overlay);
       lv_obj_set_pos(overlay, 0, 0); lv_obj_set_size(overlay, 172, 320);
       lv_obj_clear_flag(overlay, LV_OBJ_FLAG_SCROLLABLE);
@@ -41,6 +56,8 @@ class Ui {
   }
 
   void render() {
+    // Rerenders and return navigation show complete copy, never replay a draw.
+    cancelReveal();
     auto *root = lv_scr_act();
     lv_obj_clean(root);
     first = second = backButton = body = scroll = nullptr;
@@ -80,6 +97,7 @@ class Ui {
 
   void perform(Action action) {
     if (updating) return;
+    if (action == Action::Another && revealTimer) { finishReveal(); return; }
     switch (action) {
       case Action::Ask: model.start(Mode::Ask); break;
       case Action::Try: model.start(Mode::Try); break;
@@ -89,10 +107,66 @@ class Ui {
       case Action::Back: model.back(); break;
     }
     render();
+    // Only explicit fresh draws animate; Guide and Back remain instant.
+    if (model.view == View::Card &&
+        (action == Action::Ask || action == Action::Try || action == Action::Another)) startReveal();
     if (auto *input = lv_indev_get_act()) lv_indev_wait_release(input);
   }
 
  private:
+  lv_timer_t *revealTimer = nullptr;
+  RevealText reveal;
+  uint32_t revealStarted = 0;
+  void cancelReveal() {
+    // LVGL callbacks run serially in lv_timer_handler; deletion removes the
+    // callback before any old object/context can be reused. No deferred work.
+    if (revealTimer) { lv_timer_del(revealTimer); revealTimer = nullptr; }
+  }
+  void startReveal() {
+    reveal = RevealText(model.mode == Mode::Ask ? cards[model.index].ask : cards[model.index].action);
+    revealStarted = lv_tick_get();
+    lv_label_set_text(body, "");
+    revealTimer = lv_timer_create(revealTick, 20, this);
+    revealCaption("Reveal\nall");
+  }
+  void revealCaption(const char *text) {
+    auto *caption = lv_obj_get_child(second, 0);
+    lv_label_set_text(caption, text);
+    lv_obj_center(caption);
+  }
+  void finishReveal() {
+    lv_label_set_text(body, reveal.text());
+    cancelReveal();
+    revealCaption("Another");
+  }
+  static void revealTick(lv_timer_t *timer) {
+    auto *self = static_cast<Ui *>(timer->user_data);
+    const uint32_t elapsed = lv_tick_elaps(self->revealStarted);
+    if (elapsed < RevealText::settleMs) return;
+    if (elapsed >= RevealText::completeMs) {
+      self->finishReveal();
+      return;
+    }
+    const std::string prefix(self->reveal.text(), self->reveal.prefixBytes(elapsed));
+    lv_label_set_text(self->body, prefix.c_str());
+  }
+  static void objectDeleted(lv_event_t *event) {
+    auto *self = static_cast<Ui *>(lv_event_get_user_data(event));
+    auto *object = lv_event_get_target(event);
+    if (object == self->body) { self->cancelReveal(); self->body = nullptr; }
+    if (object == self->scroll) self->scroll = nullptr;
+    if (object == self->first) self->first = nullptr;
+    if (object == self->second) {
+      // The finish control can also be removed independently of its label.
+      if (self->revealTimer) {
+        if (self->body) lv_label_set_text(self->body, self->reveal.text());
+        self->cancelReveal();
+      }
+      self->second = nullptr;
+    }
+    if (object == self->backButton) self->backButton = nullptr;
+    if (object == self->overlay) self->overlay = nullptr;
+  }
   struct Slot { Ui *owner; Action action; } slots[6]{};
   static void clicked(lv_event_t *event) {
     auto *slot = static_cast<Slot *>(lv_event_get_user_data(event));
@@ -125,10 +199,12 @@ class Ui {
     auto &slot = slots[static_cast<unsigned>(action)];
     slot = {this, action};
     lv_obj_add_event_cb(item, clicked, LV_EVENT_CLICKED, &slot);
+    lv_obj_add_event_cb(item, objectDeleted, LV_EVENT_DELETE, this);
     return item;
   }
   void textPanel(int y, int height, const char *text, const lv_font_t *font) {
     scroll = lv_obj_create(lv_scr_act());
+    lv_obj_add_event_cb(scroll, objectDeleted, LV_EVENT_DELETE, this);
     lv_obj_remove_style_all(scroll);
     lv_obj_set_pos(scroll, 6, y);
     lv_obj_set_size(scroll, 160, height);
@@ -138,6 +214,7 @@ class Ui {
     lv_obj_set_style_bg_color(scroll, lv_color_hex(0xa5bdc8), LV_PART_SCROLLBAR);
     lv_obj_set_style_width(scroll, 3, LV_PART_SCROLLBAR);
     body = label(scroll, text, 0, 0, 152, font);
+    lv_obj_add_event_cb(body, objectDeleted, LV_EVENT_DELETE, this);
   }
 };
 }

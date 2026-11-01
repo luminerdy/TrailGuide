@@ -4,7 +4,11 @@ Status: approved product direction; implementation pending unless explicitly mar
 
 ## 1. Purpose and source of truth
 
-TrailGuide is an offline pocket facilitator for helping workshop teams work with AI. It helps the facilitator ask useful questions, listen and choose an optional activity through Ask the Team and Try a Move modes. It offers a useful next move, remembers which moves a facilitator tried with each team, and supports follow-through without distracting from the people.
+TrailGuide develops project-led mentoring for individuals and teams using AI in varied ways. Start with something a learner wants to make, investigate or improve; use the next useful project milestone to focus learning, choose appropriate assistance, inspect results and continue with increasing independence. AI-assisted research and building can be learning activities even when the finished artifact contains no AI.
+
+The primary deliverables are mentoring practice, reusable materials and learner-owned context for continuing with an AI coach or other support. Connect to AI Learning Lab's Define → Direct → Check → Adjust loop and flexible AI-role map rather than inventing a competing curriculum. [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and [PROJECT-COACH.md](PROJECT-COACH.md) define the draft practice and portable brief.
+
+An offline pocket device is an optional, enjoyable companion and building experiment, not the main deliverable or a prerequisite for mentoring. Ask/Try and Guide me offer questions, listening cues and activities; planned Team Trail records deliberate facilitator interventions. Future V3 adds a playful shake-to-idea and gradual reveal under P-20. The device's geometry must not constrain all mentoring materials.
 
 This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md), [V2-SPEC.md](V2-SPEC.md) and [V3-SPEC.md](V3-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
 
@@ -12,7 +16,10 @@ The product direction includes Team Trail, theme selection, a simple start mode 
 
 ## 2. Principles
 
-- Useful immediately: no mandatory team setup, connectivity or tutorial.
+- Project first: begin with the learner's chosen goal and next useful piece, not a prescribed tool, course, device or diagnosis.
+- Support breadth: creation, research, learning, analysis, coding, planning and collaboration; checking evidence and appropriate AI reliance run through them rather than replacing them.
+- Build independence without withdrawing support: help learners choose assistance, inspect results, adjust and carry context forward; seeking human expertise and choosing a non-AI path remain legitimate.
+- Useful immediately: no mandatory team setup, device, connectivity or tutorial for mentoring; curated device advice remains offline.
 - Start simple, reveal depth: one useful card first, optional guidance second.
 - Facilitate people, not just prompts: support inclusion, decisions and experiments.
 - Record deliberate use, not screen views. Seeing or saving a card is not using it.
@@ -134,23 +141,40 @@ The current V2 is the 1.47-inch ESP32-C6 capacitive-touch board with pin headers
 - Authenticate updates and independently verify partitions, data retention, reboot, soak and recovery on V2. Prior V1 tests and browser results do not prove C6 behavior.
 - Keep motion/animation optional and gated by separately verified hardware. Preserve the existing round preview and P-17 as V3 work, not completed V2 acceptance.
 
-### P-19: Facilitator development and calibrated reliance — research-gated direction
+### P-19: Project-led mentoring and learner independence
 
-Status: planned, with product direction endorsed. Detailed training content, effectiveness claims and any new interface require evidence/editorial review and a bounded human pilot; they are not implemented by this specification.
+Status: endorsed direction with draft mentoring material and a reusable project/coaching brief. Human review, effectiveness validation, an integrated AI-coaching service and any additional training interface remain pending; a text template is not an implemented AI tutor.
 
-Support both the team's learning and the facilitator's development: invite uncertainty without embarrassment, draw out thinking before supplying a solution, offer accessible participation and passing, and help judge a particular AI contribution in context. Appropriate reliance, learner agency and a legitimate non-AI path take priority over increasing AI usage or assigning trust/ability labels to people.
+Support the mentor's development and the learner's chosen project, for individuals as well as teams. The organizing question is what someone wants to make, investigate or improve, followed by the next useful piece and an appropriate AI role. Reuse AI Learning Lab's Define → Direct → Check → Adjust and flexible ASK/COLLABORATE/ORIENT/TEACH/ENABLE/DELEGATE/ORCHESTRATE map—not a mandatory ladder. Do not narrow practice to verification, trust or fixing a hesitant participant.
 
-Explore a before/during/after pattern: a small synthetic facilitator rehearsal outside the live tool; glanceable Ask/Try/Guide support during the conversation; optional reflection on the facilitator's own choices afterward. Notice → Invite → Listen → Offer a small next step → Reflect is a proposed scaffold, not a validated TrailGuide protocol. Preserve the current home/help structure unless a separately reviewed need justifies an extension.
+Offer explanation, brainstorming, research, collaboration, demonstrations, implementation, debugging, critique and organization as appropriate to the task and requested help. Invite uncertainty and varied participation without diagnosis or pressure. Check consequential claims and results in context; choosing a non-AI approach or human expertise is legitimate. Independence is the ability to choose a next step and continue with suitable support, not compulsory unaided work or a prohibition on asking for help.
+
+Use optional before/during/after mentor practice and a learner-owned portable brief. Notice → Invite → Listen → Offer a small next step → Reflect is a proposed listening scaffold within project work, not a replacement curriculum or validated protocol. Materials and future AI coaching are designed independently of the device; preserve the current home/help structure unless separately scoped.
 
 Acceptance for a scoped increment:
 
-- A cited evidence brief distinguishes original findings, practitioner guidance and hypotheses; records context/limitations; considers both AI benefits and harms; and does not equate assisted output with durable learning.
+- Draft materials begin with a chosen project and manageable milestone, span varied AI roles and connect to the existing Lab rather than a new mandatory framework.
+- A learner-owned context/coaching brief states goals, work tried, observations, requested help, decisions, checks, uncertainty and a next step; sharing it is voluntary and privacy-aware. A starter instruction is labeled draft, not a reliable or integrated AI service.
+- A cited evidence brief distinguishes original findings, practitioner guidance and hypotheses; records context/limitations; considers benefits and harms; and does not equate assisted output with durable learning or novelty with effectiveness.
 - Draft synthetic examples and practice exercises preserve consent, uncertainty, access alternatives and passing, without interrogation or pressure to use AI.
 - A small human pilot has explicit agreed observations/voluntary feedback and avoids hidden learner inference, profiles, diagnoses, recording or scoring.
 - Existing card identity/review, privacy, complete-copy navigation and actual-screen readability contracts remain intact. Planned Team Trail records deliberate facilitator interventions, not inferred learning outcomes.
 - New practice modes, automated role-play, situation shortcuts or additional storage receive their own scope/tests rather than being implied by approval of this direction.
 
-This parallel content/research track can begin without a firmware change. P-19 does not silently add a new core release blocker or waive P-01–P-18 acceptance. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and [HANDOFF.md](HANDOFF.md).
+This is the primary project track and does not wait for firmware, forty-card enrichment or Team Trail. Existing device release gates still apply to claimed device features; P-19 neither enables those features nor silently adds a hardware core-release blocker. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md), [PROJECT-COACH.md](PROJECT-COACH.md), [PLAN.md](PLAN.md) and [HANDOFF.md](HANDOFF.md).
+
+### P-20: V3 playful idea draw and gradual reveal
+
+Status: endorsed optional interaction with a separate browser experience study; physical gesture detection, V3 firmware and human acceptance remain pending. Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
+
+- After mode selection, one deliberate main-card shake or Another uses the same active mode/filter and eligible pool. Ask offers a question; Try offers a concise practical move. Curated random content suggests a possibility, not a diagnosis, command or live AI answer.
+- Use a short nonblocking settling beat followed by gradual readable text reveal. Reveal all completes the same selected card; Instant text/reduced-motion support skips the effect. No essential action depends on shaking, animation or waiting.
+- Ignore rather than queue additional draws while busy. Invalidate old animation callbacks when context changes. Suppress shakes outside main-card contexts, on wake and during updating; no gesture can record, save or confirm anything. Hardware thresholds, rest detection and cooldown require measured IMU/handling tests.
+- Preserve complete canonical copy, stable card identity/revision, readable type and accessible overflow. Normal Guide me/Another navigation returns after reveal; the study's simplified controls are not the complete device layout.
+- Reuse P-11 shuffled pool/boundary rules and P-16 production eligibility; explain empty pools and allow unavoidable single-item repeats. Browser draft content never becomes approved through this experiment.
+- Keep prototype/index.html and V1/V2 firmware stable. The separate generated prototype/v3-experience.html simulates a shake; browser timing, geometry and input checks do not establish physical sensor/display performance, power or learning benefit.
+
+P-20 is optional V3 work, not a prerequisite for mentoring materials, V2 acceptance or learner participation.
 
 ## 5. Content specification
 
@@ -223,7 +247,7 @@ A compass needle is a visual metaphor, not a magnetic heading instrument. Do not
 
 ## 8. Verification and release gates
 
-Each requirement must be labeled Planned, Implemented, Host-tested, Prototype-reviewed or Hardware-verified with evidence. Do not infer completion from a checked task list or generated code.
+Each requirement must be labeled Planned, Implemented, Host-tested, Prototype-reviewed or Hardware-verified with evidence. Do not infer completion from a checked task list or generated code. P-19 mentoring-material review and any human learning claims need their own evidence; P-20 browser checks do not establish a real shake gesture. The following core gates apply to the device runtime, not to starting a mentoring conversation or reviewing a reusable brief.
 
 Required checks for the core release:
 
@@ -240,7 +264,7 @@ Host tests are required for deck, event attribution, deduplication, reversal, co
 
 ## 9. Delivery scope and fallback
 
-Shared core release: P-01 through P-07 and P-10 through P-16. Apply P-18 for current V2 portrait and P-17 for future V3 round; do not require V3 hardware acceptance to release V2. P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+The primary project delivers P-19 mentoring practice and learner-owned materials independently of hardware. The optional device's shared core release remains P-01 through P-07 and P-10 through P-16. Apply P-18 for current V2 portrait and P-17 for future V3 round; do not require V3 hardware or optional P-20 novelty to release V2 or use the mentoring materials. P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
@@ -257,6 +281,9 @@ For each meaningful change:
 5. Commit related code/tests/docs together; publish and verify GitHub readback. Never include credentials, private builds or real team trails.
 
 ### Decision log
+
+- Project-led purpose: make broad mentoring and learner independence primary, anchored in meaningful projects and the existing AI Learning Lab. Device work remains an optional playful building track, not a curriculum or prerequisite. Add a reusable learner-owned project/coaching brief without an integrated AI service or canonical card changes.
+- V3 novelty: retain intentional shake-to-idea followed by gradual text reveal, with touch parity, Reveal all, Instant text and context/busy-state safeguards. Add P-20 and a separate browser experience study; do not retrofit or reflash V2 or claim sensor acceptance from a simulation.
 
 - Facilitator development: add the research-gated P-19 direction to support the facilitator as well as the team, with invitation/listening/scaffolding, appropriate reliance and optional before/after practice. Preserve the live Ask/Try/Guide structure, learner agency and privacy. Research/practice proposals are not shipped features or evidence of effectiveness; current continuity is recorded in HANDOFF.md.
 

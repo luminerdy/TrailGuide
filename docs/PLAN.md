@@ -1,8 +1,24 @@
 # Delivery plan
 
-Goal: dependable offline facilitation support for AI workshops using the reusable Frontier Ops theme. Preserve V1 as the fallback.
+Goal: develop mentoring for individuals and teams learning through meaningful projects with varied AI assistance, and help learners continue with suitable support rather than depend on the mentor. The physical device is an optional, enjoyable building/novelty track; Frontier Ops remains a reusable theme. Preserve V1 and the running V2 trial.
 
 Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Proposed circular UX and prototype gates: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md). Hardware contracts: [V1 OLED](V1-SPEC.md), [V2 portrait C6](V2-SPEC.md), [V3 round S3](V3-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
+
+## Primary track — project-led mentoring and independence (P-19)
+
+Status: endorsed direction; draft [mentoring practice](COACHING-DIRECTION.md) and a [learner-owned project/coaching brief](PROJECT-COACH.md) are available for review. Research notes and a bounded synthesis have been collected separately; a reviewed curriculum, reliable integrated AI coach and effectiveness claims remain unestablished.
+
+1. Start with a learner's chosen project and next useful milestone. Connect to AI Learning Lab's Define → Direct → Check → Adjust and flexible AI-role map; do not create a mandatory ladder or competing curriculum.
+2. Rehearse one mentor skill with a fictional example, then use an appropriate explanation, invitation, demonstration, collaboration or direct help with permission. Cover creation, research, analysis, learning, planning, coding and collaboration—not only verification or hesitation.
+3. Try one small piece, inspect what happened and adjust. Invite voluntary feedback about usefulness and pressure, without profiling, scores or AI-adoption targets.
+4. Offer a learner-owned continuation brief for their next AI session or human conversation. Make help style, evidence, uncertainty and a next step explicit; sharing remains optional and privacy-aware.
+5. Review evidence and observed usefulness to select one small improvement to the materials or optional tool. New AI services, automated role-play, tracking and practice interfaces need separate scope/tests; a prompt template does not implement them.
+
+Exit for an increment: usable material and an actual project step exist, review feedback/limitations are explicit, and the learner can choose how to continue. This is a design/review goal, not a claim that learning or independence has been measured. Do not require forty-card enrichment, storage or hardware completion to begin. Existing device safety/release gates still apply whenever those capabilities are claimed.
+
+## Optional companion track — hardware and curated cards
+
+The numbered phases below are device delivery gates, not the project's main curriculum or prerequisites for mentoring practice. Browser experiments can proceed independently; physical ports remain gated by the actual hardware and relevant acceptance checks.
 
 ## Phase 0 — Finish and preserve V1
 
@@ -77,19 +93,21 @@ Acceptance-gated sequence:
 
 Power/case work requires verified connector, polarity, charging requirements and fit. Measure actual runtime/charging with final firmware before claiming battery readiness. Retain USB cable/power option, source, local recovery builds and V1 fallback.
 
-## Parallel coaching research and practice track — P-19
+## Research and editorial review within the primary track
 
-Status: product direction endorsed; evidence synthesis, practice companion, pilot and additional interfaces are pending. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and the [current handoff](HANDOFF.md).
+Status: draft materials and separately collected research inputs exist; human review, any pilot and additional interfaces remain pending. See [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and the [current handoff](HANDOFF.md).
 
-- Investigate invitation, listening, feedback, useful effort, accessible participation and appropriate AI reliance. Distinguish study design, domain/transfer limits, uncertainty and contradictions; do not present scheduled research as completed evidence.
-- Draft a small before/during/after facilitator-practice companion with synthetic scenarios. Start outside the live device and review the existing eight pairs before expanding menus or the catalog.
+- Review original research on learning, mentoring, invitation, feedback, accessible participation and appropriate AI reliance. Distinguish findings, guidance and hypotheses, domain/transfer limits and contradictions. Collected notes do not establish TrailGuide's effectiveness.
+- Review the draft before/during/after practice and portable coaching brief through real project steps. Include positive creating/building situations as well as uncertainty; the work need not fit a small display. Review the existing eight pairs separately before expanding device menus or the catalog.
 - Co-design and pilot with consent, passing and non-AI/access alternatives. Evaluate agreed observable usefulness and voluntary feedback, not inferred learner ability or AI-use counts.
 - Select the smallest next content/UI increment after evidence and human review. New practice modes or automated role-play require a separate scope decision.
 - Keep this track independent of firmware changes while preserving all existing privacy, content, storage and release gates. No hidden recording, profiling or learning-outcome claims.
 
 ## Future V3 — round ESP32-S3 port
 
-The planned Waveshare ESP32-S3-Touch-LCD-1.85 is V3. Preserve V3-SPEC.md, ROUND-UI-SPEC.md and the existing circular browser preview. After V2 establishes the shared content/behavior layer, inspect the exact S3 board and port only the target-specific display/input/layout/storage boundaries. V2 results do not verify V3 hardware, partitions, memory or OTA.
+The planned Waveshare ESP32-S3-Touch-LCD-1.85 is V3. Preserve V3-SPEC.md, ROUND-UI-SPEC.md and the existing full-flow circular browser preview. A separate [shake/reveal browser experience study](V3-EXPERIENCE.md) under P-20 explores the endorsed novelty now: deliberate shake → one random curated question/move → gradual text, with a tap fallback, Reveal all and Instant text. It is a simulation, not IMU firmware, a replacement for Guide me/navigation or a reason to change V2.
+
+Before a real port, inspect the exact S3 board and port only target-specific display/input/layout/storage boundaries. Verify the IMU, rest/cooldown detection, accidental-handling suppression, responsive nonblocking reveal/cancellation and all non-card input gates. Review whether the pause is fun and useful, rather than assuming novelty improves learning. V2 results do not verify V3 hardware, partitions, memory or OTA; P-20 does not block the primary track or V2 acceptance.
 
 ## Working agreement
 
@@ -101,6 +119,6 @@ V1 has twelve cards, address detection, debounce, shuffled draws, serial fallbac
 
 The expanded forty-card catalog and eight paired draft faces are authored and content-tested. An initial read-only circular browser preview exercises modes/themes and synthetic team context for V3/shared design. V2 also has its first read-only portrait hardware trial; all eight pairs remain draft, review order is fixed and physical acceptance is pending. Production V2 behavior, real team storage and history are not implemented. The product specification defines intended runtime behavior, not a shipped feature set.
 
-## Immediate two-mode handoff
+## Immediate project handoff
 
-Use HANDOFF.md for the current checkpoint rather than repeating completed bootstrap work. Preserve the running v2-0.1.5 eight-pair portrait trial, authenticated OTA and V1 fallback. Finish human guide/readability/input review and the P-19 evidence/practice brief; then choose a bounded next increment. Complete paired-content review and production eligibility/pools/events/migration before enabling recording. Retain the older round preview for V3 and align it separately; browser/synthetic results do not establish new physical acceptance. FACILITATOR-MODES.md and V2-SPEC.md/P-18 remain the runtime contracts.
+Use HANDOFF.md for the current checkpoint rather than repeating bootstrap work. Begin with a meaningful project step, the draft mentor practice and optional learner-owned coaching brief; review usefulness and choose a bounded next increment. Try the separate V3 reveal study for its feel, not as hardware evidence. Preserve the v2-0.1.5 portrait trial, authenticated OTA and V1 fallback; human guide/readability/touch review remains pending and separate. Complete paired-content review, production eligibility/pools/events/migration before enabling recording. Align the older round full-flow guidance separately. FACILITATOR-MODES.md and V2-SPEC.md/P-18 remain the device runtime contracts.

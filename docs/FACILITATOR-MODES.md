@@ -6,7 +6,7 @@ This is the detailed companion to [PRODUCT-SPEC.md](PRODUCT-SPEC.md), requiremen
 
 ## 1. What changes and why
 
-TrailGuide must coach the facilitator as well as offer activities for teams. A facilitator often needs a useful question and help listening before knowing whether advice is appropriate.
+The optional device supports [TrailGuide's broader project-led mentoring work](COACHING-DIRECTION.md); it is not the curriculum or a prerequisite for mentoring individuals or teams. Start with what people want to make, investigate or improve, and use the next project milestone to choose useful help across varied AI roles. These two device modes coach the facilitator as well as offer activities. They do not replace AI Learning Lab's Define → Direct → Check → Adjust loop or the learner-owned [continuation brief](PROJECT-COACH.md).
 
 Two modes share the existing eight themes and stable card identities:
 

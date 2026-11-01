@@ -2,33 +2,38 @@
 
 ## BLUF
 
-TrailGuide is becoming an offline pocket companion that helps facilitators invite useful thinking, listen and offer a small next move during AI workshops. The endorsed direction is to support **both the team's learning and the facilitator's development**, with appropriate—not maximal—trust in AI.
+TrailGuide's main effort is **project-led mentoring across varied AI uses**, for individuals and teams, and helping learners continue without depending on the mentor. Start with something meaningful to make, investigate or improve; use the next useful piece to focus learning. Research and building can be learning activities even when the artifact contains no AI. The physical device remains an optional, enjoyable companion and building experiment—not the curriculum or a constraint on all materials.
 
-A read-only portrait V2 trial is running as **v2-0.1.5**, with authenticated local Wi-Fi updates verified. The next work is evidence synthesis, facilitator practice material and human review of the existing eight draft pairs—not another hardware port, automatic learner assessment or an unreviewed expansion of menus.
+Draft mentor practice and a learner-owned project/coaching brief connect to **AI Learning Lab's Define → Direct → Check → Adjust** and flexible AI roles. The next primary step is to use/review them on one real project milestone, inspect usefulness and carry context into a next conversation. They are not a validated curriculum or an integrated AI-coaching service.
 
-This handoff records a checkpoint, not a guarantee of live hardware availability. Implementation baseline: `fae2af0`. Use the current Git commit for subsequent documentation changes. No firmware changes are part of this handoff.
+The separate V3 experience study explores **shake → one random curated idea → gradual text reveal**, with simulated shake, touch fallback, Reveal all and Instant text. Actual V3 motion firmware and human/hardware acceptance remain pending. The last verified V2 checkpoint remains **v2-0.1.5** with authenticated local Wi-Fi updates; this work does not flash, reset or modify V1/V2.
+
+This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. No firmware changes or canonical card revisions/review promotions are part of this direction/experience increment.
 
 ## Read in this order
 
 1. [README — vision versus implementation](../README.md).
-2. [Coaching direction and examples](COACHING-DIRECTION.md).
-3. [Canonical product requirements](PRODUCT-SPEC.md), especially P-16, P-18 and planned P-19.
+2. [Project-led mentoring direction and examples](COACHING-DIRECTION.md), then the [portable learner-owned project/coaching brief](PROJECT-COACH.md).
+3. [Canonical product requirements](PRODUCT-SPEC.md), especially P-19 purpose and optional P-20 experience, alongside device P-16/P-18.
 4. [Delivery plan](PLAN.md) and [actual verification record](BRINGUP.md).
 5. [Two-mode content/navigation contract](FACILITATOR-MODES.md).
 6. [V2 trial build/review](V2-TRIAL.md), [V2 Wi-Fi/OTA](V2-WIFI-UPDATES.md) and [original-image recovery](V2-BRINGUP.md).
-7. Repository `AGENTS.md` before taking development actions.
+7. [V3 experience study and hardware boundaries](V3-EXPERIENCE.md), separate from the retained full-flow round preview.
+8. Repository `AGENTS.md` before taking development actions. Its contributor instructions remain unchanged in this increment; any protected-file alignment requires separate approval.
 
 The older [Pi handoff](PI-HANDOFF.md) is V1 host-setup guidance, not the current project status.
 
 ## 1. Direction to preserve
 
-**Notice → Invite → Listen → Offer a small next step → Reflect** is a proposed coaching scaffold to investigate, not a proven TrailGuide learning protocol.
+Use the learner's project and **Define → Direct → Check → Adjust** as the working context. ASK / COLLABORATE / ORIENT / TEACH / ENABLE / DELEGATE / ORCHESTRATE are flexible choices, not a mandatory ladder or assessment. **Notice → Invite → Listen → Offer a small next step → Reflect** remains a proposed mentor listening scaffold within that work, not a competing curriculum or proven protocol.
 
 - Make room for uncertainty without putting someone on the spot.
 - Ask about what a learner tried and noticed before assuming a personal problem.
 - Offer a hint, example, thinking time, a small test or a different participation format; passing and declining AI use remain legitimate choices.
 - Evaluate a particular AI contribution in its task/risk context. Do not label people as over-trusters, skeptics or weak learners.
-- Support the facilitator before, during and after a session. Begin practice outside the live device rather than immediately adding another home mode.
+- Cover creation, research, learning, analysis, coding, planning and collaboration. Trust/verification belongs throughout, not as the whole curriculum.
+- Support the mentor before, during and after project work; offer a learner-owned context/help-style brief for continuing with AI or human help. Independence does not mean never requesting support.
+- Begin practice outside the live device rather than adding another home mode. Hardware/storage acceptance is not a prerequisite for using the draft materials.
 - Preserve privacy and agency: no hidden microphones/recording, profiles, diagnoses, learner scoring or inferred engagement/ability.
 
 See COACHING-DIRECTION.md for synthetic hesitant-participant, convincing-AI-answer, skeptical-participant and blocked-task examples. These are drafts for research/editorial review, not newly released card content.
@@ -59,7 +64,9 @@ Not implemented: theme picker, production eligibility/pools, linked-face shortcu
 
 ### V3 — future round target
 
-Separate Waveshare ESP32-S3-Touch-LCD-1.85, nominal 360x360 round. Its circular browser preview is retained for V3/shared design, not C6 hardware emulation. The round artifact still has older guidance order and requires separate alignment/review. Do not reuse C6 binaries, partitions or geometry blindly.
+Separate Waveshare ESP32-S3-Touch-LCD-1.85, nominal 360x360 round. Its original full-flow circular browser preview is retained for V3/shared design, not C6 hardware emulation. That artifact still has older guidance order and requires separate alignment/review. Do not reuse C6 binaries, partitions or geometry blindly.
+
+The independent `prototype/v3-experience.html` study uses the same eight draft pairs and a simulated shake to explore shuffled ideas, settling and gradual reveal. It is offline, read-only and without sensor APIs, tracking or persistent preferences. The simplified screen and outside-circle review controls do not implement Guide me, themes, team history or the full P-17 flow. See V3-EXPERIENCE.md for build/tests and the actual-board IMU/reveal gates. Preserve touch parity and optional instant text; no gesture or reveal counts as use. Novelty is not proof of usefulness or learning.
 
 ### Content
 
@@ -75,17 +82,19 @@ Keep the live tool glanceable on 172x320. Preserve one help entry, readable copy
 
 ## 4. Research and training work to pick up
 
-At this handoff, separate private research runs and a morning synthesis were scheduled. Their completion is not assumed. Check actual output/scheduler status before citing conclusions; the current request and research workspace are outside the public repository.
+Separately collected research notes and a bounded synthesis are inputs for review, not a public curriculum or proof of these scripts. Keep private workspaces and participant material outside the repository. Check original citations, context/transfer limits and contradictions before making effectiveness claims; do not imply exhaustive current coverage or treat the proposed listening scaffold as validated.
 
 Research questions:
 
+- How can a learner's chosen project supply a useful next step across creation, research, analysis, building, learning and collaboration?
+- Which mentoring moves help people choose assistance, inspect results and continue with a context brief rather than depend on a facilitator?
 - Which coaching/learning principles support invitation, listening, feedback, useful effort and voluntary participation?
 - How should a facilitator support both overreliance and reasonable skepticism without pushing AI adoption?
 - What distinguishes better AI-assisted task performance from durable understanding and unaided transfer?
 - Which findings come from trials, self-report studies, expert consensus or untested proposals, and where do they fail to transfer to adult workshops?
 - What access needs, participation alternatives and power dynamics should shape the pilot?
 
-Required outputs: cited evidence brief, short synthetic practice exercises, a minimal proposed product/content change and an honest human-pilot plan. Register/read original sources; do not convert search snippets into evidence. Keep stable coaching principles distinct from fast-changing tool-specific material.
+Draft practice and a portable project/coaching brief now exist. Review them through one real project milestone and voluntary feedback; retain an honest human-pilot plan before making learning claims. Cited evidence should support a concrete project/mentoring decision, not become a separate abstract curriculum. Read original sources rather than search snippets, and keep stable principles distinct from fast-changing tool instructions.
 
 Research does not authorize autonomous firmware changes. Review it before adopting a curriculum, new mode or claims of effectiveness.
 
@@ -144,11 +153,12 @@ This is authenticated trusted-LAN updating, not TLS-encrypted or signed-firmware
 
 ## 8. Tests and remaining acceptance
 
-Known v2-0.1.5 evidence: nineteen Python tests passed, actual-LVGL host UI checks passed with ASan/UBSan, C6 compilation succeeded, and the running version/OTA readiness were read back after wireless installation. Earlier V1 and V2 network/disabled-config host suites passed as recorded in BRINGUP.md. Host/synthetic tests are not human acceptance.
+Earlier v2-0.1.5 evidence: nineteen Python tests passed, actual-LVGL host UI checks passed with ASan/UBSan, C6 compilation succeeded, and the running version/OTA readiness were read back after wireless installation. Earlier V1 and V2 network/disabled-config suites passed as recorded in BRINGUP.md. Current project/experience checks are recorded separately there; no new compilation or device-version readback is implied by this increment. Host/browser/synthetic tests are not human acceptance.
 
 ```sh
 python3 tools/build_v2_content.py --check
 python3 tools/build_prototype.py --check
+python3 tools/build_v3_experience.py --check
 python3 -m unittest discover -s tests -p '*_test.py' -v
 python3 tools/test_v2_ui.py
 g++ -std=c++17 -Wall -Wextra -Werror tests/v2_model_test.cpp -o "$TMPDIR/trailguide-v2-model-test"
@@ -161,10 +171,10 @@ Run V1 suites from AGENTS.md when relevant; V1 is not a flash target for V2 work
 
 ## 9. Next steps and definition of done
 
-1. Complete/review the coaching evidence brief, with limitations and contradictory results visible.
-2. Draft a small before/during/after facilitator-practice companion and review the existing eight pairs with humans.
-3. Pilot with consent, access alternatives and passing; assess usefulness through agreed observations and voluntary feedback, not hidden inference or AI-use counts.
-4. Choose the smallest next content/UI improvement. Keep new practice modes, role-play automation and situation navigation as proposals until separately scoped/tested.
-5. Continue production eligibility/pools and durable Team Trail work under the existing release gates; do not enable recording before storage is honest and tested.
+1. Choose one meaningful project and next useful milestone. Use the draft mentor practice and let the learner choose the AI role/help style or a non-AI route.
+2. Try that piece, inspect what happened, request voluntary feedback and offer a portable continuation brief. Review evidence where it informs this decision; no hidden inference or AI-use target.
+3. Review the V3 study's pacing and feel separately. Before physical implementation, verify the exact board/IMU, handling suppression, rest/cooldown, cancellation, touch/reveal accessibility and actual screen performance. Browser simulation is not a hardware pass.
+4. Retain the pending V2 human guide/readability/touch check without resetting/reflashing for documentation. Review existing eight paired cards before expansion.
+5. Choose the smallest useful next increment. Integrated AI coaching, automated role-play and situation UI remain separately scoped; production eligibility/pools and durable Team Trail retain existing release gates. Do not enable recording before storage is honest and tested.
 
 Research/publication done means an actual cited artifact exists and is reviewed, not merely a scheduled task. Firmware done means tests, target compilation, authorized transfer and appropriate running-version verification; human learning/readability claims additionally need human evidence. Keep the device stable while research and documentation proceed.

@@ -2,37 +2,53 @@
 
 ## The product vision
 
-**Help your team find its next move with AI.**
+**Make something meaningful. Learn how to keep going.**
 
-TrailGuide is a pocket touchscreen companion for people leading AI workshops. Ask a useful question, notice what the team is telling you, and offer a small activity when it helps. Spend less time searching your notes and more time with the people in front of you.
+TrailGuide combines **project-led mentoring, reusable coaching materials and an optional playful device**. Its purpose is to help mentors support individuals and teams across different uses of AI—and help learners continue without depending on that mentor.
 
-Tap **Ask the Team** for a question or **Try a Move** for an activity. **Guide me** helps you listen and follow up. **Team Trail** remembers which questions and moves you used with each team, so you can return to the conversation with context.
+Start with something a learner wants to **make, investigate or improve**. Find the next useful piece, choose how AI can help, try it, inspect what happened and adjust. The finished project need not contain AI: researching, planning, creating, analyzing, coding, debugging and collaborating can all be part of learning through building.
 
-### A glimpse of the experience
+Build on the [AI Learning Lab](https://github.com/luminerdy/AILearningLab) loop **Define → Direct → Check → Adjust** and its flexible AI-role map, not a mandatory ladder or a competing curriculum. Carry the context and preferred help style into the next conversation with a [learner-owned project/coaching brief](docs/PROJECT-COACH.md).
 
-- **An AI answer sounds convincing.** Ask: "Which part would matter most if it were wrong?" Offer a move: check one consequential claim against an original source.
-- **The discussion needs more voices.** Ask: "What do we each notice before seeing someone else's answer?" Offer quiet thinking time, then invite sharing with passing welcome.
+### A glimpse of mentoring
 
-Eight themes cover exploration, clarification, experiments, verification, reflection, getting unstuck, inclusion and decisions. Optional guidance supports teams working with Codex and Claude Code. The reusable Frontier Ops theme gives the device its character; the guidance works offline, without a live AI connection.
+- **A project needs a starting point.** Ask: "What is the next useful piece?" Choose whether an explanation, brainstorming partner, researcher, builder or another approach would help.
+- **Something now works.** Ask: "What happened, and what do you understand differently?" Keep one next step and enough context to continue independently.
+- **A team needs a move.** Offer one question or small experiment. People can adapt it, choose something else, observe or pass.
+
+Checking claims, respecting privacy and choosing an appropriate level of AI help belong throughout this work. They are not the whole curriculum. More AI use, faster output or confidence scores are not the goal.
+
+### The optional device: a little curiosity in your hand
+
+Tap **Ask the Team** for a question or **Try a Move** for an activity; **Guide me** supports listening and follow-up. Eight themes offer exploration, clarification, experiments, verification, reflection, getting unstuck, inclusion and decisions. Optional agent-workflow material covers Codex and Claude Code. Frontier Ops remains a reusable theme, and curated advice works offline without live AI.
+
+For future **V3**, **shake for an idea, then watch the words gradually appear**. Randomness offers a possible next move, not a command or a diagnosis. Touch can do the same job; Reveal all and Instant text keep the playful pause optional. Planned **Team Trail** remembers deliberately recorded questions/moves—not inferred learning or screen views.
+
+The device is a fun building project and possible shared learning aid, not a prerequisite for mentoring, a container for every material or evidence of better learning. Try the separate [V3 shake/reveal browser study](prototype/v3-experience.html); its shake is simulated, not sensor-tested.
 
 ## Development status
 
-The pitch above describes the intended end product. **V1 is our starting point and fallback**, proving the basic advice-card experience on an ESP32 and OLED with twelve button-driven cards. V2 now runs an initial read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; it is running on C6 with remotely verified wireless updating, while full human interaction acceptance remains pending. A separate round browser preview is retained for future V3. Production touchscreen behavior, recording/saving and Team Trail remain unimplemented. The expanded forty-card catalog is drafted for review.
+The pitch above describes the intended direction, not a shipped coaching system. Draft [mentoring practice](docs/COACHING-DIRECTION.md) and a [portable AI-coaching starter](docs/PROJECT-COACH.md) can be reviewed without hardware; they are not a validated curriculum or an integrated AI service. The separate V3 experience study explores shuffled curated ideas and gradual reveal in a browser only.
+
+**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 runs a read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs; authenticated wireless updating is verified, while full human interaction acceptance remains pending. The original full-flow round browser preview is retained unchanged. Production V3 firmware, physical shake detection, recording/saving and Team Trail remain unimplemented. The forty-card catalog remains draft; no canonical content/review states or V1/V2 firmware are changed by the new project direction.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.5 read-only trial; authenticated Wi-Fi updates and reconnection verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake, round layout | Future target; existing round browser preview retained |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85, 360x360 round touchscreen | Touch, optional shake and gradual reveal | Future hardware; separate full-flow preview and simulated shake/reveal study |
 
-## Coaching direction — planned
+## Mentoring first; hardware alongside
 
-TrailGuide should help facilitators grow as well as help teams find their next move: invite uncertainty, draw out thinking, offer a manageable next step and reflect on the conversation. The goal is appropriate judgment about AI, not maximum trust or maximum usage. Research, facilitator-practice material and any new training interface remain proposed and review-gated; see the [coaching direction](docs/COACHING-DIRECTION.md).
+Develop the mentor's listening, invitations, useful help and reflection alongside the learner's project. Use the next real milestone to decide what to research or build. Offer accessible alternatives, passing and a non-AI route; independence includes knowing when to seek human help. Research and human review remain necessary before claiming effectiveness. See the [mentoring direction](docs/COACHING-DIRECTION.md) and [primary delivery track](docs/PLAN.md#primary-track--project-led-mentoring-and-independence-p-19).
 
 ## Start here
 
 - [Current project and coaching handoff](docs/HANDOFF.md)
-- [Facilitator-development direction, examples and research gates](docs/COACHING-DIRECTION.md)
+- [Project-led mentoring direction, examples and review gates](docs/COACHING-DIRECTION.md)
+- [Learner-owned project brief and optional AI-coaching starter](docs/PROJECT-COACH.md)
+- [V3 shake/reveal experience study and hardware boundaries](docs/V3-EXPERIENCE.md)
+- [Downloadable simulated shake/reveal study](prototype/v3-experience.html)
 
 - [Two-mode facilitator coaching — Ask the Team / Try a Move](docs/FACILITATOR-MODES.md)
 - [Downloadable read-only prototype source](prototype/index.html)
@@ -42,7 +58,7 @@ TrailGuide should help facilitators grow as well as help teams find their next m
 - [Card catalog — forty draft cards across eight themes](docs/CARD-CATALOG.md)
 - [Agent Workflow — Codex and Claude Code facilitation](docs/AGENT-WORKFLOW.md)
 - [Structured card content](content/cards.json)
-- [Living product specification — themes, touchscreen and Team Trail](docs/PRODUCT-SPEC.md)
+- [Living product specification — mentoring purpose and optional device requirements](docs/PRODUCT-SPEC.md)
 - [Delivery plan](docs/PLAN.md)
 - [V1 specifications](docs/V1-SPEC.md)
 - [V2 portrait ESP32-C6 specifications](docs/V2-SPEC.md)

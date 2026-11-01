@@ -6,6 +6,8 @@ Status: an initial eight-card read-only browser preview now exists at prototype/
 
 Canonical requirements: [PRODUCT-SPEC.md](PRODUCT-SPEC.md), P-17. Behavior/content/tracking contract: [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. Hardware gates: [V3-SPEC.md](V3-SPEC.md). Sequencing: [PLAN.md](PLAN.md).
 
+The full-flow preview described here stays read-only and unchanged. A separate [V3 shake/reveal experience study](V3-EXPERIENCE.md), under P-20, explores optional gradual reveal in prototype/v3-experience.html. Its simulation controls and reduced layout are not replacements for the full navigation contract below; browser motion does not establish IMU behavior or require changing V2.
+
 ## 1. Design decisions
 
 - Start with **Ask the Team** and **Try a Move**. Fresh opening/reboot lands on Home with Ask visually prioritized; it does not automatically draw a card. Tapping either mode performs the draw. Returning to Home alone neither draws nor resets existing pool states.

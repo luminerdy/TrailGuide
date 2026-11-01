@@ -1,113 +1,112 @@
-# Coaching direction — help the facilitator and the learners
+# Project-led learning and mentoring with AI
 
-Status: endorsed product direction; research synthesis, training materials, new interfaces and effectiveness validation are pending. This document records design intent, not a claim that these approaches have been validated for every learner or that the proposed features are implemented. See [P-19 in the product specification](PRODUCT-SPEC.md#p-19-facilitator-development-and-calibrated-reliance--research-gated-direction).
+Status: endorsed project direction. The conversations, practice exercises and coaching brief below are draft materials for use and review, not a validated curriculum, automated coaching service or claim of effectiveness. See [P-19](PRODUCT-SPEC.md#p-19-project-led-mentoring-and-learner-independence).
 
-## Purpose
+## Purpose: the project gives learning somewhere to go
 
-TrailGuide should help a facilitator invite participation, listen, encourage useful thinking and offer an appropriate next step. It should support both the team's learning and the facilitator's development—not simply supply more questions or persuade people to use AI.
+Start with something a person or team wants to **make, investigate or improve**. Use the next useful piece of that project to focus learning. TrailGuide supports the mentor learning to help, the learner doing the work, and a path to continuing without depending on that mentor.
 
-The goal is appropriate reliance: deciding whether a particular AI contribution is useful for a particular task, what needs checking, and when another approach is preferable. Do not assign people permanent labels such as over-truster, skeptic, weak learner or disengaged participant.
+The project need not contain AI. Someone can use AI to understand a circuit, plan an investigation, revise a story or debug a local program without adding an AI feature to the finished artifact. Learning by building and learning by using an artifact are different experiences; choose which one is being supported.
 
-## Working coaching loop
+The physical device is an optional, enjoyable companion and a learning project in its own right. It can supply a shared question or playful idea draw, but it does not define the curriculum, the audience or the format of the mentoring materials. A small display must not constrain the broader work.
 
-**Notice → Invite → Listen → Offer a small next step → Reflect.**
+## Build on the AI Learning Lab, not a competing framework
 
-This is a proposed design scaffold, not an empirically validated TrailGuide protocol.
+Use the existing [AI Learning Lab](https://github.com/luminerdy/AILearningLab) working loop: **Define → Direct → Check → Adjust**.
 
-- **Notice:** attend to observable statements/actions; distinguish observation from interpretation. Silence alone does not authorize a conclusion about understanding, motivation, agreement or willingness to speak.
-- **Invite:** ask one accessible, non-leading question. Allow thinking time, an alternative response format and passing.
-- **Listen:** make room for the learner's account before adding an explanation. Follow-ups are optional, not an interrogation or a branching assessment.
-- **Offer:** ask whether a hint, example, small experiment or another approach would help. A learner may decline an activity or AI use.
-- **Reflect:** review the facilitator's own choices and the evidence available, without rating people or inventing an outcome.
+- **Define:** what do you want to make, investigate or improve? What is the next useful piece, and what do you want to learn through it?
+- **Direct:** choose a suitable AI role and supply the context it needs. Help can be an explanation, brainstorming, research, a critique, a demonstration, implementation, debugging or organization—not only prompting for a finished answer.
+- **Check:** examine what actually happened, compare it with the goal and make checks appropriate to the consequences. Distinguish a useful result from understanding how to continue.
+- **Adjust:** revise the work, the instructions or the approach. Keep a small next step and enough context to resume independently.
 
-## Examples for rehearsal and later editorial review
+The Lab's ASK / COLLABORATE / ORIENT / TEACH / ENABLE / DELEGATE / ORCHESTRATE map offers choices, not a mandatory ladder or a learner score. Do not require learners to use every role or work through an abstract course before making something useful. A non-AI approach can be the right choice.
 
-These are synthetic draft examples, not new card IDs or approved production wording.
+## A small mentoring conversation
 
-### A learner is hesitant to respond
+These are optional draft prompts, not an interview that must be completed in order.
 
-Opening: “Would a hint, an example, or some time to think be most useful?”
+1. **Start with their project:** “What would you like to make, investigate or improve?”
+2. **Find a useful next piece:** “What would be small enough to try and useful enough to care about?”
+3. **Choose the help:** “Would an explanation, some options, a worked example, a collaborator or direct implementation help here?”
+4. **Try and inspect:** “What happened? What do you understand differently? What would you change?”
+5. **Carry it forward:** “What context and coaching instructions would help you continue in your next AI session?”
 
-Facilitator cue: leave room for the answer; do not make someone explain why they are passing. Offer a paired, written or other accessible alternative where appropriate.
+For a team, invite different project goals and ways to contribute without assigning ability or motivation labels. For an individual, ask the same questions conversationally; the device's existing Ask the Team label does not limit who can use these materials.
 
-Possible next question: “Which part would be useful to unpack together?”
+## Breadth matters
 
-### A fluent AI answer is accepted quickly
+Draft rehearsal situations should cover more than errors or mistrust:
 
-Opening: “What would you check before relying on this?”
+- **Create:** compare two openings for a short explanation; choose one and explain what it helps the intended audience do.
+- **Investigate:** turn a broad curiosity into a research question, find original sources and retain unresolved disagreements.
+- **Build:** make one working interaction in a larger project; choose whether AI should explain, pair, implement or debug this step.
+- **Analyze and decide:** compare options using explicit criteria, inspect an assumption and make a provisional choice.
+- **Learn and collaborate:** ask for a demonstration, revise a shared plan or take turns explaining what the team noticed.
 
-Facilitator cue: focus on a consequential claim and the intended use, not on whether someone sounds confident. Distinguish useful assistance from evidence that a claim is correct.
+Checking evidence, privacy and appropriate reliance belong across these activities. They are not the whole purpose, and more AI usage is not a success measure.
 
-Possible move: choose one relevant claim and compare it with an original source, direct observation or an independent test. If no check is available, retain the uncertainty rather than manufacture reassurance.
+## Mentor support inside the project loop
 
-### Someone reasonably doubts AI's usefulness
+**Notice → Invite → Listen → Offer a small next step → Reflect** is a proposed listening scaffold for the mentor, not a replacement for the learner's Define → Direct → Check → Adjust loop or an empirically validated TrailGuide protocol.
 
-Opening: “Would a small, low-risk comparison help you decide whether this is useful here?”
+- **Notice:** attend to observable statements/actions. Silence alone does not establish understanding, fear, motivation, agreement or willingness to speak.
+- **Invite:** ask one accessible, non-leading question. Allow thinking time, another response format and passing.
+- **Listen:** make room for the learner's account before advising. Check a paraphrase rather than interrogating or choosing an automatic branch.
+- **Offer:** ask whether a hint, example, demonstration, direct help, another attempt or another approach would help. Do not manufacture struggle or withhold accessibility support.
+- **Reflect:** examine the mentor's own choices and the evidence available, without scoring people or inventing an outcome.
 
-Facilitator cue: skepticism may be justified. Agree on what a useful result would look like; include a non-AI option and permission not to proceed.
+### When someone is hesitant
 
-Possible next question: “What would make the result worth using—or not using?”
+“Which part would be useful to unpack together? You can speak, write, pair up, observe or pass.” Do not make someone explain why they are passing, or infer fear from silence.
 
-### Progress appears blocked
+### When an AI answer sounds convincing
 
-Opening: “What have you tried, and what did you notice?”
+“Which part would matter most if it were wrong? How could we check that?” Focus on the intended use and consequential claim, not the person's confidence. If no check is available, retain uncertainty.
 
-Facilitator cue: ask about the task before assuming a personal deficit. Offer a manageable next step without taking over the part the learner wants to practice.
+### When AI seems unhelpful
+
+“Would a small, low-risk comparison help you decide—or would another approach suit this better?” Skepticism can be justified; declining AI is legitimate.
+
+### When progress is blocked
+
+“What have you tried, and what did you notice?” Ask about the task before assuming a personal deficit. Offer a manageable step without taking over the part the learner wants to practice.
 
 ## Before, during and after
 
-### Before: facilitator practice, initially outside the device
+- **Before:** pick a real project milestone and one mentoring skill to rehearse with a fictional example. Decide what kind of help the learner wants; do not pre-diagnose them.
+- **During:** work on that milestone. Use a question or activity when useful, allow alternatives, inspect the result and adjust. The optional device retains Ask / Try / one Guide me; it is not required for the conversation.
+- **After:** optionally ask “What helped?”, “What felt pressuring?” and “What would you like to do next?” Reflect on the intervention, not learner traits. Offer the [portable project/coaching brief](PROJECT-COACH.md).
 
-Choose one micro-skill, rehearse a short synthetic exchange and compare possible responses. Initial candidates are inviting uncertainty, pausing, asking permission before helping, paraphrasing tentatively, and checking an AI claim without shaming its user.
+Independence means being able to choose a next step, direct useful assistance, inspect results, revise and recognize when human expertise or another method is needed. It does not mean never asking for help, working unaided at all times or being tested in public. If independent learning is an agreed goal, an optional changed task without AI can provide one observation; it is not a required gate or a universal outcome measure.
 
-A short companion exercise or written rehearsal is the smallest proposed starting point. A new practice mode, simulated learner or AI role-play system is not authorized implementation merely because this direction is endorsed. If simulated dialogue is explored, label it synthetic and do not treat its feedback as a measure of real coaching competence.
+## Materials and optional AI coaching
 
-### During: preserve the glanceable live tool
+[PROJECT-COACH.md](PROJECT-COACH.md) is a reusable learner-owned brief and starter instruction, usable in an existing AI conversation without the device. It is draft text, not an integrated AI coach. A learner can choose what context to carry forward, how much direct help to request and whether to continue with AI at all.
 
-Keep Ask the Team / Try a Move and the single Guide me entry. Main question/action first; guidance supplies a useful cue, an optional follow-up and, where appropriate, a small activity. Avoid repeating the heading's instruction in its body.
+Full mentoring materials can use paper, a browser, a conversation or another appropriate format. No new repository, mandatory account, embedded model, cloud service, role-play engine or extra device mode is needed to begin. Tool-specific instructions need separate version/source review.
 
-V2 has only 172x320 pixels. Improve the eight representative pairs before expanding the deck or adding menus. Situation shortcuts may be considered later under P-09; do not add a third home mode or multiple help buttons without a separate interaction review.
+## Research and human review
 
-### After: optional facilitator reflection
+Research notes and a bounded synthesis have been collected separately; they are inputs for review, not evidence that TrailGuide or these scripts work. Do not publish private research workspaces, participant material or raw sessions. Check cited originals and their limitations before promoting any wording into claimed best practice.
 
-Possible prompts:
+Separate study findings, design guidance and hypotheses; consider AI benefits and harms. Distinguish assisted performance from durable learning, and do not generalize a school, subject or workplace result to every mentoring setting.
 
-- “Where did I make room for their thinking?”
-- “Where did I offer help before asking what would help?”
-- “What did they explain, test or choose for themselves?”
-- “What might I try differently next time?”
+A small proposed review cycle:
 
-Reflection is optional. It does not imply that a learner improved, agreed or trusted appropriately. Do not require free-text recording or participant information.
+1. Choose one meaningful project milestone and agree what usefulness would look like.
+2. Rehearse one mentoring move with a colleague using a fictional situation.
+3. Try it with permission, accessible alternatives and the option to pass.
+4. Inspect the artifact, a learner-chosen explanation or next step, and voluntary feedback. No hidden inference, recording or score.
+5. Revise one part and carry forward the context. Expand materials only after review.
+
+AI usage, speed, prompt counts, device clicks and polished output are not substitutes for agreed usefulness or evidence of learning. No universal effectiveness claim is made.
 
 ## Product boundaries
 
-- Preserve learner choice, accessible alternatives and a non-AI path; do not promise one method will work for everyone.
-- No hidden recording, microphone-based interpretation, surveillance, learner profiles, diagnoses, ability/confidence scores or participation leaderboards.
-- Planned Team Trail records deliberate facilitator interventions, not inferred learning or psychological states. Viewing a card is not using it.
-- Keep content offline and tool-neutral where practical. Tool-specific examples need their own source/version review.
-- Do not turn research findings from one school, workplace, discipline or task into universal advice for adult AI workshops.
+- No hidden microphones/recording, learner profiles, diagnoses, confidence/ability scores, participation rankings or pressure to adopt AI.
+- Proposed Team Trail records deliberate facilitator interventions, not inferred learning or psychological states. Viewing or revealing a card is not using it.
+- Canonical content IDs, review gates, privacy and complete-copy access remain intact. These materials do not silently revise or approve the forty-card deck.
+- Preserve the running V2 trial and V1 fallback. Human review of V2 wording, touch and readability remains a separate hardware task, not a prerequisite for mentoring practice.
+- V3's [shake/reveal experience](V3-EXPERIENCE.md) is an optional playful ritual. Randomness suggests a possible move; people decide whether it fits. Novelty is not evidence of educational benefit.
 
-## Evidence and a small pilot
-
-Research should distinguish established coaching/learning work from emerging AI-specific findings. Assess both benefits and risks, and separate supported task performance from unaided learning/transfer. Identify study design, context, limitations, contradictory findings and corrections. Source-derived claims require citations; search snippets and plausible model summaries are not evidence.
-
-The research synthesis is pending at this checkpoint. Its scheduled private collection does not make it a published result. Review the actual findings before converting the proposed loop or example wording into claimed best practice.
-
-Proposed pilot sequence:
-
-1. Review evidence and co-design wording with facilitators and learners with different access/participation needs.
-2. Rehearse the synthetic scenarios; identify leading, repetitive, confusing or pressure-inducing wording.
-3. Trial a small selection of existing draft pairs with consent and an option to pass.
-4. Observe whether a facilitator can find a suitable prompt, leave space for an answer and choose an appropriate next move. Use voluntary feedback and observable examples, not hidden inference.
-5. Revise one small part, retain clear limitations, and repeat before expanding the interface or enabling tracking.
-
-AI usage, speed, prompt count, clicks and polished outputs are not substitute success measures. Define evidence of usefulness with the participants, without collecting identifying responses in the repository.
-
-## Delivery order
-
-1. Research-backed coaching brief and a small facilitator-practice companion.
-2. Editorial/interaction review of the existing eight pairs and the revised guide flow.
-3. A bounded human pilot and explicit decision about the next content or UI change.
-4. Separate implementation/acceptance for additional pairs, situation navigation and durable Team Trail.
-
-This work can proceed as a content/research track without bypassing existing firmware, privacy, storage or release gates. See [PLAN.md](PLAN.md), [FACILITATOR-MODES.md](FACILITATOR-MODES.md) and the [handoff](HANDOFF.md).
+See [PLAN.md](PLAN.md), [PRODUCT-SPEC.md](PRODUCT-SPEC.md) and [HANDOFF.md](HANDOFF.md) for scope, acceptance and continuity.

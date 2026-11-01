@@ -2,7 +2,16 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## Coaching direction and project handoff
+## Project-led mentoring and separate V3 reveal study
+
+- Reframed the README, product purpose/P-19, delivery plan and handoff around meaningful projects, broad AI mentoring for individuals/teams and learner independence. Connected to AI Learning Lab's existing loop and flexible role map. Hardware remains an optional enjoyable companion, not the curriculum or a prerequisite for mentoring practice.
+- Added the draft PROJECT-COACH.md learner-owned context brief and optional AI-coaching starter. These are usable text materials for review, not an integrated AI tutor, validated curriculum or measured learning outcome. Existing collected research remains a bounded review input; no private research workspace or participant material was published.
+- Added optional P-20 and V3-EXPERIENCE.md for deliberate shake → one curated idea → gradual text reveal, including same-card Reveal all, Instant text, touch parity, cancellation and busy/context suppression. Actual V3 IMU thresholds, rest/cooldown, ordinary-handling rejection and display performance remain unverified.
+- Built a separate portable prototype/v3-experience.html from the existing eight canonical draft pairs. Its simulated-shake and Another controls share shuffled mode-specific pools; gradual text is a curated reveal, not live AI generation. It stores nothing, reads no sensor and makes no network requests. The reduced study layout is not the full device/navigation implementation.
+- All nineteen pre-existing Python tests passed before the new study was included; the full suite then passed all twenty-eight tests. The new nine-test suite uses actual system Chromium/CDP for fresh no-draw state, both modes/all eight identities, complete copy/overflow, shuffle boundaries, busy-input suppression, skip, instant/OS reduced motion, cancellation/stale callbacks, safe-circle targets and narrow-view panning, plus real pointer/keyboard/touch input. No browser script/console errors were reported by those checks. Generated-study freshness passed; a browser screenshot was inspected for visible copy/control clipping and simulator labels.
+- Documentation links/headings and generic-public wording passed checks; P-01–P-20 are twenty unique IDs. Canonical content/revisions/review states, original full-flow round preview, V1/V2 source/configuration and protected AGENTS.md remain unchanged. No reset, upload or device connection was performed, and no new physical acceptance is implied. Human review of V2 wording/readability/touch remains pending.
+
+## Earlier coaching direction and project handoff
 
 - Added COACHING-DIRECTION.md and HANDOFF.md to capture facilitator development alongside team support, appropriate AI reliance, voluntary/access-aware participation and a proposed before/during/after coaching pattern. Research findings, practice materials, a pilot and additional interfaces remain pending; endorsement of direction is not evidence of effectiveness.
 - Added planned P-19 without renumbering prior requirements or changing the existing core release scope. README, PLAN.md and the legacy Pi setup handoff now point to the current documents.

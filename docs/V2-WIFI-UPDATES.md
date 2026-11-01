@@ -1,6 +1,6 @@
 # V2 Wi-Fi and OTA operation
 
-Status: implemented and hardware-tested on the portrait ESP32-C6. USB installed the v2-0.1.2 bootstrap; authenticated network updates then installed v2-0.1.3 and v2-0.1.4. The running v2-0.1.4 version, OTA readiness and alternating application slots were verified remotely. These are network transfers, not USB uploads disguised as OTA.
+Status: implemented and hardware-tested on the portrait ESP32-C6. USB installed the v2-0.1.2 bootstrap; authenticated network updates then installed v2-0.1.3 and v2-0.1.4. Those running versions, OTA readiness and alternating application slots were verified remotely. A subsequent coaching-copy update installed current v2-0.1.5 wirelessly, again with running-version/OTA-readiness readback. These are network transfers, not USB uploads disguised as OTA.
 
 ## Normal use
 
@@ -26,8 +26,8 @@ Once the first OTA-enabled firmware is installed over USB:
 
 ```sh
 python3 tools/v2_ota_upload.py DEVICE_IP \
-  build/v2-0.1.4/firmware/trailguide_v2.ino.bin \
-  --expected-version v2-0.1.4
+  build/v2-0.1.5/firmware/trailguide_v2.ino.bin \
+  --expected-version v2-0.1.5
 ```
 
 Replace DEVICE_IP with the independently identified private address, not a public host. The helper reads the private V2 configuration by default; `--secrets PATH` selects another restricted local configuration. No password appears in shell history or process arguments.

@@ -2,7 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 authenticated Wi-Fi/OTA — v2-0.1.4
+## V2 conversational cue flow — v2-0.1.5
+
+- Observation bodies now flow directly from What to listen for / What to notice instead of repeating Listen for / Look for / Notice. Only a matching leading instruction is removed; the remaining cue, cautions and negations are preserved, with sentence casing that retains mixed-case names and acronyms.
+- You could ask and If helpful, offer replace formal follow-up/invitation captions. Main questions/actions, activities, title/Back context, canonical JSON, card IDs, revisions and draft review states remain unchanged.
+- The new regression first failed for the missing formatter, then passed across all eight pairs. All nineteen Python tests and real-LVGL ASan/UBSan navigation/complete-copy scrolling checks passed. Independent code review found no blocking security or logic defects and confirmed all sixteen generated guides preserve the intended meaning.
+- v2-0.1.5 compiled with 1,415,014 application bytes and 113,348 globals, preserving the existing OTA partitions/configuration. It was installed over Wi-Fi; running version, continued OTA readiness and active slot 0x340000 were read back remotely. No USB upload, serial reset or V1 change was used.
+- Human review of the revised conversational wording remains separate. The older round browser artifact is unchanged and still awaits its own guidance-order alignment.
+
+## Earlier V2 authenticated Wi-Fi/OTA — v2-0.1.4
 
 - Optional station Wi-Fi and authenticated ArduinoOTA are implemented independently for C6, with a unique hostname/password, background connection/retry, an updating overlay and a read-only version/status endpoint. Credentials, raw logs and firmware binaries are local/ignored; public examples contain placeholders only. V1 was not reset, flashed or modified.
 - The v2-0.1.2 USB bootstrap preserved the verified 8MB two-slot layout. A deliberate bench Wi-Fi disconnect left synthetic Ask/Try/Guide navigation working; automatic retry restored OTA and remote status. The final images omit the temporary disconnect hook.

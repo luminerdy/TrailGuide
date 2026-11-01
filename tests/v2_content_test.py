@@ -18,6 +18,32 @@ class V2ContentTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.extract('unknown source')
 
+    def test_notice_copy_flows_from_headings(self):
+        spec = importlib.util.spec_from_file_location('v2_cues', ROOT / 'tools/build_v2_content.py')
+        assert spec is not None and spec.loader is not None
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertTrue(hasattr(module, 'notice_cue'), 'Notice wording still repeats its heading')
+        cases = {
+            'Listen for alternatives, not just wording. A single idea is a starting point.': 'Alternatives, not just wording. A single idea is a starting point.',
+            'Look for AI suggestions worth checking. Do not assume they are correct.': 'AI suggestions worth checking. Do not assume they are correct.',
+            'Notice whether everyone has agreed. Silence is not consent.': 'Whether everyone has agreed. Silence is not consent.',
+            '  listen   for a concrete observation.  ': 'A concrete observation.',
+            'Give people time to think. Silence is not evidence.': 'Give people time to think. Silence is not evidence.',
+            'Noticeable progress is not proof.': 'Noticeable progress is not proof.',
+            'A reminder to listen for uncertainty.': 'A reminder to listen for uncertainty.',
+            'Look for iOS accessibility options.': 'iOS accessibility options.',
+        }
+        for original, expected in cases.items():
+            self.assertEqual(expected, module.notice_cue(original))
+        data = json.loads((ROOT / 'content/cards.json').read_text())
+        cards = {c['card_id']: c for c in data['cards']}
+        for card_id in module.IDS:
+            ask, move = module.build_guides(cards[card_id])
+            self.assertIn('\n\nYou could ask\n', ask)
+            self.assertIn('\n\nYou could ask\n', move)
+            self.assertNotRegex(ask + '\n' + move, r'(?im)^(?:listen\s+for|look\s+for|notice)\s+')
+
     def test_guidance_adds_help_instead_of_repeating_the_card(self):
         path = ROOT / 'tools/build_v2_content.py'
         spec = importlib.util.spec_from_file_location('v2_guidance', path)
@@ -35,9 +61,9 @@ class V2ContentTest(unittest.TestCase):
             self.assertTrue(move.startswith(c['title'] + '\n\nHow to run it\n' + c['activity']))
             self.assertNotIn('\n\nSay\n', ask)
             self.assertLess(move.index(c['activity']), move.index(c['facilitator']['try_invitation']))
-            for text in [*c['facilitator']['notice'], *c['facilitator']['follow_ups']]:
+            for text in [*(module.notice_cue(t) for t in c['facilitator']['notice']), *c['facilitator']['follow_ups']]:
                 self.assertIn(text, ask)
-            for text in [*c['facilitator']['try_notice'], *c['facilitator']['try_follow_ups']]:
+            for text in [*(module.notice_cue(t) for t in c['facilitator']['try_notice']), *c['facilitator']['try_follow_ups']]:
                 self.assertIn(text, move)
             if c['action'] != c['activity']:
                 self.assertNotIn(c['action'], move)
@@ -47,7 +73,7 @@ class V2ContentTest(unittest.TestCase):
         duplicate = dict(cards[module.IDS[0]])
         duplicate['facilitator'] = dict(duplicate['facilitator'])
         duplicate['facilitator']['try_invitation'] = duplicate['action']
-        self.assertNotIn('\n\nSuggested invitation\n', module.build_guides(duplicate)[1])
+        self.assertNotIn('\n\nIf helpful, offer\n', module.build_guides(duplicate)[1])
 
     def test_exact_canonical_pairs_generated_without_copy_loss(self):
         path = ROOT / 'tools/build_v2_content.py'
@@ -64,7 +90,7 @@ class V2ContentTest(unittest.TestCase):
             c = cards[card_id]
             for text in [card_id, c['title'], c['action'], c['facilitator']['ask']]:
                 self.assertIn(json.dumps(text), result)
-            for text in [c['activity'], c['facilitator']['try_invitation'], *c['facilitator']['notice'], *c['facilitator']['follow_ups'], *c['facilitator']['try_notice'], *c['facilitator']['try_follow_ups']]:
+            for text in [c['activity'], c['facilitator']['try_invitation'], *(module.notice_cue(t) for t in c['facilitator']['notice']), *c['facilitator']['follow_ups'], *(module.notice_cue(t) for t in c['facilitator']['try_notice']), *c['facilitator']['try_follow_ups']]:
                 self.assertIn(json.dumps(text)[1:-1], result)
         self.assertEqual(8, len(module.IDS))
         self.assertIn('DRAFT', result)

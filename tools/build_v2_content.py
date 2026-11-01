@@ -2,6 +2,7 @@
 """Generate the C6 read-only DRAFT trial's eight canonical card pairs."""
 import argparse
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -11,17 +12,29 @@ from build_prototype import IDS, select_content
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def notice_cue(text):
+    """Let the heading supply the instruction; preserve the cue and safeguards."""
+    original = text.strip()
+    cue = re.sub(r'^(?:listen\s+for|look\s+for|notice)\s+', '', original, count=1, flags=re.IGNORECASE)
+    if not cue:
+        return original
+    # Sentence case without damaging names/acronyms such as iOS or AI.
+    if cue.split()[0].islower():
+        cue = cue[0].upper() + cue[1:]
+    return cue
+
+
 def build_guides(card):
     """Add coaching depth without repeating the main question or action."""
     f = card['facilitator']
-    ask = (card['title'] + '\n\nWhat to listen for\n' + '\n\n'.join(f['notice'])
-           + '\n\nFollow up\n' + '\n\n'.join(f['follow_ups']))
+    ask = (card['title'] + '\n\nWhat to listen for\n' + '\n\n'.join(notice_cue(text) for text in f['notice'])
+           + '\n\nYou could ask\n' + '\n\n'.join(f['follow_ups']))
     move = (card['title'] + '\n\nHow to run it\n' + card['activity']
-            + '\n\nWhat to notice\n' + '\n\n'.join(f['try_notice'])
-            + '\n\nFollow up\n' + '\n\n'.join(f['try_follow_ups']))
+            + '\n\nWhat to notice\n' + '\n\n'.join(notice_cue(text) for text in f['try_notice'])
+            + '\n\nYou could ask\n' + '\n\n'.join(f['try_follow_ups']))
     invitation = f['try_invitation'].strip()
     if invitation.casefold() not in {card['action'].strip().casefold(), card['activity'].strip().casefold()}:
-        move += '\n\nSuggested invitation\n' + invitation
+        move += '\n\nIf helpful, offer\n' + invitation
     return ask, move
 
 

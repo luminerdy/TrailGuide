@@ -1,13 +1,13 @@
 # TrailGuide V2 — first portrait hardware trial
 
-Status: `v2-0.1.4 DRAFT`, compiled and wirelessly installed on the C6, with running version and OTA readiness verified remotely. The initial OTA bootstrap used USB. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
+Status: `v2-0.1.5 DRAFT`, compiled and wirelessly installed on the C6, with running version and OTA readiness verified remotely. The initial OTA bootstrap used USB. This is the first read-only TrailGuide application, replacing the manufacturer demo. It is not a production release. The manufacturer demo was reported working by a human; TrailGuide readability and physical interaction acceptance are separate and remain open.
 
 ## Available now
 
 - Home with **Ask the Team** and **Try a Move**. Reboot opens Home without drawing a card.
 - Eight canonical draft pairs, one per theme, generated from `content/cards.json` without changing editorial states or existing card revisions.
 - Main Ask question or Try action, visible theme/mode, one **Guide me** entry and **Another**.
-- Guide me adds depth without repeating the main question/action. Ask starts with What to listen for, then Follow up. Try starts with How to run it, then What to notice and Follow up; a distinct Suggested invitation is last and omitted when it duplicates the action/activity. Swipe vertically to read longer text; Back returns to the same card.
+- Guide me adds depth without repeating the main question/action. Under observation headings, body copy starts with the cue rather than repeating Listen for, Look for or Notice; the remaining wording and cautions are preserved. Ask starts with What to listen for, then You could ask. Try starts with How to run it, then What to notice and You could ask; a distinct If helpful, offer invitation is last and omitted when it duplicates the action/activity. Swipe vertically to read longer text; Back returns to the same card.
 - Another cycles the eight cards in their fixed review order, without an adjacent repeat. This deliberately supports repeatable hardware review; it is not the future production shuffled/filterable pool.
 - Portrait 172x320 layout, 20px main copy, 18px guidance, fixed 48–56px-high navigation buttons, and vertical overflow scrolling. Smaller 14/16px text is used for metadata and button captions; actual-device readability still requires human review.
 - Offline operation without network configuration or a development-host connection after boot. Power still needs USB; independent-power and soak acceptance have not been completed.
@@ -27,7 +27,7 @@ Use Arduino CLI 1.3.1, Espressif core 3.3.2 and the manufacturer bundle's GFX 1.
 ```sh
 python3 tools/build_v2_content.py
 python3 tools/prepare_v2_panel.py
-ROOT="$PWD/build/v2-0.1.4"
+ROOT="$PWD/build/v2-0.1.5"
 PANEL="$PWD/build/v2-0.1.0/generated"
 SKETCH="$PWD/trailguide_v2"
 LIBS="$PWD/build/v2-c6-bringup/vendor/Arduino/libraries"
@@ -39,7 +39,7 @@ arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$LIBS" \
   --output-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The unchanged manufacturer panel header is still prepared in the initial trial's generated directory and reused by this patch build. The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 1,415,126 application bytes and 113,348 bytes of globals. These static figures are not total runtime memory measurements.
+The unchanged manufacturer panel header is still prepared in the initial trial's generated directory and reused by this patch build. The project-specific LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The compiler reported 1,415,014 application bytes and 113,348 bytes of globals. These static figures are not total runtime memory measurements.
 
 ## Upload and diagnostics
 
@@ -50,7 +50,7 @@ arduino-cli upload --fqbn "$FQBN" --port PORT \
   --input-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The OTA-enabled bootstrap v2-0.1.2 was USB-flashed with verified hashes and then updated over the network to v2-0.1.3 and v2-0.1.4. The final running version, OTA readiness and active application slot were read back remotely. Earlier free-heap readings from USB-only firmware are not substituted for a Wi-Fi runtime budget; sustained memory/soak checks remain open.
+The OTA-enabled bootstrap v2-0.1.2 was USB-flashed with verified hashes and then updated over the network to v2-0.1.3 and v2-0.1.4. A further coaching-copy update installed v2-0.1.5 wirelessly; its running version, continuing OTA readiness and active slot were read back remotely. Earlier free-heap readings from USB-only firmware are not substituted for a Wi-Fi runtime budget; sustained memory/soak checks remain open.
 
 At 115200 baud, send uppercase `T` over USB to run synthetic UI diagnostics. The executed on-device diagnostic passed both modes, eight cards, sixteen guidance faces, full-text comparisons, button bounds, Back and Another, then returned to Home. This invokes software click events; it does not physically touch the panel or establish pixel readability. Keep raw logs private.
 

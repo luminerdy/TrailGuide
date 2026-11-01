@@ -1,28 +1,23 @@
 #pragma once
-#include <cstddef>
 #include <cstdint>
-#include <cstring>
 
 namespace trailguide {
-// Borrowed immutable copy; the canonical deck outlives the UI. No fixed-size buffer.
+// Keep the complete immutable answer; only its visibility changes, never its text.
 class RevealText {
  public:
   static constexpr uint32_t settleMs = 160;
   static constexpr uint32_t revealMs = 2800;
   static constexpr uint32_t completeMs = settleMs + revealMs;
-  explicit RevealText(const char *text = "") : text_(text), bytes_(std::strlen(text)) {}
+  explicit RevealText(const char *text = "") : text_(text) {}
   const char *text() const { return text_; }
-  size_t prefixBytes(uint32_t elapsed) const {
-    if (elapsed < settleMs) return 0;
-    if (elapsed >= completeMs) return bytes_;
-    const auto progress = elapsed - settleMs;
-    // Divide first so even a size_t-sized synthetic input cannot overflow.
-    size_t bytes = (bytes_ / revealMs) * progress + (bytes_ % revealMs) * progress / revealMs;
-    while (bytes && (static_cast<unsigned char>(text_[bytes]) & 0xc0) == 0x80) --bytes;
-    return bytes;
+  uint8_t opacity(uint32_t elapsed) const {
+    if (elapsed <= settleMs) return 0;
+    if (elapsed >= completeMs) return 255;
+    const uint32_t progress = (elapsed - settleMs) * 255U / revealMs;
+    // Integer smoothstep: the entire answer gently emerges and settles clear.
+    return static_cast<uint8_t>(progress * progress * (765U - 2U * progress) / 65025U);
   }
  private:
   const char *text_;
-  size_t bytes_;
 };
 }

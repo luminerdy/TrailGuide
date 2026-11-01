@@ -1,6 +1,5 @@
 #pragma once
 #include <lvgl.h>
-#include <string>
 #include "model.h"
 #include "reveal.h"
 #include "cards_generated.h"
@@ -125,7 +124,7 @@ class Ui {
   void startReveal() {
     reveal = RevealText(model.mode == Mode::Ask ? cards[model.index].ask : cards[model.index].action);
     revealStarted = lv_tick_get();
-    lv_label_set_text(body, "");
+    lv_obj_set_style_text_opa(body, LV_OPA_TRANSP, 0);
     revealTimer = lv_timer_create(revealTick, 20, this);
     revealCaption("Reveal\nall");
   }
@@ -136,6 +135,7 @@ class Ui {
   }
   void finishReveal() {
     lv_label_set_text(body, reveal.text());
+    lv_obj_set_style_text_opa(body, LV_OPA_COVER, 0);
     cancelReveal();
     revealCaption("Another");
   }
@@ -147,8 +147,7 @@ class Ui {
       self->finishReveal();
       return;
     }
-    const std::string prefix(self->reveal.text(), self->reveal.prefixBytes(elapsed));
-    lv_label_set_text(self->body, prefix.c_str());
+    lv_obj_set_style_text_opa(self->body, self->reveal.opacity(elapsed), 0);
   }
   static void objectDeleted(lv_event_t *event) {
     auto *self = static_cast<Ui *>(lv_event_get_user_data(event));
@@ -159,7 +158,10 @@ class Ui {
     if (object == self->second) {
       // The finish control can also be removed independently of its label.
       if (self->revealTimer) {
-        if (self->body) lv_label_set_text(self->body, self->reveal.text());
+        if (self->body) {
+          lv_label_set_text(self->body, self->reveal.text());
+          lv_obj_set_style_text_opa(self->body, LV_OPA_COVER, 0);
+        }
         self->cancelReveal();
       }
       self->second = nullptr;

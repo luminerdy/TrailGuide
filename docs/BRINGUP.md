@@ -2,7 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V2 gradual main-card reveal — v2-0.1.6
+## V2 whole-answer emergence — v2-0.1.7
+
+- Replaced the rejected typewriter effect with the complete answer emerging together from darkness, Magic-8-Ball-style. Text, UTF-8 bytes, wrapping and geometry stay fixed throughout; only whole-label opacity changes using integer smoothstep. Nominal timing remains a 160ms settling beat and 2800ms fade. Reveal all restores full opacity on the same card; Guide/Back remain instant. No sensor, new input shortcut, new mode, content or tracking is added.
+- A missing-opacity API test and then a finish-control-deletion visibility assertion were observed failing before the corresponding implementation/fix. Actual-LVGL ASan/UBSan checks passed across both modes/all eight cards, fixed complete text/layout, monotonic opacity, rendered-pixel changes, timing, same-card skip, navigation/OTA cancellation and teardown. Hidden/midpoint/clear frames from the real LVGL software renderer were inspected; they are not physical screen photographs. The Python suite passed all twenty-eight tests; generated outputs remained current. Independent review found no blocking defects.
+- C6 compilation succeeded with 1,416,202 application bytes and 113,348 bytes of globals. The C6 image/version/slot budget and absence of the temporary disconnect hook were checked; partitions are byte-identical to the preceding build. Credentials, binaries and raw logs remain private.
+- The first authenticated wireless transfer dropped with a broken pipe. The previous v2-0.1.6 application remained running and OTA-ready; no installation was claimed. A normal retry installed v2-0.1.7, switching from 0x10000 to 0x340000. Expected running version, continuing OTA readiness, changed slot and subsequent increasing uptime were read back. No USB upload or serial reset was used for V2; the transfer failure's cause was not established.
+- Physical pacing/readability/touch acceptance remains open. The V3 direction now explicitly calls for whole-answer emergence; its older browser artifact remains a labeled legacy character-reveal timing/input study, not the intended finished visual effect.
+
+## Earlier V2 gradual main-card reveal — v2-0.1.6
 
 - Fresh Ask/Try entry and Another now use a 160ms settling beat followed by a UTF-8-safe progressive main-copy reveal, nominally complete at 2960ms with regularly serviced LVGL timers. The existing Another position temporarily shows Reveal all; activating it completes the same card without advancing the model and restores Another. Guide remains immediately available; Guide/Back and ordinary rerenders show complete text without replaying a draw. No main-text tap shortcut, motion input, new menu or setting is added.
 - Navigation/Home, rerender, OTA start, external object deletion and owner teardown cancel the owned timer. OTA error dismissal preserves complete context. Canonical copy, card IDs/revisions/review states, fixed eight-card order, fonts and overflow access remain unchanged; V1, network/update code, credentials and round previews are untouched.

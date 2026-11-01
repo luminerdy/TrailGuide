@@ -4,7 +4,7 @@ Status: endorsed interaction direction; separate browser experience study, not V
 
 ## Intent
 
-A deliberate shake offers a possible next idea for a team. After a short settling beat, the words gradually appear. The shared moment should feel playful, while the result remains a readable question or practical move that people can accept, adapt or ignore.
+A deliberate shake offers a possible next idea for a team. After a short settling beat, the whole answer emerges together from darkness, like a Magic 8 Ball: complete text fades into view, without typing individual letters or sequential words. Keep layout/wrapping fixed. The shared moment should feel playful, while the result remains a readable question or practical move that people can accept, adapt or ignore.
 
 This is optional novelty, not the core mentoring programme, a compulsory participation ritual or evidence of better learning. The project gives the activity context; randomness does not make every card appropriate. The device reveals curated content, not a live AI answer or pretend AI thinking.
 
@@ -26,7 +26,7 @@ A decorative compass beat may accompany the settling phase if it remains restrai
 
 ## Browser study: what to try
 
-Open [v3-experience.html](../prototype/v3-experience.html) in a browser. It is self-contained and offline:
+The existing [v3-experience.html](../prototype/v3-experience.html) is a self-contained offline **legacy timing/input study**. It still uses character-by-character reveal and has not been updated to the corrected whole-answer emergence direction. Do not treat its typing appearance as the intended finished V3 effect. It remains useful for reviewing simulated input, pool selection, skip and cancellation:
 
 - Start with no automatic draw, choose Ask or Try, then use **Simulate shake** or **Another**.
 - Watch the progressive reveal; try **Reveal all** and confirm the same idea remains.

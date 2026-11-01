@@ -4,10 +4,39 @@
 #include "../trailguide_v2/reveal.h"
 #include <type_traits>
 #include <string>
+#include <fstream>
 static lv_color_t pixels[172 * 40];
-static void flush(lv_disp_drv_t *driver, const lv_area_t *, lv_color_t *) { lv_disp_flush_ready(driver); }
+static lv_color_t rendered[172 * 320];
+static void flush(lv_disp_drv_t *driver, const lv_area_t *area, lv_color_t *colors) {
+  for (int y = area->y1; y <= area->y2; ++y)
+    for (int x = area->x1; x <= area->x2; ++x) rendered[y * 172 + x] = *colors++;
+  lv_disp_flush_ready(driver);
+}
 static void click(lv_obj_t *button) { assert(button); lv_event_send(button, LV_EVENT_CLICKED, nullptr); lv_obj_update_layout(lv_scr_act()); }
 static void advance(unsigned ms) { for (unsigned n = 0; n < ms; n += 10) { lv_tick_inc(10); lv_timer_handler(); } lv_obj_update_layout(lv_scr_act()); }
+static std::string promptImage() {
+  lv_refr_now(nullptr);
+  std::string data;
+  for (int y = 86; y < 252; ++y) for (int x = 6; x < 166; ++x) {
+    lv_color32_t color; color.full = lv_color_to32(rendered[y * 172 + x]);
+    data += static_cast<char>(color.ch.red);
+    data += static_cast<char>(color.ch.green);
+    data += static_cast<char>(color.ch.blue);
+  }
+  return data;
+}
+static void saveFrame(const char *name) {
+  lv_refr_now(nullptr);
+  std::ofstream file(std::string("build/v2-0.1.7/") + name + ".ppm", std::ios::binary);
+  assert(file);
+  file << "P6\n172 320\n255\n";
+  for (const auto &pixel : rendered) {
+    lv_color32_t color; color.full = lv_color_to32(pixel);
+    file.put(static_cast<char>(color.ch.red));
+    file.put(static_cast<char>(color.ch.green));
+    file.put(static_cast<char>(color.ch.blue));
+  }
+}
 static unsigned timers() { unsigned count = 0; for (auto *t = lv_timer_get_next(nullptr); t; t = lv_timer_get_next(t)) ++count; return count; }
 static void bounds(lv_obj_t *button) {
   assert(button); lv_area_t a; lv_obj_get_coords(button, &a);
@@ -32,22 +61,23 @@ int main() {
   for (unsigned n = 0; n < 6000; ++n) longText += u8"é中🌱 ";
   for (const auto &text : {std::string(), std::string(u8"é中🌱"), longText}) {
     trailguide::RevealText reveal(text.c_str());
-    size_t previous = 0;
+    unsigned previous = 0;
     auto *label = lv_label_create(lv_scr_act());
     for (unsigned elapsed = 0; elapsed <= 3000; elapsed += 10) {
-      const auto bytes = reveal.prefixBytes(elapsed);
-      assert(bytes >= previous && bytes <= text.size());
-      if (elapsed < 160) assert(bytes == 0);
-      const auto prefix = text.substr(0, bytes);
-      assert(utf8Complete(prefix));
+      const auto opacity = reveal.opacity(elapsed);
+      assert(opacity >= previous && opacity <= 255);
+      if (elapsed <= 160) assert(opacity == 0);
+      assert(text == reveal.text()); // Whole UTF-8 copy, never a substring.
+      assert(utf8Complete(text));
       if (text.size() < 100) { // LVGL's fixed 48KB heap cannot hold a 60KB label.
-        lv_label_set_text(label, prefix.c_str());
-        assert(prefix == lv_label_get_text(label));
+        lv_label_set_text(label, text.c_str());
+        lv_obj_set_style_text_opa(label, opacity, 0);
+        assert(text == lv_label_get_text(label));
       }
-      previous = bytes;
+      previous = opacity;
     }
-    assert(previous == text.size());
-    assert(reveal.prefixBytes(0xffffffffU) == text.size());
+    assert(previous == 255);
+    assert(reveal.opacity(0xffffffffU) == 255);
     lv_obj_del(label);
   }
   trailguide::Ui ui; ui.render(); lv_obj_update_layout(lv_scr_act());
@@ -59,16 +89,31 @@ int main() {
       assert(ui.model.mode == (mode == 0 ? trailguide::Mode::Ask : trailguide::Mode::Try));
       bounds(ui.backButton); bounds(ui.first); bounds(ui.second);
       const auto &card = trailguide::cards[n];
-      assert(std::strcmp(lv_label_get_text(ui.body), "") == 0); // Fresh draw settles first.
-      advance(140); assert(std::strcmp(lv_label_get_text(ui.body), "") == 0);
+      const char *complete = mode == 0 ? card.ask : card.action;
+      assert(std::strcmp(lv_label_get_text(ui.body), complete) == 0);
+      assert(lv_obj_get_style_text_opa(ui.body, 0) == LV_OPA_TRANSP);
+      const auto fullHeight = lv_obj_get_height(ui.body);
+      const auto hiddenImage = promptImage();
+      if (mode == 0 && n == 0) saveFrame("hidden");
+      advance(140); assert(lv_obj_get_style_text_opa(ui.body, 0) == LV_OPA_TRANSP);
       advance(360);
       assert(utf8Complete(lv_label_get_text(ui.body)));
-      const auto partial = std::strlen(lv_label_get_text(ui.body));
-      assert(partial > 0 && partial < std::strlen(mode == 0 ? card.ask : card.action));
-      advance(2440);
-      assert(std::strcmp(lv_label_get_text(ui.body), mode == 0 ? card.ask : card.action) != 0);
+      const auto partial = lv_obj_get_style_text_opa(ui.body, 0);
+      assert(partial > LV_OPA_TRANSP && partial < LV_OPA_COVER);
+      assert(std::strcmp(lv_label_get_text(ui.body), complete) == 0);
+      assert(lv_obj_get_height(ui.body) == fullHeight); // No typing/reflow.
+      const auto partialImage = promptImage();
+      if (mode == 0 && n == 0) saveFrame("early");
+      advance(1000);
+      if (mode == 0 && n == 0) saveFrame("emerging");
+      assert(promptImage() != hiddenImage); // Actual rendered pixels change, not just style metadata.
+      advance(1440);
+      assert(lv_obj_get_style_text_opa(ui.body, 0) < LV_OPA_COVER);
       advance(20); // Complete at 2960ms, including the 160ms settle.
       assert(std::strcmp(lv_label_get_text(ui.body), mode == 0 ? card.ask : card.action) == 0);
+      assert(lv_obj_get_style_text_opa(ui.body, 0) == LV_OPA_COVER);
+      assert(promptImage() != partialImage);
+      if (mode == 0 && n == 0) saveFrame("clear");
       assert(lv_obj_get_style_text_font(ui.body, 0) == &lv_font_montserrat_20);
       assert(lv_obj_get_width(ui.body) == 152);
       if (lv_obj_get_height(ui.body) > lv_obj_get_height(ui.scroll)) {
@@ -179,6 +224,7 @@ int main() {
     lv_obj_del(temporary.second);
     assert(timers() == baseTimers);
     assert(std::strcmp(lv_label_get_text(temporary.body), trailguide::cards[0].action) == 0);
+    assert(lv_obj_get_style_text_opa(temporary.body, 0) == LV_OPA_COVER);
     temporary.render();
     temporary.perform(trailguide::Ui::Action::Another); advance(300);
   } // Destruction must delete the active timer and owner callbacks too.

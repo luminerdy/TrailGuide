@@ -1,6 +1,6 @@
 # V2 Wi-Fi and OTA operation
 
-Status: implemented and hardware-tested on the portrait ESP32-C6. USB installed the v2-0.1.2 bootstrap; authenticated network updates then installed v2-0.1.3 and v2-0.1.4. Subsequent coaching-copy v2-0.1.5 and gradual-reveal v2-0.1.6 also installed wirelessly. The current v2-0.1.6 running version, changed application slot, continued runtime and OTA readiness were read back remotely. These are network transfers, not USB uploads disguised as OTA.
+Status: implemented and hardware-tested on the portrait ESP32-C6. USB installed the v2-0.1.2 bootstrap; authenticated network updates then installed v2-0.1.3 and v2-0.1.4. Subsequent coaching-copy v2-0.1.5 and gradual-reveal v2-0.1.6 also installed wirelessly. The current v2-0.1.7 whole-answer-fade update installed wirelessly on retry; its running version, changed slot, continuing runtime and OTA readiness were read back. These are network transfers, not USB uploads disguised as OTA.
 
 ## Normal use
 
@@ -26,8 +26,8 @@ Once the first OTA-enabled firmware is installed over USB:
 
 ```sh
 python3 tools/v2_ota_upload.py DEVICE_IP \
-  build/v2-0.1.6/firmware/trailguide_v2.ino.bin \
-  --expected-version v2-0.1.6
+  build/v2-0.1.7/firmware/trailguide_v2.ino.bin \
+  --expected-version v2-0.1.7
 ```
 
 Replace DEVICE_IP with the independently identified private address, not a public host. The helper reads the private V2 configuration by default; `--secrets PATH` selects another restricted local configuration. No password appears in shell history or process arguments.
@@ -50,5 +50,7 @@ The ESP32 listens on UDP 3232. It connects back to a temporary TCP listener on t
 - A second upload attempt initially hit a local fixed-port TIME_WAIT bind failure before transfer. The ephemeral callback selection fixed it, with a regression test and successful final network upload; this was not a device update failure.
 - Real-LVGL ASan/UBSan tests cover the updating overlay, suppressed actions and preserved Guide context on dismissal, along with all eight pairs/modes. Network-controller tests cover retry/reconnect, lifecycle/error notifications, rollover and disabled configuration. Host passing is not a claim of new human touch/visibility acceptance.
 - The v2-0.1.6 reveal increment compiled with unchanged partitions and installed over authenticated OTA, changing the active application from 0x340000 to 0x10000. Running version/readiness and subsequent increasing uptime were read back. Host tests also cover OTA beginning during a reveal: cancel its timer, preserve complete current copy and restore context on error dismissal. This is not new physical pacing/touch acceptance or a repeated interrupted-transfer test.
+
+The first v2-0.1.7 transfer authenticated but dropped with a broken pipe. The old v2-0.1.6 application remained running and OTA-ready. A normal retry installed v2-0.1.7 at 0x340000; version/readiness/slot and increasing uptime were read back. The failure cause was not established; this was not a deliberate interruption test.
 
 No automatic rollback is implemented or claimed. Interrupted-power recovery, prolonged Wi-Fi soak, independent-power endurance and human review of the new updating screen remain separate acceptance work. V1 was neither reset nor flashed for this implementation.

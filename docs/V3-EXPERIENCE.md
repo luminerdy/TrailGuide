@@ -1,6 +1,6 @@
 # V3 experience study — shake, discover, reveal
 
-Hardware status: the first [v3-0.1.0 DRAFT native trial](V3-TRIAL.md) is installed and boot/IMU/idle-heap verified. Its actual round-screen/reveal/shake acceptance remains open. The browser study below is an earlier simulation and does not establish physical sensor behavior or native performance.
+Current hardware: **v3-0.1.2 DRAFT** full-screen compass and turn-over/back trial is installed and boot/UI/IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). The earlier answer animation was positively observed; the new compass/flip remains physically unaccepted. Earlier diagnostic/browser sections below retain their separate historical scope.
 
 Status: endorsed interaction direction; separate browser experience study, not V3 firmware or physical shake verification. Canonical requirements: [P-20](PRODUCT-SPEC.md#p-20-v3-playful-idea-draw-and-gradual-reveal), [V3 hardware contract](V3-SPEC.md) and [shared Ask/Try contract](FACILITATOR-MODES.md). The existing [full-flow round preview](../prototype/index.html) remains separate and unchanged.
 

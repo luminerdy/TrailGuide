@@ -1,23 +1,125 @@
-// Deliberately SYNTHETIC host traces. NOT physical samples or tuned thresholds.
+// SYNTHETIC unit-gravity vectors, never measured traces or physical acceptance.
+// Compile this actual production header with ASan/UBSan; no detector stand-in.
 #include <cassert>
 #include <cstdio>
 #include <cmath>
+#include <limits>
+#include <initializer_list>
 #include "../trailguide_v3/gesture.h"
-static v3::ImuSample sample(uint32_t t,float a=1,float g=2.2f) {v3::ImuSample s;s.valid=true;s.at_ms=t;s.acc_g[2]=a;s.gyr_dps[0]=g;return s;}
-static bool feed(v3app::Gesture &d,uint32_t &t,float a,float g=2.2f,bool eligible=true){t+=20;return d.consume(sample(t,a,g),t,eligible);}
-static void rest(v3app::Gesture &d,uint32_t &t,int n=40){for(int i=0;i<n;i++)assert(!feed(d,t,1));}
-static bool peaks(v3app::Gesture &d,uint32_t &t){for(int i=0;i<3;i++){for(int j=0;j<3;j++)assert(!feed(d,t,2.1f));for(int j=0;j<5;j++)assert(!feed(d,t,1));}bool fired=false;for(int i=0;i<30;i++){if(feed(d,t,1)){assert(!fired);fired=true;}}return fired;}
+struct Vec { float x,y,z; };
+static Vec scaled(Vec v,float k){return {v.x*k,v.y*k,v.z*k};}
+struct Trace {
+ v3app::Gesture d;
+ uint32_t t=0, step=20;
+ unsigned fires=0;
+ Vec up={0,0,1}, side={1,0,0};
+ v3::ImuSample sample(Vec a,float gyro=2.2f) const {
+  v3::ImuSample s;s.valid=true;s.at_ms=t;
+  s.acc_g[0]=a.x;s.acc_g[1]=a.y;s.acc_g[2]=a.z;s.gyr_dps[0]=gyro;return s;
+ }
+ bool send(v3::ImuSample s,uint32_t age=0,bool eligible=true){
+  const bool fired=d.consume(s,t+age,eligible);fires+=fired;return fired;
+ }
+ bool tick(Vec a,float gyro=2.2f,bool eligible=true){t+=step;return send(sample(a,gyro),0,eligible);}
+ void pose(Vec a,unsigned ms,float gyro=2.2f,bool eligible=true){
+  for(unsigned elapsed=0;elapsed<ms;elapsed+=step)tick(a,gyro,eligible);
+ }
+ void rest(unsigned ms=900){pose(up,ms);}
+ void down(unsigned ms=500){pose(scaled(up,-1),ms);}
+ void arc(bool back,unsigned ms=600,float gyro=90.f){
+  const unsigned n=ms/step;
+  for(unsigned i=1;i<=n;++i){
+   const float angle=3.14159265359f*(back ? 1.f-float(i)/n : float(i)/n);
+   const float c=std::cos(angle),s=std::sin(angle);
+   tick({up.x*c+side.x*s,up.y*c+side.y*s,up.z*c+side.z*s},gyro);
+  }
+ }
+ void cycle(unsigned turnMs=600){arc(false,turnMs);down();arc(true,turnMs);rest(500);}
+ void expect(unsigned n)const{if(fires!=n)std::fprintf(stderr,"fires=%u expected=%u at=%u cadence=%u\n",fires,n,t,step);assert(fires==n);}
+};
+static void heldCycle(){
+ Trace f;f.rest();f.down();f.expect(0);f.rest(500);f.expect(1);
+ f.down(5000);f.expect(1); // Holding down during cooldown must not rebase it.
+ f.rest(900);f.expect(1);f.cycle();f.expect(2);
+}
+static void axesAndCadences(){
+ const Vec up[]={{0,0,1},{0,0,-1},{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{.6f,0,.8f}};
+ const Vec side[]={{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1},{.8f,0,-.6f}};
+ for(unsigned i=0;i<7;++i)for(uint32_t cadence:{20u,40u,100u}){
+  Trace f;f.up=up[i];f.side=side[i];f.step=cadence;f.rest();f.cycle();f.expect(1);
+ }
+ Trace jitter;for(unsigned i=0;i<150;++i){jitter.step=(i%3==0?100: (i%3==1?40:20));jitter.tick(jitter.up);}
+ jitter.cycle();jitter.expect(1);
+ Trace slow;slow.rest();slow.cycle(3000);slow.expect(1);
+}
+static void rejectsOrdinaryHandling(){
+ Trace f;f.rest();f.down(15000);f.expect(0);f.rest();f.expect(0); // Never-return timeout.
+ f.rest(1500);f.cycle();f.expect(1);
+ Trace tilt;tilt.rest();tilt.pose({.8f,0,.6f},2000);tilt.rest();tilt.expect(0);
+ // Heading-only gyro is not gravity inversion, even for a slow steady rotation.
+ tilt.pose(tilt.up,4000,5);tilt.pose(tilt.up,1000,150);tilt.rest();tilt.expect(0);
+ for(unsigned i=0;i<20;++i){tilt.pose(scaled(tilt.up,2.1f),60);tilt.rest(100);}
+ tilt.rest();tilt.expect(0); // Old multi-peak shake must no longer draw.
+ Trace brief;brief.rest();brief.down(100);brief.rest();brief.expect(0);
+ Trace partial;partial.rest();partial.pose({.7071068f,0,-.7071068f},700);partial.rest();partial.expect(0);
+ Trace shortReturn;shortReturn.rest();shortReturn.down();shortReturn.rest(100);shortReturn.down(700);shortReturn.expect(0);
+ shortReturn.rest(500);shortReturn.expect(1);
+ Trace noRest;noRest.pose(noRest.up,1000,30);noRest.cycle();noRest.expect(0);
+ Trace bias;bias.pose(bias.up,900,10);bias.down();bias.rest(500);bias.expect(1);
+ Trace dynamic;dynamic.rest();dynamic.pose({2,0,0},300,300);dynamic.down();
+ dynamic.pose({-2,0,0},300,300);dynamic.rest(500);dynamic.expect(1);
+ Trace movingHold;movingHold.rest();movingHold.arc(false);movingHold.pose(scaled(movingHold.up,-1),900,90);
+ movingHold.arc(true);movingHold.rest();movingHold.expect(0);
+ // Fresh steady direction, not magnitude alone, is required to acquire origin.
+ Trace rotating;for(unsigned i=0;i<40;++i)rotating.tick(i%2?rotating.up:rotating.side);
+ rotating.down();rotating.rest(500);rotating.expect(0);
+}
+static void cancelAndRearm(){
+ for(unsigned phase=0;phase<4;++phase)for(bool reset:{false,true}){
+  Trace f;f.rest();
+  if(phase>=1)f.arc(false);
+  if(phase>=2)f.down();
+  if(phase>=3){f.arc(true);f.rest(60);}
+  if(reset)f.d.reset();else f.tick(scaled(f.up,-1),2.2f,false);
+  f.down(1800);f.rest();f.expect(0); // Cancellation must not adopt the inverted pose.
+  f.cycle();f.expect(1);
+ }
+ Trace f;f.rest();f.cycle();f.expect(1);f.d.reset();f.rest();f.cycle();f.expect(1);
+ f.rest(3000);f.cycle();f.expect(2); // Cooldown survives reset; requires fresh rest.
+ Trace rebased;rebased.rest();rebased.pose(rebased.side,15000);rebased.expect(0);
+ rebased.up={1,0,0};rebased.side={0,0,1};rebased.rest(1500);rebased.cycle();rebased.expect(1);
+}
+static void badFrames(){
+ for(unsigned kind=0;kind<12;++kind){
+  Trace f;f.rest();f.arc(false);f.down();f.t+=f.step;
+  auto s=f.sample(scaled(f.up,-1));uint32_t age=0;
+  switch(kind){
+   case 0:s.valid=false;break;
+   case 1:s.acc_g[0]=std::numeric_limits<float>::quiet_NaN();break;
+   case 2:s.gyr_dps[2]=std::numeric_limits<float>::infinity();break;
+   case 3:s.acc_g[1]=3.99f;break;
+   case 4:s.gyr_dps[1]=-511.f;break;
+   case 5:age=61;break;
+   case 6:s.at_ms-=f.step;break; // duplicate is cancellation, not a free extra hold
+   case 7:s.at_ms-=1000;break; // backwards/out of order
+   case 8:f.t+=400;s.at_ms=f.t;break; // missing-frame gap
+   case 9:s.acc_g[2]=std::numeric_limits<float>::infinity();break;
+   case 10:s.gyr_dps[0]=std::numeric_limits<float>::quiet_NaN();break;
+   case 11:s.at_ms=f.t+1;break; // future frame
+  }
+  assert(!f.send(s,age));f.rest();f.expect(0);f.cycle();f.expect(1);
+ }
+ Trace jump;jump.rest();jump.down(20);jump.t+=200;jump.tick(scaled(jump.up,-1));
+ jump.rest(500);jump.expect(0); // Elapsed time alone is not enough: >=4 fresh samples.
+ Trace duplicate;duplicate.rest();duplicate.down(20);
+ auto same=duplicate.sample(scaled(duplicate.up,-1));
+ for(unsigned i=0;i<100;++i)assert(!duplicate.send(same));
+ duplicate.rest();duplicate.expect(0);
+ Trace gap;gap.rest();gap.arc(false);gap.down();gap.t+=400;gap.rest();gap.expect(0);
+ Trace wrap;wrap.t=0xfffffc00u;wrap.rest();wrap.cycle();wrap.expect(1);
+ wrap.d.reset();wrap.rest(4000);wrap.cycle();wrap.expect(2);
+}
 int main(){
- uint32_t t=0;v3app::Gesture d;rest(d,t);assert(peaks(d,t));assert(!peaks(d,t));rest(d,t,140);assert(peaks(d,t));
- d.reset();rest(d,t);for(int i=0;i<5;i++)assert(!feed(d,t,2.1f));rest(d,t,60); // single bump
- for(int i=0;i<100;i++){assert(!feed(d,t,1,90));}rest(d,t); // rotation
- for(int i=0;i<100;i++)assert(!feed(d,t,1+.08f*std::sin(i))); // handling/noise
- auto stale=sample(t-100);assert(!d.consume(stale,t,true));
- auto invalid=sample(t+20);invalid.valid=false;assert(!d.consume(invalid,t+20,true));
- auto clipped=sample(t+40,4);assert(!d.consume(clipped,t+40,true));
- rest(d,t);auto same=sample(t);for(int i=0;i<50;i++)assert(!d.consume(same,t,true));
- for(int i=0;i<100;i++){assert(!feed(d,t,2.1,2.2,false));}rest(d,t);assert(peaks(d,t));
- d.reset();rest(d,t);for(int i=0;i<3;i++){feed(d,t,2.1);feed(d,t,1);}d.reset();rest(d,t); // context cancellation
- t=0xfffffc00u;d.reset();rest(d,t);assert(peaks(d,t)); // rollover
- puts("PASS gesture: synthetic multi-peak/rest, bias, noise/bump/rotation, bad/stale/repeat/clipped, cooldown/context, rollover");
+ heldCycle();axesAndCadences();rejectsOrdinaryHandling();cancelAndRearm();badFrames();
+ puts("PASS gesture: SYNTHETIC held flip/return, axes/sign/cadence/slow turns, handling, cancellation/rearm/cooldown, invalid/freshness/gaps/rollover; NOT PHYSICAL ACCEPTANCE");
 }

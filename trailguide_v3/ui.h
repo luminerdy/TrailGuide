@@ -5,11 +5,11 @@
 #include "window_reveal.h"
 #include "cards_generated.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.1";
+static constexpr const char *version="v3-0.1.2";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:
- enum class Action { Ask, Try, Home, Guide, Another, Back, More, Instant };
+ enum class Action { Ask, Try, Home, Guide, Another, Back, More, Instant, Options, Count };
  Model model;WindowReveal window;
  lv_obj_t *root=nullptr,*first=nullptr,*second=nullptr,*backButton=nullptr,*moreButton=nullptr,*toggle=nullptr,*scroll=nullptr,*body=nullptr,*motionStatus=nullptr;
  bool instant=false,fallback=false;
@@ -17,11 +17,16 @@ class Ui {
  Ui(const Ui&)=delete;Ui &operator=(const Ui&)=delete;
  ~Ui(){cancel();if(root)lv_obj_del(root);}
  bool busy()const{return timer!=nullptr;}
- bool eligible()const{return root && (model.view==View::Home || model.view==View::Card) && !busy() && !pointerDown && !scrolling;}
+ bool eligible()const{return root && (model.view==View::Home || model.view==View::Card) && !optionsOpen && !busy() && !pointerDown && !scrolling;}
  void sample(const v3::ImuSample &s,uint32_t now,bool available){
   const bool healthy=available && s.valid && uint32_t(now-s.at_ms)<=60;
   if(healthy!=motionAvailable){motionAvailable=healthy;updateStatus();}
-  if(gesture.consume(s,now,healthy && eligible()))draw(model.view==View::Home?Mode::Ask:model.mode);
+  // The application loop is faster than the IMU poll. Dispatch each sample
+  // once, but cancel immediately on lost health/context even on repeated data.
+  const bool freshFrame=!sampleSeen || s.at_ms!=lastSampleAt;
+  sampleSeen=true;lastSampleAt=s.at_ms;
+  if(!healthy || !eligible()){gesture.consume(s,now,false);return;}
+  if(freshFrame && gesture.consume(s,now,true))draw(model.view==View::Home?Mode::Ask:model.mode);
  }
  void render(){
   cancel();gesture.reset();
@@ -32,15 +37,21 @@ class Ui {
   lv_obj_add_event_cb(root,contact,LV_EVENT_ALL,this);
   lv_obj_set_style_bg_color(root,lv_color_hex(0x02070d),0);lv_obj_set_style_bg_opa(root,LV_OPA_COVER,0);lv_obj_set_style_text_color(root,lv_color_hex(0xf3f5ee),0);lv_obj_set_style_text_font(root,&lv_font_montserrat_18,0);
   if(model.view==View::Home){
-   label(root,"Find a direction",90,44,180,&lv_font_montserrat_20);
-   label(root,"Playful, not north",112,70,160,&lv_font_montserrat_14);
-   compass=lv_obj_create(root);lv_obj_remove_style_all(compass);lv_obj_set_pos(compass,136,88);lv_obj_set_size(compass,88,88);lv_obj_clear_flag(compass,LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_SCROLLABLE);
+   if(optionsOpen){
+    label(root,"Options",130,80,120,&lv_font_montserrat_20);
+    backButton=button(Action::Back,"Back",130,118,100,48);
+    first=button(Action::Ask,"Ask the Team",76,180,100,56);
+    second=button(Action::Try,"Try a Move",184,180,100,56);
+    toggle=button(Action::Instant,instant?"Instant text: ON":"Instant text: OFF",94,252,172,48);
+    return;
+   }
+   compass=lv_obj_create(root);lv_obj_remove_style_all(compass);lv_obj_set_pos(compass,40,4);lv_obj_set_size(compass,280,280);lv_obj_clear_flag(compass,LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_PRESS_LOCK);lv_obj_add_flag(compass,LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_ADV_HITTEST);
+   lv_obj_add_event_cb(compass,safeCompassHit,LV_EVENT_HIT_TEST,this);
+   auto &slot=slots[unsigned(Action::Ask)];slot={this,Action::Ask};lv_obj_add_event_cb(compass,clicked,LV_EVENT_CLICKED,&slot);lv_obj_add_event_cb(compass,contact,LV_EVENT_ALL,this);
    lv_obj_add_event_cb(compass,drawCompass,LV_EVENT_DRAW_MAIN,this);lv_obj_add_event_cb(compass,deleted,LV_EVENT_DELETE,this);
-   compassState=lv_tick_get()^0x8b31fca5u;compassAngle=0;compassTarget=130;compassTicks=0;compassTimer=lv_timer_create(wander,40,this);
-   label(root,"Shake for an idea",92,180,184,&lv_font_montserrat_18);
-   first=button(Action::Ask,"Ask the Team",76,212,100,48);
-   second=button(Action::Try,"Try a Move",184,212,100,48);
-   toggle=button(Action::Instant,instant?"Instant text: ON":"Instant text: OFF",94,270,172,48);
+   compassState=lv_tick_get()^0x8b31fca5u;compassAngle=0;compassTarget=130;compassTicks=0;compassTimer=lv_timer_create(wander,160,this);
+   auto *hint=label(root,"Turn over & back, or tap",58,262,244,&lv_font_montserrat_16);lv_obj_set_style_text_align(hint,LV_TEXT_ALIGN_CENTER,0);
+   moreButton=button(Action::Options,"Options",134,290,92,48);
    return;
   }
   backButton=button(model.view==View::Guide?Action::Back:Action::Home,model.view==View::Guide?"Back":"Home",76,54,100,48);
@@ -60,6 +71,9 @@ class Ui {
  }
  void perform(Action a){
   gesture.reset();
+  if(a==Action::Options){optionsOpen=true;render();return;}
+  if(a==Action::Home || (a==Action::Back && optionsOpen)){optionsOpen=false;model.home();render();return;}
+  if(a==Action::Ask || a==Action::Try)optionsOpen=false;
   if(a==Action::Another && busy()){finish();return;}
   if(a==Action::Ask){draw(Mode::Ask);return;}
   if(a==Action::Try){draw(Mode::Try);return;}
@@ -69,27 +83,35 @@ class Ui {
   render();
  }
  private:
- struct Slot{Ui *owner;Action action;}slots[8]{};
+ struct Slot{Ui *owner;Action action;}slots[unsigned(Action::Count)]{};
+ bool optionsOpen=false;
  lv_obj_t *compass=nullptr;lv_timer_t *compassTimer=nullptr;uint32_t compassState=0;unsigned compassTicks=0;float compassAngle=0,compassTarget=0;
  lv_timer_t *timer=nullptr;uint32_t started=0;bool motionAvailable=false,pointerDown=false,scrolling=false;Gesture gesture;
+ bool sampleSeen=false;uint32_t lastSampleAt=0;
  void stopCompass(){if(compassTimer){lv_timer_del(compassTimer);compassTimer=nullptr;}}
+ static void safeCompassHit(lv_event_t *e){auto *h=lv_event_get_hit_test_info(e);const int32_t x=int32_t(h->point->x)-180,y=int32_t(h->point->y)-180;if(x*x+y*y>168*168)h->res=false;}
  static void wander(lv_timer_t *t){auto *u=static_cast<Ui*>(t->user_data);
-  if(++u->compassTicks%35==0){u->compassState=u->compassState*1664525u+1013904223u;u->compassTarget+=float(70+u->compassState%160)*(u->compassState&256?1:-1);}
-  u->compassAngle+=(u->compassTarget-u->compassAngle)*.045f;
+  const auto old=u->needleArea();
+  if(++u->compassTicks%12==0){u->compassState=u->compassState*1664525u+1013904223u;u->compassTarget+=float(70+u->compassState%160)*(u->compassState&256?1:-1);}
+  u->compassAngle+=(u->compassTarget-u->compassAngle)*.12f;
   // Bound the angle over long idle sessions; no model RNG or per-tick allocation.
   if(u->compassAngle>720 || u->compassAngle< -720){float shift=u->compassAngle>0?360:-360;u->compassAngle-=shift;u->compassTarget-=shift;}
-  lv_obj_invalidate(u->compass);
+  auto area=u->needleArea();area.x1=LV_MIN(area.x1,old.x1);area.y1=LV_MIN(area.y1,old.y1);area.x2=LV_MAX(area.x2,old.x2);area.y2=LV_MAX(area.y2,old.y2);lv_obj_invalidate_area(u->compass,&area);
  }
- static void drawCompass(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));auto *ctx=lv_event_get_draw_ctx(e);lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);const int x=a.x1+44,y=a.y1+44;
+ lv_area_t needleArea()const{lv_area_t a;lv_obj_get_coords(compass,&a);float r=compassAngle*.01745329252f;int x=a.x1+140,y=a.y1+140;int px=x-std::sin(r)*72,py=y+std::cos(r)*72,qx=x+std::sin(r)*92,qy=y-std::cos(r)*92;return {lv_coord_t(LV_MIN(px,qx)-18),lv_coord_t(LV_MIN(py,qy)-18),lv_coord_t(LV_MAX(px,qx)+18),lv_coord_t(LV_MAX(py,qy)+18)};}
+ static void drawCompass(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));auto *ctx=lv_event_get_draw_ctx(e);lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);const int x=a.x1+140,y=a.y1+140;
   lv_draw_line_dsc_t d;lv_draw_line_dsc_init(&d);d.color=lv_color_hex(0x54778c);d.width=2;
-  for(int deg=0;deg<360;deg+=45){float r=deg*.01745329252f;lv_point_t p={lv_coord_t(x+std::sin(r)*32),lv_coord_t(y-std::cos(r)*32)},q={lv_coord_t(x+std::sin(r)*41),lv_coord_t(y-std::cos(r)*41)};lv_draw_line(ctx,&d,&p,&q);}
-  float r=u->compassAngle*.01745329252f;lv_point_t p={lv_coord_t(x-std::sin(r)*25),lv_coord_t(y+std::cos(r)*25)},q={lv_coord_t(x+std::sin(r)*32),lv_coord_t(y-std::cos(r)*32)},c={lv_coord_t(x),lv_coord_t(y)};
-  d.width=5;d.round_start=d.round_end=1;d.color=lv_color_hex(0x83b4ca);lv_draw_line(ctx,&d,&p,&c);d.color=lv_color_hex(0xf2bb62);lv_draw_line(ctx,&d,&c,&q);
+  for(int deg=0;deg<360;deg+=15){float r=deg*.01745329252f;lv_point_t p={lv_coord_t(x+std::sin(r)*102),lv_coord_t(y-std::cos(r)*102)},q={lv_coord_t(x+std::sin(r)*112),lv_coord_t(y-std::cos(r)*112)};lv_draw_line(ctx,&d,&p,&q);}
+  // Fixed eight-point rose: decorative, with no measured-heading claim.
+  d.color=lv_color_hex(0x305365);d.width=2;
+  for(int deg=0;deg<360;deg+=45){float r=deg*.01745329252f;int length=deg%90?64:92;lv_point_t tip={lv_coord_t(x+std::sin(r)*length),lv_coord_t(y-std::cos(r)*length)},c={lv_coord_t(x),lv_coord_t(y)};lv_draw_line(ctx,&d,&c,&tip);for(int side=-1;side<=1;side+=2){float s=r+side*1.5707963f;lv_point_t wing={lv_coord_t(x+std::sin(s)*12),lv_coord_t(y-std::cos(s)*12)};lv_draw_line(ctx,&d,&wing,&tip);}}
+  float r=u->compassAngle*.01745329252f;lv_point_t p={lv_coord_t(x-std::sin(r)*72),lv_coord_t(y+std::cos(r)*72)},q={lv_coord_t(x+std::sin(r)*92),lv_coord_t(y-std::cos(r)*92)},c={lv_coord_t(x),lv_coord_t(y)};
+  d.width=8;d.round_start=d.round_end=1;d.color=lv_color_hex(0x83b4ca);lv_draw_line(ctx,&d,&p,&c);d.color=lv_color_hex(0xf2bb62);lv_draw_line(ctx,&d,&c,&q);
   // Arrow shoulders distinguish the wandering needle from a clock hand.
-  for(int side=-1;side<=1;side+=2){float s=r+side*.48f;lv_point_t wing={lv_coord_t(q.x-std::sin(s)*13),lv_coord_t(q.y+std::cos(s)*13)};d.width=3;lv_draw_line(ctx,&d,&q,&wing);}
+  for(int side=-1;side<=1;side+=2){float s=r+side*.48f;lv_point_t wing={lv_coord_t(q.x-std::sin(s)*24),lv_coord_t(q.y+std::cos(s)*24)};d.width=3;lv_draw_line(ctx,&d,&q,&wing);}
  }
  void draw(Mode mode){model.draw(mode);render();if(!instant)start();}
- void updateStatus(){if(motionStatus)lv_label_set_text(motionStatus,model.mode==Mode::Ask?(motionAvailable?"ASK DRAFT | shake":"ASK DRAFT | touch"):(motionAvailable?"TRY DRAFT | shake":"TRY DRAFT | touch"));}
+ void updateStatus(){if(motionStatus)lv_label_set_text(motionStatus,model.mode==Mode::Ask?(motionAvailable?"ASK DRAFT | flip":"ASK DRAFT | touch"):(motionAvailable?"TRY DRAFT | flip":"TRY DRAFT | touch"));}
  void caption(const char *s){if(second){auto *c=lv_obj_get_child(second,0);if(c){lv_label_set_text(c,s);lv_obj_center(c);}}}
  void cancel(){stopCompass();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
  void finish(){cancel();if(model.view==View::Card)caption("Another");}
@@ -98,7 +120,7 @@ class Ui {
  static void drawWindow(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);auto *ctx=lv_event_get_draw_ctx(e);if(u->window.active())u->window.draw(ctx,a);else WindowReveal::face(ctx,a,0);}
  static void contact(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));switch(lv_event_get_code(e)){case LV_EVENT_PRESSED:u->pointerDown=true;u->gesture.reset();break;case LV_EVENT_RELEASED:case LV_EVENT_PRESS_LOST:u->pointerDown=false;u->gesture.reset();break;case LV_EVENT_SCROLL_BEGIN:u->scrolling=true;u->gesture.reset();break;case LV_EVENT_SCROLL_END:u->scrolling=false;u->gesture.reset();break;default:break;}}
  static void deleted(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);if(o==u->root){u->cancel();u->gesture.reset();u->root=nullptr;u->compass=nullptr;u->first=u->second=u->backButton=u->moreButton=u->toggle=u->body=u->scroll=u->motionStatus=nullptr;u->pointerDown=false;u->scrolling=false;return;}if(o==u->compass){u->stopCompass();u->compass=nullptr;}if(o==u->motionStatus)u->motionStatus=nullptr;if(u->second && lv_obj_get_parent(o)==u->second)u->cancel();if(o==u->body){u->body=nullptr;u->cancel();}if(o==u->scroll){u->scroll=nullptr;u->cancel();}if(o==u->second){u->second=nullptr;u->cancel();}if(o==u->first)u->first=nullptr;if(o==u->backButton)u->backButton=nullptr;if(o==u->moreButton)u->moreButton=nullptr;if(o==u->toggle)u->toggle=nullptr;}
- lv_obj_t *label(lv_obj_t *p,const char *s,int x,int y,int w,const lv_font_t *font){auto *o=lv_label_create(p);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,w);lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_font(o,font,0);lv_obj_set_style_text_line_space(o,4,0);lv_label_set_text(o,s);return o;}
+ lv_obj_t *label(lv_obj_t *p,const char *s,int x,int y,int w,const lv_font_t *font){auto *o=lv_label_create(p);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_clear_flag(o,LV_OBJ_FLAG_CLICKABLE);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,w);lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_font(o,font,0);lv_obj_set_style_text_line_space(o,4,0);lv_label_set_text(o,s);return o;}
  lv_obj_t *button(Action a,const char *s,int x,int y,int w,int h){auto *o=lv_btn_create(root);lv_obj_remove_style_all(o);lv_obj_set_pos(o,x,y);lv_obj_set_size(o,w,h);lv_obj_clear_flag(o,LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_PRESS_LOCK);lv_obj_set_style_bg_opa(o,LV_OPA_COVER,0);lv_obj_set_style_bg_color(o,lv_color_hex(a==Action::Ask?0x27689f:0x285066),0);lv_obj_set_style_bg_color(o,lv_color_hex(0x407994),LV_STATE_PRESSED);lv_obj_set_style_radius(o,8,0);lv_obj_set_style_outline_width(o,2,LV_STATE_FOCUSED);lv_obj_set_style_outline_pad(o,0,LV_STATE_FOCUSED);lv_obj_set_style_outline_color(o,lv_color_hex(0xffffff),LV_STATE_FOCUSED);auto *text=label(o,s,0,0,w-8,&lv_font_montserrat_16);lv_obj_set_style_text_align(text,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(text);auto &slot=slots[unsigned(a)];slot={this,a};lv_obj_add_event_cb(o,clicked,LV_EVENT_CLICKED,&slot);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(o,contact,LV_EVENT_ALL,this);return o;}
  static void clicked(lv_event_t *e){auto *s=static_cast<Slot*>(lv_event_get_user_data(e));s->owner->perform(s->action);if(auto *in=lv_indev_get_act())lv_indev_wait_release(in);}
 };

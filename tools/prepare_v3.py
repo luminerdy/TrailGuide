@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-0.1.1/. The local ZIP
+All derived files stay in ignored build/v3-0.1.2/. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -11,18 +11,18 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-0.1.1'
+PRIVATE = ROOT / 'build/v3-0.1.2'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
 
 
 def prepare(output=None):
-    # Default is the next increment; refuse paths that could erase v0.1.0 evidence.
+    # Default is the next increment; refuse paths that could erase any accepted fallback evidence.
     private = Path(output).resolve() if output is not None else PRIVATE.resolve()
     allowed = PRIVATE.resolve()
     if private != allowed and allowed not in private.parents:
-        raise ValueError('Output must be inside ignored build/v3-0.1.1')
+        raise ValueError('Output must be inside ignored build/v3-0.1.2')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')

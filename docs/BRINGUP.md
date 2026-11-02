@@ -2,6 +2,16 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 full-screen compass and turn-over/back — v3-0.1.2
+
+- Full-screen decorative rose with indefinite independent-RNG idle animation, bounded needle dirty regions at 160ms, tap-to-Ask once on release and compact Options for Ask/Try/Instant/Back. No automatic draw or card-RNG use. Accepted answer renderer/model/IMU/canonical content remain unchanged; proposed 12-card copy and bubble preview are not installed.
+- Replaced physically unsuccessful shake with stable gravity-reference → held opposition → held return. Synthetic axes/sign/cadence/gap/cancellation/cooldown tests pass; actual turn-over reliability remains unaccepted. Normal faster-loop duplicate samples initially prevented arming: actual integrated RED reproduced it, then fresh-frame dispatch plus immediate context cancellation passed GREEN.
+- Independent review blocked a compass rectangle tap outside the radius 168 safe circle. Real input at (180,8) reproduced RED; advanced hit-testing in screen coordinates passed GREEN and targeted re-review. Original background contact suppression and center release-only draw remain intact.
+- Actual LVGL 8.3.10 ASan/UBSan, model/gesture/IMU and 38 isolated Python tests passed. Host caller allocations 135, outstanding 0, LVGL peak 14,752/49,152. A sandbox initially lacked original comparison drivers; copying the pinned fixtures resolved that environment error. No accepted fallback was prepared in the original checkout.
+- Fixed S3 build 634,199 program bytes / 126,776 globals; exported app 634,352 bytes. Actual S3 header/checksum/hash/slot, current prepared sources, original backup hashes, fresh same-board S3/16MB and byte-identical bootloader/partitions passed validation. Only app0 at 0x10000 was written and data-hash verified.
+- Readback: exact v3-0.1.2, UI ready, expander/touch ACKs, physical IMU 0x6b/WHO 0x05/revision 0x7c/configuration/fresh samples. Six continuing heartbeats had no sampling errors; LVGL free 42,808 and PSRAM free 8,382,632 stayed constant. No synthetic hardware input, V1/V2 access, raw-motion handler, telemetry/history, network or optional peripherals added. Monitor closed; physical compass/flip check pending.
+- Discontinued shake-diagnostic source fragments were archived privately and are not part of the prepared or installed image. Current private evidence: `build/v3-0.1.2/`; see [V3-TRIAL.md](V3-TRIAL.md).
+
 ## V3 playful compass intro — v3-0.1.1
 
 - Home now shows a gently wandering decorative idea compass; no measured north/heading claim or new sensor. Idle ticks use separate pseudo-random state and never draw cards or consume card RNG. Intro shake defaults to Ask through the existing single-draw path. Touch Ask/Try/Instant remain available; Instant text bypasses card reveal, not compass motion.

@@ -7,15 +7,19 @@
 #include <set>
 #include <algorithm>
 static lv_color_t buf[360*20], screen[360*360];
-static unsigned allocations=0,outstanding=0;static bool fail=false;
-static void *allocate(size_t n){if(fail)return nullptr;++allocations;++outstanding;return malloc(n);}
+static unsigned allocations=0,outstanding=0;static bool fail=false,starveFocus=false;static void *focusMemoryBlock=nullptr;
+static void *focusFragments[64]{};static unsigned focusFragmentCount=0;
+static void *allocate(size_t n){if(starveFocus){lv_mem_monitor_t m;lv_mem_monitor(&m);focusMemoryBlock=lv_mem_alloc(m.free_biggest_size-1024);assert(focusMemoryBlock);while(focusFragmentCount<64){void *p=lv_mem_alloc(64);if(!p)break;focusFragments[focusFragmentCount++]=p;}return nullptr;}if(fail)return nullptr;++allocations;++outstanding;return malloc(n);}
 static void release(void *p){if(p){assert(outstanding);--outstanding;free(p);}}
 static uint32_t rng(void *p){auto &s=*static_cast<uint32_t*>(p);s=s*1664525u+1013904223u;return s;}
+static bool failFocusTimer=false;
+extern "C" lv_timer_t *__real_lv_timer_create(lv_timer_cb_t,uint32_t,void*);
+extern "C" lv_timer_t *__wrap_lv_timer_create(lv_timer_cb_t cb,uint32_t period,void *user){if(period==5000){lv_mem_monitor_t m;lv_mem_monitor(&m);assert(m.free_biggest_size>=sizeof(lv_timer_t)+64 && "do not enter asserting LVGL timer allocator on exhausted heap");if(failFocusTimer)return nullptr;}return __real_lv_timer_create(cb,period,user);}
 static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.2/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.3/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -27,15 +31,52 @@ int main(){
  lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buf,nullptr,360*20);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);
  lv_indev_drv_t input;lv_indev_drv_init(&input);input.type=LV_INDEV_TYPE_POINTER;input.read_cb=readTouch;lv_indev_drv_register(&input);
  uint32_t seed=7;
- {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);assert(u.model.index==-1);assert(!u.busy());assert(!u.first && !u.second && !u.toggle);bounds(u.moreButton,true);
- for(unsigned i=0;i<lv_obj_get_child_cnt(u.root);++i)if(i)bounds(lv_obj_get_child(u.root,i));
- assert(std::string(lv_label_get_text(lv_obj_get_child(u.root,1)))=="Turn over & back, or tap" && "intro must describe the new turn-over gesture, not shake");
- assert(lv_obj_get_height(lv_obj_get_child(u.root,1))<=24 && "intro hint must fit above Options");
- assert(lv_obj_get_width(lv_obj_get_child(u.root,0))>=256 && "compass must dominate Home");
- lv_refr_now(nullptr);assert(screen[144*360+100].full!=screen[0].full && "large static compass rose must be visible");
+ auto hidden=[](v3app::Ui &u,bool value){for(auto *o:{u.backButton,u.moreButton,u.first,u.second,u.motionStatus}){assert(o);assert(lv_obj_has_flag(o,LV_OBJ_FLAG_HIDDEN)==value);}};
+ {v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(v3app::Ui::Action::Ask);hidden(u,true);
+  const int id=u.model.index;const auto before=seed;save(300);const auto revealAlloc=allocations;advance(3000);save(303);advance(3000);assert(allocations==revealAlloc);
+  assert(!u.busy() && u.eligible());hidden(u,true);save(301);
+  advance(4990);hidden(u,true);advance(50);hidden(u,false);save(302);assert(u.model.index==id && seed==before);
+  u.perform(v3app::Ui::Action::Another);hidden(u,true);press(180,180);lift();assert(!u.busy());hidden(u,true);
+  int same=u.model.index;auto sameSeed=seed;press(180,180);lift();hidden(u,false);assert(u.model.index==same && seed==sameSeed);
+  u.perform(v3app::Ui::Action::Another);advance(6000);same=u.model.index;sameSeed=seed;
+  press(126,78);lift();hidden(u,false);assert(u.model.view==v3app::View::Card && u.model.index==same && seed==sameSeed && "hidden Home must not activate");
+  u.perform(v3app::Ui::Action::Another);advance(6000);press(180,180);pt={220,180};advance(60);lift();hidden(u,true);
+  advance(3000);u.perform(v3app::Ui::Action::Another);advance(2100);hidden(u,true);assert(u.busy());
+  u.perform(v3app::Ui::Action::Guide);advance(12000);assert(u.model.view==v3app::View::Guide);hidden(u,false);
+  u.perform(v3app::Ui::Action::Back);hidden(u,false);assert(!u.busy());
+  u.instant=true;u.perform(v3app::Ui::Action::Another);hidden(u,true);assert(!u.busy());advance(4990);hidden(u,true);advance(50);hidden(u,false);
+  u.instant=false;fail=true;u.perform(v3app::Ui::Action::Another);fail=false;assert(u.fallback && !u.busy());hidden(u,true);press(180,180);lift();hidden(u,false);
+  // All four hidden control positions route to same-card tap escape, not actions.
+  u.instant=true;for(auto p:{lv_point_t{126,78},lv_point_t{232,78},lv_point_t{126,280},lv_point_t{232,280}}){u.perform(v3app::Ui::Action::Another);hidden(u,true);const int same=u.model.index;const auto s=seed;press(p.x,p.y);lift();hidden(u,false);assert(u.model.view==v3app::View::Card && u.model.index==same && seed==s);}
+  starveFocus=true;u.instant=false;u.perform(v3app::Ui::Action::Another);starveFocus=false;while(focusFragmentCount)lv_mem_free(focusFragments[--focusFragmentCount]);lv_mem_free(focusMemoryBlock);focusMemoryBlock=nullptr;hidden(u,false);assert(u.fallback && !u.busy());
+  failFocusTimer=true;u.instant=true;u.perform(v3app::Ui::Action::Another);hidden(u,false);assert(!u.busy());
+  u.instant=false;u.perform(v3app::Ui::Action::Another);hidden(u,true);advance(6000);hidden(u,false);failFocusTimer=false;
+  // Independent chrome deletion must cancel the pending focus callback.
+  u.instant=true;u.perform(v3app::Ui::Action::Another);auto withHold=timers();lv_obj_del(u.first);assert(timers()+1==withHold);advance(12000);assert(!u.first);
+  // Deletion during settled hold must cancel the pending chrome callback.
+  u.instant=true;u.perform(v3app::Ui::Action::Another);hidden(u,true);lv_obj_del(u.root);assert(!u.root);advance(12000);
+ }advance(12000);assert(!outstanding);
+ // Every completed flip after settle, including a bag boundary, draws exactly once.
+ for(auto mode:{v3app::Mode::Ask,v3app::Mode::Try}){uint32_t expectedSeed=seed;v3app::Model expected(rng,&expectedSeed);
+  v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(mode==v3app::Mode::Ask?v3app::Ui::Action::Ask:v3app::Ui::Action::Try);expected.draw(mode);
+  auto feed=[&](float z){advance(20);v3::ImuSample s;s.valid=true;s.at_ms=lv_tick_get();s.acc_g[2]=z;s.gyr_dps[1]=-2.2f;u.sample(s,s.at_ms,true);u.sample(s,s.at_ms+1,true);};
+  auto quiet=[&](){for(int i=0;i<40;i++)feed(1);};auto flip=[&](){for(int i=0;i<25;i++)feed(-1);for(int i=0;i<25;i++)feed(1);};
+  for(int n=0;n<10;n++){assert(u.model.index==expected.index && seed==expectedSeed);advance(6000);hidden(u,true);assert(u.eligible());
+   const int old=u.model.index;quiet();flip();expected.draw(mode);assert(u.model.index!=old && u.model.index==expected.index && seed==expectedSeed && u.busy());hidden(u,true);
+  }
+ }
+
+
+ {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);assert(u.model.index==-1);assert(!u.busy());assert(!u.first && !u.second && !u.toggle && !u.moreButton);
+ assert(lv_obj_get_child_cnt(u.root)==1 && "Home is plain compass only");
+ auto *rose=lv_obj_get_child(u.root,0);lv_area_t roseArea;lv_obj_get_coords(rose,&roseArea);
+ assert(lv_obj_get_width(rose)>=320 && lv_obj_get_height(rose)>=320);
+ assert(roseArea.x1+lv_obj_get_width(rose)/2==180 && roseArea.y1+lv_obj_get_height(rose)/2==180);
+ assert(lv_obj_has_flag(rose,LV_OBJ_FLAG_ADV_HITTEST));
+ lv_refr_now(nullptr);assert(screen[40*360+180].full!=screen[0].full && "large static compass rose must be visible");
  auto homePixels=face();save(100);for(unsigned n=0;n<40;++n){save(200+n);advance(40);}save(101);assert(face()!=homePixels && "Home compass must visibly wander");assert(u.model.index==-1 && !u.busy() && !outstanding);
- auto edgeSeed=seed;press(180,8);lift();assert(u.model.index==-1 && seed==edgeSeed && "outside-safe-circle compass tap must not draw");
- press(180,150);advance(500);assert(u.model.index==-1);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
+ auto edgeSeed=seed;press(180,8);lift();assert(u.model.index==-1 && seed==edgeSeed && u.eligible() && "inside-object off-safe-circle contact must remain on pure compass");
+ press(180,150);advance(500);assert(u.model.index==-1);lift();assert(!u.eligible() && u.model.index==-1 && seed==edgeSeed);press(126,208);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
  auto tappedSeed=seed;advance(60);assert(u.model.index==id && seed==tappedSeed);
  auto copy=std::string(lv_label_get_text(u.body));assert(std::strstr(lv_label_get_text(u.motionStatus),"ASK DRAFT"));assert(copy==trailguide::cards[id].ask);auto dark=face();advance(400);assert(face()==dark);u.perform(v3app::Ui::Action::Another);assert(!u.busy() && u.model.index==id);
  u.perform(v3app::Ui::Action::Guide);assert(!u.busy());assert(std::string(lv_label_get_text(u.body))==trailguide::cards[id].askGuide);bounds(u.scroll);u.perform(v3app::Ui::Action::Back);assert(u.model.index==id&&!u.busy());
@@ -119,5 +160,5 @@ int main(){
   lv_event_send(u.scroll,LV_EVENT_SCROLL_END,nullptr);assert(u.eligible());
   quiet();flip();assert(u.busy()&&u.model.index!=saved);
  }
- printf("PASS actual LVGL8.3.10 ASan/UBSan: compass pixels/no idle draw or model RNG use/stable heap, Home synthetic flip one draw/Instant/contact, compass restart/child-root-owner deletion, both modes/eight cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
+ printf("PASS actual LVGL8.3.10 ASan/UBSan: compass pixels/no idle draw or model RNG use/stable heap, Home synthetic flip one draw/Instant/contact, compass restart/child-root-owner deletion, both modes/eight cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; card-only 6s+5s timing/tap-not-drag/hidden hit targets/stale focus/20 post-settle flips/timerfail; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
 }

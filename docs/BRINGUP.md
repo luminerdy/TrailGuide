@@ -2,6 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 plain compass and settled card-only hold — v3-0.1.3
+
+- The prior v3-0.1.2 turn-over/back interaction was reported working on the physical device. Its detector/model/IMU/reveal/content remain unchanged. New Home has only a full-face rose centered (180,180), with tap-to-Options and safe-circle hit-testing; no instructions/buttons or idle draw.
+- Card chrome hides during the accepted six-second reveal, then for five seconds after settlement. Tap can finish the same reveal/start hold, then expose controls; drag does not. New complete flips remain eligible during the settled hold. Separate deadline ownership prevents stale unhide after new draw/navigation/deletion. Null-timer and real LVGL exhaustion paths leave controls accessible.
+- Actual LVGL 8.3.10 ASan/UBSan passed; caller allocations 163, outstanding 0, peak 14,760/49,152. Twenty synthetic flips across mode bags/boundaries yielded different adjacent IDs and exact RNG/model progression. All 38 isolated Python tests passed. Independent scoped review found no blockers. All 5,491 installed baseline files/inventory stayed byte-identical. Host checks are not device timing acceptance.
+- Actual S3 build 634,659 program bytes / 126,792 globals; exported app 634,800 bytes. Image/source hashes, slot/target, unchanged bootloader/partitions, original backups and fresh same-board S3/16MB validated. Only app0 at 0x10000 written; data hash verified.
+- Exact v3-0.1.3/UI ready/expander-touch ACKs/real IMU identity/configuration/fresh samples read back. Six continuing heartbeats had no sampling errors; Home LVGL free 43,560 and PSRAM free 8,382,632 bytes stayed stable. No synthetic device input or V1/V2 access. Monitor closed. Plain-compass/new card-only timing physical review pending; bubbles and twelve-card draft not included.
+- Current private package/logs: `build/v3-0.1.3/`. See [V3-TRIAL.md](V3-TRIAL.md). Source publication remains pending GitHub authentication.
+
 ## V3 full-screen compass and turn-over/back — v3-0.1.2
 
 - Full-screen decorative rose with indefinite independent-RNG idle animation, bounded needle dirty regions at 160ms, tap-to-Ask once on release and compact Options for Ask/Try/Instant/Back. No automatic draw or card-RNG use. Accepted answer renderer/model/IMU/canonical content remain unchanged; proposed 12-card copy and bubble preview are not installed.

@@ -1,14 +1,14 @@
-# V3 round S3 — read-only setup checkpoint
+# V3 round S3 — display/touch bring-up
 
 ## Scope and measured identity
 
-This checkpoint covers USB identification, read-only silicon/security/flash probes, two original-flash backups and a host build of the manufacturer's example. **No firmware upload, flash erase/write, eFuse write or application deployment was performed.** A first write remains gated on physical board identification and a reviewed test image. V1/V2 are excluded; C6 drivers, pin maps, binaries and partitions are not reused.
+The original read-only checkpoint established silicon/flash identity, two original-flash backups and a host build of the manufacturer's example. The photo-confirmed **ESP32-S3-Touch-LCD-1.85 Rev2.1** now runs the independently reviewed minimal **v3-bringup-0.1.0** display/touch image. Four component writes were verified by esptool; startup diagnostics and continuing versioned heartbeats were read back after installation and a controlled reset. **Visible pixels and real finger input still require physical confirmation.** No eFuses were written. V1/V2 are excluded; C6 drivers, pins, binaries and partitions are not reused.
 
 - Re-enumerated one native Espressif USB JTAG/serial interface, USB VID/PID `303a:1001`. No process owned its serial node immediately before the probe. USB identity alone does not identify the board or chip.
 - Pinned esptool **4.11.0** measured **ESP32-S3 (QFN56), silicon revision v0.2**, a 40 MHz crystal and embedded **8 MB PSRAM (AP_3v3)**. This is a silicon feature report, not a runtime PSRAM memory test.
 - JEDEC flash manufacturer `0x20`, device `0x4018`; detected capacity **16 MB (16,777,216 bytes)**. Secure Boot and Flash Encryption were reported disabled.
-- The intended product is the **original Waveshare ESP32-S3-Touch-LCD-1.85**, not the B/C enclosure variants or the non-touch LCD model. The observations are consistent with its published memory specification but do not prove the physical model, PCB revision, display or sensor identity. Obtain a readable rear silkscreen/model/revision photograph before approving a write.
-- Manufacturer documentation distinguishes unmarked V1, V2 marked `2.0`, and V2.1 marked `2.1`, and states they share programs.[1] This is a manufacturer compatibility statement, not confirmation of the attached board's revision.
+- A clear PCB photograph confirms the printed model **ESP32-S3-Touch-LCD-1.85** and **Rev2.1**, matching the intended original touch model rather than the B/C enclosure or non-touch variants. The physical-model identification gate is resolved; this does not establish working display/touch/IMU or runtime PSRAM.
+- Manufacturer documentation distinguishes unmarked V1, V2 marked `2.0`, and V2.1 marked `2.1`, and states they share programs.[1] The attached PCB's Rev2.1 marking is separately photo-confirmed; runtime compatibility still needs actual-board evidence.
 
 ## Original preservation and recovery
 
@@ -82,7 +82,7 @@ The published original-model hardware table and bundled `Arduino/examples/LVGL_A
 | IMU | QMI8658 accelerometer/gyroscope; example selects `0x6b`, header also defines `0x6a` |
 | IMU interrupts | Manufacturer table: INT1 EXIO5, INT2 EXIO4 |
 
-EXIO labels are expander outputs, **not ESP32 GPIO numbers**. The manufacturer describes an expander interrupt change to GPIO13 on newer hardware; verify the actual revision/schematic before adding interrupt-driven features. Preserve the manufacturer's ST77916 panel initialization and expander-controlled reset ordering. The bundled all-peripheral example also initializes RTC, SD, audio and microphone and performs a Wi-Fi scan. It is not a minimal display-only or privacy-hardened TrailGuide application, nor authenticated OTA firmware. Nothing in this checkpoint runs those behaviors on the board.
+EXIO labels are expander outputs, **not ESP32 GPIO numbers**. The manufacturer describes an expander interrupt change to GPIO13 on newer hardware; verify the actual revision/schematic before adding interrupt-driven features. Preserve the manufacturer's ST77916 panel initialization and expander-controlled reset ordering. The bundled all-peripheral example also initializes RTC, SD, audio and microphone and performs a Wi-Fi scan. It is not a minimal display-only or privacy-hardened TrailGuide application, nor authenticated OTA firmware. The installed minimal test does not run those optional behaviors.
 
 ## Reproducible host build — no upload
 
@@ -118,7 +118,7 @@ The exact local wrapper is `build/v3-s3-bringup/compile-demo.sh`; compile output
 
 The corrected compile **exited 0**. Static usage was **2,489,075 bytes (79%)** of the 3,145,728-byte app slot and **188,396 bytes (57%)** of globals, leaving 139,284 bytes by the compiler's static accounting. These are not runtime free-memory, PSRAM, frame-rate or hardware acceptance measurements. The exported application is **2,489,216 bytes** (image padding/metadata differs from the reported sketch usage); its ELF, bootloader, partition and merged images were verified to exist. Offline esptool S3 image parsing passed with valid checksum and validation hash.
 
-The primary candidate is `build/v3-s3-bringup/lvgl-demo/LVGL_Arduino.ino.bin`, SHA-256:
+The compiled-only manufacturer reference is `build/v3-s3-bringup/lvgl-demo/LVGL_Arduino.ino.bin`, SHA-256:
 
 `9c2ee16ce42571cf7ce9f3c3105b3d60f514321987b92f2efc7d2f8b6b2343ff`
 
@@ -128,12 +128,66 @@ The actual built partition table was decoded and retained in `build-partitions.j
 
 Core 3.3.2 also contains a named `waveshare_esp32_s3_touch_lcd_185` board definition with its own pin variant and defaults (including a 120 MHz flash-frequency property). Its existence and configured USB product ID do not identify the attached physical board. The successful command deliberately documents the explicit generic S3 settings actually tested, not a claim that the named preset, its defaults or every hardware revision has been verified.
 
+## Installed minimal display/touch test — v3-bringup-0.1.0
+
+The owned source is `trailguide_v3_bringup/`. `tools/prepare_v3_bringup.py` validates the pinned ZIP and prepares only the five required driver pairs, ST77916 component pair and LVGL 8.3.10 under ignored `build/v3-s3-bringup/minimal/`. No manufacturer source is published or globally installed. Original archive/extraction remain unchanged.
+
+The UI has a dark 360x360 screen, centered white/amber text, a 160x64 **Tap target**, **Taps: 0**, and the version. Text, button and focus bounds are tested inside radius 168. A clicked event increments once; there is no hold autorepeat, storage, network, audio, microphone, SD, speech or IMU initialization. Synthetic host pointer events are not finger tests; no synthetic taps were injected on the device.
+
+### Reviewed DMA ownership correction
+
+Review blocked the first candidate because the vendor startup color-bar routine rewrites and frees a buffer while queued DMA may still use it. The normal vendor LVGL flush path also returned before color transfer completion. Preparation now applies exactly four guarded substitutions to one derived `Display_ST77916.cpp`: omit the startup color-bar invocation; retain the actual panel IO handle; check panel creation; check each window draw and synchronously drain pending color transfers before returning its LVGL buffer. All panel register tables, resets, other eleven drivers and 898 LVGL files remain byte-identical to the pinned archive.
+
+The installed SDK documents the queue-draining behavior of `esp_lcd_panel_io_tx_param`; the matching IDF SPI implementation confirms `(-1, NULL, 0)` drains without transmitting a command or parameter. Exact prepared-source comparison and a compiled test of the actual window function against a queued-DMA seam went RED then GREEN, including 100 transfers. This is a buffer-ordering test, not measured physical DMA timing. The bounded correction passed independent re-review before the first write.
+
+### Reproduce compilation and software checks
+
+From the repository root, with the pinned archive already at the documented private path and the existing CLI on `PATH`:
+
+```sh
+umask 077
+mkdir -p build/v3-s3-bringup/minimal
+python3 tools/prepare_v3_bringup.py > build/v3-s3-bringup/minimal/preparation-output.json
+ROOT="$PWD/build/v3-s3-bringup/minimal"
+FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
+FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
+arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \
+  --build-property "compiler.c.extra_flags=$FLAGS" \
+  --build-property "compiler.cpp.extra_flags=$FLAGS" \
+  --build-path "$ROOT/compile-cache" --output-dir "$ROOT/firmware" \
+  "$ROOT/prepared/trailguide_v3_bringup"
+python3 -m unittest discover -s tests -p '*_test.py' -v
+python3 tools/test_v3_ui.py
+```
+
+The installed generic S3 definition does not expose `default_16MB`; the explicitly inspected `app3M_fat9M_16MB` provides two 3 MiB application slots, no speech-model partition, and reserved filesystem space that this image does not mount. Reserved OTA slots are not an OTA service. `LV_TICK_CUSTOM=0` retains the vendor `esp_timer` tick source; the same owned font/config header is passed to C and C++.
+
+The corrected target compilation exited zero: **603,687 application bytes**, **126,424 bytes globals**, **201,256 bytes remaining by static accounting**. The exported application is **603,840 bytes**. App/bootloader S3 headers, checksums, validation hashes, partition bounds and merged-image component bytes were verified. Thirty-two Python tests passed. Actual bundled LVGL 8.3.10 with ASan/UBSan exercised rendered geometry/copy, pointer press/hold/release, 100 clicks, drag/outside cancellation and heartbeat rollover. No static or host result establishes physical readability, runtime free memory or PSRAM health.
+
+### Installation and serial evidence
+
+Fresh USB/port-owner and S3/16MB checks matched the original backup target. Both complete recovery images and exact candidate hashes were checked before the write. With the pinned esptool 4.11 environment, the reviewed native-USB recipe wrote bootloader `0x0`, partitions `0x8000`, OTA initialization `0xe000`, and application `0x10000`. It did not write the all-peripheral demo or a speech model:
+
+```sh
+python -m esptool --chip esp32s3 --port PORT --baud 921600 \
+  --before usb_reset --after hard_reset write_flash \
+  --flash_mode keep --flash_freq keep --flash_size keep \
+  0x0 "$ROOT/firmware/trailguide_v3_bringup.ino.bootloader.bin" \
+  0x8000 "$ROOT/firmware/trailguide_v3_bringup.ino.partitions.bin" \
+  0xe000 "$ROOT/firmware/boot_app0.bin" \
+  0x10000 "$ROOT/firmware/trailguide_v3_bringup.ino.bin"
+```
+
+`PORT` must be freshly re-identified, not copied from an old session. All four writes reported data-hash verification. Passive serial capture read version **v3-bringup-0.1.0**, `ui_ready=1`, tap count zero and increasing uptime. Controlled native-USB reset capture then read `V3_START`, post-reset expander/touch ACKs both one, `V3_UI`, and continuing heartbeats without observed crash markers. ACKs establish responding addresses, not pixels or finger behavior. The runtime version is identified by UI/serial markers; the prebuilt core's application descriptor retains core-builder metadata.
+
+Exact commands, prepared/original source hashes, artifact sizes/hashes, upload and serial logs remain private under `minimal/`. `build-manifest.json` and `deployment-verification.json` distinguish compiled payload from actual running-device evidence. Core 3.3.2 booted this test, but remains outside the manufacturer's published range and is not certified across all peripherals. Vendor touch read-error propagation remains weak; startup ACK gating does not simulate a later bus fault.
+
 ## Remaining gates
 
-1. Confirm the exact physical product/rear silkscreen/revision and touch variant from a readable label/photo; match the relevant schematic. USB/silicon/flash cannot establish these.
-2. Review both preserved full-flash reads, local hashes, original partitions and the candidate build/partition/model artifacts. Keep originals immutable. Obtain explicit firmware-write approval separately.
+1. Use the photo-confirmed original Rev2.1 model and its schematic. Do not request the same model photo again; retain separate checks for populated sensor IDs, runtime PSRAM, visible pixels and physical touch.
+2. Keep both original recovery images immutable and verify any later replacement's target, hashes, partitions and actual authorization. Restoration of the original whole image has not been tested.
 3. If a manufacturer-version build is needed, isolate a compatible core under the ignored local build tree only; do not replace the host's global core or libraries. Do not silently patch the unmodified reference to hide compatibility failures.
-4. After a separately authorized upload, verify boot and actual pixels, touch orientation/edge mapping, IMU identity/readings, memory stability and power behavior. No such hardware acceptance is claimed here.
+4. Boot/serial verification passed for the minimal image. Confirm visible text and one counter increment per physical tap, then touch orientation/edges/drag, runtime PSRAM, IMU identity/readings, memory stability and power behavior separately. No physical acceptance or shake behavior is claimed here.
 5. Build V3-specific offline application, shake/rest/cooldown handling, reveal cancellation, touch alternative, reduced-motion behavior, authenticated update/recovery and human acceptance separately. The manufacturer demo and browser study are not production V3 firmware.
 
 ## Sources

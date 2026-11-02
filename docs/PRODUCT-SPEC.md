@@ -166,10 +166,10 @@ This is the primary project track and does not wait for firmware, forty-card enr
 
 ### P-20: V3 playful idea draw and gradual reveal
 
-Status: endorsed optional interaction with a separate browser experience study; physical gesture detection, V3 firmware and human acceptance remain pending. Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
+Status: endorsed optional interaction with a separate browser experience study; physical gesture detection, full V3 experience firmware and human acceptance remain pending. The installed minimal V3 display/touch test does not implement this interaction. Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
 
 - After mode selection, one deliberate main-card shake or Another uses the same active mode/filter and eligible pool. Ask offers a question; Try offers a concise practical move. Curated random content suggests a possibility, not a diagnosis, command or live AI answer.
-- Use a short nonblocking settling beat followed by the whole answer emerging together through a readable opacity fade, not a typewriter effect. Reveal all completes the same selected card; Instant text/reduced-motion support skips the effect. No essential action depends on shaking, animation or waiting.
+- Use a short nonblocking settling beat followed by the whole answer-bearing surface emerging with perceived depth and gentle settling, not typing or a uniform static-label fade alone. Keep complete copy together and final type readable; use a representative motion sample to check the intended feel before integration. Reveal all completes the same selected card; Instant text/reduced-motion support skips the effect. No essential action depends on shaking, animation or waiting.
 - Ignore rather than queue additional draws while busy. Invalidate old animation callbacks when context changes. Suppress shakes outside main-card contexts, on wake and during updating; no gesture can record, save or confirm anything. Hardware thresholds, rest detection and cooldown require measured IMU/handling tests.
 - Preserve complete canonical copy, stable card identity/revision, readable type and accessible overflow. Normal Guide me/Another navigation returns after reveal; the study's simplified controls are not the complete device layout.
 - Reuse P-11 shuffled pool/boundary rules and P-16 production eligibility; explain empty pools and allow unavoidable single-item repeats. Browser draft content never becomes approved through this experiment.

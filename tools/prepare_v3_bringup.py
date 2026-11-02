@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-s3-bringup/minimal. The local ZIP
+All derived files stay in ignored build/v3-s3-bringup/imu. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -11,19 +11,24 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-s3-bringup/minimal'
+PRIVATE = ROOT / 'build/v3-s3-bringup/imu'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
 
 
-def prepare():
+def prepare(output=None):
+    # Default is the next increment; refuse paths that could erase v0.1.0 evidence.
+    private = Path(output).resolve() if output is not None else PRIVATE.resolve()
+    allowed = (ROOT / 'build/v3-s3-bringup/imu').resolve()
+    if private != allowed and allowed not in private.parents:
+        raise ValueError('Output must be inside ignored IMU increment build/v3-s3-bringup/imu')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')
-    sketch = PRIVATE / 'prepared/trailguide_v3_bringup'
-    libraries = PRIVATE / 'libraries'
-    config = PRIVATE / 'config'
+    sketch = private / 'prepared/trailguide_v3_bringup'
+    libraries = private / 'libraries'
+    config = private / 'config'
     for directory in (sketch, libraries, config):
         if directory.exists():
             shutil.rmtree(directory)
@@ -68,7 +73,7 @@ def prepare():
             destination.write_bytes(data)
             library_files[relative] = hashlib.sha256(data).hexdigest()
     own_files = {}
-    for name in ('trailguide_v3_bringup.ino', 'ui.h', 'lv_conf.h'):
+    for name in ('trailguide_v3_bringup.ino', 'ui.h', 'lv_conf.h', 'imu.h'):
         data = (ROOT/'trailguide_v3_bringup'/name).read_bytes()
         (sketch/name).write_bytes(data)
         own_files[name] = hashlib.sha256(data).hexdigest()
@@ -79,14 +84,14 @@ def prepare():
     command = ['arduino-cli', 'compile', '--jobs', '2', '--fqbn', fqbn,
                '--libraries', str(libraries), '--build-property', f'compiler.c.extra_flags={flags}',
                '--build-property', f'compiler.cpp.extra_flags={flags}',
-               '--build-path', str(PRIVATE/'compile-cache'), '--output-dir', str(PRIVATE/'firmware'), str(sketch)]
+               '--build-path', str(private/'compile-cache'), '--output-dir', str(private/'firmware'), str(sketch)]
     manifest = {'archive_sha256': digest, 'sketch': str(sketch), 'vendor_files': files,
                 'original_vendor_files': original_files,
                 'derived_driver_note': 'Display_ST77916.cpp only: omit unsafe startup color bars and synchronously drain queued color DMA before returning the LVGL buffer; four exact guarded substitutions. Other drivers and LVGL unchanged.',
                 'library_files': library_files, 'own_files': own_files, 'libraries': str(libraries),
                 'config_flags': flags, 'fqbn': fqbn, 'compile_command': command,
                 'runtime_compatibility': 'unverified; no upload performed'}
-    (PRIVATE / 'preparation.json').write_text(json.dumps(manifest, indent=2) + '\n')
+    (private / 'preparation.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return manifest
 
 

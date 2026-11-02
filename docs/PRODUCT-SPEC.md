@@ -166,7 +166,7 @@ This is the primary project track and does not wait for firmware, forty-card enr
 
 ### P-20: V3 playful idea draw and gradual reveal
 
-Status: endorsed optional interaction with a separate browser experience study; physical gesture detection, full V3 experience firmware and human acceptance remain pending. The installed minimal V3 display/touch test does not implement this interaction. Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
+Status: endorsed optional interaction with a separate browser experience study; physical gesture detection, full V3 experience firmware and human acceptance remain pending. The installed minimal V3 display/touch and IMU diagnostic test does not implement this interaction. Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
 
 - After mode selection, one deliberate main-card shake or Another uses the same active mode/filter and eligible pool. Ask offers a question; Try offers a concise practical move. Curated random content suggests a possibility, not a diagnosis, command or live AI answer.
 - Use a short nonblocking settling beat followed by the whole answer-bearing surface emerging with perceived depth and gentle settling, not typing or a uniform static-label fade alone. Keep complete copy together and final type readable; use a representative motion sample to check the intended feel before integration. Reveal all completes the same selected card; Instant text/reduced-motion support skips the effect. No essential action depends on shaking, animation or waiting.

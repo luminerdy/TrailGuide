@@ -1,8 +1,8 @@
-# V3 round S3 — display/touch bring-up
+# V3 round S3 — display/touch and IMU bring-up
 
 ## Scope and measured identity
 
-The original read-only checkpoint established silicon/flash identity, two original-flash backups and a host build of the manufacturer's example. The photo-confirmed **ESP32-S3-Touch-LCD-1.85 Rev2.1** now runs the independently reviewed minimal **v3-bringup-0.1.0** display/touch image. Four component writes were verified by esptool; startup diagnostics and continuing versioned heartbeats were read back after installation and a controlled reset. **The visible counter and basic touch target are now physically confirmed:** an additional 100 taps were reported, with only inside-button taps incrementing the counter. Full display/readability, hold/drag and screen-edge checks remain separate. No eFuses were written. V1/V2 are excluded; C6 drivers, pins, binaries and partitions are not reused.
+The photo-confirmed original **ESP32-S3-Touch-LCD-1.85 Rev2.1** now runs **v3-bringup-0.1.1**, a silent minimal display/touch test with optional IMU diagnostics. The application-only update, exact startup version, continuing UI-ready heartbeats, actual sensor identity/configuration and fresh samples were read back. Earlier v0.1.0 visible-counter/basic touch acceptance remains recorded separately: an additional 100 physical taps were reported, with only inside-button taps counting. The new status line, controlled movement, full display/readability and sustained-operation checks remain open. V1/V2 and eFuses were not touched.
 
 - Re-enumerated one native Espressif USB JTAG/serial interface, USB VID/PID `303a:1001`. No process owned its serial node immediately before the probe. USB identity alone does not identify the board or chip.
 - Pinned esptool **4.11.0** measured **ESP32-S3 (QFN56), silicon revision v0.2**, a 40 MHz crystal and embedded **8 MB PSRAM (AP_3v3)**. This is a silicon feature report, not a runtime PSRAM memory test.
@@ -128,9 +128,9 @@ The actual built partition table was decoded and retained in `build-partitions.j
 
 Core 3.3.2 also contains a named `waveshare_esp32_s3_touch_lcd_185` board definition with its own pin variant and defaults (including a 120 MHz flash-frequency property). Its existence and configured USB product ID do not identify the attached physical board. The successful command deliberately documents the explicit generic S3 settings actually tested, not a claim that the named preset, its defaults or every hardware revision has been verified.
 
-## Installed minimal display/touch test — v3-bringup-0.1.0
+## Earlier minimal display/touch foundation — v3-bringup-0.1.0
 
-The owned source is `trailguide_v3_bringup/`. `tools/prepare_v3_bringup.py` validates the pinned ZIP and prepares only the five required driver pairs, ST77916 component pair and LVGL 8.3.10 under ignored `build/v3-s3-bringup/minimal/`. No manufacturer source is published or globally installed. Original archive/extraction remain unchanged.
+The owned source is `trailguide_v3_bringup/`. The earlier v0.1.0 preparation validated the pinned ZIP and prepared only the five required driver pairs, ST77916 component pair and LVGL 8.3.10 under ignored `build/v3-s3-bringup/minimal/`. The current helper instead targets the separate `imu/` increment described below. No manufacturer source is published or globally installed. Original archive/extraction remain unchanged.
 
 The UI has a dark 360x360 screen, centered white/amber text, a 160x64 **Tap target**, **Taps: 0**, and the version. Text, button and focus bounds are tested inside radius 168. A clicked event increments once; there is no hold autorepeat, storage, network, audio, microphone, SD, speech or IMU initialization. Synthetic host pointer events are not finger tests; no synthetic taps were injected on the device.
 
@@ -140,15 +140,33 @@ Review blocked the first candidate because the vendor startup color-bar routine 
 
 The installed SDK documents the queue-draining behavior of `esp_lcd_panel_io_tx_param`; the matching IDF SPI implementation confirms `(-1, NULL, 0)` drains without transmitting a command or parameter. Exact prepared-source comparison and a compiled test of the actual window function against a queued-DMA seam went RED then GREEN, including 100 transfers. This is a buffer-ordering test, not measured physical DMA timing. The bounded correction passed independent re-review before the first write.
 
-### Reproduce compilation and software checks
+### Earlier v0.1.0 software/build evidence
 
-From the repository root, with the pinned archive already at the documented private path and the existing CLI on `PATH`:
+The corrected first target build exited zero: 603,687 application bytes, 126,424 globals, exported application 603,840 bytes. S3 headers/checksums/hashes, partition bounds and merged components were verified. Actual LVGL 8.3.10 ASan/UBSan checks exercised rendered copy/geometry, pointer press/hold/release, 100 clicks, cancellation and heartbeat rollover. These remain earlier evidence, not the current candidate. The current preparation helper uses a separate `imu/` output and rejects fallback `minimal/`; use the current recipe below rather than overwriting v0.1.0 evidence.
+
+### Earlier installation and physical confirmation
+
+The first v0.1.0 deployment verified bootloader `0x0`, partitions `0x8000`, OTA initialization `0xe000` and application `0x10000`. Startup and continuing versioned heartbeats were captured; both post-reset expander/touch ACKs were one. The visible counter and basic inside/outside target were subsequently confirmed by the physical operator, including an additional 100 taps. This is not full-screen calibration, hold/drag or soak acceptance.
+
+Native USB monitor connection can itself produce `USB_UART_CHIP_RESET`, even with DTR/RTS false before opening; a later post-reset zero counter was inconclusive for earlier taps. Keep first-boot captures separate from human tap observations and do not reset an active check unnecessarily. Raw logs, compiled payloads and original recovery images remain private.
+
+## Current optional IMU test — v3-bringup-0.1.1
+
+The existing button/counter/fonts remain, with a circle-safe `IMU: ...` status. The owned `imu.h` probes only `0x6a`/`0x6b`, gates configuration on WHO_AM_I at register `0x00`, and reports revision register `0x01` separately. Unknown/missing identity disables IMU configuration without blocking display/touch. Bounded reads propagate failures and short transfers; no guessed software reset, interrupt/FIFO/motion engine, audio, microphone, RTC, SD, Wi-Fi, storage or recording is enabled.
+
+Original-family source supplies the configuration/range/register behavior; locally hash-pinned supplementary manufacturer-distributed code corroborates WHO/STATUS0 meanings. The original example labels revision as Device ID; the wrapper does not repeat that error. Local `source-provenance.json` records exact source hashes and interpretation. Rev2.1 schematic naming and WHO_AM_I do not establish the actual A/C sensor suffix.
+
+The loop uses at most two register operations per initialization tick, 10ms shared-Wire timeout, 250ms polling and five-second heartbeat/sample output. Configuration is read back: 4g accelerometer range, 512dps gyro range, normal 60 ODR enums, LPF/attitude engine off. Samples use signed little-endian native sensor axes; missing/stale/short/all-zero/all-ff/clipped frames suppress numbers. These safeguards are not calibration or proof of every hardware-fault case.
+
+### Current build and checks
+
+Preparation leaves the preserved `minimal/` fallback untouched; all derived sources/libraries/config and outputs stay in ignored `imu/`. It retains the same four reviewed DMA substitutions and byte-identical display/touch drivers and LVGL. No global dependency changes are required.
 
 ```sh
 umask 077
-mkdir -p build/v3-s3-bringup/minimal
-python3 tools/prepare_v3_bringup.py > build/v3-s3-bringup/minimal/preparation-output.json
-ROOT="$PWD/build/v3-s3-bringup/minimal"
+mkdir -p build/v3-s3-bringup/imu
+python3 tools/prepare_v3_bringup.py > build/v3-s3-bringup/imu/preparation-output.json
+ROOT="$PWD/build/v3-s3-bringup/imu"
 FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
 FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \
@@ -160,34 +178,29 @@ python3 -m unittest discover -s tests -p '*_test.py' -v
 python3 tools/test_v3_ui.py
 ```
 
-The installed generic S3 definition does not expose `default_16MB`; the explicitly inspected `app3M_fat9M_16MB` provides two 3 MiB application slots, no speech-model partition, and reserved filesystem space that this image does not mount. Reserved OTA slots are not an OTA service. `LV_TICK_CUSTOM=0` retains the vendor `esp_timer` tick source; the same owned font/config header is passed to C and C++.
+Target compilation exited zero: **605,811 application bytes, 126,488 globals**, exported application **605,952 bytes**. Both S3 image headers/checksums/hashes and merged components were verified; bootloader, partitions and OTA initialization are byte-identical to v0.1.0. Thirty-four Python regressions passed. Actual bundled LVGL 8.3.10 ASan/UBSan preserved button/counter behavior and checked all ten status labels inside radius 168. The owned driver passed explicitly host-only fake-bus tests for identity, configuration/readback, failures/short reads, signed axes, invalid samples and timing/wrap. Independent review passed. These are distinct from the hardware evidence below.
 
-The corrected target compilation exited zero: **603,687 application bytes**, **126,424 bytes globals**, **201,256 bytes remaining by static accounting**. The exported application is **603,840 bytes**. App/bootloader S3 headers, checksums, validation hashes, partition bounds and merged-image component bytes were verified. Thirty-two Python tests passed. Actual bundled LVGL 8.3.10 with ASan/UBSan exercised rendered geometry/copy, pointer press/hold/release, 100 clicks, drag/outside cancellation and heartbeat rollover. No static or host result establishes physical readability, runtime free memory or PSRAM health.
+### Actual update and physical-bus evidence
 
-### Installation and serial evidence
-
-Fresh USB/port-owner and S3/16MB checks matched the original backup target. Both complete recovery images and exact candidate hashes were checked before the write. With the pinned esptool 4.11 environment, the reviewed native-USB recipe wrote bootloader `0x0`, partitions `0x8000`, OTA initialization `0xe000`, and application `0x10000`. It did not write the all-peripheral demo or a speech model:
+Fresh port ownership, S3/16MB identity matching the original target, full recovery-image hashes and exact source/package hashes were checked. Since bootloader/partitions/OTA initialization were unchanged, pinned esptool 4.11 wrote **only application0 at `0x10000`** and verified its data hash:
 
 ```sh
 python -m esptool --chip esp32s3 --port PORT --baud 921600 \
   --before usb_reset --after hard_reset write_flash \
   --flash_mode keep --flash_freq keep --flash_size keep \
-  0x0 "$ROOT/firmware/trailguide_v3_bringup.ino.bootloader.bin" \
-  0x8000 "$ROOT/firmware/trailguide_v3_bringup.ino.partitions.bin" \
-  0xe000 "$ROOT/firmware/boot_app0.bin" \
   0x10000 "$ROOT/firmware/trailguide_v3_bringup.ino.bin"
 ```
 
-`PORT` must be freshly re-identified, not copied from an old session. All four writes reported data-hash verification. Serial capture read version **v3-bringup-0.1.0**, `ui_ready=1`, tap count zero and increasing uptime. Controlled native-USB reset capture then read `V3_START`, post-reset expander/touch ACKs both one, `V3_UI`, and continuing heartbeats without observed crash markers. ACKs establish responding addresses, not pixels or finger behavior. The runtime version is identified by UI/serial markers; the prebuilt core's application descriptor retains core-builder metadata.
+`PORT` must be freshly identified, not copied from another session. Serial connection/reset capture confirmed **v3-bringup-0.1.1**, expander/touch ACKs, initialized UI and continuing heartbeats. The actual IMU responded at **`0x6b`, WHO_AM_I=`0x05`, revision=`0x7c`**, with configuration readback `ok`; `0x6a` did not yield an identity. Four fresh physical-bus samples had acceleration magnitudes **1.0029–1.0040g** and no reported sampling read errors. These readings are consistent with gravity, not controlled motion/calibration evidence; the gyro is explicitly uncalibrated and shows bias. No fabricated sensor values or synthetic on-device taps were used.
 
-Exact commands, prepared/original source hashes, artifact sizes/hashes, upload and serial logs remain private under `minimal/`. `build-manifest.json` and `deployment-verification.json` distinguish compiled payload from actual running-device evidence. Core 3.3.2 booted this test, but remains outside the manufacturer's published range and is not certified across all peripherals. Vendor touch read-error propagation remains weak; startup ACK gating does not simulate a later bus fault.
+Exact payload/source hashes, source provenance, commands, upload and raw serial evidence remain private under `imu/`. The prebuilt core descriptor still carries core-builder metadata; UI/serial markers identify the actual application version. Core 3.3.2 runtime has been exercised for this minimal subset, not manufacturer-certified for all peripherals. No PSRAM health test, native-to-screen axis mapping, measured shake threshold, motion/rest/cooldown handling, card draw or authenticated V3 OTA service is implemented.
 
 ## Remaining gates
 
 1. Use the photo-confirmed original Rev2.1 model and its schematic. Do not request the same model photo again; retain separate checks for populated sensor IDs, runtime PSRAM, visible pixels and physical touch.
 2. Keep both original recovery images immutable and verify any later replacement's target, hashes, partitions and actual authorization. Restoration of the original whole image has not been tested.
 3. If a manufacturer-version build is needed, isolate a compatible core under the ignored local build tree only; do not replace the host's global core or libraries. Do not silently patch the unmodified reference to hide compatibility failures.
-4. Boot/serial verification and the basic physical visible-counter/touch-target check passed for the minimal image. An additional 100 taps and rejection of outside-button taps were operator-reported. Full display/readability, hold/drag/screen-edge mapping, runtime PSRAM, IMU identity/readings, memory stability and power behavior remain separate gates. No shake behavior is claimed.
+4. Boot/serial verification and the basic physical visible-counter/touch-target check passed for the minimal image. An additional 100 taps and rejection of outside-button taps were operator-reported. Full display/readability, hold/drag/screen-edge mapping, runtime PSRAM, controlled IMU motion/axes/noise, memory stability and power behavior remain separate gates. Actual WHO_AM_I/configuration and fresh samples are verified for v0.1.1, not shake-to-draw. No shake behavior is claimed.
 5. Build V3-specific offline application, shake/rest/cooldown handling, reveal cancellation, touch alternative, reduced-motion behavior, authenticated update/recovery and human acceptance separately. The manufacturer demo and browser study are not production V3 firmware.
 
 ## Sources

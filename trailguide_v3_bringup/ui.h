@@ -1,8 +1,9 @@
 #pragma once
 #include <lvgl.h>
+#include <string.h>
 
 namespace v3 {
-constexpr const char *kVersion = "v3-bringup-0.1.0";
+constexpr const char *kVersion = "v3-bringup-0.1.1";
 inline bool heartbeat_due(uint32_t now, uint32_t &last) {
   if (static_cast<uint32_t>(now - last) < 5000) return false;
   last = now;
@@ -16,6 +17,7 @@ class Ui {
     lv_obj_clear_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_bg_color(screen, lv_color_hex(0x101418), 0);
     title_ = label(screen, "TrailGuide V3", 72, &lv_font_montserrat_22);
+    imu_ = label(screen, "IMU: starting", 36, &lv_font_montserrat_20);
     label(screen, "Display / touch test", 112, &lv_font_montserrat_20);
     button_ = lv_btn_create(screen);
     lv_obj_clear_flag(button_, LV_OBJ_FLAG_PRESS_LOCK);
@@ -38,6 +40,10 @@ class Ui {
     label(screen, kVersion, 284, &lv_font_montserrat_16);
   }
   lv_obj_t *title() const { return title_; }
+  lv_obj_t *imu_status() const { return imu_; }
+  void set_imu_status(const char *text) {
+    if(imu_ && strcmp(lv_label_get_text(imu_),text)!=0) lv_label_set_text(imu_,text);
+  }
   uint32_t taps() const { return taps_; }
  private:
   static void clicked(lv_event_t *event) {
@@ -55,6 +61,7 @@ class Ui {
     return obj;
   }
   lv_obj_t *title_ = nullptr;
+  lv_obj_t *imu_ = nullptr;
   lv_obj_t *button_ = nullptr;
   lv_obj_t *count_ = nullptr;
 };

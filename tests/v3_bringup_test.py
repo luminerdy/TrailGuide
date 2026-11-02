@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-s3-bringup/minimal'
+PRIVATE = ROOT / 'build/v3-s3-bringup/imu'
 DRIVERS = {stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}
 
 class PreparationTest(unittest.TestCase):
@@ -17,10 +17,10 @@ class PreparationTest(unittest.TestCase):
         assert spec and spec.loader
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        manifest = mod.prepare()
+        manifest = mod.prepare(PRIVATE)
         self.assertEqual(manifest['archive_sha256'], 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990')
         sketch = Path(manifest['sketch'])
-        own = {'trailguide_v3_bringup.ino', 'ui.h', 'lv_conf.h'}
+        own = {'trailguide_v3_bringup.ino', 'ui.h', 'lv_conf.h', 'imu.h'}
         self.assertEqual({p.name for p in sketch.iterdir()}, DRIVERS | own)
         for name in own:
             self.assertEqual((sketch/name).read_bytes(), (ROOT/'trailguide_v3_bringup'/name).read_bytes())
@@ -57,7 +57,7 @@ class PreparationTest(unittest.TestCase):
             self.assertEqual((sketch/name).read_bytes(), expected)
         self.assertNotIn(b'  test_draw_bitmap(panel_handle);', (sketch/'Display_ST77916.cpp').read_bytes(),
                          'Startup must not submit/rewrite/free the asynchronous demo DMA buffer')
-        self.assertEqual(manifest, mod.prepare(), 'Prepared output is reproducible')
+        self.assertEqual(manifest, mod.prepare(PRIVATE), 'Prepared output is reproducible')
 
     def test_actual_window_draw_retains_buffer_until_dma_completion(self):
         # Compile the actual prepared window function against a queued-DMA seam.
@@ -67,7 +67,7 @@ class PreparationTest(unittest.TestCase):
         assert spec and spec.loader
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        manifest = mod.prepare()
+        manifest = mod.prepare(PRIVATE)
         source = (Path(manifest['sketch'])/'Display_ST77916.cpp').read_text()
         start = source.index('void LCD_addWindow(')
         end = source.index('uint8_t LCD_Backlight', start)
@@ -110,17 +110,31 @@ int main() {
         assert spec and spec.loader
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        mod.prepare()
+        mod.prepare(PRIVATE)
         marker = PRIVATE/'prepared/trailguide_v3_bringup/ui.h'
         before = marker.read_bytes()
         bad = PRIVATE/'bad-archive-test.zip'
         bad.write_bytes(b'Not the pinned archive')
         try:
             with patch.object(mod, 'ARCHIVE', bad), self.assertRaisesRegex(ValueError, 'checksum mismatch'):
-                mod.prepare()
+                mod.prepare(PRIVATE)
             self.assertEqual(before, marker.read_bytes())
         finally:
             bad.unlink()
+
+    def test_output_isolation_rejects_fallback_and_non_increment_paths(self):
+        spec = importlib.util.spec_from_file_location('prepare_v3_isolation', ROOT/'tools/prepare_v3_bringup.py')
+        assert spec and spec.loader
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        # A regression must fail safely BEFORE deleting preserved fallback files.
+        with patch.object(mod.shutil, 'rmtree', side_effect=AssertionError('unsafe output deletion')):
+            for target in (ROOT/'build/v3-s3-bringup/minimal', ROOT/'build/v3-s3-bringup/vendor', ROOT, PRIVATE.parent):
+                with self.assertRaisesRegex(ValueError, 'IMU increment'):
+                    mod.prepare(target)
+        manifest=mod.prepare(PRIVATE/'isolated-test')
+        self.assertEqual(Path(manifest['sketch']).parents[1], PRIVATE/'isolated-test')
+        self.assertEqual(manifest['compile_command'][manifest['compile_command'].index('--jobs')+1], '2')
 
     def test_minimal_startup_contract(self):
         path = ROOT / 'trailguide_v3_bringup/trailguide_v3_bringup.ino'
@@ -139,6 +153,16 @@ int main() {
         self.assertIn('V3_HEARTBEAT', source)
         self.assertIn('uptime_ms=', source)
         self.assertIn('tapcount=', source)
+        self.assertIn('imu_status=', source)
+        self.assertIn('imu.tick(now)', source)
+        self.assertLess(source.index('ui.begin();'),source.index('imu.begin('))
+        self.assertIn('V3_IMU_PROBE', source)
+        self.assertIn('WHO_AM_I', source)
+        self.assertIn('V3_IMU_CONFIG', source)
+        self.assertIn('V3_IMU_SAMPLE', source)
+        self.assertIn('acc_g=', source)
+        self.assertIn('gyr_dps=', source)
+        self.assertIn('Wire.setTimeOut(10)', source)
 
 if __name__ == '__main__':
     unittest.main()

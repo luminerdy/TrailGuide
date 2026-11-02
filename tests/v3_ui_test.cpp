@@ -44,9 +44,21 @@ int main() {
   lv_disp_drv_register(&driver);
   v3::Ui ui;
   ui.begin();
+  ui.set_imu_status("IMU: starting");
+  assert(std::strcmp(lv_label_get_text(ui.imu_status()), "IMU: starting")==0);
+  for(const char *status : {"IMU: off", "IMU: starting", "IMU: missing", "IMU: ID error", "IMU: config", "IMU: cfg error", "IMU: waiting", "IMU: sample", "IMU: read err", "IMU: invalid"}) {
+    ui.set_imu_status(status);
+    lv_obj_update_layout(lv_scr_act());
+    lv_area_t bounds; lv_obj_get_coords(ui.imu_status(), &bounds);
+    assert(lv_obj_get_style_text_font(ui.imu_status(),0)==&lv_font_montserrat_20);
+    assert(bounds.y2<72);
+    for(int x : {bounds.x1,bounds.x2}) for(int y : {bounds.y1,bounds.y2})
+      assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);
+  }
+  ui.set_imu_status("IMU: starting");
   assert(std::strcmp(lv_label_get_text(ui.title()), "TrailGuide V3") == 0);
   lv_obj_update_layout(lv_scr_act());
-  const char *copy[] = {"TrailGuide V3", "Display / touch test", "v3-bringup-0.1.0", "Taps: 0", "Tap target"};
+  const char *copy[] = {"TrailGuide V3", "Display / touch test", "v3-bringup-0.1.1", "Taps: 0", "Tap target"};
   for (const auto *text : copy) {
     bool found = false;
     for (uint32_t i = 0; i < lv_obj_get_child_cnt(lv_scr_act()); ++i) {
@@ -78,7 +90,7 @@ int main() {
   }
   lv_refr_now(nullptr);
   unsigned white = 0, amber = 0;
-  std::ofstream frame("build/v3-s3-bringup/minimal/ui-initial.ppm", std::ios::binary);
+  std::ofstream frame("build/v3-s3-bringup/imu/ui-initial.ppm", std::ios::binary);
   assert(frame);
   frame << "P6\n360 360\n255\n";
   for (int y = 0; y < 360; ++y) for (int x = 0; x < 360; ++x) {

@@ -7,8 +7,8 @@ import subprocess
 from prepare_v3_bringup import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-s3-bringup/minimal/libraries/lvgl'
-OUT = ROOT / 'build/v3-s3-bringup/minimal/host'
+LVGL = ROOT / 'build/v3-s3-bringup/imu/libraries/lvgl'
+OUT = ROOT / 'build/v3-s3-bringup/imu/host'
 
 
 def main():

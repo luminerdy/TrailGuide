@@ -2,7 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V3 minimal display/touch installation — v3-bringup-0.1.0
+## V3 optional IMU diagnostic installation — v3-bringup-0.1.1
+
+- Preserved the physically checked button/counter/fonts and added bounded optional IMU diagnostics plus a circle-safe status line. No audio, microphone, SD, RTC, Wi-Fi, storage, recording or shake drawing is initialized.
+- Original-family configuration/range behavior and locally pinned supplementary identity/status meanings were checked. WHO_AM_I register 0x00 is separate from revision 0x01; unknown/missing devices are not configured. Reads/configuration are bounded and read back; short/stale/invalid frames suppress numeric samples. Native axes are uncalibrated, not mapped to the screen; no uncertain software-reset command was guessed.
+- RED/GREEN fake-bus ASan/UBSan covered identity, config, short/error reads, negative axes, invalid frames and timing/wrap. Actual LVGL 8.3.10 checked all ten circle-safe status labels and unchanged counter/input behavior. Thirty-four Python regressions passed; independent review passed. S3 compiled 605,811 application bytes / 126,488 globals; exported app 605,952 bytes, valid chip 9/checksum/hash. Display/touch drivers retain the four exact DMA corrections; bootloader/partitions/OTA initialization are byte-identical to fallback.
+- Re-identified the original S3/16MB target and verified preserved originals, exact sources/artifacts and unowned port. Application-only native-USB write at 0x10000 passed data-hash verification. Startup/continuing heartbeats identify v3-bringup-0.1.1 with UI ready and expander/touch ACKs. Actual physical sensor 0x6b returned WHO_AM_I 0x05 and revision 0x7c; config readback passed. Four fresh physical-bus samples had 1.0029–1.0040g magnitude and no reported sampling read errors. The gyro remains uncalibrated/biased; fitted A/C suffix is not established. No synthetic on-device inputs/samples were injected.
+- Controlled still-versus-moving readings, native-axis interpretation, status-line physical readability, PSRAM/soak and actual shake/rest/cooldown/card behavior remain open. Reopening native USB can reset the board/counter; monitoring was not claimed reset-free. Exact private source/build/upload/runtime evidence is under `build/v3-s3-bringup/imu/`; previous `minimal/` evidence and full original images remain intact.
+
+## Earlier V3 minimal display/touch installation — v3-bringup-0.1.0
 
 - Photo-confirmed original ESP32-S3-Touch-LCD-1.85 Rev2.1; freshly identified the same S3/16MB backup target and unowned native-USB port before writing. Both full 16,777,216-byte originals remained unchanged and private.
 - Added an S3-only minimal dark round display/touch test with a 160x64 Tap target, click-only count, version marker and five-second serial heartbeat. Audio, microphone, SD, Wi-Fi, speech, IMU and persistence are not initialized. No synthetic device taps were injected.

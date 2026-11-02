@@ -2,6 +2,7 @@
 #include <lvgl.h>
 #include "model.h"
 #include "reveal.h"
+#include "window_reveal.h"
 #include "cards_generated.h"
 #include "version.h"
 
@@ -114,54 +115,60 @@ class Ui {
 
  private:
   lv_timer_t *revealTimer = nullptr;
-  RevealText reveal;
+  WindowReveal window;
   uint32_t revealStarted = 0;
   void cancelReveal() {
-    // LVGL callbacks run serially in lv_timer_handler; deletion removes the
-    // callback before any old object/context can be reused. No deferred work.
     if (revealTimer) { lv_timer_del(revealTimer); revealTimer = nullptr; }
+    window.clear();
+    if (body) { lv_obj_clear_flag(body, LV_OBJ_FLAG_HIDDEN); lv_obj_set_style_text_opa(body, LV_OPA_COVER, 0); }
+    if (scroll) { lv_obj_add_flag(scroll, LV_OBJ_FLAG_SCROLLABLE); lv_obj_invalidate(scroll); }
   }
   void startReveal() {
-    reveal = RevealText(model.mode == Mode::Ask ? cards[model.index].ask : cards[model.index].action);
+    lv_obj_update_layout(scroll);
+    // Snapshot captures the REAL complete label/wrapping and the final blue face.
+    // On allocation/snapshot failure retain instant complete scrollable text.
+    if (!window.capture(scroll)) return;
     revealStarted = lv_tick_get();
-    lv_obj_set_style_text_opa(body, LV_OPA_TRANSP, 0);
-    revealTimer = lv_timer_create(revealTick, 20, this);
+    lv_obj_add_flag(body, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(scroll, LV_OBJ_FLAG_SCROLLABLE);
+    revealTimer = lv_timer_create(revealTick, 40, this);
+    if (!revealTimer) { cancelReveal(); return; }
+    lv_obj_invalidate(scroll);
     revealCaption("Reveal\nall");
   }
   void revealCaption(const char *text) {
+    if (!second) return;
     auto *caption = lv_obj_get_child(second, 0);
     lv_label_set_text(caption, text);
     lv_obj_center(caption);
   }
   void finishReveal() {
-    lv_label_set_text(body, reveal.text());
-    lv_obj_set_style_text_opa(body, LV_OPA_COVER, 0);
     cancelReveal();
     revealCaption("Another");
   }
   static void revealTick(lv_timer_t *timer) {
     auto *self = static_cast<Ui *>(timer->user_data);
     const uint32_t elapsed = lv_tick_elaps(self->revealStarted);
-    if (elapsed < RevealText::settleMs) return;
-    if (elapsed >= RevealText::completeMs) {
-      self->finishReveal();
-      return;
-    }
-    lv_obj_set_style_text_opa(self->body, self->reveal.opacity(elapsed), 0);
+    if (elapsed >= RevealTiming::completeMs) { self->finishReveal(); return; }
+    self->window.render(elapsed);
+    lv_obj_invalidate(self->scroll);
+  }
+  static void drawWindow(lv_event_t *event) {
+    auto *self = static_cast<Ui *>(lv_event_get_user_data(event));
+    auto *ctx = lv_event_get_draw_ctx(event);
+    lv_area_t area; lv_obj_get_coords(lv_event_get_target(event), &area);
+    if (self->window.active()) self->window.draw(ctx, area);
+    else WindowReveal::face(ctx, area, 0);
   }
   static void objectDeleted(lv_event_t *event) {
     auto *self = static_cast<Ui *>(lv_event_get_user_data(event));
     auto *object = lv_event_get_target(event);
-    if (object == self->body) { self->cancelReveal(); self->body = nullptr; }
-    if (object == self->scroll) self->scroll = nullptr;
+    if (object == self->body) { self->body = nullptr; self->cancelReveal(); }
+    if (object == self->scroll) { self->scroll = nullptr; self->cancelReveal(); }
     if (object == self->first) self->first = nullptr;
     if (object == self->second) {
       // The finish control can also be removed independently of its label.
       if (self->revealTimer) {
-        if (self->body) {
-          lv_label_set_text(self->body, self->reveal.text());
-          lv_obj_set_style_text_opa(self->body, LV_OPA_COVER, 0);
-        }
         self->cancelReveal();
       }
       self->second = nullptr;
@@ -215,7 +222,9 @@ class Ui {
     lv_obj_set_style_bg_opa(scroll, LV_OPA_COVER, LV_PART_SCROLLBAR);
     lv_obj_set_style_bg_color(scroll, lv_color_hex(0xa5bdc8), LV_PART_SCROLLBAR);
     lv_obj_set_style_width(scroll, 3, LV_PART_SCROLLBAR);
-    body = label(scroll, text, 0, 0, 152, font);
+    const bool main = model.view == View::Card;
+    if (main) lv_obj_add_event_cb(scroll, drawWindow, LV_EVENT_DRAW_MAIN, this);
+    body = label(scroll, text, main ? 4 : 0, main ? 10 : 0, 152, font);
     lv_obj_add_event_cb(body, objectDeleted, LV_EVENT_DELETE, this);
   }
 };

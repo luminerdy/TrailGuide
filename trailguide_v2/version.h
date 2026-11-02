@@ -1,6 +1,6 @@
 #pragma once
 #ifndef TRAILGUIDE_PATCH_VERSION
-#define TRAILGUIDE_PATCH_VERSION 7
+#define TRAILGUIDE_PATCH_VERSION 8
 #endif
 #define TG_STRINGIFY_INNER(value) #value
 #define TG_STRINGIFY(value) TG_STRINGIFY_INNER(value)

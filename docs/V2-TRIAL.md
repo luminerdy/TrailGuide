@@ -1,13 +1,13 @@
 # TrailGuide V2 — first portrait hardware trial
 
-Status: `v2-0.1.7 DRAFT`, compiled and wirelessly installed on the C6, with running version, changed application slot and continuing OTA readiness verified remotely. The complete answer now emerges together through an opacity fade, Magic-8-Ball-style, replacing the previous typewriter effect. It uses no motion sensor. This remains a read-only trial, not a production release. Physical pacing, readability and touch acceptance remain separate and open.
+Status: `v2-0.1.8 DRAFT`, compiled and wirelessly installed on C6. Expected running version, changed application slot and continuing OTA readiness/uptime were read back. The whole blue answer-face and complete words approach with gentle perspective/tilt/drift over six seconds, then settle still. No motion sensor is used. This remains a read-only trial; physical motion/allocation/frame rate, readability and touch acceptance remain open.
 
 ## Available now
 
 - Home with **Ask the Team** and **Try a Move**. Reboot opens Home without drawing a card.
 - Eight canonical draft pairs, one per theme, generated from `content/cards.json` without changing editorial states or existing card revisions.
 - Main Ask question or Try action, visible theme/mode, one **Guide me** entry and **Another**.
-- Fresh Ask/Try entry and Another show a short settling beat, then the whole answer fades from hidden through faint to fully readable. All wording and wrapping are fixed throughout; no letters or words are typed sequentially. The nominal timing is 160ms settling plus a 2800ms eased opacity fade with regularly serviced LVGL timers; physical feel still needs human review. During the effect, **Reveal all** immediately makes that same card fully visible, then returns to Another. Guide me stays available and instant; Back shows the same main card in full without restarting the effect. There is no main-text tap shortcut or new settings menu.
+- Fresh Ask/Try entry and Another use a 6000ms whole-surface emergence, including 600ms dark settling. The real native 20px type label and blue facets are captured together; fixed-point perspective moves the complete face/words rather than typing or fading only text. The final scrollable text matches the settled native raster. Reveal all finishes that same card; Guide/Back stay instant. No new shortcut/menu is added. The bounded 106,240-byte source/output buffer is outside the unchanged 48KiB LVGL object heap; failed capture/allocation safely shows instant complete text instead. This fallback is not proof that motion runs on the target.
 - Guide me adds depth without repeating the main question/action. Under observation headings, body copy starts with the cue rather than repeating Listen for, Look for or Notice; the remaining wording and cautions are preserved. Ask starts with What to listen for, then You could ask. Try starts with How to run it, then What to notice and You could ask; a distinct If helpful, offer invitation is last and omitted when it duplicates the action/activity. Swipe vertically to read longer text; Back returns to the same card.
 - Another cycles the eight cards in their fixed review order, without an adjacent repeat. This deliberately supports repeatable hardware review; it is not the future production shuffled/filterable pool.
 - Portrait 172x320 layout, 20px main copy, 18px guidance, fixed 48–56px-high navigation buttons, and vertical overflow scrolling. Smaller 14/16px text is used for metadata and button captions; actual-device readability still requires human review.
@@ -28,7 +28,7 @@ Use Arduino CLI 1.3.1, Espressif core 3.3.2 and the manufacturer bundle's GFX 1.
 ```sh
 python3 tools/build_v2_content.py
 python3 tools/prepare_v2_panel.py
-ROOT="$PWD/build/v2-0.1.7"
+ROOT="$PWD/build/v2-0.1.8"
 PANEL="$PWD/build/v2-0.1.0/generated"
 SKETCH="$PWD/trailguide_v2"
 LIBS="$PWD/build/v2-c6-bringup/vendor/Arduino/libraries"
@@ -40,7 +40,7 @@ arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$LIBS" \
   --output-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The unchanged manufacturer panel header is reused. The project LVGL configuration is used by both C and C++; global libraries and V1 settings are not modified. The v2-0.1.7 compiler reported 1,416,202 application bytes and 113,348 bytes of globals. Static figures are not runtime heap measurements. Its partition image is byte-identical to the preceding build.
+The unchanged manufacturer panel header is reused. The project LVGL configuration enables snapshots and is supplied to C/C++; global libraries and V1 settings are unchanged. The v2-0.1.8 compiler reported 1,427,064 application bytes and 113,372 globals; the application image is 1,427,168 bytes. Static figures do not measure runtime heap. Its partition image is byte-identical to v2-0.1.7.
 
 ## Upload and diagnostics
 
@@ -51,9 +51,9 @@ arduino-cli upload --fqbn "$FQBN" --port PORT \
   --input-dir "$ROOT/firmware" "$SKETCH"
 ```
 
-The OTA-enabled bootstrap v2-0.1.2 used USB; subsequent versions, including v2-0.1.7, were installed wirelessly. The first v2-0.1.7 transfer dropped with a broken pipe after authentication; v2-0.1.6 remained running and OTA-ready. A normal retry succeeded, changing the active slot from 0x10000 to 0x340000. Expected running version, OTA readiness and continuing runtime were read back. No USB upload or serial reset was used for this increment; sustained memory/network/power checks remain open.
+The OTA-enabled bootstrap v2-0.1.2 used USB; subsequent updates are wireless. One authenticated transfer installed v2-0.1.8, switching0x340000 to 0x10000. Exact running version, OTA readiness and subsequent increasing uptime were read back. No C6 USB upload/reset was used. Earlier known-good applications and full original recovery images remain private; actual target heap/frame time and sustained power/network checks remain open.
 
-At 115200 baud, send uppercase `T` over USB to run synthetic UI diagnostics. An earlier on-device diagnostic passed both modes, eight cards, sixteen guides, full-copy comparisons, bounds and navigation. The revised diagnostic first activates Reveal all before comparing full main text; it compiled in v2-0.1.7 but was not rerun over USB during this wireless update. Synthetic events do not physically touch the panel or establish pixel readability. Keep raw logs private.
+At 115200 baud, uppercase T runs synthetic USB UI diagnostics. The diagnostic handles both successful animation allocation and instant fallback without accidentally advancing Another. Its actual function passed against host LVGL in both branches; it compiled but was not rerun over C6 USB during this OTA. Synthetic events are not physical touch or readability acceptance; keep raw logs private.
 
 ## Automated checks
 
@@ -65,12 +65,12 @@ g++ -std=c++17 -Wall -Wextra -Werror tests/v2_model_test.cpp -o "$TMPDIR/trailgu
 python3 tools/test_v2_ui.py
 ```
 
-The last command builds the real bundled LVGL on the host with AddressSanitizer and UndefinedBehaviorSanitizer. It tests both modes/eight pairs, full-copy scrolling, button/caption bounds, settling/intermediate/completed reveal, same-card skip, instant Guide/Back, UTF-8 prefixes, cancellation, OTA restoration and teardown. The full Python suite passed twenty-eight tests; five V1/V2 C++ host suites also passed. These checks do not replace physical touch/display acceptance.
+The last command runs real bundled LVGL 8.4 under ASan/UBSan. Coverage includes both modes/eight pairs, exact six-second poses, coherent face/word movement, native final handoff, full-copy scrolling/20px type, fixed controls, real input-driver hold/release/drag, same-card skip, instant navigation, allocation failure, rollover, OTA and independent teardown. It recorded 422 caller-buffer allocations with none remaining and 100-cycle heap stability. Thirty-four Python regressions passed. Native-frame images/video are host-rendered evidence, not device photographs or target frame-time measurements.
 
 ## Human trial
 
 1. Confirm Home is readable, with both mode buttons fully visible.
-2. Tap Ask the Team and watch the words appear. During another fresh draw, tap Reveal all: the same question should become complete immediately, and the button should return to Another. Another then changes the card once.
+2. Tap Ask the Team and confirm the blue face and words move into view over six seconds, not instantly. During another fresh draw, tap Reveal all: the same question should become complete immediately, and the button should return to Another. Another then changes the card once.
 3. Open Guide me during a reveal: guidance should be complete immediately. Swipe to the final follow-up, then Back; the same main card should appear in full, without another animation.
 4. Home → Try a Move → Guide me. Confirm the main action reveals gradually and the different activity-oriented guidance remains instant and complete.
 5. Check longest questions, every card, edge taps and finger-held/swipe behavior. Report irritating pacing, unreadable text, clipping, unwanted activations or missed actions.

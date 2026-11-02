@@ -93,7 +93,8 @@ static void selfTest() {
       ok &= ui.model.view == View::Card && ui.model.index == n;
       ok &= ui.model.mode == (mode == 0 ? Mode::Ask : Mode::Try);
       ok &= buttonBounds(ui.first) && buttonBounds(ui.second) && buttonBounds(ui.backButton);
-      click(ui.second); // Reveal all completes this draw, without advancing the model.
+      // Allocation fallback is already complete; do not draw Another by mistake.
+      if (ui.body && lv_obj_has_flag(ui.body, LV_OBJ_FLAG_HIDDEN)) click(ui.second);
       ok &= ui.model.view == View::Card && ui.model.index == n;
       ok &= ui.body && strcmp(lv_label_get_text(ui.body), mode == 0 ? card.ask : card.action) == 0;
       click(ui.first);

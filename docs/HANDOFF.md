@@ -6,7 +6,7 @@ TrailGuide's main effort is **project-led mentoring across varied AI uses**, for
 
 Draft mentor practice and a learner-owned project/coaching brief connect to **AI Learning Lab's Define → Direct → Check → Adjust** and flexible AI roles. The next primary step is to use/review them on one real project milestone, inspect usefulness and carry context into a next conversation. They are not a validated curriculum or an integrated AI-coaching service.
 
-The separate V3 experience study explores **shake → one random curated idea → gradual text reveal**, with simulated shake, touch fallback, Reveal all and Instant text. Actual V3 motion firmware and human/hardware acceptance remain pending. Current V2 is **v2-0.1.7**, adding touch-triggered gradual main-card reveal and same-card Reveal all, with instant Guide/Back. It was installed over authenticated local Wi-Fi; running version, changed application slot and continuing OTA readiness were read back. Physical pacing/readability/touch review remains open.
+The separate V3 experience study explores **shake → one random curated idea → gradual text reveal**, with simulated shake, touch fallback, Reveal all and Instant text. Actual V3 motion firmware and human/hardware acceptance remain pending. Current V2 is **v2-0.1.8**, adding touch-triggered gradual main-card reveal and same-card Reveal all, with instant Guide/Back. It was installed over authenticated local Wi-Fi; running version, changed application slot and continuing OTA readiness were read back. Physical pacing/readability/touch review remains open.
 
 This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. V2's reveal is a presentation-only firmware increment; V1, canonical card copy/IDs/revisions/review states, model/deck order, networking and partitions remain unchanged. No USB upload or serial reset was used for the reveal update.
 
@@ -48,16 +48,16 @@ Classic ESP32, SH1106 128x64 OLED and BOOT input, firmware v1-0.2.4 with twelve 
 
 ESP32-C6 1.47-inch, nominal 172x320 portrait capacitive touch, pin-header family. C6 silicon revision 0.2 and 8MB flash were probed; exact physical PCB/variant confirmation remains open. Manufacturer-demo operation was human-reported working. esptool package labels differ by version; do not substitute either label for physical identification.
 
-Running checkpoint: v2-0.1.7 DRAFT, installed over Wi-Fi and remotely version/OTA-readiness/changed-slot verified.
+Running checkpoint: v2-0.1.8 DRAFT, installed over Wi-Fi and remotely version/OTA-readiness/changed-slot verified.
 
-The installed uniform whole-label fade is not accepted as the final magical appearance. The visual target is a complete blue answer-bearing surface approaching and settling inside a dark window, not typing or merely brightening static text. A separate unpublished local browser motion study now explores a slower 4.2-second emergence; it is not ported or installed on C6. Preserve complete copy and readable final type, same-card skip and instant navigation; browser perspective/blur are not proof of C6 feasibility or performance.
+The rejected v2-0.1.7 uniform text fade is replaced by the approved six-second physical-window direction: the complete blue answer-bearing surface and words approach, gently tilt/drift and settle inside a dark window. The native v2-0.1.8 implementation is now installed and remotely boot/OTA-verified. It approximates the browser study with nearest-sampled RGB565 perspective, without browser blur/soft shadows; physical motion, allocation success and frame rate remain to be observed. A bounded 106,240-byte caller buffer is outside the unchanged 48KiB LVGL heap; allocation failure retains instant complete scrollable text, not working motion.
 
 Implemented trial:
 
 - Home: Ask the Team and Try a Move, no automatic draw on fresh boot.
 - Eight canonical draft pairs, one per theme; fixed review-order Another rather than production shuffled/filterable pools.
 - One Guide me entry; Back preserves the card. Complete copy is vertically scrollable.
-- New Ask/Try/Another draws use a short settling beat and whole-answer opacity fade with complete UTF-8 text and fixed layout, nominally complete at 2960ms with serviced timers. The existing Another position temporarily shows Reveal all; it completes the same card, then returns to Another. Guide me/Back stay instant. Navigation/rerender, OTA and teardown cancel timers safely. No main-text tap shortcut or new setting/menu is implemented.
+- New Ask/Try/Another draws animate the whole native blue face/words together for 6000ms including 600ms darkness, then settle onto the identical final scrollable raster. Fixed controls offer same-card Reveal all; Guide/Back remain instant. Navigation/rerender, OTA and independent object/owner deletion cancel timers and release image/cache storage. No new menu, main-text shortcut, sensor or tracking is added.
 - Ask: What to listen for → direct cue → You could ask.
 - Try: How to run it → What to notice → You could ask → optional If helpful, offer.
 - Redundant leading Listen for / Look for / Notice is removed from displayed cue bodies only. Remaining wording, negations/cautions, mixed-case names and acronyms are retained.
@@ -122,7 +122,7 @@ From repository root, after those prerequisites are established:
 ```sh
 python3 tools/build_v2_content.py
 python3 tools/prepare_v2_panel.py
-ROOT="$PWD/build/v2-0.1.7"
+ROOT="$PWD/build/v2-0.1.8"
 SKETCH="$PWD/trailguide_v2"
 PANEL="$PWD/build/v2-0.1.0/generated"
 LIBS="$PWD/build/v2-c6-bringup/vendor/Arduino/libraries"
@@ -144,8 +144,8 @@ Only for an authorized update, with the device powered and reachable on the trus
 
 ```sh
 python3 tools/v2_ota_upload.py DEVICE_IP \
-  build/v2-0.1.7/firmware/trailguide_v2.ino.bin \
-  --expected-version v2-0.1.7
+  build/v2-0.1.8/firmware/trailguide_v2.ino.bin \
+  --expected-version v2-0.1.8
 ```
 
 This is the known-checkpoint command, not a reason to reflash during handoff. For a new build use its actual path/version. The helper reads the restricted local V2 password file, validates C6/application/slot size, chooses an ephemeral Pi callback port and confirms the running version/continued OTA readiness remotely. Do not send merged images, bootloaders or V1/S3 applications.
@@ -158,7 +158,7 @@ This is authenticated trusted-LAN updating, not TLS-encrypted or signed-firmware
 
 ## 8. Tests and remaining acceptance
 
-Current v2-0.1.7 evidence: twenty-eight Python tests and five V1/V2 C++ host suites passed; actual-LVGL ASan/UBSan checks covered both modes/eight cards, fade opacity/timing, fixed whole text/layout, rendered pixels, skip identity, Guide/Back, complete copy, cancellation, OTA and teardown. Independent review found no blocking defects. C6 compilation succeeded with unchanged partitions; authenticated wireless installation and running-version/readiness/changed-slot readback passed. The adapted USB diagnostic compiled but was not rerun during this update. Host/browser/synthetic checks and network metadata are not human pacing/readability/touch acceptance; see BRINGUP.md.
+Current v2-0.1.8 evidence: thirty-four Python tests and actual-LVGL 8.4 ASan/UBSan passed; both modes/all eight, coherent face/word movement, exact timing/settled handoff, complete text/scrolling, input-driver hold/release/drag, rollover, OTA, allocation failure and independent deletion/teardown were exercised. The host recorded 422 caller allocations with none remaining and stable heap over 100 cycles; those are not target heap/frame-time measurements. Independent review passed. C6 compilation reported 1,427,064 application bytes / 113,372 globals; unchanged partitions and application image/hash were checked. One authenticated OTA installed v2-0.1.8 in 0x10000, changed from 0x340000; exact running version, OTA readiness and increasing uptime were read back. No C6 USB diagnostic or physical motion acceptance is claimed.
 
 ```sh
 python3 tools/build_v2_content.py --check

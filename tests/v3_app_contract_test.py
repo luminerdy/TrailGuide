@@ -9,6 +9,10 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 class Contracts(unittest.TestCase):
+ def test_new_output_isolation(self):
+  import prepare_v3
+  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.1')
+  with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/'build/v3-0.1.0')
  def test_owned_preparer_exists(self):
   self.assertTrue((ROOT/'tools/prepare_v3.py').is_file(),'first app preparer missing')
  def test_content_and_exact_drivers(self):

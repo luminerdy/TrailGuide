@@ -14,9 +14,10 @@ static uint32_t rng(void *p){auto &s=*static_cast<uint32_t*>(p);s=s*1664525u+101
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.0/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.1/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
+static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
 static lv_point_t pt;static bool pressed=false;
 static void readTouch(lv_indev_drv_t *,lv_indev_data_t *d){d->point=pt;d->state=pressed?LV_INDEV_STATE_PRESSED:LV_INDEV_STATE_RELEASED;}
 static void press(int x,int y){pt={lv_coord_t(x),lv_coord_t(y)};pressed=true;advance(60);}
@@ -26,7 +27,10 @@ int main(){
  lv_indev_drv_t input;lv_indev_drv_init(&input);input.type=LV_INDEV_TYPE_POINTER;input.read_cb=readTouch;lv_indev_drv_register(&input);
  uint32_t seed=7;
  {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);assert(u.model.index==-1);assert(!u.busy());bounds(u.first,true);bounds(u.second,true);bounds(u.toggle,true);
- press(180,145);advance(500);assert(u.model.index==-1);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
+ for(unsigned i=0;i<lv_obj_get_child_cnt(u.root);++i)bounds(lv_obj_get_child(u.root,i));
+ lv_area_t heading,subheading;lv_obj_get_coords(lv_obj_get_child(u.root,0),&heading);lv_obj_get_coords(lv_obj_get_child(u.root,1),&subheading);assert(heading.y2+4<subheading.y1);
+ auto homePixels=face();save(100);for(unsigned n=0;n<40;++n){save(200+n);advance(40);}save(101);assert(face()!=homePixels && "Home compass must visibly wander");assert(u.model.index==-1 && !u.busy() && !outstanding);
+ press(126,235);advance(500);assert(u.model.index==-1);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
  auto copy=std::string(lv_label_get_text(u.body));assert(std::strstr(lv_label_get_text(u.motionStatus),"ASK DRAFT"));assert(copy==trailguide::cards[id].ask);auto dark=face();advance(400);assert(face()==dark);u.perform(v3app::Ui::Action::Another);assert(!u.busy() && u.model.index==id);
  u.perform(v3app::Ui::Action::Guide);assert(!u.busy());assert(std::string(lv_label_get_text(u.body))==trailguide::cards[id].askGuide);bounds(u.scroll);u.perform(v3app::Ui::Action::Back);assert(u.model.index==id&&!u.busy());
  u.perform(v3app::Ui::Action::Another);auto initial=face();advance(1800);assert(initial!=face());u.perform(v3app::Ui::Action::Home);assert(!u.busy()&&!outstanding);advance(6500);assert(u.model.view==v3app::View::Home);
@@ -52,14 +56,30 @@ int main(){
  u.render();u.perform(v3app::Ui::Action::Ask);assert(u.busy());
  }assert(!outstanding);advance(6500);
  for(unsigned t=0;t<=6000;t+=10){auto p=v3app::WindowReveal::pose(t);assert(p.light>=0&&p.light<=1);if(t<=600)assert(p.light==0);}assert(v3app::WindowReveal::pose(6000).z==0);
+ // Compass lifecycle and touch alternatives use actual LVGL objects/input.
+ const auto baselineTimers=timers();
+ {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);auto randomBefore=seed;auto timerBefore=timers();lv_mem_monitor_t m;lv_mem_monitor(&m);auto freeBefore=m.free_size;
+  advance(30000);lv_mem_monitor(&m);assert(m.free_size==freeBefore && seed==randomBefore && u.model.index==-1 && !u.busy() && timers()==timerBefore);
+  press(180,294);lift();assert(u.instant && !u.busy());press(232,235);lift();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Try && !u.busy());
+  u.perform(v3app::Ui::Action::Home);auto still=face();advance(1600);assert(still!=face() && !u.busy());
+  lv_obj_del(u.root);assert(!u.root && timers()==baselineTimers);advance(6500);
+  u.render();assert(timers()==baselineTimers+1);lv_obj_del(lv_obj_get_child(u.root,2));assert(timers()==baselineTimers);advance(6500);
+  u.render();assert(timers()==baselineTimers+1);
+ }assert(timers()==baselineTimers);advance(6500);
  // Synthetic samples exercise the app gate, not physical motion acceptance.
  {v3app::Ui u(rng,&seed,allocate,release);u.render();
   auto feed=[&](float a,bool valid=true){advance(20);v3::ImuSample s;s.valid=valid;s.at_ms=lv_tick_get();s.acc_g[2]=a;s.gyr_dps[1]=-2.2f;u.sample(s,s.at_ms,true);};
   auto quiet=[&](){for(int i=0;i<40;i++)feed(1);};
   auto shake=[&](){for(int p=0;p<3;p++){for(int i=0;i<3;i++)feed(2.1f);for(int i=0;i<5;i++)feed(1);}for(int i=0;i<30;i++)feed(1);};
-  quiet();shake();assert(u.model.index==-1);u.perform(v3app::Ui::Action::Ask);int saved=u.model.index;quiet();shake();assert(u.model.index==saved); // busy drop
+  // Contact on the intro is dropped, not queued after release.
+  auto before=seed;v3app::Model expected(rng,&before);expected.draw(v3app::Mode::Ask);
+  press(180,132);quiet();shake();assert(u.model.index==-1&&!u.busy());lift();
+  assert(u.eligible());quiet();shake();assert(u.model.view==v3app::View::Card && u.busy() && u.model.mode==v3app::Mode::Ask && u.model.index==expected.index);assert(seed==before);int saved=u.model.index;
+  save(102);auto darkHomeDraw=face();advance(1500);save(103);assert(face()!=darkHomeDraw);quiet();shake();assert(u.model.index==saved); // busy drop
   u.perform(v3app::Ui::Action::Guide);quiet();shake();assert(u.model.index==saved);u.perform(v3app::Ui::Action::Back);quiet();shake();assert(u.busy() && u.model.index!=saved);saved=u.model.index;quiet();shake();assert(u.model.index==saved); // draw once, never queue
   u.perform(v3app::Ui::Action::Home);advance(6500);assert(u.model.index==saved);u.perform(v3app::Ui::Action::Try);u.perform(v3app::Ui::Action::Another);saved=u.model.index;for(int i=0;i<100;i++)feed(2,false);assert(u.model.index==saved && !u.busy());
+  u.perform(v3app::Ui::Action::Home);advance(3000);quiet();shake();assert(u.model.mode==v3app::Mode::Ask && u.busy());u.perform(v3app::Ui::Action::Another);
+  u.perform(v3app::Ui::Action::Home);u.perform(v3app::Ui::Action::Instant);advance(3000);quiet();shake();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Ask && !u.busy());
  }
  // Regression: every pointer-down area and inertia phase blocks gesture draws.
  {v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(v3app::Ui::Action::Ask);u.perform(v3app::Ui::Action::Another);
@@ -82,5 +102,5 @@ int main(){
   lv_event_send(u.scroll,LV_EVENT_SCROLL_END,nullptr);assert(u.eligible());
   quiet();shake();assert(u.busy()&&u.model.index!=saved);
  }
- printf("PASS actual LVGL8.3.10 ASan/UBSan: both modes/eight cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
+ printf("PASS actual LVGL8.3.10 ASan/UBSan: compass pixels/no idle draw or model RNG use/stable heap, Home synthetic shake one draw/Instant/contact, compass restart/child-root-owner deletion, both modes/eight cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
 }

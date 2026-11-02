@@ -2,6 +2,15 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 playful compass intro — v3-0.1.1
+
+- Home now shows a gently wandering decorative idea compass; no measured north/heading claim or new sensor. Idle ticks use separate pseudo-random state and never draw cards or consume card RNG. Intro shake defaults to Ask through the existing single-draw path. Touch Ask/Try/Instant remain available; Instant text bypasses card reveal, not compass motion.
+- Separate compass timer is canceled on navigation, independent compass deletion, root teardown and owner destruction; card-reveal busy state is independent. Existing six-second answer-face renderer, model, gesture thresholds, canonical content and all V1/V2/diagnostic sources are unchanged. No coaching-review recommendations were implemented.
+- Actual LVGL 8.3.10 ASan/UBSan verified changing compass pixels, stable idle/model/RNG, synthetic intro shake, contact suppression, touch/Instant, safe-circle controls and teardown/restart. Thirty-eight Python tests passed; host caller allocations 134, outstanding 0, LVGL peak 14,792/49,152 bytes. Independent read-only scoped review found no blockers. Host simulation is not physical performance or shake acceptance.
+- Actual S3 compile: 632,967 program bytes, 126,736 globals; exported app 633,120 bytes. S3 chip 9/checksum/hash/slot, original backups and byte-identical bootloader/partitions passed validation. Fresh same-board identity preceded app-only write at 0x10000; data hash verified. Accepted v3-0.1.0 inventory 3,005 files remains byte-identical; an early host preparation re-created identical files and may have changed timestamps, not bytes.
+- Exact v3-0.1.1 startup/UI ready, expander/touch ACKs and real IMU identity/configuration/fresh samples were read back. Six continuing heartbeats had no sampling errors; Home LVGL free 41,372 bytes and PSRAM free 8,382,632 bytes stayed constant. No synthetic device taps or shakes were sent. Physical compass/intro-shake behavior remains unaccepted; the prior answer animation was positively observed and its implementation is unchanged.
+- Current private package/logs: `build/v3-0.1.1/`. See [V3-TRIAL.md](V3-TRIAL.md). No V1/V2 hardware accessed.
+
 ## V3 first read-only card/shake trial — v3-0.1.0
 
 - Added separate owned `trailguide_v3/` and preparation/host tooling, preserving all V1/V2/diagnostic sources and recovery images. Home has no boot draw; canonical eight-pair Ask/Try bags shuffle independently without cycle-boundary repetition. Guide/Back, More text/swipe and memory-only Instant text preserve complete DRAFT copy. No recording/history, accounts, networking/OTA, audio/microphone, RTC or SD is initialized.

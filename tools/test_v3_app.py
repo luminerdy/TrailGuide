@@ -7,13 +7,13 @@ import subprocess
 from prepare_v3 import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.0/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.0/host'
+LVGL = ROOT / 'build/v3-0.1.1/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.1/host'
 
 
 def main():
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.0/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.1/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',

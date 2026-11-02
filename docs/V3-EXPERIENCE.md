@@ -1,10 +1,12 @@
 # V3 experience study — shake, discover, reveal
 
+Hardware status: the first [v3-0.1.0 DRAFT native trial](V3-TRIAL.md) is installed and boot/IMU/idle-heap verified. Its actual round-screen/reveal/shake acceptance remains open. The browser study below is an earlier simulation and does not establish physical sensor behavior or native performance.
+
 Status: endorsed interaction direction; separate browser experience study, not V3 firmware or physical shake verification. Canonical requirements: [P-20](PRODUCT-SPEC.md#p-20-v3-playful-idea-draw-and-gradual-reveal), [V3 hardware contract](V3-SPEC.md) and [shared Ask/Try contract](FACILITATOR-MODES.md). The existing [full-flow round preview](../prototype/index.html) remains separate and unchanged.
 
 ## Intent
 
-A deliberate shake offers a possible next idea for a team. After a short settling beat, the whole answer emerges together from darkness, like a Magic 8 Ball: complete text fades into view, without typing individual letters or sequential words. Keep layout/wrapping fixed. The shared moment should feel playful, while the result remains a readable question or practical move that people can accept, adapt or ignore.
+A deliberate shake offers a possible next idea for a team. After a short settling beat, the whole blue answer-bearing surface and words approach from a dark viewing window with gentle perspective/tilt/drift, then settle readable. This is the physical-emergence principle, not typing individual letters, sequential words or merely fading static text. Keep the copy and wrapping together throughout motion. The shared moment should feel playful, while the result remains a readable question or practical move that people can accept, adapt or ignore.
 
 This is optional novelty, not the core mentoring programme, a compulsory participation ritual or evidence of better learning. The project gives the activity context; randomness does not make every card appropriate. The device reveals curated content, not a live AI answer or pretend AI thinking.
 
@@ -12,11 +14,11 @@ This is optional novelty, not the core mentoring programme, a compulsory partici
 
 1. Fresh opening shows Home without drawing. Choose **Ask the Team** or **Try a Move**; no team setup is required.
 2. On an eligible main-card screen, **Another** or one deliberate shake uses the same draw pipeline, active mode/filter and release eligibility. Ask reveals a question; Try reveals a concise action.
-3. Select one card, settle briefly, then reveal its text progressively. Preserve its identity, revision and complete original copy throughout; no runtime paraphrase or second draw during the reveal.
+3. Select one card, settle briefly, then let its complete answer-face emerge together. Preserve identity, revision and original copy throughout; no runtime paraphrase, typing or second draw during the reveal.
 4. **Reveal all** completes that same card immediately. An **Instant text** preference skips both settling and gradual appearance. Respect reduced-motion preferences where available. Essential actions never require shaking or waiting for an animation.
 5. Keep the complete copy readable and scrollable/pageable. Restore normal **Guide me / Another** navigation when ready; revealing the main text does not enter guidance, mark use, save, rate or attribute an event.
 
-Use a nonblocking state machine: `ready -> settling -> revealing -> ready`. Accept one draw per deliberate input. Ignore—not queue—additional shakes and Another taps while settling/revealing. A short hardware cooldown and a return-to-rest condition prevent a sustained shake from causing repeated draws; actual thresholds, timing and orientation tolerance need measured IMU traces and human review.
+Use a nonblocking state machine: `ready -> settling -> revealing -> ready`. Accept one draw per deliberate input. Ignore—not queue—additional shake/draw requests while settling/revealing; the existing target's explicitly labeled Reveal all still completes the same card. A short hardware cooldown and a return-to-rest condition prevent a sustained shake from causing repeated draws; actual thresholds, timing and orientation tolerance need measured IMU traces and human review.
 
 Suppress motion draws on Home, in Guide me, menus, team/theme selection, history, confirmations, dim/wake transitions and updating/error overlays. Navigation or mode/filter changes cancel the old reveal and invalidate callbacks; no late text overwrite or delayed draw. A changed selection must follow the normal destination-context rules, never a stale callback. Waking preserves the current card and consumes its first input.
 

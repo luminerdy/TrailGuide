@@ -2,7 +2,16 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V3 optional IMU diagnostic installation — v3-bringup-0.1.1
+## V3 first read-only card/shake trial — v3-0.1.0
+
+- Added separate owned `trailguide_v3/` and preparation/host tooling, preserving all V1/V2/diagnostic sources and recovery images. Home has no boot draw; canonical eight-pair Ask/Try bags shuffle independently without cycle-boundary repetition. Guide/Back, More text/swipe and memory-only Instant text preserve complete DRAFT copy. No recording/history, accounts, networking/OTA, audio/microphone, RTC or SD is initialized.
+- Native six-second wholeface/words use one bounded 143,360-byte PSRAM-only source/output allocation outside 48KiB LVGL heap. Safe instant fallback is tested but is not working motion. Gesture uses fresh 20ms samples with experimental multi-peak/rest/cooldown thresholds; Home/Guide/reveal/pointer/inertia drop gestures without queuing. No physical shake acceptance is inferred.
+- Actual LVGL 8.3.10 ASan/UBSan, model/shuffle, synthetic gesture and fake-bus suites passed; 37 Python regressions passed. Host recorded 133 caller allocations with none outstanding and 14,752-byte LVGL peak. Review reproduced a pre-init TLSF crash and incomplete root/inertia suppression; guarded heartbeat and independent pointer/scroll gates passed actual RED/GREEN regressions and targeted independent re-review.
+- S3 compile reported 631,943 program bytes / 126,712 globals; exported app 632,096 bytes. Actual chip 9/checksum/hash/slot and unchanged bootloader/partitions were validated. After fresh same-target S3/16MB/port/backup checks, only app0 at 0x10000 was written and hash-verified. No C6 access occurred for this upload.
+- New version v3-0.1.0, continuing UI-ready heartbeat, expander/touch ACKs, actual sensor 0x6b/WHO 0x05/revision 0x7c/configuration and fresh sample-valid state were read back. Five Home heartbeats had zero sampling errors, LVGL free 41,788 bytes and PSRAM free 8,382,632 bytes. This is idle/available-memory evidence, not target raster allocation, frame rate or physical pixel/input/shake acceptance. No synthetic device taps or shakes were injected.
+- New UI/readability/overflow/controls, actual reveal allocation/smoothness, deliberate shake versus ordinary handling, full-screen mapping, PSRAM health and sustained operation remain separate. Exact payload/logs are private under `build/v3-0.1.0/`; [V3-TRIAL.md](V3-TRIAL.md) is the operating/build contract.
+
+## Earlier V3 optional IMU diagnostic installation — v3-bringup-0.1.1
 
 - Preserved the physically checked button/counter/fonts and added bounded optional IMU diagnostics plus a circle-safe status line. No audio, microphone, SD, RTC, Wi-Fi, storage, recording or shake drawing is initialized.
 - Original-family configuration/range behavior and locally pinned supplementary identity/status meanings were checked. WHO_AM_I register 0x00 is separate from revision 0x01; unknown/missing devices are not configured. Reads/configuration are bounded and read back; short/stale/invalid frames suppress numeric samples. Native axes are uncalibrated, not mapped to the screen; no uncertain software-reset command was guessed.

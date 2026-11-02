@@ -2,7 +2,7 @@
 
 ## Scope and measured identity
 
-The photo-confirmed original **ESP32-S3-Touch-LCD-1.85 Rev2.1** now runs **v3-bringup-0.1.1**, a silent minimal display/touch test with optional IMU diagnostics. The application-only update, exact startup version, continuing UI-ready heartbeats, actual sensor identity/configuration and fresh samples were read back. Earlier v0.1.0 visible-counter/basic touch acceptance remains recorded separately: an additional 100 physical taps were reported, with only inside-button taps counting. The new status line, controlled movement, full display/readability and sustained-operation checks remain open. V1/V2 and eFuses were not touched.
+The current **v3-0.1.0 DRAFT card/shake trial** is installed and boot/IMU/Home-heap verified; see [V3-TRIAL.md](V3-TRIAL.md) for its actual behavior, build and remaining physical gates. The sections below retain the earlier diagnostic foundation, exact source/pin/recovery evidence and fallback recipes. Physical input on the old counter screen is not acceptance of the new card UI; actual shake/reveal/frame-time testing remains open.
 
 - Re-enumerated one native Espressif USB JTAG/serial interface, USB VID/PID `303a:1001`. No process owned its serial node immediately before the probe. USB identity alone does not identify the board or chip.
 - Pinned esptool **4.11.0** measured **ESP32-S3 (QFN56), silicon revision v0.2**, a 40 MHz crystal and embedded **8 MB PSRAM (AP_3v3)**. This is a silicon feature report, not a runtime PSRAM memory test.
@@ -150,7 +150,7 @@ The first v0.1.0 deployment verified bootloader `0x0`, partitions `0x8000`, OTA 
 
 Native USB monitor connection can itself produce `USB_UART_CHIP_RESET`, even with DTR/RTS false before opening; a later post-reset zero counter was inconclusive for earlier taps. Keep first-boot captures separate from human tap observations and do not reset an active check unnecessarily. Raw logs, compiled payloads and original recovery images remain private.
 
-## Current optional IMU test — v3-bringup-0.1.1
+## Earlier optional IMU test — v3-bringup-0.1.1
 
 The existing button/counter/fonts remain, with a circle-safe `IMU: ...` status. The owned `imu.h` probes only `0x6a`/`0x6b`, gates configuration on WHO_AM_I at register `0x00`, and reports revision register `0x01` separately. Unknown/missing identity disables IMU configuration without blocking display/touch. Bounded reads propagate failures and short transfers; no guessed software reset, interrupt/FIFO/motion engine, audio, microphone, RTC, SD, Wi-Fi, storage or recording is enabled.
 
@@ -158,7 +158,7 @@ Original-family source supplies the configuration/range/register behavior; local
 
 The loop uses at most two register operations per initialization tick, 10ms shared-Wire timeout, 250ms polling and five-second heartbeat/sample output. Configuration is read back: 4g accelerometer range, 512dps gyro range, normal 60 ODR enums, LPF/attitude engine off. Samples use signed little-endian native sensor axes; missing/stale/short/all-zero/all-ff/clipped frames suppress numbers. These safeguards are not calibration or proof of every hardware-fault case.
 
-### Current build and checks
+### Diagnostic build and checks
 
 Preparation leaves the preserved `minimal/` fallback untouched; all derived sources/libraries/config and outputs stay in ignored `imu/`. It retains the same four reviewed DMA substitutions and byte-identical display/touch drivers and LVGL. No global dependency changes are required.
 
@@ -201,7 +201,7 @@ Exact payload/source hashes, source provenance, commands, upload and raw serial 
 2. Keep both original recovery images immutable and verify any later replacement's target, hashes, partitions and actual authorization. Restoration of the original whole image has not been tested.
 3. If a manufacturer-version build is needed, isolate a compatible core under the ignored local build tree only; do not replace the host's global core or libraries. Do not silently patch the unmodified reference to hide compatibility failures.
 4. Boot/serial verification and the basic physical visible-counter/touch-target check passed for the minimal image. An additional 100 taps and rejection of outside-button taps were operator-reported. Full display/readability, hold/drag/screen-edge mapping, runtime PSRAM, controlled IMU motion/axes/noise, memory stability and power behavior remain separate gates. Actual WHO_AM_I/configuration and fresh samples are verified for v0.1.1, not shake-to-draw. No shake behavior is claimed.
-5. Build V3-specific offline application, shake/rest/cooldown handling, reveal cancellation, touch alternative, reduced-motion behavior, authenticated update/recovery and human acceptance separately. The manufacturer demo and browser study are not production V3 firmware.
+5. The first V3-specific offline application and experimental gesture/reveal path are now installed. Validate them physically and tune handling from evidence before production claims. Authenticated V3 OTA, durable recording, production eligibility and full power/memory acceptance remain separate; manufacturer/browser studies are not substitutes.
 
 ## Sources
 

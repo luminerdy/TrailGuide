@@ -27,6 +27,7 @@ static bool acknowledges(TwoWire &bus, uint8_t address) {
 }
 
 void setup() {
+  motionDiagnostics.recorder.allocator(rasterAllocate,rasterRelease);
   Serial.begin(115200);  // Never wait for a connected USB host.
   // Arduino-ESP32 3.3.2 HWCDC::write decrements unsigned tries before checking
   // zero: timeout 0 underflows on a full, unread transport. 1ms is finite
@@ -71,13 +72,16 @@ void loop() {
   motionDiagnostics.service(Serial,now);
   if (ready) {
     const auto before = imu.state();
+    const auto pollBefore=imu.last_poll().sequence;
     imu.tick(now);
+    (void)pollBefore;
     if(motionDiagnostics.active()){
       const auto pre=ui.diagnostic(imu.sample(),now);
       bool triggered=false;
       ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running,&triggered);
       const auto post=ui.diagnostic(imu.sample(),now);
       motionDiagnostics.observe(Serial,now,imu.sample(),imu.status(),pre,post,triggered);
+      if(imu.last_poll().sequence!=pollBefore)motionDiagnostics.recorder.observe(imu.last_poll(),imu.sample(),pre,post,triggered);
     }else{
       ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running);
     }

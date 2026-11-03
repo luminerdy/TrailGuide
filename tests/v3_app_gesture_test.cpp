@@ -187,5 +187,15 @@ int main(){
  recoveryGuards();
  opposedRecover();
  heldCycle();axesAndCadences();rejectsOrdinaryHandling();cancelAndRearm();badFrames();
+#ifdef V3_GESTURE_RESET_DIAGNOSTICS
+ {v3app::Gesture d;v3::ImuSample s;s.valid=true;s.acc_g[2]=1;s.at_ms=20;
+  d.consume(s,20,false);assert(d.diagnostic(s,20).resetReason==1);
+  s.valid=false;d.consume(s,20,true);assert(d.diagnostic(s,20).resetReason==2);
+  s.valid=true;d.consume(s,100,true);assert(d.diagnostic(s,100).resetReason==3);
+  s.at_ms=40;s.gyr_dps[0]=512;d.consume(s,40,true);assert(d.diagnostic(s,40).resetReason==6);
+ }
+#else
+ assert(!"actual detector reset cause metadata missing");
+#endif
  puts("PASS gesture: SYNTHETIC held flip/return, axes/sign/cadence/slow turns, handling, cancellation/rearm/cooldown, invalid/freshness/gaps/rollover; NOT PHYSICAL ACCEPTANCE");
 }

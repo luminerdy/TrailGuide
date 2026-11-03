@@ -1,12 +1,19 @@
 #pragma once
 #include <stdint.h>
 #include <stddef.h>
+#define V3_LAST_POLL_METADATA 1
 
 // Owned materialized copy of bringup/imu.h; only poll cadence changes 250 -> 20ms.
 // This NEW cadence is unverified physically; registers/scaling/reset unchanged.
 namespace v3 {
 enum class ImuState { Off, Probing, Missing, Identity, Configuring, ConfigError, Running };
 struct ImuCandidate { bool read_ok=false; uint8_t id=0; };
+// Read-only last actual poll. Flags: status-read=2 raw-read=4 error=8
+// not-ready=16 raw-invalid=32 clipped=64; valid remains sample-owned.
+struct ImuPoll {
+ uint32_t sequence=0,at_ms=0,errors=0;
+ int16_t raw[6]={};uint8_t status0=0,flags=0,clip=0;
+};
 struct ImuSample {
   bool valid=false;
   uint32_t at_ms=0;
@@ -25,7 +32,7 @@ template<class Bus> class Imu {
   void begin(uint32_t now) {
     state_=ImuState::Probing; probe_=0; selected_=false; step_=0;
     candidates_[0]={}; candidates_[1]={}; address_=0; revision_=0;
-    sample_={}; last_poll_=now; errors_=0; poll_status_="IMU: waiting";
+    sample_={}; metadata_={}; last_poll_=now; errors_=0; poll_status_="IMU: waiting";
   }
   void tick(uint32_t now) {
     if(state_==ImuState::Running) { poll(now); return; }
@@ -62,6 +69,7 @@ template<class Bus> class Imu {
   uint8_t address() const { return address_; }
   uint8_t revision() const { return revision_; }
   const ImuSample &sample() const { return sample_; }
+  const ImuPoll &last_poll() const { return metadata_; }
   uint32_t read_errors() const { return errors_; }
   const char *status() const {
     switch(state_) {
@@ -79,17 +87,28 @@ template<class Bus> class Imu {
   void poll(uint32_t now) {
     if(uint32_t(now-last_poll_)<20) return;
     last_poll_=now;
+    const uint32_t sequence=metadata_.sequence+1;metadata_={};metadata_.sequence=sequence;metadata_.at_ms=now;metadata_.errors=errors_;
     sample_.valid=false; // Never publish stale or partially read numbers.
     poll_status_="IMU: waiting";
     uint8_t status=0, raw[12];
-    if(!read(address_,0x2e,&status,1)) { ++errors_; poll_status_="IMU: read err"; return; }
+    if(!read(address_,0x2e,&status,1)) { ++errors_; metadata_.errors=errors_;metadata_.flags=8; poll_status_="IMU: read err"; return; }
+    metadata_.status0=status;metadata_.flags=2;
     // STATUS0 bits 0/1 corroborated by the pinned local supplementary driver.
-    if((status & 3)!=3) return;
-    if(!read(address_,0x35,raw,sizeof(raw))) { ++errors_; poll_status_="IMU: read err"; return; }
+    if((status & 3)!=3) {metadata_.flags|=16;return;}
+    if(!read(address_,0x35,raw,sizeof(raw))) { ++errors_; metadata_.errors=errors_;metadata_.flags|=8; poll_status_="IMU: read err"; return; }
+    metadata_.flags|=4;
+    // Diagnostic-only decode does not change the publication loop or bus calls.
+    for(unsigned i=0;i<6;++i){
+      const uint16_t bits=uint16_t(raw[i*2]) | (uint16_t(raw[i*2+1])<<8);
+      const int32_t value=bits>=0x8000 ? int32_t(bits)-65536 : bits;
+      metadata_.raw[i]=int16_t(value);
+      if(value==-32768 || value==32767)metadata_.clip|=uint8_t(1u<<i);
+    }
     poll_status_="IMU: invalid";
     bool zero=true, ff=true;
     for(uint8_t b:raw) { zero=zero && b==0; ff=ff && b==255; }
-    if(zero || ff) return;
+    if(zero || ff) {metadata_.flags|=32;return;}
+    if(metadata_.clip)metadata_.flags|=64;
     ImuSample next;
     for(unsigned axis=0;axis<6;++axis) {
       const uint16_t bits=uint16_t(raw[axis*2]) | (uint16_t(raw[axis*2+1])<<8);
@@ -124,7 +143,7 @@ template<class Bus> class Imu {
   ImuCandidate candidates_[2];
   uint8_t probe_=0, address_=0, revision_=0, ctrl1_=0, step_=0;
   bool selected_=false;
-  ImuSample sample_;
+  ImuSample sample_;ImuPoll metadata_;
   uint32_t last_poll_=0, errors_=0;
   const char *poll_status_="IMU: waiting";
 };

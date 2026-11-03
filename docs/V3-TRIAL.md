@@ -2,11 +2,36 @@
 
 ## Current installed checkpoint
 
-**v3-0.1.6 DRAFT is installed and startup/UI/real-IMU verified.** It corrects the observed gesture-recovery lock. Compass appearance and touch were reported working on the unchanged v3-0.1.5 layout; a complete physical flip on the corrected detector remains unaccepted. No card content, coaching guidance, reveal composition or optional peripherals changed.
+**v3-0.1.7 diagnostic DRAFT is installed and startup/UI/real-IMU verified.** It corrects the observed gesture-recovery lock. Compass appearance and touch were reported working on the unchanged v3-0.1.5 layout; a complete physical flip on the corrected detector remains unaccepted. No card content, coaching guidance, reveal composition or optional peripherals changed.
 
 The coordinated v3-0.1.5 trace contained 315 fresh, valid, resting, eligible records stuck in Recover, with current gravity nearly opposite the retained origin (alignment about -0.989). Old recovery rejected this position indefinitely. The corrected code retains the old reference until a fresh stable recovery hold qualifies, then adopts that pose without drawing. Same-origin recovery remains 600ms; a changed/opposed reference uses the existing 1200ms rebase dwell. Ready/Turning/Inverted and their thresholds are unchanged. Subsequent drawing still requires a whole opposition/return cycle.
 
 **Separate logging correction retained:** v3-0.1.4 diagnostic activation left HWCDC timeout at zero. Actual device backtrace proved the main loop stalled inside a normal heartbeat write when the reader closed. v3-0.1.5 and later use a positive finite 1ms TX budget at setup and diagnostic activation. Do not restore a zero timeout. Capacity-sized writes are bounded, not universally wait-free; large ordinary heartbeat lines may be truncated. Keep raw fragments and do not invent complete records.
+
+## RAM recorder — actual target verification
+
+The explicit REC/RECORD command now stores every actual poll attempt in 2304×40-byte records (92,160 bytes) allocated only in PSRAM, outside LVGL. No per-poll USB output/allocation occurs. Raw axes/STATUS/wait/error/clipping masks, phases, UI gates/reset causes and triggers are retained; invalid raw values never become valid samples. Default is OFF; recording freezes after 45seconds or capacity and remains available without a reader. DUMP returns bounded CRC/session/token-checked chunks and is retryable; malformed signed/overflow numeric commands cannot replace frozen evidence. No card IDs/text, participants, files or network calls are added.
+
+Actual S3 validation passed current/prepared source hashes, target/slot/image checksum/hash, compatible bootloader/partitions, fresh original-board identity and original backups before application-only write/hash verification. Exact version/UI/real IMU read back. RECORD confirmed a nonzero fresh session/count, then the reader was closed 46seconds. Fetch/independent verification recovered all 1,969 records / 78,760 bytes with full CRC32 d799012b and no reset between record/fetch. All baseline rows were valid, eligible and Ready, with no clipping/read errors/resets; poll gaps 20–36ms. No human movement was requested: this does not establish a physical flip.
+
+Current build 640,967 program bytes/128,176 globals; app 641,120 bytes. Real LVGL ASan/UBSan, actual SDK positive-budget regression, 12,000-step published-driver/detector equivalence and 42 isolated Python checks passed. Review's unsigned-parser blocker was reproduced RED, corrected with strict checked decimal uint32 parsing, passed full tests and targeted independent review. Installed v1.6 artifacts remain unchanged.
+
+Use the current client after freshly identifying the port:
+
+```sh
+python3 tools/v3_flight_recorder.py record --port "$PORT"
+# READY gives SESSION; perform one uninterrupted movement within the 45-second window.
+python3 tools/v3_flight_recorder.py fetch --port "$PORT" --session "$SESSION" --wait 60 --output PRIVATE_NEW_CAPTURE.json
+python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json --jsonl PRIVATE_NEW_DECODED.jsonl
+```
+
+Use `--wait 60` (separate arguments) for the fetch timeout. Keep raw captures private and use new output paths. Reader may close; do not reset/power-cycle before retrieval. This is diagnostic RAM, not product history. Actual baseline and capture/export logs: `build/v3-0.1.7/evidence/`; the approved twelve-card integration is prepared separately and not installed at this checkpoint.
+
+## Additional target bench evidence
+
+An explicitly synthetic detector-state injection on the actual v3-0.1.6 device bypassed the physical inversion stage, then normal actual-IMU/Ui::sample execution completed the return and selected one card. Readbacks showed a live PSRAM raster/reveal timer, then released raster and active settled-hold timer, then cleared focus/restored-control state on the same card. This establishes actual target execution of the draw/reveal/hold path, not a successful physical flip or visual pixel acceptance. An intentional cleanup reset returned Home/Ready. Private evidence: `build/v3-motion-investigation/target-draw-bench/target-result.private.json`.
+
+The latest physical report remains three complete sequences without a card. An opt-in in-memory recorder is being prepared to retain all poll attempts and cancellation/clipping reasons without relying on live USB output; no further motion threshold change is justified yet. The approved twelve-card draft is separately authorized for implementation, not installed at this checkpoint.
 
 ## Implemented experience
 
@@ -41,9 +66,9 @@ Use pinned original-family archive/toolchain in [V3-BRINGUP.md](V3-BRINGUP.md). 
 
 ```sh
 umask 077
-mkdir -p build/v3-0.1.6
-python3 tools/prepare_v3.py > build/v3-0.1.6/preparation-output.json
-ROOT="$PWD/build/v3-0.1.6"
+mkdir -p build/v3-0.1.7
+python3 tools/prepare_v3.py > build/v3-0.1.7/preparation-output.json
+ROOT="$PWD/build/v3-0.1.7"
 FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
 FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \

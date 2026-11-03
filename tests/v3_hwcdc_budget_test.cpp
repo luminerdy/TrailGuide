@@ -1,5 +1,6 @@
 // Actual pinned SDK write implementation; synthetic ringbuffer/RTOS/USB only.
 #include <cassert>
+#include <cstdlib>
 #include <cstdarg>
 #include <cstdio>
 #include <cstring>
@@ -99,5 +100,20 @@ int main(int argc,char **argv){
  // Reopen without resetting the app: fresh connected/full block remains bounded.
  reading=true;used=0;Serial.connected=true;heartbeat(75000);assert(last_heartbeat==75000);
  fullUnread();heartbeat(80000);assert(last_heartbeat==80000 && delays==1);
+ // Recorder stays live with a full/unread real SDK transport, without USB writes
+ // per poll. Only the explicit acknowledgement can occupy the fixed TX slot.
+ motionDiagnostics.recorder.allocator(malloc,free);reading=true;used=0;Serial.connected=true;
+ Serial.rx+="RECORD\n";motionDiagnostics.service(Serial,81000);
+ assert(motionDiagnostics.recorder.active() && Serial.tx_timeout_ms==1);
+ reading=false;used=ringSize;const auto callsBefore=mutexTicks;
+ v3app::FlightRecord record{};
+ for(uint32_t now=81020;now<126000;now+=20){record.poll_ms=now;motionDiagnostics.recorder.append(record);motionDiagnostics.service(Serial,now);heartbeat(now);}
+ motionDiagnostics.service(Serial,126000);
+ assert(motionDiagnostics.recorder.ram.state==2 && motionDiagnostics.recorder.ram.count==2249);
+ assert(mutexTicks==callsBefore && !motionDiagnostics.draining() && last_heartbeat==80000);
+ Serial.rx+="DUMP 1 0 32 99\n";
+ for(uint32_t now=126005;now<132000;now+=5)motionDiagnostics.service(Serial,now);
+ assert(!motionDiagnostics.draining() && motionDiagnostics.recorder.ram.count==2249 && Serial.tx_timeout_ms==1);
+ puts("PASS recorder + verbatim SDK: full unread ACK/DUMP expires without writes/waits; all 2249 synthetic polls retained and frozen; no zero TX budget");
  puts("PASS actual sketch setup+MOTION activation budget=1; connected/unread active+timeout: 9020 caller steps; reader drain/default OFF; oversized regular heartbeat+unread transport: 4001 app steps; reopen/close without reset returns; synthetic USB only");
 }

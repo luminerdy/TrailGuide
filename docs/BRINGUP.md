@@ -2,6 +2,14 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 bounded poll recorder — v3-0.1.7
+
+- Diagnostic-only PSRAM capture, default OFF, fixed 2304×40 bytes and 45-second bound; no card/model/threshold/reveal changes. Single RX parser, finite positive USB budget and bounded CRC/session/token dump retain evidence without a live reader. Raw invalid/clipped values are diagnostic only, never valid published samples.
+- Actual LVGL ASan/UBSan, SDK budget regression, 12,000 differential driver/detector steps and 42 isolated Python checks pass. Numeric-parser review blocker was reproduced then fixed with strict decimal checked uint32 parsing; targeted independent review PASS. All 2697 installed v1.6 files/inventory preserved.
+- Actual build 640,967 program/128,176 globals; app 641,120 bytes. Fresh target/backup/image/hash/source/compatible-component gates and app-only write/hash verified; exact startup/UI/actual IMU verified.
+- Fresh RECORD session acknowledged nonzero polls; reader closed 46seconds, then actual fetch/verify recovered 1,969 records / 78,760 bytes with full CRC32 d799012b and no reset. Every unattended baseline row valid/eligible/Ready, zero read errors/clips/resets, poll gaps 20–36ms. No scripted human motion: physical flip remains unresolved. Recorder frozen and reader closed.
+- Private proof:`build/v3-0.1.7/`; [V3-TRIAL.md](V3-TRIAL.md) contains current protocol/build boundaries. Approved 12-card overlay is not yet installed.
+
 ## V3 opposed-reference recovery correction — v3-0.1.6
 
 - Coordinated v1.5 trace: 315 fresh valid/resting eligible rows stuck in Recover, gravity alignment about -0.989 to retained origin, no trigger. Recovery now permits a fresh stable opposed reference after existing 1200ms; same-origin 600ms remains. Reacquisition itself never draws; active phases/thresholds and all UI/content/renderer remain unchanged.

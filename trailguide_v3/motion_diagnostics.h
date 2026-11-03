@@ -4,11 +4,13 @@
 #include <cstdio>
 #include <cstring>
 #include <cmath>
+#include "flight_recorder.h"
+#define V3_FLIGHT_RECORDER 1
 namespace v3app {
 // One fixed pending line, no queue, allocation, flush, or UI command path.
 // Serial mutex/write calls have a finite 1ms budget, not strict wait-freedom.
 class MotionDiagnostics {
- char command_[8]={}, pending_[768]={};
+ char command_[80]={}, pending_[768]={};
  size_t used_=0,length_=0,cursor_=0;
  bool overflow_=false,active_=false,have_=false,ending_=false;
  uint32_t started_=0,lastReport_=0,lastAt_=0,lastKey_=0,dropped_=0,observed_=0;
@@ -23,12 +25,14 @@ class MotionDiagnostics {
   return static_cast<long>(v);
  }
  public:
+ FlightRecorder recorder;
  static constexpr uint32_t DurationMs=45000;
- bool active()const{return active_;}
- bool draining()const{return cursor_<length_ || ending_;}
+ bool active()const{return active_ || recorder.active();}
+ bool draining()const{return cursor_<length_ || ending_ || recorder.draining();}
  uint32_t dropped()const{return dropped_;}
  uint32_t observations()const{return observed_;}
  template<class Serial> void service(Serial &serial,uint32_t now){
+  recorder.tick(now);
   if(active_ && uint32_t(now-started_)>=DurationMs){active_=false;ending_=true;}
   if(ending_ && cursor_>=length_){
    length_=size_t(std::snprintf(pending_,sizeof(pending_),"TG_MOTION1 end=timeout duration_ms=45000 obs=%lu drop=%lu bad=%lu wait=%lu last_bad=%lu:%u>%u phases=%lu fires=%lu\n",(unsigned long)observed_,(unsigned long)dropped_,(unsigned long)invalidEvents_,(unsigned long)waitingEvents_,(unsigned long)lastInvalid_,invalidFrom_,invalidTo_,(unsigned long)phaseEvents_,(unsigned long)triggers_));
@@ -38,7 +42,10 @@ class MotionDiagnostics {
   for(unsigned budget=0;budget<16 && serial.available()>0;++budget){
    const int c=serial.read();if(c<0)break;
    if(c=='\n'){
-    if(!overflow_ && used_==6 && std::memcmp(command_,"MOTION",6)==0 && !active_ && !draining()){
+    command_[used_]=0;
+    if(!overflow_ && recorder.command(command_,now)){active_=false;ending_=false;length_=cursor_=0;serial.setTxTimeoutMs(1);}
+    else
+    if(!overflow_ && used_==6 && std::memcmp(command_,"MOTION",6)==0 && !active() && !draining()){
      active_=true;started_=now;have_=false;dropped_=observed_=0;
      invalidEvents_=waitingEvents_=phaseEvents_=triggers_=lastInvalid_=0;invalidFrom_=invalidTo_=0;lastValid_=false;
      // SDK 3.3.2 HWCDC::write timeout 0 underflows unsigned tries on no
@@ -47,9 +54,10 @@ class MotionDiagnostics {
     }
     used_=0;overflow_=false;
    }else if(c!='\r'){
-    if(used_<sizeof(command_))command_[used_++]=char(c);else overflow_=true;
+    if(used_<sizeof(command_)-1)command_[used_++]=char(c);else overflow_=true;
    }
   }
+  if(recorder.quiet()){recorder.service(serial,now);return;}
   // Capacity-sized writes avoid HWCDC's remainder/wait loop. A partial write
   // retains the cursor: never splice the next observation into an old line.
   if(draining() && bool(serial)){

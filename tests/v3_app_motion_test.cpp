@@ -1,5 +1,6 @@
 // Synthetic transport only; no device trace claims.
 #include <cassert>
+#include <cstdlib>
 #include <string>
 #include <algorithm>
 #include <cstdio>
@@ -65,5 +66,11 @@ int main(){
   s.connected=true;x.service(s,45000);for(unsigned i=0;i<300;++i)x.service(s,45001+i);
   assert(!x.active() && !x.draining());assert(s.tx.find("obs=13 drop=11")!=std::string::npos);
  }
+ // The legacy command cannot activate a USB stream during RAM recording.
+ {v3app::MotionDiagnostics x;Transport s;x.recorder.allocator(malloc,free);s.rx="REC\n";x.service(s,0);
+  for(unsigned i=1;i<200;++i)x.service(s,i);
+  assert(x.recorder.active() && !x.draining());s.rx+="MOTION\n";x.service(s,200);
+  v3::ImuSample sample;Snapshot a;x.observe(s,201,sample,"IMU: waiting",a,a,false);
+  assert(x.recorder.active() && x.observations()==0);}
  puts("PASS motion: partial-line/overflow/16-byte RX bound/timeout; 16/32/64-byte TX + partial writes/newline integrity/drops/disconnect/invalid transition");
 }

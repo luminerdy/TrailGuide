@@ -1,6 +1,7 @@
 #pragma once
 #include "imu.h"
 #include <cmath>
+#define V3_GESTURE_RESET_DIAGNOSTICS 1
 namespace v3app {
 // EXPERIMENTAL defaults supported by synthetic host tests, NOT physical acceptance.
 // Instruction: hold screen up, turn screen down and pause, turn back up and pause.
@@ -13,7 +14,7 @@ class Gesture {
  float origin[3]={}, held[3]={};
  bool haveOrigin=false, seen=false, dwelling=false, cooling=false;
  uint32_t last=0, dwellAt=0, cycleAt=0, firedAt=0;
- unsigned dwellSamples=0;
+ unsigned dwellSamples=0;uint32_t resetGeneration=0;uint8_t lastResetReason=0;
  // Bounds/dwells are hypotheses to measure on-device, not calibrated constants.
  static constexpr uint32_t RestMs=600, PoseMs=180, RebaseMs=1200;
  static constexpr uint32_t MaxGapMs=250, MaxAgeMs=60, CycleMs=12000, CooldownMs=2500;
@@ -33,13 +34,13 @@ class Gesture {
  }
  public:
  struct Diagnostic {
-  unsigned phase=0,dwellSamples=0;
+  unsigned phase=0,dwellSamples=0;uint32_t resets=0;uint8_t resetReason=0;
   bool haveOrigin=false,dwelling=false,seen=false,cooling=false,rest=false;
   float origin[3]={},held[3]={},alignment=0,magnitude=0,rate=0;
   uint32_t dwellMs=0,last=0,cycleAge=0,reject=0;
  };
  Diagnostic diagnostic(const v3::ImuSample &s,uint32_t now)const{
-  Diagnostic d;d.phase=unsigned(phase);d.dwellSamples=dwellSamples;
+  Diagnostic d;d.resets=resetGeneration;d.resetReason=lastResetReason;d.phase=unsigned(phase);d.dwellSamples=dwellSamples;
   d.haveOrigin=haveOrigin;d.dwelling=dwelling;d.seen=seen;d.cooling=cooling;
   copy(d.origin,origin);copy(d.held,held);d.last=last;
   d.dwellMs=dwelling?uint32_t(s.at_ms-dwellAt):0;
@@ -59,26 +60,26 @@ class Gesture {
  }
  // Preserve reference across cancellation until a fresh eligible recovery hold
  // qualifies. Active cycles never rebase. Keep freshness/cooldown across resets.
- void reset(){phase=haveOrigin ? Phase::Recover : Phase::Acquire;clearDwell();}
+ void reset(uint8_t reason=10){lastResetReason=reason;++resetGeneration;phase=haveOrigin ? Phase::Recover : Phase::Acquire;clearDwell();}
  bool consume(const v3::ImuSample &s,uint32_t now,bool eligible){
-  if(!eligible){reset();seen=true;last=s.at_ms;return false;}
-  if(!s.valid || uint32_t(now-s.at_ms)>MaxAgeMs){reset();return false;}
+  if(!eligible){reset(1);seen=true;last=s.at_ms;return false;}
+  if(!s.valid || uint32_t(now-s.at_ms)>MaxAgeMs){reset(!s.valid?2:3);return false;}
   if(seen && (s.at_ms==last || uint32_t(s.at_ms-last)>MaxGapMs)){
-   last=s.at_ms;reset();return false;
+   const uint8_t reason=s.at_ms==last?4:5;last=s.at_ms;reset(reason);return false;
   }
   seen=true;last=s.at_ms;
   float a2=0,g2=0;
   for(unsigned i=0;i<3;++i){
    if(!std::isfinite(s.acc_g[i]) || !std::isfinite(s.gyr_dps[i]) ||
-      std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=511.f){reset();return false;}
+      std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=511.f){reset(6);return false;}
    a2+=s.acc_g[i]*s.acc_g[i];g2+=s.gyr_dps[i]*s.gyr_dps[i];
   }
   if(cooling){
-   if(uint32_t(now-firedAt)<CooldownMs){reset();return false;}
+   if(uint32_t(now-firedAt)<CooldownMs){reset(7);return false;}
    cooling=false; // Rest must be acquired AFTER cooldown, not accumulated in it.
   }
   if((phase==Phase::Turning || phase==Phase::Inverted) &&
-     uint32_t(s.at_ms-cycleAt)>CycleMs){reset();return false;}
+     uint32_t(s.at_ms-cycleAt)>CycleMs){reset(8);return false;}
   const float mag=std::sqrt(a2);
   // Rest-only gyro gate: 12dps permits bounded uncalibrated bias (e.g. 2.2dps)
   // plus modest noise. NOT a bias estimate; >12dps while held cannot qualify.
@@ -112,7 +113,7 @@ class Gesture {
   if(!hold(unit,s.at_ms,PoseMs))return false;
   clearDwell();
   if(phase==Phase::Turning){phase=Phase::Inverted;return false;}
-  firedAt=now;cooling=true;reset();return true;
+  firedAt=now;cooling=true;reset(9);return true;
  }
 };
 } // namespace v3app

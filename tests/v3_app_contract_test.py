@@ -11,7 +11,7 @@ sys.path.insert(0,str(ROOT/'tools'))
 class Contracts(unittest.TestCase):
  def test_new_output_isolation(self):
   import prepare_v3
-  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.3')
+  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.4')
   with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/'build/v3-0.1.0')
  def test_owned_preparer_exists(self):
   self.assertTrue((ROOT/'tools/prepare_v3.py').is_file(),'first app preparer missing')
@@ -26,6 +26,6 @@ class Contracts(unittest.TestCase):
   self.assertIn('PSRAM=opi',m['fqbn']);self.assertIn('app3M_fat9M_16MB',m['fqbn'])
  def test_refuse_foreign_output(self):
   import prepare_v3
-  for p in ['build/v3-0.1.2','build/v3-0.1.2/nested','build/v3-0.1.1/nested','build/v3-0.1.3/../v3-0.1.1','build/v3-0.1.1','build/v3-0.1.0','build/v3-s3-bringup/imu','build/v3-s3-bringup/minimal','trailguide_v2','build/v3-0.1.0/../escape']:
+  for p in ['build/v3-0.1.3','build/v3-0.1.3/nested','build/v3-0.1.2','build/v3-0.1.2/nested','build/v3-0.1.1/nested','build/v3-0.1.4/../v3-0.1.1','build/v3-0.1.1','build/v3-0.1.0','build/v3-s3-bringup/imu','build/v3-s3-bringup/minimal','trailguide_v2','build/v3-0.1.0/../escape']:
    with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/p)
 if __name__=='__main__':unittest.main()

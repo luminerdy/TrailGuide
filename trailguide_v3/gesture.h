@@ -32,6 +32,31 @@ class Gesture {
   return dwellSamples>=4 && uint32_t(at-dwellAt)>=duration;
  }
  public:
+ struct Diagnostic {
+  unsigned phase=0,dwellSamples=0;
+  bool haveOrigin=false,dwelling=false,seen=false,cooling=false,rest=false;
+  float origin[3]={},held[3]={},alignment=0,magnitude=0,rate=0;
+  uint32_t dwellMs=0,last=0,cycleAge=0,reject=0;
+ };
+ Diagnostic diagnostic(const v3::ImuSample &s,uint32_t now)const{
+  Diagnostic d;d.phase=unsigned(phase);d.dwellSamples=dwellSamples;
+  d.haveOrigin=haveOrigin;d.dwelling=dwelling;d.seen=seen;d.cooling=cooling;
+  copy(d.origin,origin);copy(d.held,held);d.last=last;
+  d.dwellMs=dwelling?uint32_t(s.at_ms-dwellAt):0;
+  d.cycleAge=(phase==Phase::Turning || phase==Phase::Inverted)?uint32_t(now-cycleAt):0;
+  // Read-only rejection predicates, not an additional detector dispatch.
+  // bits: invalid, age, duplicate, gap, bad/clipped axis, cooldown, cycle timeout.
+  d.reject=(!s.valid?1u:0u)|(uint32_t(now-s.at_ms)>MaxAgeMs?2u:0u)|
+   (seen && s.at_ms==last?4u:0u)|(seen && uint32_t(s.at_ms-last)>MaxGapMs?8u:0u)|
+   (cooling && uint32_t(now-firedAt)<CooldownMs?32u:0u)|(d.cycleAge>CycleMs?64u:0u);
+  float a2=0,g2=0;for(unsigned i=0;i<3;++i){a2+=s.acc_g[i]*s.acc_g[i];g2+=s.gyr_dps[i]*s.gyr_dps[i];
+   if(!std::isfinite(s.acc_g[i]) || !std::isfinite(s.gyr_dps[i]) || std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=511.f)d.reject|=16u;
+  }
+  d.magnitude=std::sqrt(a2);d.rate=std::sqrt(g2);
+  d.rest=std::fabs(d.magnitude-1.f)<.16f && d.rate<12.f;
+  d.alignment=d.magnitude>0?dot(origin,s.acc_g)/d.magnitude:0;
+  return d;
+ }
  // Preserve reference across cancellation: never learn an inverted/active pose
  // as the next origin. Also preserve freshness and cooldown across UI resets.
  void reset(){phase=haveOrigin ? Phase::Recover : Phase::Acquire;clearDwell();}

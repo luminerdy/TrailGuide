@@ -5,7 +5,7 @@
 #include "window_reveal.h"
 #include "cards_generated.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.3";
+static constexpr const char *version="v3-0.1.4";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:
@@ -18,7 +18,15 @@ class Ui {
  ~Ui(){cancel();if(root)lv_obj_del(root);}
  bool busy()const{return timer!=nullptr;}
  bool eligible()const{return root && (model.view==View::Home || model.view==View::Card) && !optionsOpen && !busy() && !pointerDown && !scrolling;}
- void sample(const v3::ImuSample &s,uint32_t now,bool available){
+ struct Diagnostic {
+  bool pointer=false,scrolling=false,options=false,reveal=false,eligible=false,root=false,healthy=false;
+  unsigned view=0;Gesture::Diagnostic gesture;
+  uint32_t key()const{return unsigned(pointer)|(unsigned(scrolling)<<1)|(unsigned(options)<<2)|(unsigned(reveal)<<3)|(unsigned(eligible)<<4)|(unsigned(root)<<5)|(unsigned(healthy)<<6)|(view<<7)|(gesture.phase<<10)|(unsigned(gesture.cooling)<<14);}
+ };
+ Diagnostic diagnostic(const v3::ImuSample &s,uint32_t now)const{
+  Diagnostic d;d.pointer=pointerDown;d.scrolling=scrolling;d.options=optionsOpen;d.reveal=busy();d.eligible=eligible();d.root=root!=nullptr;d.healthy=motionAvailable;d.view=unsigned(model.view);d.gesture=gesture.diagnostic(s,now);return d;
+ }
+ void sample(const v3::ImuSample &s,uint32_t now,bool available,bool *triggered=nullptr){
   const bool healthy=available && s.valid && uint32_t(now-s.at_ms)<=60;
   if(healthy!=motionAvailable){motionAvailable=healthy;updateStatus();}
   // The application loop is faster than the IMU poll. Dispatch each sample
@@ -26,7 +34,7 @@ class Ui {
   const bool freshFrame=!sampleSeen || s.at_ms!=lastSampleAt;
   sampleSeen=true;lastSampleAt=s.at_ms;
   if(!healthy || !eligible()){gesture.consume(s,now,false);return;}
-  if(freshFrame && gesture.consume(s,now,true))draw(model.view==View::Home?Mode::Ask:model.mode);
+  if(freshFrame && gesture.consume(s,now,true)){if(triggered)*triggered=true;draw(model.view==View::Home?Mode::Ask:model.mode);}
  }
  void render(){
   cancel();gesture.reset();

@@ -7,6 +7,7 @@
 #include "LVGL_Driver.h"
 #include "ui.h"
 #include "imu.h"
+#include "motion_diagnostics.h"
 
 #include <esp_heap_caps.h>
 #include <esp_system.h>
@@ -18,6 +19,7 @@ static v3app::Ui ui(randomWord,nullptr,rasterAllocate,rasterRelease);
 static v3::Imu<TwoWire> imu(Wire);
 static bool ready = false;
 static uint32_t last_heartbeat = 0;
+static v3app::MotionDiagnostics motionDiagnostics;
 
 static bool acknowledges(TwoWire &bus, uint8_t address) {
   bus.beginTransmission(address);
@@ -62,11 +64,20 @@ void setup() {
 void loop() {
   if (ready) Lvgl_Loop();
   const uint32_t now = millis();
+  motionDiagnostics.service(Serial,now);
   if (ready) {
     const auto before = imu.state();
     imu.tick(now);
-    ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running);
-    if (before == v3::ImuState::Probing && imu.state() != before) {
+    if(motionDiagnostics.active()){
+      const auto pre=ui.diagnostic(imu.sample(),now);
+      bool triggered=false;
+      ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running,&triggered);
+      const auto post=ui.diagnostic(imu.sample(),now);
+      motionDiagnostics.observe(Serial,now,imu.sample(),imu.status(),pre,post,triggered);
+    }else{
+      ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running);
+    }
+    if (!motionDiagnostics.active() && !motionDiagnostics.draining() && before == v3::ImuState::Probing && imu.state() != before) {
       for (unsigned i = 0; i < 2; ++i) {
         const auto &c = imu.candidate(i);
         if (c.read_ok)
@@ -75,12 +86,13 @@ void loop() {
           Serial.printf("V3_IMU_PROBE address=0x%02x WHO_AM_I=unreadable; no identity claim\n", 0x6a+i);
       }
     }
-    if (before != v3::ImuState::Running && imu.state() == v3::ImuState::Running) {
+    if (!motionDiagnostics.active() && !motionDiagnostics.draining() && before != v3::ImuState::Running && imu.state() == v3::ImuState::Running) {
       Serial.printf("V3_IMU_CONFIG address=0x%02x WHO_AM_I=0x05 revision=0x%02x readback=ok acc_range_g=4 gyr_range_dps=512 odr_enum=normal60 reset=not_issued suffix=unidentified\n",
                     imu.address(), imu.revision());
     }
   }
   if (uint32_t(now-last_heartbeat)>=5000) {
+    if(!motionDiagnostics.active() && !motionDiagnostics.draining()){
     last_heartbeat=now;
     lv_mem_monitor_t memory{};
     if (ready) lv_mem_monitor(&memory);
@@ -88,6 +100,7 @@ void loop() {
       v3app::version,static_cast<unsigned long>(now),ready,imu.status(),imu.sample().valid,
       static_cast<unsigned long>(imu.read_errors()),ui.busy()?"projected":(ui.fallback?"instant_fallback":"still"),
       unsigned(v3app::WindowReveal::bytes),unsigned(ready),unsigned(memory.free_size),unsigned(memory.free_biggest_size),unsigned(heap_caps_get_free_size(MALLOC_CAP_SPIRAM)));
+    }
   }
   delay(5);
 }

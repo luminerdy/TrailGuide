@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <cstdint>
 #include <string>
+#include "../trailguide_v3/motion_diagnostics.h"
+static v3app::MotionDiagnostics motionDiagnostics;
 struct SerialDouble {
   std::string last;
   int printf(const char *format, ...) {

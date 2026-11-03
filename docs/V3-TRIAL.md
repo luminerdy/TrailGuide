@@ -1,5 +1,11 @@
 # V3 — read-only round-device trial
 
+**Current diagnostic increment: v3-0.1.4 installed, not a flip fix.** Exact reviewed app, target/slot/checksum, compatible components and same-board identity passed; app-only write/hash and actual startup/UI/IMU readback passed. Default-OFF `MOTION` enables a bounded 45-second trace without changing normal UI, sensor registers, thresholds or draw logic. The first device capture completed: 1,970 observed states, 469 transmitted lines, 1,501 dropped observations retained in aggregate accounting; no invalid/waiting events, no phase changes, detector Ready and logged UI gates eligible. No scripted human movement was requested, so this does not test the failed flip. A deliberate captured cycle is still needed. Monitor is closed. Private evidence: `build/v3-0.1.4/` and `build/v3-motion-investigation/capture-initial/`.
+
+Host LVGL ASan/UBSan and all 38 isolated Python tests passed. All 110 comparison frames and 5,516 preserved installed-v3-0.1.3 files remain byte-identical; independent review passed. Actual S3 build: 638,663 program bytes, 127,640 globals; exported app 638,816 bytes. A separate synthetic probe reproduces readiness-gap cancellation, but the initial physical trace did **not** show it; do not label it the hardware cause. The following v3-0.1.3 presentation/failure details remain the unchanged underlying UI contract.
+
+**Latest physical feedback:** v3-0.1.3 full-size compass appearance and tap-to-menu work, but repeated complete face-down/back-up cycles from the visible compass do **not** draw. Flip functionality is currently failing under investigation; prior v3-0.1.2 success and host tests do not establish current physical success. No further blind retries or threshold tuning: collect bounded raw motion, sample-readiness/cadence and UI/gesture-state evidence first. New card-only timing is not physically accepted by this report.
+
 Status: **v3-0.1.3 DRAFT installed and boot/UI/IMU verified**. Home now uses a plain full-face compass without instructions/buttons. New cards hide controls during the reveal and for five seconds after settling. The **turn-over-and-back** detector is unchanged from the physically successful v3-0.1.2 trial. The earlier physical answer animation was reported to work well and its renderer is unchanged. The previous flip interaction was reported to work well. New plain-compass appearance and card-only timing still require human acceptance; broader handling reliability remains separate. This is not production recording firmware or a validated coaching intervention.
 
 ## Implemented experience
@@ -39,9 +45,9 @@ Use the pinned original-family archive and toolchain in [V3-BRINGUP.md](V3-BRING
 
 ```sh
 umask 077
-mkdir -p build/v3-0.1.3
-python3 tools/prepare_v3.py > build/v3-0.1.3/preparation-output.json
-ROOT="$PWD/build/v3-0.1.3"
+mkdir -p build/v3-0.1.4
+python3 tools/prepare_v3.py > build/v3-0.1.4/preparation-output.json
+ROOT="$PWD/build/v3-0.1.4"
 FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
 FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \
@@ -56,15 +62,15 @@ Actual bundled LVGL 8.3.10 ASan/UBSan checks pass: full compass/dirty budget/idl
 
 All **38 Python regressions passed in an isolated current-source copy** with the pinned ZIP, original comparison drivers and baseline manifest. Legacy preparation tests can recreate fallback directories: do not run them against an accepted recovery tree merely to collect duplicate evidence. The isolated run initially lacked comparison drivers; supplying the exact missing fixtures resolved that test-environment error.
 
-The earlier v3-0.1.2 review blocked an off-safe tap region; real-pointer RED/GREEN and targeted re-review established the retained advanced circle hit-test. Independent v3-0.1.3 review found no blockers in focus lifetimes, input, allocation fallback or preparation isolation. The current S3 build reports **634,659 program bytes and 126,792 globals**; exported app is **634,800 bytes**. Static sizes are not measured free heap or FPS.
+The earlier v3-0.1.2 review blocked an off-safe tap region; real-pointer RED/GREEN and targeted re-review established the retained advanced circle hit-test. Independent v3-0.1.3 review found no blockers in focus lifetimes, input, allocation fallback or preparation isolation. The v3-0.1.3 presentation build reported **634,659 program bytes and 126,792 globals**; its exported app was **634,800 bytes**. Current diagnostic build sizes are recorded above. Static sizes are not measured free heap or FPS.
 
 ## Installed evidence and remaining checks
 
 Actual chip/checksum/hash/slot, prepared source hashes, byte-identical bootloader/partitions, fresh original-target identity and both original 16MB backup hashes passed validation. Only app0 at `0x10000` was written and data-hash verified. No V1/V2 hardware was accessed.
 
-Readback identifies v3-0.1.3, UI ready, expander/touch ACKs and actual IMU `0x6b` / WHO_AM_I `0x05` / revision `0x7c`, configuration readback passing. Six continuing heartbeats reported valid samples and zero read errors, with Home LVGL free space **43,560 bytes** and PSRAM free space **8,382,632 bytes** stable. No synthetic device inputs were sent. USB monitoring can reset the device; the monitor was closed for human testing, not described as reset-free.
+Earlier presentation readback identified v3-0.1.3, UI ready, expander/touch ACKs and actual IMU `0x6b` / WHO_AM_I `0x05` / revision `0x7c`, configuration readback passing. That earlier six-heartbeat observation reported valid samples and zero read errors, with Home LVGL free space **43,560 bytes** and PSRAM free space **8,382,632 bytes** stable. No synthetic device inputs were sent. USB monitoring can reset the device; the monitor was closed for human testing, not described as reset-free.
 
-Private package/source/runtime evidence: `build/v3-0.1.3/`. Previous Home idle evidence and positively observed answer animation/flip remain separate historical evidence, not acceptance of the new plain-compass/card-only timing. See [BRINGUP.md](BRINGUP.md).
+Private package/source/runtime evidence: `build/v3-0.1.4/`. Previous Home idle evidence and positively observed answer animation/flip remain separate historical evidence, not acceptance of the new plain-compass/card-only timing. See [BRINGUP.md](BRINGUP.md).
 
 Next physical check: confirm the plain compass, then one flip produces the card-only reveal and five-second settled hold before controls return. Prior v3-0.1.2 flip functionality was positively observed; do not restart gesture tuning without a new failure. Quantitative frame time, active-use power/memory stress, full-screen input mapping, PSRAM health and production storage/update features remain separate. Do not repeat an already-accepted visual effect or 100-tap exercise as a substitute.
 

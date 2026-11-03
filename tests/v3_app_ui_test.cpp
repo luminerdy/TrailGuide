@@ -19,7 +19,7 @@ static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.3/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.4/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -31,6 +31,13 @@ int main(){
  lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buf,nullptr,360*20);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);
  lv_indev_drv_t input;lv_indev_drv_init(&input);input.type=LV_INDEV_TYPE_POINTER;input.read_cb=readTouch;lv_indev_drv_register(&input);
  uint32_t seed=7;
+ {v3app::Ui u(rng,&seed,allocate,release);u.render();v3::ImuSample s;s.valid=true;s.acc_g[2]=1;s.gyr_dps[0]=2.2f;
+  const auto initialSeed=seed;const auto count=timers();const auto allocated=allocations;
+  for(unsigned t=20;t<=800;t+=20){s.at_ms=t;u.sample(s,t,true);const auto a=u.diagnostic(s,t);const auto b=u.diagnostic(s,t);assert(a.key()==b.key());}
+  auto a=u.diagnostic(s,800);assert(a.gesture.phase==1 && a.gesture.haveOrigin && a.gesture.alignment==1 && a.eligible);
+  s.valid=false;u.sample(s,820,true);a=u.diagnostic(s,820);assert(a.gesture.phase==4 && !a.healthy && a.eligible && !a.gesture.dwelling);
+  assert(seed==initialSeed && allocations==allocated && timers()==count);
+ }
  auto hidden=[](v3app::Ui &u,bool value){for(auto *o:{u.backButton,u.moreButton,u.first,u.second,u.motionStatus}){assert(o);assert(lv_obj_has_flag(o,LV_OBJ_FLAG_HIDDEN)==value);}};
  {v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(v3app::Ui::Action::Ask);hidden(u,true);
   const int id=u.model.index;const auto before=seed;save(300);const auto revealAlloc=allocations;advance(3000);save(303);advance(3000);assert(allocations==revealAlloc);

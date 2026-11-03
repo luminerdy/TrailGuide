@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Focused synthetic range checks; no prepare, LVGL rebuild, target or hardware.
 
-Read-only reuse of hash-verified installed 1.10 LVGL objects; all writes in 1.11.
+Read-only reuse of hash-verified installed 1.10 LVGL objects; all writes in 1.12.
 """
 from pathlib import Path
 import hashlib
@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'build/v3-0.1.11/focused'
+OUT = ROOT/'build/v3-0.1.12/focused'
 BASE = ROOT/'build/v3-0.1.9'
 LVBASE = ROOT/'build/v3-0.1.10'
 NAMES = ('imu', 'gesture', 'imu_equivalence', 'motion_integration', 'model', 'motion', 'recorder', 'recovery', 'ui', 'turnover')

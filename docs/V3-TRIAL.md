@@ -2,7 +2,7 @@
 
 ## Current installed checkpoint
 
-**v3-0.1.11 DRAFT is installed and exact-version/UI/real-IMU verified. A natural turn-over-and-back now blanks the prior scene, runs the existing card animation, then shows controls; that sequence is human-confirmed with exactly one clean recorded trigger.** The working +/-2048 dps sensor configuration and simple gesture are unchanged. Repeated-use reliability and host-tested cancellation cases remain distinct from this one observed visual sequence.
+**v3-0.1.12 DRAFT is installed, application-flash verified and exact-version startup/UI/real-IMU liveness checked.** Tap the classic compass, then **Coaching** for the six-path icon flow. Coaching **Options → Classic** returns to the original compass/cards. New physical coaching readability, touch and natural-opener gesture checks remain pending; earlier 1.10/1.11 human acceptance below is historical, not a new 1.12 acceptance claim.
 
 The coordinated v3-0.1.5 trace contained 315 fresh, valid, resting, eligible records stuck in Recover, with current gravity nearly opposite the retained origin (alignment about -0.989). Old recovery rejected this position indefinitely. The corrected code retains the old reference until a fresh stable recovery hold qualifies, then adopts that pose without drawing. Same-origin recovery remains 600ms; a changed/opposed reference uses the existing 1200ms rebase dwell. Ready/Turning/Inverted and their thresholds are unchanged. Subsequent drawing still requires a whole opposition/return cycle.
 
@@ -26,6 +26,10 @@ python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json --jsonl PRIV
 ```
 
 Use `--wait 60` (separate arguments) for the fetch timeout. Keep raw captures private and use new output paths. Reader may close; do not reset/power-cycle before retrieval. This is diagnostic RAM, not product history. Actual baseline and capture/export logs: `build/v3-0.1.7/evidence/`; The approved twelve-card integration is installed in v3-0.1.8 after merged tests/review/build/write/readback.
+
+## Native six-path coaching — v3-0.1.12
+
+See the [current coaching checkpoint and entry instructions](HANDOFF.md#current-native-coaching-checkpoint--v3-0112) and [coaching content, interaction and browser boundaries](COMPASS-COACHING-PREVIEW.md). Classic remains the boot default; use its Options **Coaching** entry. This is an offline draft, not a recording release. No new shake detector or motion tuning is introduced.
 
 ## Qualified-turnover blackout — v3-0.1.11
 

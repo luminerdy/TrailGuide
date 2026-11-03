@@ -12,7 +12,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-EVIDENCE = ROOT / 'build/compass-coaching-preview/evidence'
+EVIDENCE = ROOT / 'build/compass-coaching-preview/icons-evidence'
 SCRATCH = Path.home() / '.hermes/cache/scratch'
 os.environ['TMPDIR'] = str(SCRATCH)
 SCRATCH.mkdir(parents=True, exist_ok=True)
@@ -221,6 +221,108 @@ class BrowserTest(unittest.TestCase):
             self.c.evaluate('true')
             errors=[e for e in self.c.events if e['method']=='Runtime.exceptionThrown' or (e['method']=='Log.entryAdded' and e['params']['entry']['level']=='error')]
             self.assertEqual(errors,[],'browser console errors')
+
+    def test_compact_path_icons_keep_full_names_safe_hit_masks_and_central_copy_room(self):
+        c=self.c
+        short=['Progress','Stuck','Unclear','Explore','AI','Team']
+        paths=layer()['paths']
+        def check_ring(selected=None):
+            controls=c.evaluate('''[...document.querySelectorAll('#dial button[id^="path-"]')].map(b=>{
+              const svg=b.querySelector('svg'),r=b.getBoundingClientRect(),style=getComputedStyle(b);
+              return {id:b.id,label:b.textContent,aria:b.getAttribute('aria-label'),pressed:b.getAttribute('aria-pressed'),
+                width:r.width,height:r.height,font:style.fontSize,background:style.backgroundColor,border:style.borderTopColor,
+                icon:svg?{width:svg.getBoundingClientRect().width,height:svg.getBoundingClientRect().height,
+                  hidden:svg.getAttribute('aria-hidden'),stroke:svg.getAttribute('stroke'),fill:svg.getAttribute('fill'),
+                  visible:getComputedStyle(svg).visibility,opacity:getComputedStyle(svg).opacity,paths:svg.querySelectorAll('path').length}:null};
+            })''')
+            self.assertEqual(len(controls),6)
+            for item,p,label in zip(controls,paths,short):
+                self.assertIsNotNone(item['icon'],'each path needs a visible compact line icon')
+                self.assertEqual(item['label'],label)
+                self.assertEqual(item['aria'],p['label'])
+                self.assertEqual(item['pressed'],str(p['id']==selected).lower())
+                self.assertEqual(item['font'],'14px')
+                self.assertGreaterEqual(item['width'],48);self.assertGreaterEqual(item['height'],48)
+                self.assertEqual(item['background'],'rgba(0, 0, 0, 0)')
+                self.assertEqual(item['border'],'rgba(0, 0, 0, 0)')
+                self.assertEqual(item['icon']['width'],22);self.assertEqual(item['icon']['height'],22)
+                self.assertEqual(item['icon']['hidden'],'true');self.assertEqual(item['icon']['stroke'],'currentColor')
+                self.assertEqual(item['icon']['fill'],'none');self.assertEqual(item['icon']['visible'],'visible')
+                self.assertEqual(item['icon']['opacity'],'1');self.assertGreater(item['icon']['paths'],0)
+            errors=c.evaluate('''(()=>{
+              const d=document.getElementById('dial'),r=d.getBoundingClientRect();
+              const boxes=[...d.querySelectorAll('button,[data-envelope]')].map(e=>{
+                const b=e.getBoundingClientRect(),f=e.matches('button,#body-copy')?4:0;
+                return {id:e.id,left:b.left-f-r.left,right:b.right+f-r.left,top:b.top-f-r.top,bottom:b.bottom+f-r.top};
+              }),errors=[];
+              for(const b of boxes)for(const x of [b.left,b.right])for(const y of [b.top,b.bottom])
+                if(Math.hypot(x-180,y-180)>168.01)errors.push('unsafe '+b.id);
+              for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+                const a=boxes[i],b=boxes[j];
+                if(a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top)errors.push('overlap '+a.id+'/'+b.id);
+              }
+              return errors;
+            })()''')
+            self.assertEqual(errors,[])
+        check_ring()
+        room=c.evaluate("(()=>{const e=document.getElementById('body-copy'),r=e.getBoundingClientRect();return {width:r.width,height:r.height,font:getComputedStyle(e).fontSize}})()")
+        self.assertGreaterEqual(room['width'],136);self.assertGreaterEqual(room['height'],120);self.assertEqual(room['font'],'20px')
+        c.screenshot('compact-icons-opener')
+        for width in (320,360,900):
+            c.viewport(width);check_ring()
+            self.assertEqual(c.evaluate("document.getElementById('dial').getBoundingClientRect().width"),360)
+        # Real pointer input must qualify when its target is an SVG path child.
+        def point(selector,edge=False):
+            return c.evaluate('''(()=>{const e=document.querySelector(%s),r=e.getBoundingClientRect();
+              const p={x:r.x+%s,y:r.y+%s};return {...p,target:document.elementFromPoint(p.x,p.y).tagName};})()''' %
+              (json.dumps(selector),'3' if edge else 'r.width/2','r.height/2'))
+        svg_point=c.evaluate('''(()=>{const path=document.querySelector('#path-progress svg path');
+          const p=path.getPointAtLength(path.getTotalLength()*.2),q=new DOMPoint(p.x,p.y).matrixTransform(path.getScreenCTM());
+          return {x:q.x,y:q.y,target:document.elementFromPoint(q.x,q.y).tagName};})()''')
+        self.assertEqual(svg_point.pop('target').lower(),'path')
+        before=c.state();c.mouse('mousePressed',**svg_point,held=True);c.mouse('mouseReleased',**svg_point)
+        self.assertEqual((c.state()['view'],c.state()['path']),('question','progress'))
+        self.assertEqual(c.state()['draws'],before['draws']+1)
+        c.click('paths');check_ring('progress');c.screenshot('compact-icons-picker')
+        # A genuinely blank part of the same large hit mask is still tappable.
+        padding=point('#path-stuck',True);self.assertEqual(padding.pop('target'),'BUTTON')
+        c.mouse('mousePressed',**padding,held=True);c.mouse('mouseReleased',**padding)
+        self.assertEqual(c.state()['path'],'stuck')
+        c.click('paths');check_ring('stuck')
+        # Empty space just beyond the mask must not choose any nearby path.
+        gap=c.evaluate("(()=>{const r=document.getElementById('path-stuck').getBoundingClientRect();return {x:r.left-5,y:r.top+r.height/2}})()")
+        before=c.state();c.mouse('mousePressed',**gap,held=True);c.mouse('mouseReleased',**gap);self.assertEqual(c.state(),before)
+        c.mouse('mousePressed',**padding,held=True,count=2);c.mouse('mouseReleased',**padding,count=2)
+        self.assertEqual(c.state(),before,'duplicate path input must not dismiss the picker')
+        drag=point('#path-unclear svg');drag.pop('target')
+        c.mouse('mousePressed',**drag,held=True);c.mouse('mouseMoved',drag['x']-20,drag['y'],True)
+        c.mouse('mouseMoved',**drag,held=True);c.mouse('mouseReleased',**drag)
+        self.assertEqual(c.state(),before,'drag returning to an icon must not select it')
+        c.evaluate("document.getElementById('path-ai-results').focus()")
+        for kind in ('keyDown','keyUp'):
+            c.call('Input.dispatchKeyEvent',dict(type=kind,key='Enter',code='Enter',text='\r' if kind=='keyDown' else '',windowsVirtualKeyCode=13),c.session)
+        self.assertEqual(c.state()['path'],'ai-results')
+        c.click('paths');check_ring('ai-results')
+        # The icon child also remains reachable through actual touch compatibility input.
+        touch=point('#path-team svg');touch.pop('target')
+        c.call('Emulation.setTouchEmulationEnabled',{'enabled':True},c.session)
+        c.call('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[touch]},c.session)
+        c.call('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]},c.session)
+        self.assertEqual(c.state()['path'],'team')
+        c.call('Emulation.setTouchEmulationEnabled',{'enabled':False},c.session)
+        c.click('paths');c.click('opening')
+        # Visit the longest real opening deterministically; no content changes.
+        openers=[e for e in builder().validate(layer(),cards())['entries'] if e['type']=='opener']
+        longest=max(openers,key=lambda e:len(e['text']))
+        if c.state()['entry_id']!=longest['id']:
+            choices=[e['id'] for e in openers if e['id']!=c.state()['entry_id']]
+            c.evaluate('Math.random=()=>'+str((choices.index(longest['id'])+.1)/len(choices)));c.click('simulate-turnover')
+        self.assertEqual(c.state()['text'],longest['text']);check_ring()
+        c.screenshot('compact-icons-longest-opener')
+        c.evaluate("(()=>{const e=document.getElementById('body-copy');e.scrollTop=e.scrollHeight})()")
+        self.assertTrue(c.evaluate("(()=>{const e=document.getElementById('body-copy');return e.scrollHeight-e.scrollTop-e.clientHeight<=1})()"))
+        c.screenshot('compact-icons-longest-opener-end')
+        (EVIDENCE/'longest-opener.json').write_text(json.dumps(longest,indent=2)+'\n')
 
     def test_return_to_opener_preserves_exact_content_scroll_and_path_context(self):
         c=self.c

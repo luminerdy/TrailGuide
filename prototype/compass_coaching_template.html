@@ -4,6 +4,7 @@
 <title>TrailGuide · Draft compass coaching</title>
 <style>
 :root{color-scheme:dark;--ground:#171713;--surface:#25251e;--ink:#f5efdc;--muted:#c8c1ad;--amber:#e7b866;--edge:#7c7662}*{box-sizing:border-box}body{margin:0;background:#10110f;color:var(--ink);font:16px Arial,'DejaVu Sans',sans-serif}main{max-width:850px;margin:28px auto;padding:0 16px}h1{font-weight:500;font-size:24px;margin:8px 0}.eyebrow{color:var(--amber);letter-spacing:.12em;font-size:12px}.intro,.notes{color:var(--muted);line-height:1.5;max-width:680px}.stage{display:flex;align-items:center;gap:32px;flex-wrap:wrap}#device-scroll{width:376px;max-width:100%;padding:8px;overflow-x:auto;flex:none}#dial{width:360px;height:360px;position:relative;background:var(--ground);border-radius:50%;clip-path:circle(50%);isolation:isolate;touch-action:pan-x}#dial:before{content:'';position:absolute;inset:12px;border:1px solid #484637;border-radius:50%;pointer-events:none}button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--edge);border-radius:8px;cursor:pointer;min-height:48px;padding:5px;line-height:20px;touch-action:pan-x}button:hover:not(:disabled){background:#38372b;border-color:var(--amber)}button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--amber);outline-offset:2px}button:disabled{color:var(--muted);border-style:dashed;cursor:default}button[aria-pressed=true]{background:var(--amber);color:#171713;border-color:var(--amber)}#dial button{position:absolute;font-size:16px}#body-copy{position:absolute;margin:0;font-size:20px;line-height:26px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-color:var(--amber) var(--surface);padding:0 5px 0 0}#cue{position:absolute;color:var(--amber);font-size:12px;line-height:16px;text-align:center}#context{position:absolute;font-size:13px;line-height:18px;color:var(--muted);text-align:center}.review{flex:1;min-width:220px;max-width:340px}.review h2{font-size:16px;font-weight:500}.review p{color:var(--muted);line-height:1.5;font-size:14px}.review button{display:block;width:100%;margin:10px 0;text-align:left}#viewport-note{display:none;color:var(--muted);font-size:14px;line-height:1.5}.notes{font-size:14px}#complete-copy{white-space:pre-wrap;font-size:20px;line-height:1.5;overflow-wrap:anywhere}details{margin-top:20px}summary{cursor:pointer;min-height:48px;padding:12px 0}#pool-note{font-size:14px;color:var(--amber)}@media(max-width:430px){main{margin:20px 0;padding:0}h1,.eyebrow,.intro,.notes,#viewport-note,details{margin-left:16px;margin-right:16px}.stage{justify-content:center;gap:16px}#device-scroll{padding:0;width:360px;flex:0 1 360px;min-width:0}.review{margin:0 16px;max-width:calc(100% - 32px);min-width:0;flex:0 1 360px}}@media(max-width:359px){#viewport-note{display:block}}
+#dial button.path-control{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:2px;font-size:14px;line-height:16px;background:transparent;border-color:transparent;color:var(--muted)}#dial button.path-control:hover:not(:disabled),#dial button.path-control[aria-pressed=true]{background:transparent;border-color:transparent;color:var(--amber)}#dial .path-control svg{display:block;width:22px;height:22px;flex:none;border-radius:50%}#dial .path-control:hover:not(:disabled) svg,#dial .path-control[aria-pressed=true] svg{background:#373124;box-shadow:0 0 0 3px #373124}#dial .path-control span{display:block;white-space:nowrap}
 </style></head><body><main>
 <p class="eyebrow">FRONTIER OPS / COACHING STUDY · DRAFT</p><h1>TrailGuide</h1>
 <p class="intro">Explore a conversation, not a checklist. Choose any path, offer an optional experiment, or leave space for a next step. Standalone read-only preview — not firmware and not a replacement for the installed compass.</p>
@@ -51,11 +52,29 @@ function button(id,text,x,y,w,h,fn,disabled=false){
  Object.assign(b.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
  b.addEventListener('click',event=>{if(!b.isConnected||b.disabled||event.detail>1)return;if(event.detail && released!==b)return;released=null;fn();});dial.append(b);return b;
 }
+// Only these authored paths become SVG geometry; content labels remain literal text.
+const pathMarks=[
+ ['Progress','M4 17l6-6 4 3 6-9 M14 5h6v6'],
+ ['Stuck','M5 5v14 M19 5v14 M5 9h14 M5 15h14 M8 9l4 6 M14 9l4 6'],
+ ['Unclear','M9 8a3 3 0 1 1 5 2.2c-1.2.8-2 1.4-2 3.3 M12 18h.01'],
+ ['Explore','M6 20V4 M3 7l3-3 3 3 M6 15c0-5 12-2 12-9 M15 6h3v3'],
+ ['AI','M13 3H5v18h14v-8 M13 3v6h6 M18 2l1.2 3.8L23 7l-3.8 1.2L18 12l-1.2-3.8L13 7l3.8-1.2z M8 13h5 M8 17h7'],
+ ['Team','M10 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0 M20 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0 M2 20v-2a5 5 0 0 1 10 0v2 M14 14a5 5 0 0 1 8 4v2']
+];
+function pathButton(p,i,x,y,w){
+ const [text,geometry]=pathMarks[i],b=button('path-'+p.id,'',x,y,w,48,()=>pickPath(p.id));
+ b.className='path-control';b.setAttribute('aria-pressed',String(s.path===p.id));b.setAttribute('aria-label',p.label);
+ // The SVG namespace is an identifier, not a network resource.
+ const ns=['http:','','www.w3.org','2000','svg'].join('/'),svg=document.createElementNS(ns,'svg'),mark=document.createElementNS(ns,'path');
+ for(const [name,value] of Object.entries({viewBox:'0 0 24 24',width:'22',height:'22',fill:'none',stroke:'currentColor','stroke-width':'1.8','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true',focusable:'false'}))svg.setAttribute(name,value);
+ mark.setAttribute('d',geometry);svg.append(mark);
+ const caption=document.createElement('span');caption.textContent=text;b.append(svg,caption);
+}
 function label(id,text,x,y,w,h){const e=document.createElement('div');e.id=id;e.textContent=text;e.dataset.envelope='';Object.assign(e.style,{position:'absolute',left:x+'px',top:y+'px',width:w+'px',height:h+'px'});dial.append(e);return e;}
 function copy(text,ring=false){
- const e=label('body-copy',text,ring?120:70,ring?104:134,ring?120:220,ring?100:84);e.tabIndex=0;e.setAttribute('role','region');e.setAttribute('aria-label','Complete current wording; scroll to read all');e.scrollTop=s.scroll;
+ const e=label('body-copy',text,ring?108:70,ring?88:134,ring?144:220,ring?120:84);e.tabIndex=0;e.setAttribute('role','region');e.setAttribute('aria-label','Complete current wording; scroll to read all');e.scrollTop=s.scroll;
  e.addEventListener('scroll',()=>{s.scroll=e.scrollTop;});
- label('cue','Full copy · scroll ↕',ring?116:90,ring?208:222,ring?128:180,18);
+ label('cue','Full copy · scroll ↕',ring?116:90,ring?212:222,ring?128:180,ring?16:18);
  document.getElementById('complete-copy').textContent=text;
 }
 function release(){if(s.view!=='closing')open('closing',draw('closing'));}
@@ -70,11 +89,11 @@ function render(){
  const count=pool(poolType,s.path && ['question','experiment'].includes(s.view)?s.path:null).length;
  document.getElementById('pool-note').textContent=(count===0?'No '+poolType+' entries in this pool. ':count===1?'Only one '+poolType+' in this pool; another is unavailable. ':'')+'DRAFT · RAM only · no progress tracked';
  if(s.view==='opener' || s.view==='picker'){
-  const xy=[[130,30,100],[248,104,72],[248,208,72],[126,282,108],[40,208,72],[40,104,72]];
-  content.paths.forEach((p,i)=>{const [x,y,w]=xy[i];const b=button('path-'+p.id,p.label,x,y,w,48,()=>pickPath(p.id));b.setAttribute('aria-pressed',String(s.path===p.id));b.setAttribute('aria-label',p.label+(s.path===p.id?' · selected':''));});
+  const xy=[[144,28,72],[264,104,56],[264,208,56],[144,288,72],[40,208,56],[40,104,56]];
+  content.paths.forEach((p,i)=>{const [x,y,w]=xy[i];pathButton(p,i,x,y,w);});
   if(s.view==='opener'){
    copy(e?.text||'No opening questions available.',true);
-   button('options','Options',128,230,104,48,()=>open('options'));
+   button('options','Options',128,232,104,48,()=>open('options'));
   }else{
    label('context','Choose any path',120,90,120,18);
    button('opening','Opening',128,118,104,48,returnToOpener);

@@ -4,29 +4,31 @@
 #include "gesture.h"
 #include "window_reveal.h"
 #include "cards_generated.h"
+#include "coaching_ui.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.11";
+static constexpr const char *version="v3-0.1.12";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:
- enum class Action { Ask, Try, Home, Guide, Another, Back, More, Instant, Options, Count };
- Model model;WindowReveal window;
+ enum class Action { Ask, Try, Home, Guide, Another, Back, More, Instant, Options, Coaching, Count };
+ Model model;WindowReveal window;CoachUi coach;bool coachingMode=false;
  lv_obj_t *root=nullptr,*first=nullptr,*second=nullptr,*backButton=nullptr,*moreButton=nullptr,*toggle=nullptr,*scroll=nullptr,*body=nullptr,*motionStatus=nullptr;
  bool instant=false,fallback=false;
- Ui(RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f):model(r,c),window(a,f){}
+ Ui(RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f):model(r,c),window(a,f),coach(r,c,a,f){coach.exitCallback=exitCoach;coach.exitContext=this;}
  Ui(const Ui&)=delete;Ui &operator=(const Ui&)=delete;
  ~Ui(){cancel();if(root)lv_obj_del(root);}
- bool busy()const{return timer!=nullptr;}
- bool eligible()const{return root && (model.view==View::Home || model.view==View::Card) && !optionsOpen && !busy() && !pointerDown && !scrolling;}
+ bool busy()const{return coachingMode?coach.busy():timer!=nullptr;}
+ bool eligible()const{if(coachingMode)return coach.eligible();return root && (model.view==View::Home || model.view==View::Card) && !optionsOpen && !busy() && !pointerDown && !scrolling;}
  struct Diagnostic {
   bool pointer=false,scrolling=false,options=false,reveal=false,eligible=false,root=false,healthy=false;
   unsigned view=0;uint32_t resetCounts[8]={};Gesture::Diagnostic gesture;
   uint32_t key()const{return unsigned(pointer)|(unsigned(scrolling)<<1)|(unsigned(options)<<2)|(unsigned(reveal)<<3)|(unsigned(eligible)<<4)|(unsigned(root)<<5)|(unsigned(healthy)<<6)|(view<<7)|(gesture.phase<<10)|(unsigned(gesture.cooling)<<14);}
  };
  Diagnostic diagnostic(const v3::ImuSample &s,uint32_t now)const{
-  Diagnostic d;for(unsigned i=0;i<8;++i)d.resetCounts[i]=resetCounts[i];d.pointer=pointerDown;d.scrolling=scrolling;d.options=optionsOpen;d.reveal=busy();d.eligible=eligible();d.root=root!=nullptr;d.healthy=motionAvailable;d.view=unsigned(model.view);d.gesture=gesture.diagnostic(s,now);return d;
+  Diagnostic d;if(coachingMode){auto c=coach.diagnostic(s,now);d.pointer=c.pointer;d.scrolling=c.scrolling;d.options=c.options;d.reveal=c.reveal;d.eligible=c.eligible;d.root=c.root;d.healthy=c.healthy;d.view=c.view;d.gesture=c.gesture;for(unsigned i=0;i<8;++i)d.resetCounts[i]=c.resetCounts[i];return d;}for(unsigned i=0;i<8;++i)d.resetCounts[i]=resetCounts[i];d.pointer=pointerDown;d.scrolling=scrolling;d.options=optionsOpen;d.reveal=busy();d.eligible=eligible();d.root=root!=nullptr;d.healthy=motionAvailable;d.view=unsigned(model.view);d.gesture=gesture.diagnostic(s,now);return d;
  }
  void sample(const v3::ImuSample &s,uint32_t now,bool available,bool *triggered=nullptr){
+  if(coachingMode){coach.sample(s,now,available,triggered);fallback=coach.fallback;return;}
   const bool healthy=available && s.valid && uint32_t(now-s.at_ms)<=60;
   if(healthy!=motionAvailable){motionAvailable=healthy;updateStatus();}
   // The application loop is faster than the IMU poll. Dispatch each sample
@@ -38,6 +40,7 @@ class Ui {
   else setBlank(gesture.qualifiedInverted());
  }
  void render(){
+  if(coachingMode){coach.render();return;}
   cancel();++resetCounts[0];gesture.reset();
   if(root)lv_obj_del(root);
   root=lv_obj_create(lv_scr_act());lv_obj_remove_style_all(root);lv_obj_set_pos(root,0,0);lv_obj_set_size(root,360,360);lv_obj_clear_flag(root,LV_OBJ_FLAG_SCROLLABLE);
@@ -48,7 +51,7 @@ class Ui {
   lv_obj_set_style_bg_color(root,lv_color_hex(0x02070d),0);lv_obj_set_style_bg_opa(root,LV_OPA_COVER,0);lv_obj_set_style_text_color(root,lv_color_hex(0xf3f5ee),0);lv_obj_set_style_text_font(root,&lv_font_montserrat_18,0);
   if(model.view==View::Home){
    if(optionsOpen){
-    label(root,"Options",130,80,120,&lv_font_montserrat_20);
+    button(Action::Coaching,"Coaching",130,68,100,48);
     backButton=button(Action::Back,"Back",130,118,100,48);
     first=button(Action::Ask,"Ask the Team",76,180,100,56);
     second=button(Action::Try,"Try a Move",184,180,100,56);
@@ -78,6 +81,7 @@ class Ui {
   motionStatus=label(root,"",104,310,152,&lv_font_montserrat_14);updateStatus();lv_obj_update_layout(root);
  }
  void perform(Action a){
+  if(a==Action::Coaching){cancel();if(root)lv_obj_del(root);coachingMode=true;coach.leaveRequested=false;coach.instant=instant;coach.model.enter();coach.render();return;}
   ++resetCounts[1];gesture.reset();
   if(a==Action::Options){optionsOpen=true;render();return;}
   if(a==Action::Home || (a==Action::Back && optionsOpen)){optionsOpen=false;model.home();render();return;}
@@ -91,6 +95,7 @@ class Ui {
   render();
  }
  private:
+ static void exitCoach(void *p){auto *u=static_cast<Ui*>(p);if(u->coach.root)lv_obj_del(u->coach.root);u->coachingMode=false;u->optionsOpen=false;u->model.home();u->render();}
  struct Slot{Ui *owner;Action action;}slots[unsigned(Action::Count)]{};
  bool optionsOpen=false;
  // Existing root/children only: no overlay, snapshot, timer or heap allocation.

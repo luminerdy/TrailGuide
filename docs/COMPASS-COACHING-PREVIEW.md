@@ -1,5 +1,9 @@
 # Compass coaching — read-only preview
 
+## Native follow-on — v3-0.1.12
+
+Following approval of the browser flow and compact icons/short labels, a native version is installed and exact-version startup/IMU verified. **Tap the classic compass → Coaching**; use coaching **Options → Classic** to return. Native-renderer ASan/UBSan checks and 72 isolated Python checks pass, with application-only write/explicit flash verification. New physical coaching readability/touch and natural-opener gesture acceptance remain pending. The browser file remains a separate read-only study, not a hardware emulator or physical acceptance record. Native question/experiment/closing selection advances in authored order; opener draws shuffle. The classic boot default, canonical catalog, sensor/gesture math and original reveal/hold renderer remain preserved.
+
 ## Scope and status
 
 Approved scope: a small browser interaction/content preview before any firmware integration. This is an optional facilitator aid, not an automated coach, a validated coaching intervention or a replacement for the current installed V3 experience. Browser tests and screenshots are not physical display, touch or gesture acceptance.
@@ -102,7 +106,7 @@ The test harness requires local Chromium and a writable scratch directory. Tests
 
 ### Visible compromise to review
 
-Keeping all six path controls visible at once leaves only a **120-pixel-wide, 100-pixel-high** opener viewport. Body copy stays at 20px rather than being reduced; longer openers require scrolling, with an explicit cue and an external complete-copy inspection view. This is not yet a proven glanceable interaction. The full-width path question view is less constrained.
+The original large-button study left a 120x100 opener viewport. The compact 22px line-icon/14px label revision increases the browser opener viewport to **144x120 pixels**, retaining invisible 56x48 side targets and 72x48 top/bottom targets. Body copy stays at 20px rather than being reduced; longer openers require scrolling, with an explicit cue and an external complete-copy inspection view. This is not yet a proven glanceable interaction. The full-width path question view is less constrained.
 
 On the opener, **Options** supplies Another opener, Guide me and Next step/Release. Within a path, **Paths → Opening** returns to the exact previous opener without drawing again; the path picker also offers Next step and Back. Returning to a path preserves its most recent question/experiment. These routes resolve navigation gaps found during parent review, with actual failing and passing browser tests retained privately.
 
@@ -110,4 +114,4 @@ Do not port the cramped ring layout to hardware merely because geometric tests p
 
 ## Later integration gate
 
-After preview feedback and explicit approval, reuse existing V3 display/touch/reveal components with a small isolated coaching state model. Keep the current card model and accepted gesture math/range unchanged. Gate motion draws to the opener context, preserve the original experience as a fallback, and run existing V1/V2 and native V3 regressions before any separately authorized device update.
+The initial native integration has now been separately approved, installed and startup-verified. Further changes should continue to reuse existing V3 display/touch/reveal components and the small isolated coaching state model. Keep the current card model and accepted gesture math/range unchanged. Gate motion draws to the opener context, preserve the original experience as a fallback, and run existing V1/V2 and native V3 regressions before any separately authorized device update.

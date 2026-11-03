@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-0.1.11/. The local ZIP
+All derived files stay in ignored build/v3-0.1.12/. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -11,7 +11,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-0.1.11'
+PRIVATE = ROOT / 'build/v3-0.1.12'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
@@ -20,12 +20,12 @@ DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST
 def prepare(output=None):
     # Default is the next increment; refuse paths that could erase any accepted fallback evidence.
     private = Path(output).resolve() if output is not None else PRIVATE.resolve()
-    protected = tuple((ROOT / f'build/v3-0.1.{n}').resolve() for n in (6, 7, 8, 9, 10))
+    protected = tuple((ROOT / f'build/v3-0.1.{n}').resolve() for n in (6, 7, 8, 9, 10, 11))
     if any(private == root or root in private.parents for root in protected):
-        raise ValueError('Installed 1.6/1.7/1.8/1.9/1.10 roots and descendants are immutable')
+        raise ValueError('Installed 1.6/1.7/1.8/1.9/1.10/1.11 roots and descendants are immutable')
     allowed = PRIVATE.resolve()
     if private != allowed and allowed not in private.parents:
-        raise ValueError('Output must be inside ignored build/v3-0.1.11')
+        raise ValueError('Output must be inside ignored build/v3-0.1.12')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')
@@ -76,7 +76,7 @@ def prepare(output=None):
             destination.write_bytes(data)
             library_files[relative] = hashlib.sha256(data).hexdigest()
     own_files = {}
-    for name in ('trailguide_v3.ino', 'ui.h', 'lv_conf.h', 'imu.h', 'model.h', 'gesture.h', 'window_reveal.h', 'motion_diagnostics.h', 'flight_recorder.h'):
+    for name in ('trailguide_v3.ino', 'ui.h', 'lv_conf.h', 'imu.h', 'model.h', 'gesture.h', 'window_reveal.h', 'motion_diagnostics.h', 'flight_recorder.h', 'coaching_model.h', 'coaching_ui.h'):
         data = (ROOT/'trailguide_v3'/name).read_bytes()
         (sketch/name).write_bytes(data)
         own_files[name] = hashlib.sha256(data).hexdigest()
@@ -84,6 +84,12 @@ def prepare(output=None):
     generated = render(json.loads((ROOT/'content/cards.json').read_text()))
     (sketch/'cards_generated.h').write_text(generated)
     own_files['cards_generated.h'] = hashlib.sha256(generated.encode()).hexdigest()
+    from build_v3_coaching import render as render_coaching
+    # Resolve canonical references afresh; never trust an editable generated copy.
+    coaching = render_coaching(json.loads((ROOT/'content/coaching.json').read_text()),
+                               json.loads((ROOT/'content/cards.json').read_text()))
+    (sketch/'coaching_generated.h').write_text(coaching)
+    own_files['coaching_generated.h'] = hashlib.sha256(coaching.encode()).hexdigest()
     (config/'lv_conf.h').write_bytes((sketch/'lv_conf.h').read_bytes())
     # Explicit path beats the vendor's src/lv_conf.h without changing vendor code.
     flags = f'-I{config} -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH={config}/lv_conf.h'

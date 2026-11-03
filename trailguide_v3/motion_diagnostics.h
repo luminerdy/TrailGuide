@@ -5,7 +5,8 @@
 #include <cstring>
 #include <cmath>
 namespace v3app {
-// One fixed pending line, no queue, allocation, wait, flush, or UI command path.
+// One fixed pending line, no queue, allocation, flush, or UI command path.
+// Serial mutex/write calls have a finite 1ms budget, not strict wait-freedom.
 class MotionDiagnostics {
  char command_[8]={}, pending_[768]={};
  size_t used_=0,length_=0,cursor_=0;
@@ -40,7 +41,9 @@ class MotionDiagnostics {
     if(!overflow_ && used_==6 && std::memcmp(command_,"MOTION",6)==0 && !active_ && !draining()){
      active_=true;started_=now;have_=false;dropped_=observed_=0;
      invalidEvents_=waitingEvents_=phaseEvents_=triggers_=lastInvalid_=0;invalidFrom_=invalidTo_=0;lastValid_=false;
-     serial.setTxTimeoutMs(0); // HWCDC mutex acquisition must never wait.
+     // SDK 3.3.2 HWCDC::write timeout 0 underflows unsigned tries on no
+     // progress. Keep a finite positive budget during AND after diagnostics.
+     serial.setTxTimeoutMs(1); // 1ms mutex bound, not strictly wait-free.
     }
     used_=0;overflow_=false;
    }else if(c!='\r'){

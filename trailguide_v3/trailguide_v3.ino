@@ -28,6 +28,10 @@ static bool acknowledges(TwoWire &bus, uint8_t address) {
 
 void setup() {
   Serial.begin(115200);  // Never wait for a connected USB host.
+  // Arduino-ESP32 3.3.2 HWCDC::write decrements unsigned tries before checking
+  // zero: timeout 0 underflows on a full, unread transport. 1ms is finite
+  // (CONFIG_FREERTOS_HZ=1000); mutex acquisition is bounded, not wait-free.
+  Serial.setTxTimeoutMs(1);
   Serial.printf("V3_START version=%s runtime_compatibility=unverified draft=1 no_saving=1\n", v3app::version);
   I2C_Init();
   Wire.setTimeOut(50);

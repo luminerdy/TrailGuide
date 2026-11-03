@@ -16,7 +16,7 @@ struct Transport {
  int available(){return int(rx.size()-pos);} int read(){return pos<rx.size()?rx[pos++]:-1;}
  int availableForWrite(){return capacity;}
  size_t write(const uint8_t *p,size_t n){assert(n<=size_t(capacity));n=std::min(n,partial);tx.append(reinterpret_cast<const char*>(p),n);return n;}
- void setTxTimeoutMs(uint32_t n){assert(n==0);}
+ void setTxTimeoutMs(uint32_t n){assert(n==1);}
 };
 int main(){
  v3app::MotionDiagnostics d; Transport t;

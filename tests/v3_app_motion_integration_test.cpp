@@ -20,7 +20,7 @@ struct Transport {
  int available(){return int(rx.size()-pos);}int read(){return pos<rx.size()?rx[pos++]:-1;}
  int availableForWrite(){return capacity;}
  size_t write(const uint8_t *p,size_t n){assert(n<=256 && n<=size_t(capacity));tx.append(reinterpret_cast<const char*>(p),n);return n;}
- void setTxTimeoutMs(uint32_t n){assert(n==0);}
+ void setTxTimeoutMs(uint32_t n){assert(n==1);}
 } Serial;
 static uint32_t seed=1;static unsigned rngCalls=0;
 static uint32_t rng(void*){++rngCalls;seed=1664525u*seed+1013904223u;return seed;}
@@ -65,7 +65,7 @@ int main(){
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.4/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.5/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  lv_obj_del(ui.root); // UI globals destroyed after LVGL; no leaked root timers.

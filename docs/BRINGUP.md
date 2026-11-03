@@ -2,6 +2,13 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 gyro-range correction and natural turnover success — v3-0.1.10
+
+- One checked gyro-range selection derives CTRL3 0x77, +/-2048 dps, 16 LSB/dps and 2044-dps safety in both diagnostic/consume paths. Primary A/C settings agree; suffix remains unidentified. Acceleration 4g/ODR 7/poll 20ms/rest 12dps/dwells/cooldown/UI/gates/cards/renderer/recorder remain unchanged. No shake/turn combination added.
+- Actual RED/GREEN conversions, synthetic 600-dps complete cycle and UI integration, retained all-axis/nonfinite/raw-rail/context/timing negatives; 12000 equal-raw narrowly whitelisted plus 12000 equal-physical differential steps pass. Full native LVGL/content/SDK and 53 isolated Python checks and independent 18-file release review PASS. All installed 1.6/1.7/1.8/1.9 files preserved.
+- Actual build 645,639 program/128,184 globals; app 645,792 bytes. Target/originals/source/image/compatible components/security and fresh original-board checks pass; app-only write and explicit verify pass. Exact 1.10 ROM version/UI/Home and actual IMU configuration/readback verified, with live counters and plausible stationary physical units.
+- One natural full turnover/back produced a visible card, human-confirmed; 3610 real records/144400 bytes/83.068seconds/fullCRC retain exactly one trigger, Turning/Inverted progression, zero clipping and no read errors. Explicit firmware/range provenance retained; no synthetic input/debugger during movement. Frozen-RAM JTAG export occurred afterward; no cleanup reset disturbed the working card. This is one observed success, not sustained reliability or unrelated visual/power/coaching acceptance.
+
 ## V3 longer bounded recorder and measured motion failure — v3-0.1.9
 
 - Diagnostic-only 120s/8192x40-byte PSRAM recorder, strict-session idempotent FREEZE/manual reason 3, legacy/new client compatibility and strict unsigned metadata validation. IMU/gesture/gates/fonts/cards/renderer unchanged; UI version only. All 53 isolated Python, native LVGL/content, SDK and differential checks pass; independent review/unblock PASS.

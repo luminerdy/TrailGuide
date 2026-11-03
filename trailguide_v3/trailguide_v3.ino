@@ -95,7 +95,7 @@ void loop() {
       }
     }
     if (!motionDiagnostics.active() && !motionDiagnostics.draining() && before != v3::ImuState::Running && imu.state() == v3::ImuState::Running) {
-      Serial.printf("V3_IMU_CONFIG address=0x%02x WHO_AM_I=0x05 revision=0x%02x readback=ok acc_range_g=4 gyr_range_dps=512 odr_enum=normal60 reset=not_issued suffix=unidentified\n",
+      Serial.printf("V3_IMU_CONFIG address=0x%02x WHO_AM_I=0x05 revision=0x%02x readback=ok acc_range_g=4 gyr_range_dps=2048 odr_enum=normal60 reset=not_issued suffix=unidentified\n",
                     imu.address(), imu.revision());
     }
   }

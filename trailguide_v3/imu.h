@@ -3,9 +3,14 @@
 #include <stddef.h>
 #define V3_LAST_POLL_METADATA 1
 
-// Owned materialized copy of bringup/imu.h; only poll cadence changes 250 -> 20ms.
-// This NEW cadence is unverified physically; registers/scaling/reset unchanged.
+// Owned driver; 20ms polling retained. Wider gyro range is not physical acceptance.
 namespace v3 {
+// QMI8658A Rev A / QMI8658C Rev 0.8 common CTRL3 gFS bits; suffix unidentified.
+// One selection derives register, conversion and fractional rail headroom.
+static constexpr uint8_t GyroRangeSelection=7;
+static constexpr uint8_t GyroCtrl3=uint8_t((GyroRangeSelection<<4)|7); // unchanged gODR
+static constexpr float GyroFullScaleDps=float(16u<<GyroRangeSelection);
+static constexpr float GyroSafetyDps=GyroFullScaleDps*(511.f/512.f);
 enum class ImuState { Off, Probing, Missing, Identity, Configuring, ConfigError, Running };
 struct ImuCandidate { bool read_ok=false; uint8_t id=0; };
 // Read-only last actual poll. Flags: status-read=2 raw-read=4 error=8
@@ -54,9 +59,9 @@ template<class Bus> class Imu {
       ++step_; return;
     }
     // Disable sensors before setting range/rate, then enable as original family.
-    // 4 g / 512 dps, normal ODR enum 7 (~60 Hz); no filtering/motion engine.
+    // 4 g / selected gyro range, normal ODR enum 7 (~60 Hz); no filtering/motion engine.
     const uint8_t regs[]={8,2,3,4,6,7,8};
-    const uint8_t values[]={0,ctrl1_,0x17,0x57,0,0,0x43};
+    const uint8_t values[]={0,ctrl1_,0x17,GyroCtrl3,0,0,0x43};
     const uint8_t i=step_-1;
     uint8_t observed;
     if(!write(regs[i],values[i]) || !read(address_,regs[i],&observed,1) || observed!=values[i]) {
@@ -116,7 +121,7 @@ template<class Bus> class Imu {
       const int32_t signed_raw=bits>=0x8000 ? int32_t(bits)-65536 : bits;
       if(signed_raw==-32768 || signed_raw==32767) return; // clipped, not trustworthy
       if(axis<3) next.acc_g[axis]=signed_raw*(4.f/32768.f);
-      else next.gyr_dps[axis-3]=signed_raw*(512.f/32768.f);
+      else next.gyr_dps[axis-3]=signed_raw*(GyroFullScaleDps/32768.f);
     }
     next.valid=true; next.at_ms=now; sample_=next;
   }

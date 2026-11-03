@@ -58,14 +58,24 @@ int main(){
  ui.perform(v3app::Ui::Action::Options);assert(ui.diagnostic(imu.sample(),1700).options && !ui.eligible());ui.perform(v3app::Ui::Action::Back);
  // Successful flip still draws once through the instrumented actual loop.
  for(uint32_t t=1705;t<=2600;t+=5)step(t);
- bus.r[0x3a]=224;for(uint32_t t=2605;t<=3100;t+=5)step(t);
- bus.r[0x3a]=32;for(uint32_t t=3105;t<=3700;t+=5)step(t);
+ // SYNTHETIC 600dps on both legs via actual raw conversion/dispatch/UI.
+ // These invented peaks are NOT reconstructed from the clipped human trace.
+ bus.r[0x3b]=0x80;bus.r[0x3c]=0x25; // +9600 raw = +600dps
+ bus.r[0x3a]=224;for(uint32_t t=2605;t<=2700;t+=5)step(t);
+ assert(imu.sample().gyr_dps[0]==600.f && imu.last_poll().raw[3]==9600);
+ assert(!(ui.diagnostic(imu.sample(),2700).gesture.reject&16));
+ bus.r[0x3b]=bus.r[0x3c]=0;for(uint32_t t=2705;t<=3100;t+=5)step(t);
+ bus.r[0x3b]=0x80;bus.r[0x3c]=0xda; // -9600 raw = -600dps
+ bus.r[0x3a]=32;for(uint32_t t=3105;t<=3200;t+=5)step(t);
+ assert(imu.sample().gyr_dps[0]==-600.f && imu.last_poll().raw[3]==-9600);
+ assert(!(ui.diagnostic(imu.sample(),3200).gesture.reject&16));
+ bus.r[0x3b]=bus.r[0x3c]=0;for(uint32_t t=3205;t<=3700;t+=5)step(t);
  assert(ui.model.view==v3app::View::Card && ui.busy() && rngCalls>0);
  assert(Serial.tx.find("trigger=1")!=std::string::npos);
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.9/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.10/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  // Recorder is a second session on the same SINGLE parser, never two readers.

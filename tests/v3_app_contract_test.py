@@ -11,13 +11,14 @@ sys.path.insert(0,str(ROOT/'tools'))
 class Contracts(unittest.TestCase):
  def test_new_output_isolation(self):
   import prepare_v3
-  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.9')
-  for version in ('1.6','1.7','1.8'):
+  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.10')
+  for version in ('1.6','1.7','1.8','1.9'):
    for suffix in ('','/nested'):
     with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/('build/v3-0.'+version+suffix))
   with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/'build/v3-0.1.0')
  def test_diagnostic_increment_version(self):
-  self.assertIn('version="v3-0.1.9"',(ROOT/'trailguide_v3/ui.h').read_text())
+  self.assertIn('version="v3-0.1.10"',(ROOT/'trailguide_v3/ui.h').read_text())
+  self.assertIn('gyr_range_dps=2048 odr_enum=normal60 reset=not_issued suffix=unidentified', (ROOT/'trailguide_v3/trailguide_v3.ino').read_text())
  def test_owned_preparer_exists(self):
   self.assertTrue((ROOT/'tools/prepare_v3.py').is_file(),'first app preparer missing')
  def test_content_and_exact_drivers(self):

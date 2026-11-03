@@ -98,7 +98,7 @@ static void badFrames(){
    case 1:s.acc_g[0]=std::numeric_limits<float>::quiet_NaN();break;
    case 2:s.gyr_dps[2]=std::numeric_limits<float>::infinity();break;
    case 3:s.acc_g[1]=3.99f;break;
-   case 4:s.gyr_dps[1]=-511.f;break;
+   case 4:s.gyr_dps[1]=-2044.f;break;
    case 5:age=61;break;
    case 6:s.at_ms-=f.step;break; // duplicate is cancellation, not a free extra hold
    case 7:s.at_ms-=1000;break; // backwards/out of order
@@ -183,7 +183,27 @@ static void recoveryGuards(){
  jitter.expect(0);auto j=jitter.d.diagnostic(jitter.sample(jitter.up),jitter.t);
  assert(j.phase==4 && j.origin[2]==1 && j.dwellSamples==1);
 }
+static void rangeSafetyAllAxes(){
+ static_assert(v3::GyroFullScaleDps==2048.f && v3::GyroSafetyDps==2044.f);
+ for(unsigned axis=0;axis<3;++axis)for(float value:{-2048.f,-2044.f,-2043.9375f,-600.f,600.f,2043.9375f,2044.f,2048.f,
+   std::numeric_limits<float>::infinity(),-std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}){
+  Trace f;f.rest();f.t+=20;auto s=f.sample(f.up,0);s.gyr_dps[axis]=value;
+  const bool reject=!std::isfinite(value) || std::fabs(value)>=2044.f;
+  assert(bool(f.d.diagnostic(s,f.t).reject&16)==reject);
+  assert(!f.send(s));const auto d=f.d.diagnostic(s,f.t);
+  assert(reject ? d.phase==4 && d.resetReason==6 : d.phase==1);
+ }
+ for(unsigned axis=0;axis<3;++axis)for(float value:{-3.99f,3.99f,std::numeric_limits<float>::infinity(),-std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}){
+  Trace f;f.rest();f.t+=20;auto s=f.sample(f.up);s.acc_g[axis]=value;
+  assert(f.d.diagnostic(s,f.t).reject&16);assert(!f.send(s));
+  assert(f.d.diagnostic(s,f.t).resetReason==6);
+ }
+}
 int main(){
+ rangeSafetyAllAxes();
+ // Explicitly SYNTHETIC 600dps whole cycle, not recovered clipped human peaks.
+ {Trace wide;wide.rest();wide.arc(false,300,600);wide.down();
+  wide.arc(true,300,-600);wide.rest(500);wide.expect(1);wide.rest(500);wide.expect(1);}
  recoveryGuards();
  opposedRecover();
  heldCycle();axesAndCadences();rejectsOrdinaryHandling();cancelAndRearm();badFrames();
@@ -192,7 +212,7 @@ int main(){
   d.consume(s,20,false);assert(d.diagnostic(s,20).resetReason==1);
   s.valid=false;d.consume(s,20,true);assert(d.diagnostic(s,20).resetReason==2);
   s.valid=true;d.consume(s,100,true);assert(d.diagnostic(s,100).resetReason==3);
-  s.at_ms=40;s.gyr_dps[0]=512;d.consume(s,40,true);assert(d.diagnostic(s,40).resetReason==6);
+  s.at_ms=40;s.gyr_dps[0]=2048;d.consume(s,40,true);assert(d.diagnostic(s,40).resetReason==6);
  }
 #else
  assert(!"actual detector reset cause metadata missing");

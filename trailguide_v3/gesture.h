@@ -51,7 +51,7 @@ class Gesture {
    (seen && s.at_ms==last?4u:0u)|(seen && uint32_t(s.at_ms-last)>MaxGapMs?8u:0u)|
    (cooling && uint32_t(now-firedAt)<CooldownMs?32u:0u)|(d.cycleAge>CycleMs?64u:0u);
   float a2=0,g2=0;for(unsigned i=0;i<3;++i){a2+=s.acc_g[i]*s.acc_g[i];g2+=s.gyr_dps[i]*s.gyr_dps[i];
-   if(!std::isfinite(s.acc_g[i]) || !std::isfinite(s.gyr_dps[i]) || std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=511.f)d.reject|=16u;
+   if(!std::isfinite(s.acc_g[i]) || !std::isfinite(s.gyr_dps[i]) || std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=v3::GyroSafetyDps)d.reject|=16u;
   }
   d.magnitude=std::sqrt(a2);d.rate=std::sqrt(g2);
   d.rest=std::fabs(d.magnitude-1.f)<.16f && d.rate<12.f;
@@ -71,7 +71,7 @@ class Gesture {
   float a2=0,g2=0;
   for(unsigned i=0;i<3;++i){
    if(!std::isfinite(s.acc_g[i]) || !std::isfinite(s.gyr_dps[i]) ||
-      std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=511.f){reset(6);return false;}
+      std::fabs(s.acc_g[i])>=3.99f || std::fabs(s.gyr_dps[i])>=v3::GyroSafetyDps){reset(6);return false;}
    a2+=s.acc_g[i]*s.acc_g[i];g2+=s.gyr_dps[i]*s.gyr_dps[i];
   }
   if(cooling){

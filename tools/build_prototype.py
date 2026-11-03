@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 IDS = ('tg-001', 'tg-002', 'tg-004', 'tg-003', 'tg-011', 'tg-028', 'tg-031', 'tg-036')
 
 
-def select_content(data):
+def select_content(data, ids=IDS):
     def text(value):
         return isinstance(value, str) and bool(value.strip())
     if not isinstance(data, dict) or type(data.get('schema_version')) is not int or data['schema_version'] != 1:
@@ -28,12 +28,14 @@ def select_content(data):
     by_id = {c['card_id']: c for c in cards}
     if len(by_id) != len(cards):
         raise ValueError('Duplicate card IDs')
-    if any(i not in by_id for i in IDS):
+    if not isinstance(ids, (tuple, list)) or not 1 <= len(ids) <= 40 or not all(text(i) for i in ids) or len(set(ids)) != len(ids):
+        raise ValueError('Expected one to forty unique selected IDs')
+    if any(i not in by_id for i in ids):
         raise ValueError('Missing representative ID')
-    selected = [by_id[i] for i in IDS]
+    selected = [by_id[i] for i in ids]
     if any(not text(c.get('theme')) or c['theme'] not in theme_ids for c in selected):
         raise ValueError('Invalid representative theme')
-    if len({c['theme'] for c in selected}) != 8:
+    if tuple(ids) == IDS and len({c['theme'] for c in selected}) != 8:
         raise ValueError('Expected eight distinct representative themes')
     for card in selected:
         f = card.get('facilitator')
@@ -49,6 +51,15 @@ def select_content(data):
             values = f.get(key)
             if not isinstance(values, list) or not values or not all(text(v) for v in values) or ('follow_ups' in key and len(values) > 2):
                 raise ValueError('Invalid facilitator ' + key)
+        if 'optional_ai_help' in f and not text(f['optional_ai_help']):
+            raise ValueError('Invalid optional AI help')
+        if 'conditional_follow_ups' in f:
+            conditions = f['conditional_follow_ups']
+            if not isinstance(conditions, list) or not 1 <= len(conditions) <= 2 or any(
+                    not isinstance(v, dict) or set(v) != {'when', 'question'}
+                    or not text(v.get('when')) or not text(v.get('question'))
+                    or not v['question'].endswith('?') for v in conditions):
+                raise ValueError('Invalid conditional follow-up')
     fields = ('card_id', 'revision', 'theme', 'title', 'action', 'activity', 'review_state', 'facilitator')
     return {'themes': themes, 'cards': [{k: c[k] for k in fields} for c in selected]}
 

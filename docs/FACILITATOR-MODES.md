@@ -74,6 +74,16 @@ The device does not evaluate the team's spoken answer, listen through a micropho
 - Keep general guidance tool-neutral. Existing agent variants retain their separate scope and human checks.
 - Guide me is part of core two-mode support; additional AI-prompt templates and tool-specific panels remain optional depth.
 
+### Listening-first opening cues
+
+The twelve-card V3 draft offers one possible opening per card, not a contextual diagnosis or a sequence to complete. Follow their answer before offering yours. Use, adapt or skip the private cue, optional follow-up and activity; listening without a suggestion or AI use is complete. Use appropriate, non-sensitive material for any optional AI help after listening. Define → Direct → Check → Adjust remains the familiar learner-facing loop, not another required script.
+
+`facilitator.optional_ai_help` is optional nonempty guidance after listening, separate from discovery questions. Optional `conditional_follow_ups` contains one or two `{when, question}` objects; display the condition with the question, never as an unconditional next step. NAME THE BLOCKER's unhelpful-output follow-up is conditional on their describing an unhelpful output. All new fields belong to the Ask review scope and remain draft.
+
+The opening may explore purpose (FOG AHEAD), reflection (MAKE CAMP), collaboration (QUIET FIRST) or strengths (KEEP OR ADAPT) without claiming that the existing title diagnoses the learner or replacing the optional practical activity. Stable IDs, titles, themes, legacy `question` discussion prompts and agent variants remain unchanged. Two scoped base changes prevent contradictions: CHECK BEARINGS permits AI/tool-assisted checking against real evidence rather than requiring independence *from AI*; HUMAN FIRST makes a human-only route complete and an AI comparison optional. These do not alter the V1 firmware deck.
+
+Canonical punctuation is retained. The generated embedded copy maps smart apostrophes/quotes to straight equivalents and em dashes to `--` for the unchanged pinned font; words, questions and conditions remain complete. Unsupported non-ASCII still fails generation. V2's eight-card generated header reflects these shared canonical updates for future builds only; its installed artifact, UI and pool size are unchanged. Earlier browser studies retain their eight-card presentation with refreshed embedded canonical JSON, not the native twelve-card V3 content reference.
+
 ## 5. Proposed question coverage across themes
 
 These examples are draft copy, not new card IDs or approved production wording. Map each to an existing intent during content review.
@@ -151,7 +161,7 @@ Try release eligibility requires card `review_state = reviewed`, valid nonempty 
 
 Use a single eligibility decision for each entry point: random draws, related faces, reopening saves and explicit reuse from history. Empty/ineligible pools explain the absence. A record confirmation must be tied to an eligible face and frozen card/revision/team/mode context; reject a stale confirmation after the context changes. Viewing a recorded historical snapshot remains read-only and clearly distinguished from new-use eligibility.
 
-Review prototypes may expose drafts only with a persistent Draft preview indication; recording and saving are disabled. All current catalog entries are draft. Eight representative cards now carry the proposed facilitator fields as draft editorial content; the remaining thirty-two do not. Reviewed/retired transitions and production eligibility behavior remain unimplemented. A draft-only review prototype does not establish release eligibility. Existing content tests currently assume draft status; extend them through failing tests before introducing reviewed/retired data. Preserve earlier content revisions or snapshots before future history can refer to them.
+Review prototypes may expose drafts only with a persistent Draft preview indication; recording and saving are disabled. All current catalog entries are draft. Twelve existing cards now carry paired facilitator fields as draft editorial content; the remaining twenty-eight do not. V3 uses twelve; V2 and the earlier round prototype retain their default eight-card selections. Reviewed/retired transitions and production eligibility behavior remain unimplemented. A draft-only review prototype does not establish release eligibility. Existing content tests currently assume draft status; extend them through failing tests before introducing reviewed/retired data. Preserve earlier content revisions or snapshots before future history can refer to them.
 
 Rules:
 - Explicitly validate supported review_state values and required nonempty fields.

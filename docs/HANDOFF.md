@@ -44,7 +44,7 @@ See COACHING-DIRECTION.md for synthetic hesitant-participant, convincing-AI-answ
 
 Classic ESP32, SH1106 128x64 OLED and BOOT input, firmware v1-0.2.4 with twelve original cards. Sampled readability and mechanical button operation were human-confirmed. Remaining soak/full-deck/independent-power acceptance is recorded in BRINGUP.md. Preserve its firmware, private configuration and recovery images.
 
-### V2 — current development target
+### V2 — preserved portrait trial
 
 ESP32-C6 1.47-inch, nominal 172x320 portrait capacitive touch, pin-header family. C6 silicon revision 0.2 and 8MB flash were probed; exact physical PCB/variant confirmation remains open. Manufacturer-demo operation was human-reported working. esptool package labels differ by version; do not substitute either label for physical identification.
 
@@ -67,7 +67,7 @@ Not implemented: theme picker, production eligibility/pools, linked-face shortcu
 
 ### V3 — recovery correction installed; physical cycle pending
 
-Current **v3-0.1.7 diagnostic DRAFT** is installed and exact-version/UI/bus/real-IMU verified. Plain full-face compass/tap-to-Options, eight shuffled draft pairs, Guide/Back, whole six-second reveal and five-second settled card-only hold are unchanged. Compass/touch were positively reported; corrected physical flip/card-only timing remain pending. Bubbles and the liked twelve-card wording are not installed.
+Current **v3-0.1.8 DRAFT** is installed and exact-version/UI/bus/real-IMU verified. Plain full-face compass/tap-to-Options, twelve shuffled draft pairs, Guide/Back, whole six-second reveal and five-second settled card-only hold are unchanged. Compass/touch were positively reported; corrected physical flip/card-only timing remain pending. The approved twelve-card wording and optional guidance are installed; bubbles remain preview-only.
 
 Actual v3-0.1.5 trace had 315 valid eligible resting rows stuck in Recover with gravity opposite the remembered origin. The former inversion veto blocked rearming indefinitely. v3-0.1.6 permits a new stable eligible reference after existing 1200ms rebase dwell (same-origin 600ms), retaining the old one until qualification. Reacquisition clears the canceled cycle/dwell and never draws. Active Ready/Turning/Inverted, thresholds, cooldown, sensor/model/content/renderer and positive USB TX budgets are unchanged.
 
@@ -77,13 +77,15 @@ Startup/UI/actual IMU and healthy first heartbeat were read back. Large later he
 
 Historical freeze: v1.4 diagnostics set HWCDC timeout 0, causing unsigned retry underflow in normal unread heartbeat output. Actual GDB stack proved it; v1.5+ sets a finite positive 1ms budget at setup/activation. Never restore zero. Raw proof: `build/v3-motion-investigation/freeze-observation/`. A USB disconnect/reconnect occurred during temporary recovery; its cause was not established. Broader timing/power/heap/PSRAM/handling/production storage and OTA remain separate. Local commits are not GitHub publication; authentication renewal is still pending.
 
-The latest physical v3-0.1.6 sequences still produced no card. An unattended, explicitly synthetic return-state injection did exercise the actual target draw/reveal/hold/control-restoration path with real IMU samples; cleanup reset returned Home/Ready. This is not physical gesture acceptance. A RAM-backed opt-in poll recorder and the newly authorized approved twelve-card update are being developed separately; do not claim either is installed until parent package/write/readback checks pass. Evidence: `build/v3-motion-investigation/target-draw-bench/`.
+The latest physical v3-0.1.6 sequences still produced no card. An unattended, explicitly synthetic return-state injection did exercise the actual target draw/reveal/hold/control-restoration path with real IMU samples; cleanup reset returned Home/Ready. This is not physical gesture acceptance. Both the bounded RAM recorder and approved twelve-card update are now installed in v3-0.1.8 after parent package/write/readback checks; the physical flip remains unresolved. Evidence: `build/v3-motion-investigation/target-draw-bench/`.
 
 The v3-0.1.7 opt-in flight recorder now retains actual poll attempts in bounded PSRAM instead of relying on a live USB stream. Actual target verification: RECORD acknowledged a fresh session, reader closed 46seconds, then all 1,969 records / 78,760 bytes were fetched and independently CRC-verified without reset. Every baseline row was valid, eligible and Ready; zero clipping/read errors/resets, actual poll gaps 20–36ms. This was an unattended baseline, not physical flip evidence. Frames include raw rails/STATUS/wait/error, UI reset causes and triggers, so a later human movement can be diagnosed without chat timing. Strict unsigned command parsing was fixed RED/GREEN after independent review; full ASan/UBSan/SDK and 42 isolated Python checks passed, followed by independent unblock review. Current program 640,967/global128,176; exported app 641,120 bytes. Current package `build/v3-0.1.7/`; client `tools/v3_flight_recorder.py`.
 
+The twelve-card content was recovered from the endorsed draft and independently reviewed: exact openings/private cues/conditional follow-up/optional help, 12 revisions advanced once, 28 other records unchanged, all review scopes draft. V3 model count derives from generated 12; V2/browser selectors remain 8. Four clean harness/preparer merges retained recorder and typography tests. Actual merged 45 Python checks, LVGL 48 contexts/179 pages, expanded bags/legacy RNG, SDK/recorder/differential tests and integration review passed. Build645,507 program / 128,184 globals; app 645,648 bytes. Exact installed 1.8 source/hash/slot/components/originals/same-board identity and startup/UI/IMU passed. A real-target explicitly synthetic return-state bench selected tg-004 and read its exact approved question from ROM; normal reveal/hold/restoration completed, and full 1,904-row/76,160-byte recorder export CRC f09b5d32 retained exactly one synthetic trigger. This is not human-motion success. Evidence exported before intentional cleanup reset; Home/index-1/compass verified and monitors closed. Current package `build/v3-0.1.8/`; [V3-CARD-CONTENT.md](V3-CARD-CONTENT.md) records editorial scope.
+
 ### Content
 
-`content/cards.json` is canonical: forty draft cards across eight themes, five per theme. Eight selected cards have paired facilitator guidance; the other thirty-two do not. Ten existing cards also have optional CLI-agent adaptations; they are not extra cards or another theme. Structural tests are not editorial approval.
+`content/cards.json` is canonical: forty draft cards across eight themes, five per theme. Twelve existing cards have paired draft guidance and form the V3 selection; the other twenty-eight do not. Ten existing cards also have optional CLI-agent adaptations; they are not extra cards or another theme. Structural tests are not editorial approval.
 
 ## 3. Guide-writing agreement
 

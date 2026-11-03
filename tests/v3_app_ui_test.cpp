@@ -19,7 +19,7 @@ static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.7/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.8/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -68,7 +68,7 @@ int main(){
   v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(mode==v3app::Mode::Ask?v3app::Ui::Action::Ask:v3app::Ui::Action::Try);expected.draw(mode);
   auto feed=[&](float z){advance(20);v3::ImuSample s;s.valid=true;s.at_ms=lv_tick_get();s.acc_g[2]=z;s.gyr_dps[1]=-2.2f;u.sample(s,s.at_ms,true);u.sample(s,s.at_ms+1,true);};
   auto quiet=[&](){for(int i=0;i<40;i++)feed(1);};auto flip=[&](){for(int i=0;i<25;i++)feed(-1);for(int i=0;i<25;i++)feed(1);};
-  for(int n=0;n<10;n++){assert(u.model.index==expected.index && seed==expectedSeed);advance(6000);hidden(u,true);assert(u.eligible());
+  for(unsigned n=0;n<trailguide::cardCount+2;n++){assert(u.model.index==expected.index && seed==expectedSeed);advance(6000);hidden(u,true);assert(u.eligible());
    const int old=u.model.index;quiet();flip();expected.draw(mode);assert(u.model.index!=old && u.model.index==expected.index && seed==expectedSeed && u.busy());hidden(u,true);
   }
  }
@@ -92,7 +92,7 @@ int main(){
  for(unsigned n=0;n<=60;n++){save(n);if(n<60)advance(100);}assert(!u.busy());auto settled=face();u.render();assert(face()==settled);assert(!outstanding);
  u.perform(v3app::Ui::Action::Another);u.window.render(6000);lv_obj_invalidate(u.scroll);auto projected=face();u.perform(v3app::Ui::Action::Another);assert(face()==projected); // exact final raster -> live glyph handoff
  for(auto mode:{v3app::Mode::Ask,v3app::Mode::Try}){u.model=v3app::Model(rng,&seed);u.model.view=v3app::View::Card;std::set<int> ids;
-  for(int i=0;i<8;i++){u.model.mode=mode;u.perform(v3app::Ui::Action::Another);ids.insert(u.model.index);auto &c=trailguide::cards[u.model.index];const char *text=mode==v3app::Mode::Ask?c.ask:c.action;assert(std::string(lv_label_get_text(u.body))==text);auto h=lv_obj_get_height(u.body);advance(2000);assert(std::string(lv_label_get_text(u.body))==text && lv_obj_get_height(u.body)==h);u.perform(v3app::Ui::Action::Guide);assert(!u.busy());const char *guide=mode==v3app::Mode::Ask?c.askGuide:c.tryGuide;assert(std::string(lv_label_get_text(u.body))==guide);assert(lv_obj_get_scroll_bottom(u.scroll)>0);u.perform(v3app::Ui::Action::More);assert(lv_obj_get_scroll_y(u.scroll)>0);u.perform(v3app::Ui::Action::Back);assert(!u.busy());}assert(ids.size()==8);
+  for(unsigned i=0;i<trailguide::cardCount;i++){u.model.mode=mode;u.perform(v3app::Ui::Action::Another);ids.insert(u.model.index);auto &c=trailguide::cards[u.model.index];const char *text=mode==v3app::Mode::Ask?c.ask:c.action;assert(std::string(lv_label_get_text(u.body))==text);auto h=lv_obj_get_height(u.body);advance(2000);assert(std::string(lv_label_get_text(u.body))==text && lv_obj_get_height(u.body)==h);u.perform(v3app::Ui::Action::Guide);assert(!u.busy());const char *guide=mode==v3app::Mode::Ask?c.askGuide:c.tryGuide;assert(std::string(lv_label_get_text(u.body))==guide);assert(lv_obj_get_scroll_bottom(u.scroll)>0);u.perform(v3app::Ui::Action::More);assert(lv_obj_get_scroll_y(u.scroll)>0);u.perform(v3app::Ui::Action::Back);assert(!u.busy());}assert(ids.size()==trailguide::cardCount);
  }
  // Input drag from Another must not draw; release-based hold never repeats.
  id=u.model.index;press(230,280);pt={40,180};advance(100);lift();assert(u.model.index==id);press(0,0);lift();assert(u.model.index==id);
@@ -167,5 +167,5 @@ int main(){
   lv_event_send(u.scroll,LV_EVENT_SCROLL_END,nullptr);assert(u.eligible());
   quiet();flip();assert(u.busy()&&u.model.index!=saved);
  }
- printf("PASS actual LVGL8.3.10 ASan/UBSan: compass pixels/no idle draw or model RNG use/stable heap, Home synthetic flip one draw/Instant/contact, compass restart/child-root-owner deletion, both modes/eight cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; card-only 6s+5s timing/tap-not-drag/hidden hit targets/stale focus/20 post-settle flips/timerfail; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
+ printf("PASS actual LVGL8.3.10 ASan/UBSan: compass pixels/no idle draw or model RNG use/stable heap, Home synthetic flip one draw/Instant/contact, compass restart/child-root-owner deletion, both modes/all generated cards, overflow, wholeface/timing/handoff, skip/navigation/deletion/dtor, lowmem/allocfail, pointer hold/drag/outside, background hold and independent inertial-scroll gesture suppression, 100 cycles, rollover; card-only 6s+5s timing/tap-not-drag/hidden hit targets/stale focus/generated-count boundary post-settle flips/timerfail; caller allocations=%u outstanding=%u LVGL_peak=%u limit=49152 renderer_bytes=%zu HOST SIMULATION NOT DEVICE FPS\n",allocations,outstanding,heapPeak,v3app::WindowReveal::bytes);
 }

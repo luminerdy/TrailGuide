@@ -30,13 +30,13 @@ The device is a fun building project and possible shared learning aid, not a pre
 
 The pitch above describes the intended direction, not a shipped coaching system. Draft [mentoring practice](docs/COACHING-DIRECTION.md) and a [portable AI-coaching starter](docs/PROJECT-COACH.md) can be reviewed without hardware; they are not a validated curriculum or an integrated AI service. The separate V3 experience study explores shuffled curated ideas and gradual reveal in a browser only.
 
-**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 runs a read-only portrait ESP32-C6 trial with Ask/Try, Guide me and eight draft pairs. Its deployed v2-0.1.8 adds a six-second projected blue answer-face emergence, with the complete words moving together rather than typing, with same-card Reveal all; Guide me/Back remain instant. Authenticated wireless updating is verified, while physical pacing and full human interaction acceptance remain pending. The original full-flow round browser preview is retained unchanged. A first [V3 read-only trial](docs/V3-TRIAL.md) is installed with curated shuffled ideas, native reveal and experimental turn-over/back detection; physical flip reliability and new full-screen controls remain unaccepted. Production V3 firmware, recording/saving and Team Trail remain unimplemented. The forty-card catalog and review states stay unchanged; the V2 reveal is a separate presentation-only increment, not new content or learning evidence.
+**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 retains its installed v2-0.1.8 portrait trial: eight draft pairs, Ask/Try, Guide/Back, six-second answer-face reveal and authenticated local OTA. Current [V3 v3-0.1.8](docs/V3-TRIAL.md) adds the approved twelve opening questions and optional guidance while retaining the plain compass, six-second reveal and five-second card-only hold. Startup/IMU, native content checks and an explicitly synthetic target draw/hold test pass; actual physical flip recognition remains unresolved. A default-OFF RAM poll recorder is now verified for complete delayed retrieval, so the remaining motion failure can be measured rather than guessed. Production saving/Team Trail and learning-effectiveness claims remain unimplemented. Browser UI/pools stay separate; refreshed canonical content is not hardware or coaching acceptance.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.8 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Plain compass; flip draws; tap opens Options; six-second reveal then five-second card-only hold | v3-0.1.7 diagnostic DRAFT installed and boot/UI/IMU verified; compass/menu physically confirmed; RAM capture/export verified; physical flip/card-only timing still pending; no saving or V3 OTA |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Plain compass; tap-to-menu and twelve curated pairs; experimental flip; six-second reveal plus five-second card-only hold | v3-0.1.8 DRAFT installed and boot/UI/IMU verified; approved twelve-card update and bounded RAM recorder; physical flip still unresolved; no product saving or V3 OTA |
 
 ## Mentoring first; hardware alongside
 
@@ -72,7 +72,7 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 - [Current Pi development results](docs/BRINGUP.md)
 - [V1 firmware](oled_oracle/oled_oracle.ino)
 
-The repository also includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes, with practical activities and optional AI prompts. The read-only browser preview and initial V2 hardware trial use eight draft pairs; neither is production acceptance. The other thirty-two catalog entries do not yet have paired guidance or touchscreen integration. The working V1 firmware still contains its original twelve cards.
+The repository includes a [forty-card draft catalog](docs/CARD-CATALOG.md), five cards in each of eight themes. Twelve existing IDs now have paired draft guidance and form the V3 set; see the [exact openings and scoped revisions](docs/V3-CARD-CONTENT.md). The other twenty-eight entries remain unchanged and unpaired. The earlier browser/V2 source selections stay eight; V2 content generation is refreshed for future builds only, not installed. V1 retains its original twelve OLED cards.
 
 The Pi is the development computer for building and uploading firmware. The ESP32 runs independently after flashing. Start with USB power; battery and enclosure selection are deferred.
 

@@ -30,7 +30,7 @@ int main(){
   t.tx.clear();assert(f.command("DUMP 1 0 1 9876",102000));
   for(uint32_t n=102000;n<104000;++n)f.service(t,n);
   assert(!f.draining() && t.tx.find("TGFR1 END session=1 token=9876")!=std::string::npos);
-  if(cap==16){FILE *wire=std::fopen("build/v3-0.1.7/recorder.synthetic.wire","wb");assert(wire);std::fwrite(t.tx.data(),1,t.tx.size(),wire);std::fclose(wire);}
+  if(cap==16){FILE *wire=std::fopen("build/v3-0.1.8/recorder.synthetic.wire","wb");assert(wire);std::fwrite(t.tx.data(),1,t.tx.size(),wire);std::fclose(wire);}
  }
  Transport stalled;stalled.capacity=0;
  assert(f.command("DUMP 1 0 1 42",200000));f.service(stalled,200000);f.service(stalled,205000);

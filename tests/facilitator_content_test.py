@@ -5,23 +5,27 @@ import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-REPRESENTATIVES = {'tg-001', 'tg-002', 'tg-004', 'tg-003', 'tg-011', 'tg-028', 'tg-031', 'tg-036'}
+REPRESENTATIVES = {'tg-001', 'tg-002', 'tg-004', 'tg-003', 'tg-011', 'tg-028', 'tg-031', 'tg-036', 'tg-010', 'tg-012', 'tg-014', 'tg-026'}
 
 
 class FacilitatorContentTest(unittest.TestCase):
-    def test_eight_draft_pairs_cover_themes_without_replacing_base_content(self):
+    def test_twelve_draft_pairs_cover_themes_with_stable_identity(self):
         data = json.loads((ROOT / 'content/cards.json').read_text())
         paired = [c for c in data['cards'] if 'facilitator' in c]
         self.assertEqual({c['card_id'] for c in paired}, REPRESENTATIVES,
-                         'Eight representative paired faces have not been authored')
-        self.assertEqual(len(paired), 8)
+                         'Twelve paired faces have not been authored')
+        self.assertEqual(len(paired), 12)
         self.assertEqual({c['theme'] for c in paired}, {t['theme_id'] for t in data['themes']})
         catalog = (ROOT / 'docs/CARD-CATALOG.md').read_text()
         for card in paired:
             with self.subTest(card=card['card_id']):
                 f = card['facilitator']
-                self.assertEqual(set(f), {'ask', 'notice', 'follow_ups', 'try_invitation',
-                                        'try_notice', 'try_follow_ups', 'review_state', 'try_review_state'})
+                expected = {'ask', 'notice', 'follow_ups', 'try_invitation', 'try_notice',
+                            'try_follow_ups', 'review_state', 'try_review_state', 'optional_ai_help'}
+                if card['card_id'] == 'tg-028': expected.add('conditional_follow_ups')
+                self.assertEqual(set(f), expected)
+                self.assertTrue(f['optional_ai_help'].strip())
+                self.assertIn(f['optional_ai_help'], catalog)
                 self.assertEqual(card['review_state'], 'draft')
                 self.assertEqual(f['review_state'], 'draft')
                 self.assertEqual(f['try_review_state'], 'draft')

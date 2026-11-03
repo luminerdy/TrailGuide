@@ -31,7 +31,7 @@ class Protocol(unittest.TestCase):
    with self.assertRaises(ProtocolError):validate_capture({**capture,'status':{**status,field:value}})
  def test_actual_cpp_writer_and_decoder(self):
   from v3_flight_recorder import fields,validate_chunk,decoded
-  path=ROOT/'build/v3-0.1.7/recorder.synthetic.wire'
+  path=ROOT/'build/v3-0.1.8/recorder.synthetic.wire'
   if not path.exists():self.skipTest('run tools/test_v3_app.py first for C++ writer artifact')
   lines=[s for s in path.read_text().splitlines() if s]
   begin=fields(lines[0],'BEGIN')

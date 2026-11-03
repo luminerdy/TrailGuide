@@ -10,7 +10,7 @@ Ten existing cards now include optional CLI-agent guidance for Codex and Claude 
 
 ## Paired facilitator preview
 
-Eight existing cards, one per theme, now have draft Ask/Notice/Follow-up and Try invitation/Notice/Follow-up guidance. Their revisions advanced; IDs, base actions, theme membership and existing agent variants are preserved. The other thirty-two cards remain without these paired fields. No entry is promoted to reviewed release content. See [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md) for the read-only prototype review gate.
+Twelve existing cards now have paired draft Ask/Notice/Follow-up, optional AI-help and Try guidance. V3 selects all twelve; V2 and the earlier round study keep their eight-card selections. IDs, titles, theme membership and existing agent variants are preserved. The other twenty-eight cards remain without paired fields. Only CHECK BEARINGS and HUMAN FIRST have the scoped base-field adjustments described below. No entry is promoted to reviewed release content. See [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md) for the read-only prototype review gate.
 
 ## Using the catalog
 
@@ -38,7 +38,7 @@ We need possibilities.
 
 ### tg-001 - SCOUT
 
-Revision 2 | Draft | Preserved V1 card | About 3 minutes
+Revision 3 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Ask AI for three very different approaches.
 
@@ -50,16 +50,17 @@ Revision 2 | Draft | Preserved V1 card | About 3 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
 **Ask the Team:** What different approaches have you considered?
 
 **Ask / Notice:**
-- Listen for alternatives that change the approach, not just the wording. A single idea can be a starting point rather than a failure.
+- Explore their thinking before adding another option.
 
 **Ask / Optional follow-up:**
-- What assumption could you change?
-- What would a very different starting point look like?
+- What appeals to you about those approaches?
+
+**Ask / If helpful, after listening:** AI could suggest contrasting approaches, explaining the assumptions and tradeoffs—not just variations of the same idea.
 
 **Try / Say:** Would it help to explore three different approaches?
 
@@ -69,6 +70,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - Which difference is worth exploring next?
 - What would you want to learn before choosing?
+
 
 ### tg-005 - NEW PERSPECTIVE
 
@@ -96,15 +98,38 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-014 - HUMAN FIRST
 
-Revision 1 | Draft | New card | About 4 minutes
+Revision 2 | Draft | New card | About 4 minutes
 
-**Bearing:** Sketch how to solve the problem without AI. Then name one place AI might help.
+**Bearing:** Sketch how to solve the problem without AI. Keeping that approach is a complete choice.
 
 **Ask the team:** What would we do if AI were unavailable?
 
-**Try it:** Draw a three-step human-only workflow. Circle one step where AI might reduce effort, and keep one step where human judgment must remain. Check whether AI adds value at all.
+**Try it:** Draw a three-step human-only workflow. Keeping it is a complete choice. If useful, compare a limited AI-assisted or hybrid option, including preparation, checking, corrections and learning value. Keep accountable human judgment visible; do not assume AI adds value.
 
 **Optional AI prompt:** Here is a human-only workflow: [steps]. Suggest one limited place AI might help and one reason not to use it. Keep the accountable human decision visible.
+
+**Facilitator faces - Draft preview only**
+
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
+
+**Ask the Team:** How would you approach this without AI?
+
+**Ask / Notice:**
+- Keeping that approach is a complete, legitimate outcome.
+
+**Ask / Optional follow-up:**
+- What do you like about doing it that way?
+
+**Ask / If helpful, after listening:** Compare human-only, AI-assisted, and hybrid approaches—including preparation, checking, corrections, and learning value—not just generation speed.
+
+**Try / Say:** Would it help to sketch a human-only approach?
+
+**Try / Notice:**
+- Keeping the human-only approach is complete. Any comparison with AI is optional and includes checking and learning value.
+
+**Try / Optional follow-up:**
+- What would you keep about this approach?
+
 
 ### tg-015 - WIDER HORIZON
 
@@ -124,7 +149,7 @@ We're not sure what we're solving.
 
 ### tg-002 - FOG AHEAD
 
-Revision 2 | Draft | Preserved V1 card | About 4 minutes
+Revision 3 | Draft | Preserved V1 card | About 4 minutes
 
 **Bearing:** Ask AI to ask you one clarifying question at a time.
 
@@ -136,16 +161,17 @@ Revision 2 | Draft | Preserved V1 card | About 4 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
-**Ask the Team:** What are you trying to make easier, and for whom?
+**Ask the Team:** What are you hoping to accomplish?
 
 **Ask / Notice:**
-- Listen for an intended user and a concrete difficulty. A requested output format alone may not explain what would help.
+- Let them define the goal before discussing tools or solutions.
 
 **Ask / Optional follow-up:**
-- What would a useful result let them do?
-- Which uncertainty matters most before you start?
+- What would a useful result let you do?
+
+**Ask / If helpful, after listening:** AI could help clarify the task or explain an unfamiliar part, one question at a time.
 
 **Try / Say:** Would one clarifying question at a time help?
 
@@ -155,6 +181,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - What became clearer?
 - What can you try with what you know now?
+
 
 ### tg-009 - MAP THE GAPS
 
@@ -183,7 +210,7 @@ Revision 2 | Draft | Preserved V1 card | About 4 minutes
 
 ### tg-010 - SHOW THE TARGET
 
-Revision 1 | Draft | Preserved V1 card | About 3 minutes
+Revision 2 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Give AI an example of what a good answer looks like.
 
@@ -192,6 +219,29 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 **Try it:** Use a non-sensitive example of a useful output. Name two qualities to preserve and one thing not to copy. Ask AI to apply the qualities to a new task, then check the result against them.
 
 **Optional AI prompt:** Here is a non-sensitive example: [example]. For [new task], preserve these qualities: [qualities], but do not copy [detail]. Produce a new answer and flag missing inputs.
+
+**Facilitator faces - Draft preview only**
+
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
+
+**Ask the Team:** What makes this example useful for what you want to do?
+
+**Ask / Notice:**
+- Explore usefulness rather than polish. They may value something you would overlook.
+
+**Ask / Optional follow-up:**
+- Which qualities would you want to carry into your own work?
+
+**Ask / If helpful, after listening:** AI could explain those qualities, then demonstrate applying them to a small new example—without copying unnecessary details.
+
+**Try / Say:** Would it help to try those qualities in a small new example?
+
+**Try / Notice:**
+- Notice whether the qualities help with the new task, not just whether the output looks polished.
+
+**Try / Optional follow-up:**
+- Which qualities carried over, and what would you change?
+
 
 ### tg-016 - NAME THE DESTINATION
 
@@ -225,7 +275,7 @@ We need something small to try.
 
 ### tg-004 - SMALL STEPS
 
-Revision 3 | Draft | Preserved V1 card | About 10 minutes
+Revision 4 | Draft | Preserved V1 card | About 10 minutes
 
 **Bearing:** Ask AI for a test you can finish in ten minutes.
 
@@ -249,16 +299,17 @@ Revision 3 | Draft | Preserved V1 card | About 10 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
-**Ask the Team:** What is the smallest thing you could try to learn more?
+**Ask the Team:** What would be useful to learn from your next attempt?
 
 **Ask / Notice:**
-- Listen for one uncertainty and a result the team could observe. A smaller deliverable is useful only if it answers something that matters.
+- Stay with what they want to discover, rather than choosing the experiment for them.
 
 **Ask / Optional follow-up:**
-- What do you expect to see?
-- What result would make you change your approach?
+- What could you try that would help you find out?
+
+**Ask / If helpful, after listening:** AI could help plan or build a small, reversible test, with an observable result and a stopping point.
 
 **Try / Say:** Would a small, safe test help you learn more?
 
@@ -268,6 +319,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - What did you observe?
 - What can you conclude, and what remains uncertain?
+
 
 ### tg-006 - FALSE SUMMIT
 
@@ -336,15 +388,15 @@ Can we trust this?
 
 ### tg-003 - CHECK BEARINGS
 
-Revision 3 | Draft | Preserved V1 card | About 5 minutes
+Revision 4 | Draft | Preserved V1 card | About 5 minutes
 
 **Bearing:** Which claims need checking? Verify one independently.
 
 **Ask the team:** Which claim would matter most if it were wrong?
 
-**Try it:** Select one consequential factual claim. Check the original source, direct observation or a trusted reference independently of AI. If you cannot check it now, label it unverified and do not use it to justify a risky action.
+**Try it:** Select one consequential factual claim. Use AI or tools if helpful to check original sources, direct observations or trusted references. Look for actual evidence, not model agreement. If you cannot check it now, label it unverified and do not use it to justify a risky action.
 
-**Optional AI prompt:** From this answer: [answer], identify consequential factual claims and suggest how a person could verify each independently. Do not invent citations, sources or verification results.
+**Optional AI prompt:** From this answer: [answer], identify consequential factual claims and help locate supporting sources or run suitable checks. Show actual evidence and uncertainty. Do not invent citations, sources or verification results; model agreement is not verification.
 
 **Situation tags:** ai-sounds-convincing
 
@@ -360,16 +412,17 @@ Revision 3 | Draft | Preserved V1 card | About 5 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
 **Ask the Team:** Which part would matter most if it were wrong?
 
 **Ask / Notice:**
-- Listen for a specific claim and its consequence. If useful, invite the team to select a concrete sentence. Fluent wording is not evidence of accuracy.
+- Understand how they intend to use the result. Checking everything is not automatically necessary.
 
 **Ask / Optional follow-up:**
-- How could you check that independently?
-- What would you do if you could not check it today?
+- What evidence would be enough for that use?
+
+**Ask / If helpful, after listening:** AI could identify important claims, locate supporting material, or help run suitable checks. Look for actual evidence, not another confident answer.
 
 **Try / Say:** Would it help to check one claim together?
 
@@ -379,6 +432,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - What did the check establish?
 - What remains unverified?
+
 
 ### tg-021 - FOLLOW THE SOURCE
 
@@ -463,7 +517,7 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 
 ### tg-011 - MAKE CAMP
 
-Revision 3 | Draft | Preserved V1 card | About 3 minutes
+Revision 4 | Draft | Preserved V1 card | About 3 minutes
 
 **Bearing:** Summarize progress, open questions, and the next step.
 
@@ -487,16 +541,17 @@ Revision 3 | Draft | Preserved V1 card | About 3 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
-**Ask the Team:** What changed in your approach after that attempt?
+**Ask the Team:** What did you notice in that attempt?
 
 **Ask / Notice:**
-- Listen for a concrete observation or adjustment, including one prompted by an unsuccessful attempt. The team may not have enough evidence to name a lesson yet.
+- Leave room for uncertainty or no change. They do not have to produce a lesson.
 
 **Ask / Optional follow-up:**
-- What surprised you?
-- What would you try next time?
+- What do you make of that?
+
+**Ask / If helpful, after listening:** AI could help organize their observations and open questions into a short summary they can correct and carry forward.
 
 **Try / Say:** Would a short progress-and-next-step summary help?
 
@@ -506,6 +561,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - Does this summary match what happened?
 - What is the next useful step?
+
 
 ### tg-025 - SURPRISE ON THE TRAIL
 
@@ -521,7 +577,7 @@ Revision 1 | Draft | New card | About 4 minutes
 
 ### tg-026 - KEEP OR ADAPT
 
-Revision 2 | Draft | New card | About 4 minutes
+Revision 3 | Draft | New card | About 4 minutes
 
 **Bearing:** Name one move to keep, one to change and one thing you still cannot conclude.
 
@@ -540,6 +596,28 @@ Revision 2 | Draft | New card | About 4 minutes
 **Codex note:** Ask Codex for a read-only diff review. A second review is additional scrutiny, not independent proof of correctness.
 
 **Claude Code note:** Ask Claude Code for a read-only diff review. If comparing with another agent, preserve the same diff and acceptance criteria.
+
+**Facilitator faces - Draft preview only**
+
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
+
+**Ask the Team:** What is working well that you would like to keep?
+
+**Ask / Notice:**
+- Make room for useful progress, not only problems. Avoid assuming you know why something worked.
+
+**Ask / Optional follow-up:**
+- What makes that worth repeating?
+
+**Ask / If helpful, after listening:** AI could help organize observations into something to keep, something to adjust, and what remains uncertain.
+
+**Try / Say:** Would it help to review one attempt together?
+
+**Try / Notice:**
+- Notice useful moves, possible adjustments and limits of the evidence. Avoid inferring why something worked.
+
+**Try / Optional follow-up:**
+- What would you keep, adjust, or leave uncertain?
 
 
 ### tg-027 - TEACH THE NEXT GUIDE
@@ -572,7 +650,7 @@ Revision 1 | Draft | Preserved V1 card | About 3 minutes
 
 ### tg-012 - CHANGE COURSE
 
-Revision 1 | Draft | Preserved V1 card | About 4 minutes
+Revision 2 | Draft | Preserved V1 card | About 4 minutes
 
 **Bearing:** Ask AI for the strongest argument against your plan.
 
@@ -582,9 +660,32 @@ Revision 1 | Draft | Preserved V1 card | About 4 minutes
 
 **Optional AI prompt:** Give the strongest good-faith objection to this plan: [plan]. Separate evidence from assumptions and suggest a low-risk way to investigate the concern. Critique the plan, not the people.
 
+**Facilitator faces - Draft preview only**
+
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
+
+**Ask the Team:** What concerns, if any, do you have about this plan?
+
+**Ask / Notice:**
+- Leave room for “none.” A different perspective is an invitation, not proof that their plan is flawed.
+
+**Ask / Optional follow-up:**
+- What would help you explore that concern?
+
+**Ask / If helpful, after listening:** AI could offer a strong, good-faith objection, separating evidence from assumptions. They decide whether it warrants a change or a test.
+
+**Try / Say:** Would it help to explore a good-faith objection?
+
+**Try / Notice:**
+- Distinguish evidence from assumptions. An objection need not mean the plan should change.
+
+**Try / Optional follow-up:**
+- Does this call for a change, a test, or no change?
+
+
 ### tg-028 - NAME THE BLOCKER
 
-Revision 2 | Draft | New card | About 3 minutes
+Revision 3 | Draft | New card | About 3 minutes
 
 **Bearing:** Decide whether you lack information, a decision or a workable next action.
 
@@ -598,16 +699,19 @@ Revision 2 | Draft | New card | About 3 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
-**Ask the Team:** Where did progress stop?
+**Ask the Team:** What have you tried so far?
 
 **Ask / Notice:**
-- Listen for task ambiguity, tool friction or a choice the team has not resolved. Ask rather than diagnosing motivation or ability.
+- Hear their account before naming a blocker or proposing a fix.
 
 **Ask / Optional follow-up:**
-- What is missing for one small next step?
-- What could you set aside for now?
+- What were you hoping would happen?
+
+**When they describe an unhelpful output:** What part felt least useful?
+
+**Ask / If helpful, after listening:** AI could help explore their account, clarify a missing piece, or suggest another approach—without deciding the problem for them.
 
 **Try / Say:** Would it help to name the blocker before making more ideas?
 
@@ -617,6 +721,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - Which blocker should you address first?
 - What action would address that blocker?
+
 
 ### tg-029 - SHRINK THE CLIMB
 
@@ -650,7 +755,7 @@ We need more voices involved.
 
 ### tg-031 - QUIET FIRST
 
-Revision 2 | Draft | New card | About 3 minutes
+Revision 3 | Draft | New card | About 3 minutes
 
 **Bearing:** Give everyone quiet thinking time before discussion or AI suggestions.
 
@@ -664,16 +769,17 @@ Revision 2 | Draft | New card | About 3 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
-**Ask the Team:** What do you notice before seeing someone else's answer?
+**Ask the Team:** How is working together going for you?
 
 **Ask / Notice:**
-- Give people time to think before inviting responses. Silence does not tell you whether someone understands, agrees or wants to speak.
+- Do not interpret quietness. Leave room for different experiences and ways of contributing.
 
 **Ask / Optional follow-up:**
-- Would thinking alone or in pairs first help?
-- What is another way you could contribute?
+- Is there anything you’d like to do differently?
+
+**Ask / If helpful, after listening:** Offer quiet thinking, drawing, pairs, or passing. AI could later help organize voluntarily shared ideas without ranking people or inventing agreement.
 
 **Try / Say:** Would a quiet minute before sharing help?
 
@@ -683,6 +789,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - What would anyone like to share, or pass on?
 - What distinct ideas should the team keep in view?
+
 
 ### tg-032 - MAKE ROOM
 
@@ -755,7 +862,7 @@ We need to choose and move.
 
 ### tg-036 - CHOOSE THE COMPASS
 
-Revision 3 | Draft | New card | About 4 minutes
+Revision 4 | Draft | New card | About 4 minutes
 
 **Bearing:** Agree on two criteria before comparing options.
 
@@ -779,16 +886,17 @@ Revision 3 | Draft | New card | About 4 minutes
 
 **Facilitator faces - Draft preview only**
 
-These paired faces are authored for review, not approved release content. Base action/activity wording above is unchanged.
+One possible opening; private guidance can be used, adapted or skipped. Try is an optional activity, not a prescribed response.
 
 **Ask the Team:** What matters most in choosing your next step?
 
 **Ask / Notice:**
-- Listen for criteria tied to the intended outcome and for unresolved trade-offs. Keep safety or policy constraints separate from preferences.
+- Let them choose what matters; do not substitute your own priorities.
 
 **Ask / Optional follow-up:**
-- Which trade-off are you willing to accept?
-- What evidence would change your choice?
+- What tradeoff are you willing to accept?
+
+**Ask / If helpful, after listening:** AI could compare options using their criteria and available evidence, leaving unknowns visible. The decision remains theirs.
 
 **Try / Say:** Would agreeing on two criteria help you compare options?
 
@@ -798,6 +906,7 @@ These paired faces are authored for review, not approved release content. Base a
 **Try / Optional follow-up:**
 - How do the options compare on those criteria?
 - What is still unknown before you choose?
+
 
 ### tg-037 - TWO TRAILS
 

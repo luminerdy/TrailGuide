@@ -21,19 +21,51 @@
     }
   ],
   "themes": [
-    {"theme_id": "explore", "label": "Explore", "need": "We need possibilities."},
-    {"theme_id": "clarify", "label": "Clarify", "need": "We're not sure what we're solving."},
-    {"theme_id": "experiment", "label": "Experiment", "need": "We need something small to try."},
-    {"theme_id": "verify", "label": "Verify", "need": "Can we trust this?"},
-    {"theme_id": "reflect", "label": "Reflect", "need": "What did we learn?"},
-    {"theme_id": "unstick", "label": "Unstick", "need": "We're going in circles."},
-    {"theme_id": "include", "label": "Include", "need": "We need more voices involved."},
-    {"theme_id": "decide", "label": "Decide", "need": "We need to choose and move."}
+    {
+      "theme_id": "explore",
+      "label": "Explore",
+      "need": "We need possibilities."
+    },
+    {
+      "theme_id": "clarify",
+      "label": "Clarify",
+      "need": "We're not sure what we're solving."
+    },
+    {
+      "theme_id": "experiment",
+      "label": "Experiment",
+      "need": "We need something small to try."
+    },
+    {
+      "theme_id": "verify",
+      "label": "Verify",
+      "need": "Can we trust this?"
+    },
+    {
+      "theme_id": "reflect",
+      "label": "Reflect",
+      "need": "What did we learn?"
+    },
+    {
+      "theme_id": "unstick",
+      "label": "Unstick",
+      "need": "We're going in circles."
+    },
+    {
+      "theme_id": "include",
+      "label": "Include",
+      "need": "We need more voices involved."
+    },
+    {
+      "theme_id": "decide",
+      "label": "Decide",
+      "need": "We need to choose and move."
+    }
   ],
   "cards": [
     {
       "card_id": "tg-001",
-      "revision": 2,
+      "revision": 3,
       "theme": "explore",
       "title": "SCOUT",
       "action": "Ask AI for three very different approaches.",
@@ -47,11 +79,10 @@
       "facilitator": {
         "ask": "What different approaches have you considered?",
         "notice": [
-          "Listen for alternatives that change the approach, not just the wording. A single idea can be a starting point rather than a failure."
+          "Explore their thinking before adding another option."
         ],
         "follow_ups": [
-          "What assumption could you change?",
-          "What would a very different starting point look like?"
+          "What appeals to you about those approaches?"
         ],
         "try_invitation": "Would it help to explore three different approaches?",
         "try_notice": [
@@ -62,44 +93,88 @@
           "What would you want to learn before choosing?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could suggest contrasting approaches, explaining the assumptions and tradeoffs—not just variations of the same idea."
       }
     },
     {
-      "card_id": "tg-005", "revision": 1, "theme": "explore", "title": "NEW PERSPECTIVE",
+      "card_id": "tg-005",
+      "revision": 1,
+      "theme": "explore",
+      "title": "NEW PERSPECTIVE",
       "action": "Ask AI to critique the idea as its intended user.",
       "question": "What might the person using this find difficult?",
       "activity": "Describe an intended user without identifying them. Ask AI for possible difficulties, then separate plausible concerns from guesses. Choose one question to ask a real user; simulated feedback is not user research.",
       "ai_prompt": "Review this idea: [idea], for this intended user: [generic needs]. Suggest possible frustrations and label them as hypotheses, not real user feedback. Give one question we could ask an actual user.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-013", "revision": 1, "theme": "explore", "title": "SIDE TRAIL",
+      "card_id": "tg-013",
+      "revision": 1,
+      "theme": "explore",
+      "title": "SIDE TRAIL",
       "action": "Borrow an approach from a different field. Name where the analogy breaks.",
       "question": "Who solves a similar problem in a very different setting?",
       "activity": "Pick a different field, such as libraries or gardening. Borrow one useful pattern for the challenge. Name one important difference that makes the analogy unreliable, then keep only the useful part.",
       "ai_prompt": "For [challenge], suggest an analogy from another field. Explain one transferable pattern and one important limit of the analogy. Do not treat the analogy as evidence.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-014", "revision": 1, "theme": "explore", "title": "HUMAN FIRST",
-      "action": "Sketch how to solve the problem without AI. Then name one place AI might help.",
+      "card_id": "tg-014",
+      "revision": 2,
+      "theme": "explore",
+      "title": "HUMAN FIRST",
+      "action": "Sketch how to solve the problem without AI. Keeping that approach is a complete choice.",
       "question": "What would we do if AI were unavailable?",
-      "activity": "Draw a three-step human-only workflow. Circle one step where AI might reduce effort, and keep one step where human judgment must remain. Check whether AI adds value at all.",
+      "activity": "Draw a three-step human-only workflow. Keeping it is a complete choice. If useful, compare a limited AI-assisted or hybrid option, including preparation, checking, corrections and learning value. Keep accountable human judgment visible; do not assume AI adds value.",
       "ai_prompt": "Here is a human-only workflow: [steps]. Suggest one limited place AI might help and one reason not to use it. Keep the accountable human decision visible.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft",
+      "facilitator": {
+        "try_invitation": "Would it help to sketch a human-only approach?",
+        "try_notice": [
+          "Keeping the human-only approach is complete. Any comparison with AI is optional and includes checking and learning value."
+        ],
+        "try_follow_ups": [
+          "What would you keep about this approach?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft",
+        "ask": "How would you approach this without AI?",
+        "notice": [
+          "Keeping that approach is a complete, legitimate outcome."
+        ],
+        "follow_ups": [
+          "What do you like about doing it that way?"
+        ],
+        "optional_ai_help": "Compare human-only, AI-assisted, and hybrid approaches—including preparation, checking, corrections, and learning value—not just generation speed."
+      }
     },
     {
-      "card_id": "tg-015", "revision": 1, "theme": "explore", "title": "WIDER HORIZON",
+      "card_id": "tg-015",
+      "revision": 1,
+      "theme": "explore",
+      "title": "WIDER HORIZON",
       "action": "Choose one constraint to relax and one to keep. Explore what becomes possible.",
       "question": "Which constraint is real, and which have we simply assumed?",
       "activity": "List three constraints. Mark which are confirmed and which are assumptions. Temporarily relax one assumption, not a safety or privacy requirement, and sketch a new option.",
       "ai_prompt": "For [challenge], we must keep [non-negotiable constraint]. If we relaxed [assumed constraint], what new approach becomes possible? State what would need checking before using it.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-002",
-      "revision": 2,
+      "revision": 3,
       "theme": "clarify",
       "title": "FOG AHEAD",
       "action": "Ask AI to ask you one clarifying question at a time.",
@@ -111,13 +186,12 @@
       "legacy_v1": true,
       "review_state": "draft",
       "facilitator": {
-        "ask": "What are you trying to make easier, and for whom?",
+        "ask": "What are you hoping to accomplish?",
         "notice": [
-          "Listen for an intended user and a concrete difficulty. A requested output format alone may not explain what would help."
+          "Let them define the goal before discussing tools or solutions."
         ],
         "follow_ups": [
-          "What would a useful result let them do?",
-          "Which uncertainty matters most before you start?"
+          "What would a useful result let you do?"
         ],
         "try_invitation": "Would one clarifying question at a time help?",
         "try_notice": [
@@ -128,7 +202,8 @@
           "What can you try with what you know now?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could help clarify the task or explain an unfamiliar part, one question at a time."
       }
     },
     {
@@ -157,32 +232,71 @@
       }
     },
     {
-      "card_id": "tg-010", "revision": 1, "theme": "clarify", "title": "SHOW THE TARGET",
+      "card_id": "tg-010",
+      "revision": 2,
+      "theme": "clarify",
+      "title": "SHOW THE TARGET",
       "action": "Give AI an example of what a good answer looks like.",
       "question": "What makes this example useful rather than merely polished?",
       "activity": "Use a non-sensitive example of a useful output. Name two qualities to preserve and one thing not to copy. Ask AI to apply the qualities to a new task, then check the result against them.",
       "ai_prompt": "Here is a non-sensitive example: [example]. For [new task], preserve these qualities: [qualities], but do not copy [detail]. Produce a new answer and flag missing inputs.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "facilitator": {
+        "try_invitation": "Would it help to try those qualities in a small new example?",
+        "try_notice": [
+          "Notice whether the qualities help with the new task, not just whether the output looks polished."
+        ],
+        "try_follow_ups": [
+          "Which qualities carried over, and what would you change?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft",
+        "ask": "What makes this example useful for what you want to do?",
+        "notice": [
+          "Explore usefulness rather than polish. They may value something you would overlook."
+        ],
+        "follow_ups": [
+          "Which qualities would you want to carry into your own work?"
+        ],
+        "optional_ai_help": "AI could explain those qualities, then demonstrate applying them to a small new example—without copying unnecessary details."
+      }
     },
     {
-      "card_id": "tg-016", "revision": 1, "theme": "clarify", "title": "NAME THE DESTINATION",
+      "card_id": "tg-016",
+      "revision": 1,
+      "theme": "clarify",
+      "title": "NAME THE DESTINATION",
       "action": "State who needs what outcome, and how you will notice it helped.",
       "question": "Who is this for, and what should be different afterward?",
       "activity": "Complete: For [role], we want [outcome], so they can [benefit]. Choose one observable sign of progress and one thing outside scope. Let the team correct the sentence before using AI.",
       "ai_prompt": "Help tighten this outcome statement: [statement]. Ask about ambiguous terms and suggest one observable sign of progress. Do not invent user needs or numerical targets.",
-      "minutes": 3, "situation_tags": ["too-many-ideas"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "too-many-ideas"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-017", "revision": 1, "theme": "clarify", "title": "UNPACK THE WORD",
+      "card_id": "tg-017",
+      "revision": 1,
+      "theme": "clarify",
+      "title": "UNPACK THE WORD",
       "action": "Pick one vague word in the request. Replace it with an observable requirement.",
       "question": "What would better, faster or useful look like in practice?",
       "activity": "Circle one vague word in the task. Ask two people to explain what they mean by it, with passing allowed. Agree on a concrete example and a non-example, then rewrite the request.",
       "ai_prompt": "In this request: [request], identify one ambiguous term. Suggest two possible interpretations and ask us which we mean. Wait before rewriting the request.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-004",
-      "revision": 3,
+      "revision": 4,
       "theme": "experiment",
       "title": "SMALL STEPS",
       "action": "Ask AI for a test you can finish in ten minutes.",
@@ -205,13 +319,12 @@
         }
       },
       "facilitator": {
-        "ask": "What is the smallest thing you could try to learn more?",
+        "ask": "What would be useful to learn from your next attempt?",
         "notice": [
-          "Listen for one uncertainty and a result the team could observe. A smaller deliverable is useful only if it answers something that matters."
+          "Stay with what they want to discover, rather than choosing the experiment for them."
         ],
         "follow_ups": [
-          "What do you expect to see?",
-          "What result would make you change your approach?"
+          "What could you try that would help you find out?"
         ],
         "try_invitation": "Would a small, safe test help you learn more?",
         "try_notice": [
@@ -222,16 +335,25 @@
           "What can you conclude, and what remains uncertain?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could help plan or build a small, reversible test, with an observable result and a stopping point."
       }
     },
     {
-      "card_id": "tg-006", "revision": 1, "theme": "experiment", "title": "FALSE SUMMIT",
+      "card_id": "tg-006",
+      "revision": 1,
+      "theme": "experiment",
+      "title": "FALSE SUMMIT",
       "action": "Ask: How could this fail? Test one failure mode.",
       "question": "Which plausible failure could we safely expose now?",
       "activity": "List possible failures and choose one low-risk case. Test with synthetic input in a sandbox or on paper. Stop if testing would affect real users, private data or live systems.",
       "ai_prompt": "For [idea], list three plausible failure modes. Propose a small sandbox test of one using synthetic inputs. Include a stop condition and avoid actions against real users or live systems.",
-      "minutes": 5, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": true, "review_state": "draft"
+      "minutes": 5,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": true,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-018",
@@ -257,30 +379,42 @@
       }
     },
     {
-      "card_id": "tg-019", "revision": 1, "theme": "experiment", "title": "TRAIL SAMPLE",
+      "card_id": "tg-019",
+      "revision": 1,
+      "theme": "experiment",
+      "title": "TRAIL SAMPLE",
       "action": "Try the same task on an ordinary, an edge and an incomplete example.",
       "question": "Does our idea still help when the input is awkward or incomplete?",
       "activity": "Prepare three synthetic examples: ordinary, edge case and missing important information. Decide expected behavior before trying them. Check whether the system asks for missing information rather than guessing.",
       "ai_prompt": "Create three clearly synthetic inputs for [task]: ordinary, edge case and incomplete. For each, describe the behavior a human reviewer should look for, including when clarification is needed.",
-      "minutes": 6, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 6,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-020", "revision": 1, "theme": "experiment", "title": "PAPER BRIDGE",
+      "card_id": "tg-020",
+      "revision": 1,
+      "theme": "experiment",
+      "title": "PAPER BRIDGE",
       "action": "Act out a workflow on paper before connecting tools or automating it.",
       "question": "Where should a person review or stop this workflow?",
       "activity": "Sketch the input, proposed AI step, human review and final action. Walk through one synthetic example. Mark where permission, correction or stopping is needed before building any integration.",
       "ai_prompt": "For [workflow], sketch a paper prototype with input, AI suggestion, human review and final action. Identify a permission gate and a safe stopping point. Do not execute any actions.",
-      "minutes": 5, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 5,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-003",
-      "revision": 3,
+      "revision": 4,
       "theme": "verify",
       "title": "CHECK BEARINGS",
       "action": "Which claims need checking? Verify one independently.",
       "question": "Which claim would matter most if it were wrong?",
-      "activity": "Select one consequential factual claim. Check the original source, direct observation or a trusted reference independently of AI. If you cannot check it now, label it unverified and do not use it to justify a risky action.",
-      "ai_prompt": "From this answer: [answer], identify consequential factual claims and suggest how a person could verify each independently. Do not invent citations, sources or verification results.",
+      "activity": "Select one consequential factual claim. Use AI or tools if helpful to check original sources, direct observations or trusted references. Look for actual evidence, not model agreement. If you cannot check it now, label it unverified and do not use it to justify a risky action.",
+      "ai_prompt": "From this answer: [answer], identify consequential factual claims and help locate supporting sources or run suitable checks. Show actual evidence and uncertainty. Do not invent citations, sources or verification results; model agreement is not verification.",
       "minutes": 5,
       "situation_tags": [
         "ai-sounds-convincing"
@@ -299,11 +433,10 @@
       "facilitator": {
         "ask": "Which part would matter most if it were wrong?",
         "notice": [
-          "Listen for a specific claim and its consequence. If useful, invite the team to select a concrete sentence. Fluent wording is not evidence of accuracy."
+          "Understand how they intend to use the result. Checking everything is not automatically necessary."
         ],
         "follow_ups": [
-          "How could you check that independently?",
-          "What would you do if you could not check it today?"
+          "What evidence would be enough for that use?"
         ],
         "try_invitation": "Would it help to check one claim together?",
         "try_notice": [
@@ -314,32 +447,57 @@
           "What remains unverified?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could identify important claims, locate supporting material, or help run suitable checks. Look for actual evidence, not another confident answer."
       }
     },
     {
-      "card_id": "tg-021", "revision": 1, "theme": "verify", "title": "FOLLOW THE SOURCE",
+      "card_id": "tg-021",
+      "revision": 1,
+      "theme": "verify",
+      "title": "FOLLOW THE SOURCE",
       "action": "Open one cited source. Check that it exists and supports the actual claim.",
       "question": "Does this source support these words, or only a nearby topic?",
       "activity": "Inspect an original cited source, including its context and applicability. Compare it with the exact claim. If unavailable, mark the claim unverified; do not accept a convincing-looking citation alone.",
       "ai_prompt": "Using only this supplied source excerpt: [excerpt], assess support for this claim: [claim]. Separate supported, unsupported and uncertain parts. Do not invent missing source content.",
-      "minutes": 4, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-022", "revision": 1, "theme": "verify", "title": "FIND THE EXCEPTION",
+      "card_id": "tg-022",
+      "revision": 1,
+      "theme": "verify",
+      "title": "FIND THE EXCEPTION",
       "action": "Look for a counterexample before treating an attractive claim as a rule.",
       "question": "What plausible case would make this claim fail?",
       "activity": "Rewrite the claim so it can be checked. Suggest a counterexample and test it against supplied evidence or a safe direct check. If it fails, narrow the claim; if it survives, do not call that proof.",
       "ai_prompt": "For this claim: [claim], suggest a plausible counterexample and what evidence would test it. Clearly label hypothetical examples. Do not claim the test has been run.",
-      "minutes": 4, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-023", "revision": 1, "theme": "verify", "title": "MEASURE TWICE",
+      "card_id": "tg-023",
+      "revision": 1,
+      "theme": "verify",
+      "title": "MEASURE TWICE",
       "action": "Recheck one number with a calculator or code. Include units and assumptions.",
       "question": "Are the inputs, units and calculation all correct?",
       "activity": "Select a consequential number. Trace its inputs, recalculate independently using a calculator or code, and check units and rounding. A matching calculation cannot rescue unreliable inputs.",
       "ai_prompt": "For this numerical claim: [claim], list the inputs, units, assumptions and calculation needed for an independent check. Mark missing inputs. Do not claim calculator verification unless a tool was actually used.",
-      "minutes": 4, "situation_tags": ["ai-sounds-convincing"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "ai-sounds-convincing"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-024",
@@ -365,16 +523,22 @@
       }
     },
     {
-      "card_id": "tg-008", "revision": 1, "theme": "reflect", "title": "LEAVE MARKERS",
+      "card_id": "tg-008",
+      "revision": 1,
+      "theme": "reflect",
+      "title": "LEAVE MARKERS",
       "action": "Save a useful prompt. Explain why it helped.",
       "question": "Which part of this prompt made the result more useful?",
       "activity": "Save a sanitized prompt in an approved team workspace. Note the task, the useful instruction and where it might not transfer. Team Trail can mark the card used; it is not a free-text prompt notebook.",
       "ai_prompt": "Review this sanitized prompt and result: [prompt and result]. Suggest which instruction may have helped and where reuse may fail. Label causal explanations as hypotheses, not established facts.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-011",
-      "revision": 3,
+      "revision": 4,
       "theme": "reflect",
       "title": "MAKE CAMP",
       "action": "Summarize progress, open questions, and the next step.",
@@ -397,13 +561,12 @@
         }
       },
       "facilitator": {
-        "ask": "What changed in your approach after that attempt?",
+        "ask": "What did you notice in that attempt?",
         "notice": [
-          "Listen for a concrete observation or adjustment, including one prompted by an unsuccessful attempt. The team may not have enough evidence to name a lesson yet."
+          "Leave room for uncertainty or no change. They do not have to produce a lesson."
         ],
         "follow_ups": [
-          "What surprised you?",
-          "What would you try next time?"
+          "What do you make of that?"
         ],
         "try_invitation": "Would a short progress-and-next-step summary help?",
         "try_notice": [
@@ -414,20 +577,27 @@
           "What is the next useful step?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could help organize their observations and open questions into a short summary they can correct and carry forward."
       }
     },
     {
-      "card_id": "tg-025", "revision": 1, "theme": "reflect", "title": "SURPRISE ON THE TRAIL",
+      "card_id": "tg-025",
+      "revision": 1,
+      "theme": "reflect",
+      "title": "SURPRISE ON THE TRAIL",
       "action": "Compare what you expected with what happened. Name one surprise.",
       "question": "What surprised us enough to change our understanding?",
       "activity": "Each person may name an expectation and an observation, with passing allowed. Separate what happened from your explanation for it. Choose one uncertainty to investigate rather than forcing a lesson.",
       "ai_prompt": "From these sanitized observations: [observations], separate expected result, observed result and possible explanations. Keep explanations tentative and propose one question for further investigation.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-026",
-      "revision": 2,
+      "revision": 3,
       "theme": "reflect",
       "title": "KEEP OR ADAPT",
       "action": "Name one move to keep, one to change and one thing you still cannot conclude.",
@@ -446,35 +616,91 @@
           "codex": "Ask Codex for a read-only diff review. A second review is additional scrutiny, not independent proof of correctness.",
           "claude_code": "Ask Claude Code for a read-only diff review. If comparing with another agent, preserve the same diff and acceptance criteria."
         }
+      },
+      "facilitator": {
+        "try_invitation": "Would it help to review one attempt together?",
+        "try_notice": [
+          "Notice useful moves, possible adjustments and limits of the evidence. Avoid inferring why something worked."
+        ],
+        "try_follow_ups": [
+          "What would you keep, adjust, or leave uncertain?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft",
+        "ask": "What is working well that you would like to keep?",
+        "notice": [
+          "Make room for useful progress, not only problems. Avoid assuming you know why something worked."
+        ],
+        "follow_ups": [
+          "What makes that worth repeating?"
+        ],
+        "optional_ai_help": "AI could help organize observations into something to keep, something to adjust, and what remains uncertain."
       }
     },
     {
-      "card_id": "tg-027", "revision": 1, "theme": "reflect", "title": "TEACH THE NEXT GUIDE",
+      "card_id": "tg-027",
+      "revision": 1,
+      "theme": "reflect",
+      "title": "TEACH THE NEXT GUIDE",
       "action": "Explain one useful lesson to a teammate in plain language. Invite a correction.",
       "question": "Could someone else use this lesson without our original context?",
       "activity": "One volunteer explains a technique using a synthetic example. A teammate restates it and asks a question; passing is welcome. Notice what needs clarification and revise the explanation together.",
       "ai_prompt": "Turn this lesson: [lesson], into a short explanation for a teammate, with a synthetic example and one limit. Avoid jargon and do not invent results we have not observed.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-007", "revision": 1, "theme": "unstick", "title": "TRAVEL LIGHT",
+      "card_id": "tg-007",
+      "revision": 1,
+      "theme": "unstick",
+      "title": "TRAVEL LIGHT",
       "action": "Try a fresh chat with only the essential context.",
       "question": "What is the smallest context someone needs to help us?",
       "activity": "Write a compact task brief with the goal, necessary constraints and one sanitized example. Start a fresh chat using that brief. Keep safety requirements; do not drop essential context merely to shorten it.",
       "ai_prompt": "Help with [goal]. Necessary constraints: [constraints]. Sanitized example: [example]. Ask about missing essentials rather than guessing. Begin with one next step.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-012", "revision": 1, "theme": "unstick", "title": "CHANGE COURSE",
+      "card_id": "tg-012",
+      "revision": 2,
+      "theme": "unstick",
+      "title": "CHANGE COURSE",
       "action": "Ask AI for the strongest argument against your plan.",
       "question": "What would a thoughtful critic challenge first?",
       "activity": "Describe the plan and ask for a substantive objection, not an attack on people. Identify which concern has evidence and which is hypothetical. Choose whether it calls for a change or a test.",
       "ai_prompt": "Give the strongest good-faith objection to this plan: [plan]. Separate evidence from assumptions and suggest a low-risk way to investigate the concern. Critique the plan, not the people.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": true, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": true,
+      "review_state": "draft",
+      "facilitator": {
+        "try_invitation": "Would it help to explore a good-faith objection?",
+        "try_notice": [
+          "Distinguish evidence from assumptions. An objection need not mean the plan should change."
+        ],
+        "try_follow_ups": [
+          "Does this call for a change, a test, or no change?"
+        ],
+        "review_state": "draft",
+        "try_review_state": "draft",
+        "ask": "What concerns, if any, do you have about this plan?",
+        "notice": [
+          "Leave room for “none.” A different perspective is an invitation, not proof that their plan is flawed."
+        ],
+        "follow_ups": [
+          "What would help you explore that concern?"
+        ],
+        "optional_ai_help": "AI could offer a strong, good-faith objection, separating evidence from assumptions. They decide whether it warrants a change or a test."
+      }
     },
     {
       "card_id": "tg-028",
-      "revision": 2,
+      "revision": 3,
       "theme": "unstick",
       "title": "NAME THE BLOCKER",
       "action": "Decide whether you lack information, a decision or a workable next action.",
@@ -489,13 +715,12 @@
       "legacy_v1": false,
       "review_state": "draft",
       "facilitator": {
-        "ask": "Where did progress stop?",
+        "ask": "What have you tried so far?",
         "notice": [
-          "Listen for task ambiguity, tool friction or a choice the team has not resolved. Ask rather than diagnosing motivation or ability."
+          "Hear their account before naming a blocker or proposing a fix."
         ],
         "follow_ups": [
-          "What is missing for one small next step?",
-          "What could you set aside for now?"
+          "What were you hoping would happen?"
         ],
         "try_invitation": "Would it help to name the blocker before making more ideas?",
         "try_notice": [
@@ -506,28 +731,49 @@
           "What action would address that blocker?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could help explore their account, clarify a missing piece, or suggest another approach—without deciding the problem for them.",
+        "conditional_follow_ups": [
+          {
+            "when": "When they describe an unhelpful output",
+            "question": "What part felt least useful?"
+          }
+        ]
       }
     },
     {
-      "card_id": "tg-029", "revision": 1, "theme": "unstick", "title": "SHRINK THE CLIMB",
+      "card_id": "tg-029",
+      "revision": 1,
+      "theme": "unstick",
+      "title": "SHRINK THE CLIMB",
       "action": "Replace the whole problem with one useful piece you can finish now.",
       "question": "What is the smallest piece that would still move us forward?",
       "activity": "Write the full task, then cross out everything not needed for one useful output. Pick a small deliverable, not a vague intention. Agree what done means and stop when it is met.",
       "ai_prompt": "Break this task: [task], into a smallest useful deliverable we can finish in five minutes. Give a clear done condition and what is deliberately out of scope. Do not omit essential safety checks.",
-      "minutes": 5, "situation_tags": ["out-of-time"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 5,
+      "situation_tags": [
+        "out-of-time"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-030", "revision": 1, "theme": "unstick", "title": "CHANGE THE MEDIUM",
+      "card_id": "tg-030",
+      "revision": 1,
+      "theme": "unstick",
+      "title": "CHANGE THE MEDIUM",
       "action": "Stop editing the prompt. Sketch, sort or act out the problem instead.",
       "question": "What becomes clearer if we step away from the chat window?",
       "activity": "Choose paper, spoken explanation or movable notes. Represent the problem without AI for two minutes, then name one thing you could not see in the chat. Return to AI only if it serves a clear next step.",
       "ai_prompt": "Suggest a two-minute, no-AI sketching or sorting activity for this generic challenge: [challenge]. Keep it accessible and offer a spoken alternative. Do not ask for confidential details.",
-      "minutes": 3, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-031",
-      "revision": 2,
+      "revision": 3,
       "theme": "include",
       "title": "QUIET FIRST",
       "action": "Give everyone quiet thinking time before discussion or AI suggestions.",
@@ -541,13 +787,12 @@
       "legacy_v1": false,
       "review_state": "draft",
       "facilitator": {
-        "ask": "What do you notice before seeing someone else's answer?",
+        "ask": "How is working together going for you?",
         "notice": [
-          "Give people time to think before inviting responses. Silence does not tell you whether someone understands, agrees or wants to speak."
+          "Do not interpret quietness. Leave room for different experiences and ways of contributing."
         ],
         "follow_ups": [
-          "Would thinking alone or in pairs first help?",
-          "What is another way you could contribute?"
+          "Is there anything you’d like to do differently?"
         ],
         "try_invitation": "Would a quiet minute before sharing help?",
         "try_notice": [
@@ -558,32 +803,55 @@
           "What distinct ideas should the team keep in view?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "Offer quiet thinking, drawing, pairs, or passing. AI could later help organize voluntarily shared ideas without ranking people or inventing agreement."
       }
     },
     {
-      "card_id": "tg-032", "revision": 1, "theme": "include", "title": "MAKE ROOM",
+      "card_id": "tg-032",
+      "revision": 1,
+      "theme": "include",
+      "title": "MAKE ROOM",
       "action": "Offer each person a turn, with an explicit option to pass or contribute another way.",
       "question": "What would you like to add, question or pass on?",
       "activity": "Invite a brief round without interruptions. State that passing is welcome and private or paired contributions are alternatives. Reflect back ideas without attaching judgments to who spoke or stayed quiet.",
       "ai_prompt": "Suggest a neutral invitation for a short discussion round about [generic topic]. Explicitly allow passing and written or paired alternatives. Do not pressure anyone to explain why they pass.",
-      "minutes": 4, "situation_tags": ["nobodys-talking"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "nobodys-talking"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-033", "revision": 1, "theme": "include", "title": "PAIR BEFORE PLENARY",
+      "card_id": "tg-033",
+      "revision": 1,
+      "theme": "include",
+      "title": "PAIR BEFORE PLENARY",
       "action": "Let people test an idea with a partner before offering it to the whole team.",
       "question": "What feels easier to explore in a pair first?",
       "activity": "Offer pairs, solo reflection or a small group. Give a simple question and time to think. Invite volunteers to share a point, with permission before sharing a partner's contribution.",
       "ai_prompt": "For this generic topic: [topic], propose one clear pair-discussion question and a solo alternative. Keep the question low-pressure and do not request personal disclosures.",
-      "minutes": 4, "situation_tags": ["nobodys-talking"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "nobodys-talking"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-034", "revision": 1, "theme": "include", "title": "MISSING VOICE",
+      "card_id": "tg-034",
+      "revision": 1,
+      "theme": "include",
+      "title": "MISSING VOICE",
       "action": "Name an affected perspective that is absent. Record a question, not an invented answer.",
       "question": "Who might be affected but is not represented in this discussion?",
       "activity": "Name an absent role or access need without naming a person. Write a question for someone with that perspective and mark related assumptions untested. AI role-play cannot substitute for their participation.",
       "ai_prompt": "For this idea: [idea], suggest potentially affected roles and questions to ask them. Do not speak on their behalf, infer demographic preferences or present simulated responses as actual feedback.",
-      "minutes": 4, "situation_tags": [], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-035",
@@ -612,7 +880,7 @@
     },
     {
       "card_id": "tg-036",
-      "revision": 3,
+      "revision": 4,
       "theme": "decide",
       "title": "CHOOSE THE COMPASS",
       "action": "Agree on two criteria before comparing options.",
@@ -637,11 +905,10 @@
       "facilitator": {
         "ask": "What matters most in choosing your next step?",
         "notice": [
-          "Listen for criteria tied to the intended outcome and for unresolved trade-offs. Keep safety or policy constraints separate from preferences."
+          "Let them choose what matters; do not substitute your own priorities."
         ],
         "follow_ups": [
-          "Which trade-off are you willing to accept?",
-          "What evidence would change your choice?"
+          "What tradeoff are you willing to accept?"
         ],
         "try_invitation": "Would agreeing on two criteria help you compare options?",
         "try_notice": [
@@ -652,16 +919,25 @@
           "What is still unknown before you choose?"
         ],
         "review_state": "draft",
-        "try_review_state": "draft"
+        "try_review_state": "draft",
+        "optional_ai_help": "AI could compare options using their criteria and available evidence, leaving unknowns visible. The decision remains theirs."
       }
     },
     {
-      "card_id": "tg-037", "revision": 1, "theme": "decide", "title": "TWO TRAILS",
+      "card_id": "tg-037",
+      "revision": 1,
+      "theme": "decide",
+      "title": "TWO TRAILS",
       "action": "Shortlist two options. Name what you gain and give up with each.",
       "question": "Which trade-off are we actually willing to accept?",
       "activity": "Use agreed criteria to narrow the list to two plausible options. For each, name a benefit, a cost and an uncertainty. Check dissenting concerns before choosing; do not keep generating alternatives by default.",
       "ai_prompt": "For these two options: [options], summarize a benefit, a cost and an uncertainty for each using [supplied evidence]. Do not add unsupported facts or choose on behalf of the team.",
-      "minutes": 4, "situation_tags": ["too-many-ideas"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 4,
+      "situation_tags": [
+        "too-many-ideas"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
       "card_id": "tg-038",
@@ -690,20 +966,36 @@
       }
     },
     {
-      "card_id": "tg-039", "revision": 1, "theme": "decide", "title": "NAME THE OWNER",
+      "card_id": "tg-039",
+      "revision": 1,
+      "theme": "decide",
+      "title": "NAME THE OWNER",
       "action": "Turn the choice into one next action with an agreed owner and a done condition.",
       "question": "Who has agreed to do what, and how will we know it is done?",
       "activity": "State the next action plainly. Invite an owner to agree, define the visible result and identify any needed permission. Put follow-up details in an approved team workspace; Team Trail does not yet store free-text commitments.",
       "ai_prompt": "Turn this sanitized decision: [decision], into a proposed next-action statement with placeholders for owner, done condition and required permission. Do not assign people or invent their agreement.",
-      "minutes": 3, "situation_tags": ["out-of-time"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "out-of-time"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     },
     {
-      "card_id": "tg-040", "revision": 1, "theme": "decide", "title": "CLOSE THE LOOP",
+      "card_id": "tg-040",
+      "revision": 1,
+      "theme": "decide",
+      "title": "CLOSE THE LOOP",
       "action": "Say what you chose, why, and what new evidence would make you revisit it.",
       "question": "Can everyone tell what was decided and what is still open?",
       "activity": "Summarize the choice and its rationale in plain language. Invite correction, surface unresolved concerns and name a reconsideration trigger. Distinguish an agreed decision from a proposal awaiting permission.",
       "ai_prompt": "Using these sanitized notes: [notes], draft a decision summary with rationale, open concerns and a reconsideration trigger. Mark proposals separately from agreed decisions. Do not infer consensus from silence.",
-      "minutes": 3, "situation_tags": ["out-of-time"], "legacy_v1": false, "review_state": "draft"
+      "minutes": 3,
+      "situation_tags": [
+        "out-of-time"
+      ],
+      "legacy_v1": false,
+      "review_state": "draft"
     }
   ]
 }

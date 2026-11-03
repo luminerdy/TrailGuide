@@ -1,6 +1,6 @@
 # V3 experience study — shake, discover, reveal
 
-Current hardware: **v3-0.1.6 DRAFT** recovery correction is installed and startup/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Plain compass/touch were reported working. Corrected physical flip/card-only timing remain pending. Positive finite USB logging budget is retained; reader-closed compass/sample progress was verified. Earlier diagnostic/browser sections keep their historical scope.
+Current hardware: **v3-0.1.8 DRAFT** is installed and startup/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). The approved twelve-card content and complete delayed-retrieval RAM recorder are integrated. Actual target draw/reveal/hold passed under explicit synthetic detector-state injection; physical flip remains unresolved. Earlier diagnostic/browser sections retain their historical scope.
 
 Status: endorsed interaction direction; separate browser experience study, not V3 firmware or physical shake verification. Canonical requirements: [P-20](PRODUCT-SPEC.md#p-20-v3-playful-idea-draw-and-gradual-reveal), [V3 hardware contract](V3-SPEC.md) and [shared Ask/Try contract](FACILITATOR-MODES.md). The existing [full-flow round preview](../prototype/index.html) remains separate and unchanged.
 

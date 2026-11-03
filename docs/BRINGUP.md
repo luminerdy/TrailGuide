@@ -2,13 +2,20 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 approved twelve-card integration — v3-0.1.8
+
+- Exact twelve endorsed openings/cues/follow-ups/help integrated into existing canonical IDs;12 revisions advance once, 28 other records unchanged and all scopes draft. Two documented 003/014 activity clarifications preserve genuine AI-assisted evidence checking and a complete human-only option. V3 bags derive count 12; V2/browser source pools remain 8; no V2/V1 hardware update.
+- Four generator freshness checks, 45 isolated Python checks, actual LVGL 48 contexts/179 complete pages, six-second reveal/five-second hold, expanded fair bags, legacy RNG, SDK positive budget and recorder/differential regressions pass. Independent content and merged reviews PASS. Prior 1.6/1.7 installed artifacts preserved.
+- Actual build 645,507 program / 128,184 globals; app 645,648 bytes. Source/current-prepared headers, image/slot/hash/components/originals and fresh same-board identity validated; app-only write/hash and exact startup/UI/buses/real IMU readback passed.
+- On actual target, explicitly synthetic detector-state injection completed return and selected tg-004; live ROM opening exactly matches the endorsed question. Real render/hold/restoration state completed; full 1,904-row/76,160-byte CRC f09b5d32 recorder export contains exactly one synthetic trigger, no read errors/clips. No human flip or physical pixel acceptance inferred. Evidence exported, then intentional reset returned Home/index-1/compass; all monitors closed. Private proof: `build/v3-0.1.8/`.
+
 ## V3 bounded poll recorder — v3-0.1.7
 
 - Diagnostic-only PSRAM capture, default OFF, fixed 2304×40 bytes and 45-second bound; no card/model/threshold/reveal changes. Single RX parser, finite positive USB budget and bounded CRC/session/token dump retain evidence without a live reader. Raw invalid/clipped values are diagnostic only, never valid published samples.
 - Actual LVGL ASan/UBSan, SDK budget regression, 12,000 differential driver/detector steps and 42 isolated Python checks pass. Numeric-parser review blocker was reproduced then fixed with strict decimal checked uint32 parsing; targeted independent review PASS. All 2697 installed v1.6 files/inventory preserved.
 - Actual build 640,967 program/128,176 globals; app 641,120 bytes. Fresh target/backup/image/hash/source/compatible-component gates and app-only write/hash verified; exact startup/UI/actual IMU verified.
 - Fresh RECORD session acknowledged nonzero polls; reader closed 46seconds, then actual fetch/verify recovered 1,969 records / 78,760 bytes with full CRC32 d799012b and no reset. Every unattended baseline row valid/eligible/Ready, zero read errors/clips/resets, poll gaps 20–36ms. No scripted human motion: physical flip remains unresolved. Recorder frozen and reader closed.
-- Private proof:`build/v3-0.1.7/`; [V3-TRIAL.md](V3-TRIAL.md) contains current protocol/build boundaries. Approved 12-card overlay is not yet installed.
+- Private proof: `build/v3-0.1.7/`; [V3-TRIAL.md](V3-TRIAL.md) contains current protocol/build boundaries. Approved 12-card overlay is not yet installed.
 
 ## V3 opposed-reference recovery correction — v3-0.1.6
 

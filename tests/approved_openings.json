@@ -1,0 +1,93 @@
+{
+  "cards": [
+    [
+      "tg-002",
+      "What are you hoping to accomplish?",
+      "Let them define the goal before discussing tools or solutions.",
+      "What would a useful result let you do?",
+      "AI could help clarify the task or explain an unfamiliar part, one question at a time."
+    ],
+    [
+      "tg-001",
+      "What different approaches have you considered?",
+      "Explore their thinking before adding another option.",
+      "What appeals to you about those approaches?",
+      "AI could suggest contrasting approaches, explaining the assumptions and tradeoffs—not just variations of the same idea."
+    ],
+    [
+      "tg-004",
+      "What would be useful to learn from your next attempt?",
+      "Stay with what they want to discover, rather than choosing the experiment for them.",
+      "What could you try that would help you find out?",
+      "AI could help plan or build a small, reversible test, with an observable result and a stopping point."
+    ],
+    [
+      "tg-003",
+      "Which part would matter most if it were wrong?",
+      "Understand how they intend to use the result. Checking everything is not automatically necessary.",
+      "What evidence would be enough for that use?",
+      "AI could identify important claims, locate supporting material, or help run suitable checks. Look for actual evidence, not another confident answer."
+    ],
+    [
+      "tg-011",
+      "What did you notice in that attempt?",
+      "Leave room for uncertainty or no change. They do not have to produce a lesson.",
+      "What do you make of that?",
+      "AI could help organize their observations and open questions into a short summary they can correct and carry forward."
+    ],
+    [
+      "tg-028",
+      "What have you tried so far?",
+      "Hear their account before naming a blocker or proposing a fix.",
+      "What were you hoping would happen?",
+      "AI could help explore their account, clarify a missing piece, or suggest another approach—without deciding the problem for them."
+    ],
+    [
+      "tg-031",
+      "How is working together going for you?",
+      "Do not interpret quietness. Leave room for different experiences and ways of contributing.",
+      "Is there anything you’d like to do differently?",
+      "Offer quiet thinking, drawing, pairs, or passing. AI could later help organize voluntarily shared ideas without ranking people or inventing agreement."
+    ],
+    [
+      "tg-036",
+      "What matters most in choosing your next step?",
+      "Let them choose what matters; do not substitute your own priorities.",
+      "What tradeoff are you willing to accept?",
+      "AI could compare options using their criteria and available evidence, leaving unknowns visible. The decision remains theirs."
+    ],
+    [
+      "tg-010",
+      "What makes this example useful for what you want to do?",
+      "Explore usefulness rather than polish. They may value something you would overlook.",
+      "Which qualities would you want to carry into your own work?",
+      "AI could explain those qualities, then demonstrate applying them to a small new example—without copying unnecessary details."
+    ],
+    [
+      "tg-012",
+      "What concerns, if any, do you have about this plan?",
+      "Leave room for “none.” A different perspective is an invitation, not proof that their plan is flawed.",
+      "What would help you explore that concern?",
+      "AI could offer a strong, good-faith objection, separating evidence from assumptions. They decide whether it warrants a change or a test."
+    ],
+    [
+      "tg-014",
+      "How would you approach this without AI?",
+      "Keeping that approach is a complete, legitimate outcome.",
+      "What do you like about doing it that way?",
+      "Compare human-only, AI-assisted, and hybrid approaches—including preparation, checking, corrections, and learning value—not just generation speed."
+    ],
+    [
+      "tg-026",
+      "What is working well that you would like to keep?",
+      "Make room for useful progress, not only problems. Avoid assuming you know why something worked.",
+      "What makes that worth repeating?",
+      "AI could help organize observations into something to keep, something to adjust, and what remains uncertain."
+    ]
+  ],
+  "conditional_follow_up": {
+    "card_id": "tg-028",
+    "when": "When they describe an unhelpful output",
+    "question": "What part felt least useful?"
+  }
+}

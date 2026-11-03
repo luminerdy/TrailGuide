@@ -15,7 +15,7 @@ import tempfile
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.7/evidence'
+OUT=ROOT/'build/v3-0.1.8/evidence'
 
 def inventory(root):
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
@@ -24,7 +24,7 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     expected=json.loads((ROOT/'build/v3-motion-investigation/installed-v3-0.1.6-files.private.json').read_text())
     assert inventory(ROOT/'build/v3-0.1.6')==expected,'installed 1.6 baseline already changed'
-    sandbox=Path(tempfile.mkdtemp(prefix='trailguide-v3-1.7-',dir=os.environ['TMPDIR']))
+    sandbox=Path(tempfile.mkdtemp(prefix='trailguide-v3-1.8-',dir=os.environ['TMPDIR']))
     source=sandbox/'source';source.mkdir()
     for name in ('tools','tests','content','docs','prototype','trailguide_v2','trailguide_v3','trailguide_v3_bringup','oled_oracle'):
         shutil.copytree(ROOT/name,source/name,ignore=shutil.ignore_patterns('__pycache__','node_modules'))
@@ -41,9 +41,9 @@ def main():
     (seed/'imu').mkdir()
     shutil.copyfile(ROOT/'build/v3-s3-bringup/imu/preparation.json',seed/'imu/preparation.json')
     # Seed only the clearly synthetic C++ protocol fixture, not captured evidence.
-    fixture=ROOT/'build/v3-0.1.7/recorder.synthetic.wire'
+    fixture=ROOT/'build/v3-0.1.8/recorder.synthetic.wire'
     if fixture.exists():
-        (source/'build/v3-0.1.7').mkdir();shutil.copyfile(fixture,source/'build/v3-0.1.7'/fixture.name)
+        (source/'build/v3-0.1.8').mkdir();shutil.copyfile(fixture,source/'build/v3-0.1.8'/fixture.name)
     (sandbox/'tmp').mkdir()
     env={**os.environ,'TMPDIR':os.environ['TMPDIR'],'PYTHONHASHSEED':'17'}
     result=subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-p','*_test.py','-v'],cwd=source,env=env,capture_output=True,text=True,timeout=600)

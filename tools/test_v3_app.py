@@ -8,14 +8,14 @@ import sys
 from prepare_v3 import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.7/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.7/host'
+LVGL = ROOT / 'build/v3-0.1.8/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.8/host'
 
 
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.7/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.8/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
@@ -45,6 +45,12 @@ def main():
     subprocess.run(['g++', '-std=c++17', '-Wall', '-Wextra', '-Werror', *flags,
                     '-I'+str(Path(manifest['sketch'])), str(ROOT/'tests/v3_app_ui_test.cpp'), *objects, '-Wl,--wrap=lv_timer_create', '-lm', '-o', str(exe)], check=True)
     subprocess.run([str(exe)], cwd=ROOT, check=True, timeout=180)
+    content_frames = OUT.parent/'content-frames'
+    content_frames.mkdir(parents=True, exist_ok=True)
+    content_exe = OUT/'v3-content-ui-test'
+    subprocess.run(['g++', '-std=c++17', '-Wall', '-Wextra', '-Werror', *flags,
+                    str(ROOT/'tests/v3_content_ui_test.cpp'), *objects, '-lm', '-o', str(content_exe)], check=True)
+    subprocess.run([str(content_exe), str(content_frames)], cwd=ROOT, check=True, timeout=180)
     motion_start=sketch_source.index('  motionDiagnostics.service(Serial,now);')
     motion_end=sketch_source.index('    if (!motionDiagnostics.active() && !motionDiagnostics.draining() && before == v3::ImuState::Probing',motion_start)
     (OUT/'startup_motion_generated.h').write_text(sketch_source[motion_start:motion_end]+'    (void)before;\n  }\n')

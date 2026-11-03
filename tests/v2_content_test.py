@@ -62,7 +62,7 @@ class V2ContentTest(unittest.TestCase):
             self.assertNotIn('\n\nSay\n', ask)
             self.assertLess(move.index(c['activity']), move.index(c['facilitator']['try_invitation']))
             for text in [*(module.notice_cue(t) for t in c['facilitator']['notice']), *c['facilitator']['follow_ups']]:
-                self.assertIn(text, ask)
+                self.assertIn(module.display_copy(text), ask)
             for text in [*(module.notice_cue(t) for t in c['facilitator']['try_notice']), *c['facilitator']['try_follow_ups']]:
                 self.assertIn(text, move)
             if c['action'] != c['activity']:
@@ -91,7 +91,7 @@ class V2ContentTest(unittest.TestCase):
             for text in [card_id, c['title'], c['action'], c['facilitator']['ask']]:
                 self.assertIn(json.dumps(text), result)
             for text in [c['activity'], c['facilitator']['try_invitation'], *(module.notice_cue(t) for t in c['facilitator']['notice']), *c['facilitator']['follow_ups'], *(module.notice_cue(t) for t in c['facilitator']['try_notice']), *c['facilitator']['try_follow_ups']]:
-                self.assertIn(json.dumps(text)[1:-1], result)
+                self.assertIn(json.dumps(module.display_copy(text))[1:-1], result)
         self.assertEqual(8, len(module.IDS))
         self.assertIn('DRAFT', result)
         self.assertEqual(result, (ROOT / 'trailguide_v2/cards_generated.h').read_text())

@@ -57,8 +57,8 @@ class Gesture {
   d.alignment=d.magnitude>0?dot(origin,s.acc_g)/d.magnitude:0;
   return d;
  }
- // Preserve reference across cancellation: never learn an inverted/active pose
- // as the next origin. Also preserve freshness and cooldown across UI resets.
+ // Preserve reference across cancellation until a fresh eligible recovery hold
+ // qualifies. Active cycles never rebase. Keep freshness/cooldown across resets.
  void reset(){phase=haveOrigin ? Phase::Recover : Phase::Acquire;clearDwell();}
  bool consume(const v3::ImuSample &s,uint32_t now,bool eligible){
   if(!eligible){reset();seen=true;last=s.at_ms;return false;}
@@ -94,13 +94,13 @@ class Gesture {
   }
   const float alignment=dot(origin,unit);
   if(phase==Phase::Recover){
-   // Ordinary handling can settle into a new reference after cancellation or
-   // timeout, but not near inversion (alignment <= -0.5) or during a cycle.
-   if(alignment>-.5f){
-    if(hold(unit,s.at_ms,alignment>=.94f ? RestMs : RebaseMs)){
-     copy(origin,held);phase=Phase::Ready;clearDwell();
-    }
-   }else clearDwell();
+   // Cancellation ends the old cycle. A stable eligible held pose may become
+   // the new reference even opposite the old one: vetoing inversion here can
+   // lock Recover forever. Preserve the old origin until the longer rebase
+   // qualifies; reacquisition itself never completes a gesture or draws.
+   if(hold(unit,s.at_ms,alignment>=.94f ? RestMs : RebaseMs)){
+    copy(origin,held);phase=Phase::Ready;cycleAt=0;clearDwell();
+   }
    return false;
   }
   if(phase==Phase::Ready){

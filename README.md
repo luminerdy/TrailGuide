@@ -36,7 +36,7 @@ The pitch above describes the intended direction, not a shipped coaching system.
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.8 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Plain compass; flip draws; tap opens Options; six-second reveal then five-second card-only hold | v3-0.1.5 diagnostic DRAFT installed and boot/UI/IMU verified; compass/menu physically confirmed; current flip failing under investigation; card-only timing unaccepted; no saving or V3 OTA |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Plain compass; flip draws; tap opens Options; six-second reveal then five-second card-only hold | v3-0.1.6 DRAFT installed and boot/UI/IMU verified; compass/menu physically confirmed; recovery correction installed; physical flip/card-only timing check pending; no saving or V3 OTA |
 
 ## Mentoring first; hardware alongside
 

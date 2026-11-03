@@ -8,14 +8,14 @@ import sys
 from prepare_v3 import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.5/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.5/host'
+LVGL = ROOT / 'build/v3-0.1.6/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.6/host'
 
 
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.5/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.6/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
@@ -52,6 +52,10 @@ def main():
     subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
                     '-I'+str(OUT),'-I'+str(Path(manifest['sketch'])),str(ROOT/'tests/v3_app_motion_integration_test.cpp'),*objects,'-lm','-o',str(integration)],check=True)
     subprocess.run([str(integration)],cwd=ROOT,check=True,timeout=180)
+    recovery=OUT/'v3-app-recovery-test'
+    subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
+                    '-I'+str(Path(manifest['sketch'])),str(ROOT/'tests/v3_app_recovery_test.cpp'),*objects,'-lm','-o',str(recovery)],check=True)
+    subprocess.run([str(recovery)],cwd=ROOT,check=True,timeout=180)
     for name in ('model','gesture','imu','motion'):
         binary=OUT/('v3-app-'+name+'-test')
         subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,str(ROOT/('tests/v3_app_'+name+'_test.cpp')),'-o',str(binary)],check=True)

@@ -1,6 +1,6 @@
 # V3 experience study — shake, discover, reveal
 
-Current hardware: **v3-0.1.3 DRAFT** plain-compass/card-only trial is installed and boot/UI/IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). The earlier answer animation and v3-0.1.2 flip were reported working; their implementations are unchanged. New plain-compass appearance and five-second settled card-only timing await physical review. Earlier diagnostic/browser sections below retain their separate historical scope.
+Current hardware: **v3-0.1.6 DRAFT** recovery correction is installed and startup/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Plain compass/touch were reported working. Corrected physical flip/card-only timing remain pending. Positive finite USB logging budget is retained; reader-closed compass/sample progress was verified. Earlier diagnostic/browser sections keep their historical scope.
 
 Status: endorsed interaction direction; separate browser experience study, not V3 firmware or physical shake verification. Canonical requirements: [P-20](PRODUCT-SPEC.md#p-20-v3-playful-idea-draw-and-gradual-reveal), [V3 hardware contract](V3-SPEC.md) and [shared Ask/Try contract](FACILITATOR-MODES.md). The existing [full-flow round preview](../prototype/index.html) remains separate and unchanged.
 

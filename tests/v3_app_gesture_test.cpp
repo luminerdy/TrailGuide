@@ -39,7 +39,7 @@ struct Trace {
 };
 static void heldCycle(){
  Trace f;f.rest();f.down();f.expect(0);f.rest(500);f.expect(1);
- f.down(5000);f.expect(1); // Holding down during cooldown must not rebase it.
+ f.down(5000);f.expect(1); // No draw from holding down, including cooldown and later recovery.
  f.rest(900);f.expect(1);f.cycle();f.expect(2);
 }
 static void axesAndCadences(){
@@ -81,7 +81,7 @@ static void cancelAndRearm(){
   if(phase>=2)f.down();
   if(phase>=3){f.arc(true);f.rest(60);}
   if(reset)f.d.reset();else f.tick(scaled(f.up,-1),2.2f,false);
-  f.down(1800);f.rest();f.expect(0); // Cancellation must not adopt the inverted pose.
+  f.down(1800);f.rest();f.expect(0); // Recovery may rebase; returning once is not a new complete cycle.
   f.cycle();f.expect(1);
  }
  Trace f;f.rest();f.cycle();f.expect(1);f.d.reset();f.rest();f.cycle();f.expect(1);
@@ -119,7 +119,73 @@ static void badFrames(){
  Trace wrap;wrap.t=0xfffffc00u;wrap.rest();wrap.cycle();wrap.expect(1);
  wrap.d.reset();wrap.rest(4000);wrap.cycle();wrap.expect(2);
 }
+// SYNTHETIC regression for the observed Recover lock, NOT recorded user data.
+// Rounded near-opposed gravity with bounded bias; raw capture remains private.
+static void opposedRecover(){
+ Trace f;f.rest();f.d.reset();const Vec old=f.up;
+ f.up={.025f,.05f,-.99f};
+ f.rest(1200);f.expect(0);
+ auto d=f.d.diagnostic(f.sample(f.up),f.t);
+ assert(d.phase==4 && d.origin[2]==old.z); // Reference retained until qualified.
+ f.tick(f.up);f.expect(0);d=f.d.diagnostic(f.sample(f.up),f.t);
+ assert(d.phase==1 && !d.dwelling && d.origin[2]<-.98f);
+ f.cycle();f.expect(1);
+}
+static void recoveryGuards(){
+ // Rebase alone, old-origin return alone and partial return never draw.
+ Trace f;f.rest();f.down();f.d.reset();f.down(1400);f.expect(0);
+ assert(f.d.diagnostic(f.sample(scaled(f.up,-1)),f.t).phase==1);
+ f.rest(500);f.expect(0);f.pose({.8f,0,-.6f},700);f.expect(0);
+ f.down(500);f.expect(1); // Only the whole opposition-return from NEW origin.
+ // Single-frame/tap-style cancellation cannot preserve active-cycle dwell.
+ Trace tap;tap.rest();tap.down();tap.d.reset();tap.tick(scaled(tap.up,-1));
+ tap.d.reset();tap.rest();tap.expect(0);tap.cycle();tap.expect(1);
+ // Neither long inversion in an active cycle nor timed-out held cancellation draws.
+ Trace held;held.rest();held.down(18000);held.expect(0);
+ held.rest(500);held.expect(0);held.down(500);held.expect(1);
+ // Existing cooldown remains 2500ms, and no baseline accrues within it.
+ Trace cool;cool.rest();cool.down(500);while(!cool.tick(cool.up)){}
+ const auto fired=cool.t;cool.d.reset();
+ while(cool.t-fired<2480)cool.tick(scaled(cool.up,-1));
+ auto d=cool.d.diagnostic(cool.sample(scaled(cool.up,-1)),cool.t);
+ assert(d.cooling && !d.dwelling && d.origin[2]==1);
+ cool.tick(scaled(cool.up,-1)); // Exactly +2500: START fresh 1200ms recovery.
+ cool.down(1180);cool.expect(1);
+ assert(cool.d.diagnostic(cool.sample(scaled(cool.up,-1)),cool.t).phase==4);
+ cool.tick(scaled(cool.up,-1));cool.expect(1);
+ assert(cool.d.diagnostic(cool.sample(scaled(cool.up,-1)),cool.t).phase==1);
+ // Interrupted baselines cannot accumulate. Each bad-frame kind splits a hold.
+ for(unsigned kind=0;kind<9;++kind){
+  Trace b;b.rest();b.d.reset();
+  for(unsigned n=0;n<8;++n){
+   b.down(700);b.t+=b.step;auto s=b.sample(scaled(b.up,-1));unsigned age=0;bool eligible=true;
+   switch(kind){
+    case 0:s.valid=false;break;
+    case 1:age=61;break;
+    case 2:s.at_ms-=b.step;break;
+    case 3:eligible=false;break;
+    case 4:s.acc_g[2]=-1.2f;break;
+    case 5:s.gyr_dps[0]=12;break;
+    case 6:s.acc_g[0]=std::numeric_limits<float>::quiet_NaN();break;
+    case 7:b.t+=251;s.at_ms=b.t;break;
+    case 8:s.acc_g[0]=.8f;s.acc_g[2]=-.6f;break;
+   }
+   assert(!b.send(s,age,eligible));
+   assert(b.d.diagnostic(s,b.t).origin[2]==1);
+  }
+  b.down(700);b.expect(0);assert(b.d.diagnostic(b.sample(scaled(b.up,-1)),b.t).phase==4);
+  b.down(540);b.expect(0);assert(b.d.diagnostic(b.sample(scaled(b.up,-1)),b.t).phase==1);
+  b.up=scaled(b.up,-1);b.cycle();b.expect(1);
+ }
+ // Repeated pose jitter with valid 1g/low gyro cannot acquire a reference.
+ Trace jitter;jitter.rest();jitter.d.reset();
+ for(unsigned n=0;n<200;++n)jitter.tick(n%2?Vec{.3f,0,-.9539392f}:Vec{-.3f,0,-.9539392f});
+ jitter.expect(0);auto j=jitter.d.diagnostic(jitter.sample(jitter.up),jitter.t);
+ assert(j.phase==4 && j.origin[2]==1 && j.dwellSamples==1);
+}
 int main(){
+ recoveryGuards();
+ opposedRecover();
  heldCycle();axesAndCadences();rejectsOrdinaryHandling();cancelAndRearm();badFrames();
  puts("PASS gesture: SYNTHETIC held flip/return, axes/sign/cadence/slow turns, handling, cancellation/rearm/cooldown, invalid/freshness/gaps/rollover; NOT PHYSICAL ACCEPTANCE");
 }

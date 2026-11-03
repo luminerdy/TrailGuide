@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-0.1.5/. The local ZIP
+All derived files stay in ignored build/v3-0.1.6/. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -11,7 +11,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-0.1.5'
+PRIVATE = ROOT / 'build/v3-0.1.6'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
@@ -22,7 +22,7 @@ def prepare(output=None):
     private = Path(output).resolve() if output is not None else PRIVATE.resolve()
     allowed = PRIVATE.resolve()
     if private != allowed and allowed not in private.parents:
-        raise ValueError('Output must be inside ignored build/v3-0.1.5')
+        raise ValueError('Output must be inside ignored build/v3-0.1.6')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')
@@ -102,6 +102,7 @@ def prepare(output=None):
                     'reject_bits': {'1': 'invalid', '2': 'age', '4': 'duplicate (UI skips healthy duplicate dispatch)', '8': 'gap', '16': 'nonfinite/clipped axis', '32': 'cooldown', '64': 'cycle timeout'},
                     'numeric_scales': 'e6 values /1000000; e3 values /1000; 2147483647 is nonfinite/conversion-overflow sentinel; integer-only formatting, no float printf',
                     'loss_evidence': 'bad/wait/phase/fire counters and last_bad time:before>after survive dropped lines; end=timeout summary'},
+                'recovery_policy': 'v3-0.1.6: Recover retains its old origin until fresh eligible stable rest qualifies; same-origin >=0.94 uses existing 600ms, all other directions including opposition use existing 1200ms; existing four-fresh-sample/stability/quality/freshness/cooldown/context gates apply; reacquisition clears old cycle/dwell and never draws. Ready/Turning/Inverted behavior unchanged.',
                 'runtime_compatibility': 'unverified; no upload performed'}
     (private / 'preparation.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return manifest

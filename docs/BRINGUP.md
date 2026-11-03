@@ -2,6 +2,14 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 opposed-reference recovery correction — v3-0.1.6
+
+- Coordinated v1.5 trace: 315 fresh valid/resting eligible rows stuck in Recover, gravity alignment about -0.989 to retained origin, no trigger. Recovery now permits a fresh stable opposed reference after existing 1200ms; same-origin 600ms remains. Reacquisition itself never draws; active phases/thresholds and all UI/content/renderer remain unchanged.
+- Old-code synthetic/private 315-row replay RED; corrected actual UI/Gesture/LVGL replay GREEN and subsequent synthetic whole flips exactly one draw. Existing false-positive/busy/nonqueue checks retained. Real LVGL ASan/UBSan, pinned SDK USB-budget regression and 38 isolated Python tests passed; independent review PASS. All 5,516 installed v1.5 files/inventory preserved.
+- S3 build 638,671 program/127,640 globals; app 638,816 bytes. Actual chip/hash/slot/source/originals/same-board identity and compatible components validated. App-only0x10000 write/hash verified; startup/UI/bus/real IMU and first healthy heartbeat read back. Large ordinary heartbeat fragments were not treated as complete records.
+- Reader closed for ten seconds: direct debug snapshots compass ticks 400→463, UI/sample timestamp 64623→74668ms, motion healthy/Ready and finite TX 1ms. Debugger briefly halted/read/resumed without reset/flash/memory-write commands. Monitors closed. Physical corrected full cycle and card-only timing remain pending. See [V3-TRIAL.md](V3-TRIAL.md); private evidence `build/v3-0.1.6/`.
+- Historical v1.4 diagnostic freeze was independently proved by actual GDB loopTask inside HWCDC::write after timeout 0 underflow. Finite positive setup/activation budget fixed this in v1.5 and is retained. This is separate from gesture recovery and not evidence of physical gesture success.
+
 ## V3 plain compass and settled card-only hold — v3-0.1.3
 
 - The prior v3-0.1.2 turn-over/back interaction was reported working on the physical device. Its detector/model/IMU/reveal/content remain unchanged. New Home has only a full-face rose centered (180,180), with tap-to-Options and safe-circle hit-testing; no instructions/buttons or idle draw.

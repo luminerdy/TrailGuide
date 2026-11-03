@@ -33,6 +33,8 @@ class Gesture {
   return dwellSamples>=4 && uint32_t(at-dwellAt)>=duration;
  }
  public:
+ // Presentation milestone only: never dispatches, resets or changes recognition.
+ bool qualifiedInverted()const{return phase==Phase::Inverted;}
  struct Diagnostic {
   unsigned phase=0,dwellSamples=0;uint32_t resets=0;uint8_t resetReason=0;
   bool haveOrigin=false,dwelling=false,seen=false,cooling=false,rest=false;

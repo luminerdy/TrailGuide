@@ -8,14 +8,14 @@ import sys
 from prepare_v3 import prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.10/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.10/host'
+LVGL = ROOT / 'build/v3-0.1.11/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.11/host'
 
 
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.10/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.11/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
@@ -45,6 +45,11 @@ def main():
     subprocess.run(['g++', '-std=c++17', '-Wall', '-Wextra', '-Werror', *flags,
                     '-I'+str(Path(manifest['sketch'])), str(ROOT/'tests/v3_app_ui_test.cpp'), *objects, '-Wl,--wrap=lv_timer_create', '-lm', '-o', str(exe)], check=True)
     subprocess.run([str(exe)], cwd=ROOT, check=True, timeout=180)
+    (OUT.parent/'turnover-frames').mkdir(exist_ok=True)
+    turnover = OUT/'v3-app-turnover-test'
+    subprocess.run(['g++', '-std=c++17', '-Wall', '-Wextra', '-Werror', *flags,
+                    '-I'+str(Path(manifest['sketch'])), str(ROOT/'tests/v3_app_turnover_test.cpp'), *objects, '-lm', '-o', str(turnover)], check=True)
+    subprocess.run([str(turnover)], cwd=ROOT, check=True, timeout=180)
     content_frames = OUT.parent/'content-frames'
     content_frames.mkdir(parents=True, exist_ok=True)
     content_exe = OUT/'v3-content-ui-test'

@@ -2,7 +2,7 @@
 
 ## Scope and measured identity
 
-Current hardware: **v3-0.1.10 DRAFT** is installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Wider supported gyro range and matched conversion/safety checks address the captured saturation. One natural turn-over-and-back is now human-confirmed with exactly one clean recorded trigger. Twelve-card content and bounded recorder are retained; repeated-use reliability remains open. Earlier diagnostic/browser sections retain their historical scope.
+Current hardware: **v3-0.1.11 DRAFT** is installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Qualified turnover blanks the prior scene; confirmed return runs the unchanged reveal/hold. One natural blank → card animation → controls sequence is human-confirmed with one clean recorded trigger. Working sensor settings, twelve-card content and bounded recorder are retained. Cancellation/restoration is native-tested; repeated-use and additional physical acceptance remain separate. Earlier sections retain their historical scope.
 
 - Re-enumerated one native Espressif USB JTAG/serial interface, USB VID/PID `303a:1001`. No process owned its serial node immediately before the probe. USB identity alone does not identify the board or chip.
 - Pinned esptool **4.11.0** measured **ESP32-S3 (QFN56), silicon revision v0.2**, a 40 MHz crystal and embedded **8 MB PSRAM (AP_3v3)**. This is a silicon feature report, not a runtime PSRAM memory test.

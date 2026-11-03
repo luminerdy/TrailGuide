@@ -2,7 +2,7 @@
 """Run every Python test in a seeded disposable source copy, never fallbacks.
 
 Only local pinned archive assets are seeded. No installs, target tools or serial.
-The isolated source copy is removed after the run; logs/hashes remain in 1.10 output.
+The isolated source copy is removed after the run; logs/hashes remain in 1.11 output.
 """
 from pathlib import Path
 import hashlib
@@ -15,16 +15,16 @@ import tempfile
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.10/evidence'
+OUT=ROOT/'build/v3-0.1.11/evidence'
 
 def inventory(root):
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
 
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
-    expected={n:json.loads((ROOT/f'build/v3-motion-investigation/installed-v3-0.1.{n}-files.private.json').read_text()) for n in (6,7,8,9)}
+    expected={n:json.loads((ROOT/f'build/v3-motion-investigation/installed-v3-0.1.{n}-files.private.json').read_text()) for n in (6,7,8,9,10)}
     assert all(inventory(ROOT/f'build/v3-0.1.{n}')==files for n,files in expected.items()),'installed fallback already changed'
-    sandbox=Path(tempfile.mkdtemp(prefix='trailguide-v3-1.10-',dir=os.environ['TMPDIR']))
+    sandbox=Path(tempfile.mkdtemp(prefix='trailguide-v3-1.11-',dir=os.environ['TMPDIR']))
     source=sandbox/'source';source.mkdir()
     for name in ('tools','tests','content','docs','prototype','trailguide_v2','trailguide_v3','trailguide_v3_bringup','oled_oracle'):
         shutil.copytree(ROOT/name,source/name,ignore=shutil.ignore_patterns('__pycache__','node_modules'))
@@ -42,9 +42,9 @@ def main():
     shutil.copyfile(ROOT/'build/v3-s3-bringup/imu/preparation.json',seed/'imu/preparation.json')
     # Seed only clearly synthetic C++ fixtures, never captured evidence.
     for name in ('recorder.synthetic.wire','recorder.manual.synthetic.wire'):
-        fixture=ROOT/'build/v3-0.1.10'/name
+        fixture=ROOT/'build/v3-0.1.11'/name
         if fixture.exists():
-            (source/'build/v3-0.1.10').mkdir(exist_ok=True);shutil.copyfile(fixture,source/'build/v3-0.1.10'/name)
+            (source/'build/v3-0.1.11').mkdir(exist_ok=True);shutil.copyfile(fixture,source/'build/v3-0.1.11'/name)
     (sandbox/'tmp').mkdir()
     env={**os.environ,'TMPDIR':os.environ['TMPDIR'],'PYTHONHASHSEED':'17'}
     result=subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-p','*_test.py','-v'],cwd=source,env=env,capture_output=True,text=True,timeout=600)

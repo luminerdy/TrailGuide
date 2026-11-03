@@ -2,6 +2,13 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 qualified-turnover blanking — v3-0.1.11
+
+- Presentation-only existing Inverted getter and root/child visibility masking: full black through return qualification, original one draw/6000ms reveal/5000ms hold, cancellation restoration and real-contact swallowing. No new overlay/allocation/timer, sensor, recognition, model/RNG, card, renderer or recorder change. Mask bound 32/normal≤6 children; unsupported foreign mutation limitations documented.
+- Actual ASan/UBSan/native pixel/input/heap/lifecycle checks, full native/content/SDK/differential and 53 isolated Python tests pass; independent 14-file review PASS. All five prior installed outputs unchanged. 13 native frames show exact black stages and byte-identical cancellation restore.
+- Actual build 646,191 program/128,192 globals; app 646,336 bytes. App-only write/explicit verify and source/original/same-board/security/image/component gates pass. Exact 1.11 ROM/UI/Home/clear blackout and configured real IMU, live counters/direct sensor memory checks pass. Legacy diagnostic streaming probe yielded no usable rows and was not accepted as successful evidence.
+- Human confirmed blank → card animation → other buttons. 4940 natural poll rows/197600 bytes/112.156seconds/fullCRC retain exactly one trigger, zero clipping and no read errors. Debugger only after freeze; final Card/blackout-off/reveal-off/focus-off verified. No reset disturbed the accepted card. This is one observed visual sequence, not a repeated-reliability or physical cancellation test.
+
 ## V3 gyro-range correction and natural turnover success — v3-0.1.10
 
 - One checked gyro-range selection derives CTRL3 0x77, +/-2048 dps, 16 LSB/dps and 2044-dps safety in both diagnostic/consume paths. Primary A/C settings agree; suffix remains unidentified. Acceleration 4g/ODR 7/poll 20ms/rest 12dps/dwells/cooldown/UI/gates/cards/renderer/recorder remain unchanged. No shake/turn combination added.

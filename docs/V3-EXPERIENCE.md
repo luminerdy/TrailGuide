@@ -1,6 +1,6 @@
 # V3 experience study — shake, discover, reveal
 
-Current hardware: **v3-0.1.10 DRAFT** is installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Wider supported gyro range and matched conversion/safety checks address the captured saturation. One natural turn-over-and-back is now human-confirmed with exactly one clean recorded trigger. Twelve-card content and bounded recorder are retained; repeated-use reliability remains open. Earlier diagnostic/browser sections retain their historical scope.
+Current hardware: **v3-0.1.11 DRAFT** is installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Qualified turnover blanks the prior scene; confirmed return runs the unchanged reveal/hold. One natural blank → card animation → controls sequence is human-confirmed with one clean recorded trigger. Working sensor settings, twelve-card content and bounded recorder are retained. Cancellation/restoration is native-tested; repeated-use and additional physical acceptance remain separate. Earlier sections retain their historical scope.
 
 Status: endorsed interaction direction; separate browser experience study, not V3 firmware or physical shake verification. Canonical requirements: [P-20](PRODUCT-SPEC.md#p-20-v3-playful-idea-draw-and-gradual-reveal), [V3 hardware contract](V3-SPEC.md) and [shared Ask/Try contract](FACILITATOR-MODES.md). The existing [full-flow round preview](../prototype/index.html) remains separate and unchanged.
 

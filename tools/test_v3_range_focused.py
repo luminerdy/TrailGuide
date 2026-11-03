@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Focused synthetic range checks; no prepare, LVGL rebuild, target or hardware.
 
-Read-only reuse of hash-verified installed 1.9 LVGL objects; all writes in 1.10.
+Read-only reuse of hash-verified installed 1.10 LVGL objects; all writes in 1.11.
 """
 from pathlib import Path
 import hashlib
@@ -10,14 +10,17 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'build/v3-0.1.10/focused'
+OUT = ROOT/'build/v3-0.1.11/focused'
 BASE = ROOT/'build/v3-0.1.9'
-NAMES = ('imu', 'gesture', 'imu_equivalence', 'motion_integration', 'model', 'motion', 'recorder', 'recovery')
+LVBASE = ROOT/'build/v3-0.1.10'
+NAMES = ('imu', 'gesture', 'imu_equivalence', 'motion_integration', 'model', 'motion', 'recorder', 'recovery', 'ui', 'turnover')
 
 def main():
     names = sys.argv[1:] or list(NAMES)
     assert all(n in NAMES for n in names), names
     OUT.mkdir(parents=True, exist_ok=True)
+    (OUT.parent/'frames').mkdir(exist_ok=True)
+    (OUT.parent/'turnover-frames').mkdir(exist_ok=True)
     inventory = json.loads((ROOT/'build/v3-motion-investigation/installed-v3-0.1.9-files.private.json').read_text())
     def verified(path):
         assert hashlib.sha256(path.read_bytes()).hexdigest() == inventory[str(path.relative_to(BASE))], path
@@ -37,10 +40,18 @@ def main():
     for name in names:
         objects = []
         extra = []
-        if name in ('motion_integration', 'recovery'):
-            objects = [str(verified(p)) for p in sorted((BASE/'host').glob('*.o'))]
+        if name in ('motion_integration', 'recovery', 'ui', 'turnover'):
+            lv_inventory = json.loads((ROOT/'build/v3-motion-investigation/installed-v3-0.1.10-files.private.json').read_text())
+            assert hashlib.sha256((ROOT/'trailguide_v3/lv_conf.h').read_bytes()).hexdigest() == lv_inventory['prepared/trailguide_v3/lv_conf.h'], 'Cannot reuse LVGL objects with different configuration'
+            assert hashlib.sha256((LVBASE/'prepared/trailguide_v3/cards_generated.h').read_bytes()).hexdigest() == lv_inventory['prepared/trailguide_v3/cards_generated.h']
+            objects = []
+            for p in sorted((LVBASE/'host').glob('*.o')):
+                assert hashlib.sha256(p.read_bytes()).hexdigest() == lv_inventory[str(p.relative_to(LVBASE))], p
+                objects.append(str(p))
             assert len(objects) == 424, 'Expected one complete pinned LVGL object set'
-            extra = ['-DLV_CONF_INCLUDE_SIMPLE', '-DLV_CONF_PATH='+str(ROOT/'trailguide_v3/lv_conf.h'), '-I'+str(BASE/'libraries/lvgl'), '-I'+str(BASE/'prepared/trailguide_v3')]
+            extra = ['-DLV_CONF_INCLUDE_SIMPLE', '-DLV_CONF_PATH='+str(ROOT/'trailguide_v3/lv_conf.h'), '-I'+str(LVBASE/'libraries/lvgl'), '-I'+str(LVBASE/'prepared/trailguide_v3')]
+            if name == 'ui':
+                extra.append('-Wl,--wrap=lv_timer_create')
         binary = OUT/('v3-range-'+name)
         command = ['g++', *flags, *extra, str(ROOT/f'tests/v3_app_{name}_test.cpp'), *objects, '-lm', '-o', str(binary)]
         print('COMPILE', name, 'read-only LVGL objects='+str(len(objects)), flush=True)

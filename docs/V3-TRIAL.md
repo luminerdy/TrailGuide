@@ -2,7 +2,7 @@
 
 ## Current installed checkpoint
 
-**v3-0.1.10 DRAFT is installed and exact-version/UI/real-IMU verified. One fresh natural turn-over-and-back produced a card, confirmed by the human observation and exactly one recorded trigger.** The wider gyro range addresses saturation observed in the previous failed capture. The simple interaction, gesture timing/rest/eligibility rules, twelve draft cards, reveal, fonts and geometry are retained. This is one successful trial, not a repeated-use reliability claim.
+**v3-0.1.11 DRAFT is installed and exact-version/UI/real-IMU verified. A natural turn-over-and-back now blanks the prior scene, runs the existing card animation, then shows controls; that sequence is human-confirmed with exactly one clean recorded trigger.** The working +/-2048 dps sensor configuration and simple gesture are unchanged. Repeated-use reliability and host-tested cancellation cases remain distinct from this one observed visual sequence.
 
 The coordinated v3-0.1.5 trace contained 315 fresh, valid, resting, eligible records stuck in Recover, with current gravity nearly opposite the retained origin (alignment about -0.989). Old recovery rejected this position indefinitely. The corrected code retains the old reference until a fresh stable recovery hold qualifies, then adopts that pose without drawing. Same-origin recovery remains 600ms; a changed/opposed reference uses the existing 1200ms rebase dwell. Ready/Turning/Inverted and their thresholds are unchanged. Subsequent drawing still requires a whole opposition/return cycle.
 
@@ -26,6 +26,18 @@ python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json --jsonl PRIV
 ```
 
 Use `--wait 60` (separate arguments) for the fetch timeout. Keep raw captures private and use new output paths. Reader may close; do not reset/power-cycle before retrieval. This is diagnostic RAM, not product history. Actual baseline and capture/export logs: `build/v3-0.1.7/evidence/`; The approved twelve-card integration is installed in v3-0.1.8 after merged tests/review/build/write/readback.
+
+## Qualified-turnover blackout — v3-0.1.11
+
+The existing qualified Inverted milestone now hides the current compass/card to true full-frame black. It stays black during return qualification; only the completed return draws one new card and starts the unchanged 6000ms blue-face reveal and 5000ms settled hold. There is no shake, extra pause, recognition/range/dwell/rest/cooldown change, RNG use on the half-cycle, or rerender/reset just to hide the scene.
+
+The existing root draws black while its existing direct children are HIDDEN, removing invisible controls from hit-testing. A 32-bit prior-visibility mask uses no new heap allocation, snapshot or timer. Owned layouts have at most 6 direct children; unsupported foreign roots over 32 decline optional blackout safely. Focus expiry updates the desired restored chrome without exposing children. Health/context/timeout cancellation restores prior identity; a real pointer press restores immediately and swallows that same contact's click. Navigation and deletion cancel safely. Arbitrary foreign child reordering/appending while black is unsupported. This does not make ordinary new draws or unrelated UI allocations globally allocation-free.
+
+Actual native ASan/UBSan tests cover compass/card, both modes/bag boundaries, preconfirmation black, exactly-one completion, cancellation, repeated timestamps, focus expiry, real pointer input, exhausted LVGL heap and root/child/owner deletion. All 53 isolated Python and full native/content/SDK/differential checks pass, followed by independent 14-file review. Thirteen native 360x360 framebuffer captures and hashes were inspected; all five inversion/preconfirmation frames have every pixel black, and cancel-before/restored frame bytes match. These are host renderer observations, not device FPS or physical cancellation acceptance.
+
+Actual S3 build 646,191 program bytes/128,192 globals; app 646,336 bytes. App-only write and explicit flash verification pass after original-board/security/16MB/backup/source/image/compatible component gates. Exact 1.11 ROM/UI/Home, clear blackout state, default-OFF recorder, live compass/sample counters and configured healthy IMU passed direct runtime/memory checks. A legacy MOTION streaming probe produced no usable rows and was not accepted as evidence; the independent exact-ELF checks passed without modifying recognition or sensor code.
+
+The subsequent natural movement produced the requested visible sequence: blank, card animation, then controls. The 120-second recorder was manually frozen after 112.156seconds; 4940 actual records/197600 bytes passed full device CRC with exactly one trigger, zero clipped rows and no read errors. Read-only JTAG was used only after freeze and after the user had observed controls. Final actual state is the selected card with blackout, reveal and settled-focus flags clear; it was left running without another reset. Raw data and firmware/range provenance remain private. This confirms one observed visual sequence; earlier multiple Card/Compass successes refer to the preserved 1.10 gesture checkpoint, not a measured 1.11 reliability total.
 
 ## Wide-range correction and successful natural turnover — v3-0.1.10
 
@@ -104,9 +116,9 @@ Use pinned original-family archive/toolchain in [V3-BRINGUP.md](V3-BRINGUP.md). 
 
 ```sh
 umask 077
-mkdir -p build/v3-0.1.10
-python3 tools/prepare_v3.py > build/v3-0.1.10/preparation-output.json
-ROOT="$PWD/build/v3-0.1.10"
+mkdir -p build/v3-0.1.11
+python3 tools/prepare_v3.py > build/v3-0.1.11/preparation-output.json
+ROOT="$PWD/build/v3-0.1.11"
 FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
 FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \

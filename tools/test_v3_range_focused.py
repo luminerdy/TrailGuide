@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Focused synthetic range checks; no prepare, LVGL rebuild, target or hardware.
+"""Focused synthetic range checks; no target build or hardware.
 
-Read-only reuse of hash-verified installed 1.10 LVGL objects; all writes in 1.12.
+Current-config native objects; full host fallback if absent. Writes only in 1.13.
 """
 from pathlib import Path
 import hashlib
 import json
 import subprocess
 import sys
+import v3_native_objects as native
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'build/v3-0.1.12/focused'
+OUT = ROOT/'build/v3-0.1.13/focused'
 BASE = ROOT/'build/v3-0.1.9'
 LVBASE = ROOT/'build/v3-0.1.10'
 NAMES = ('imu', 'gesture', 'imu_equivalence', 'motion_integration', 'model', 'motion', 'recorder', 'recovery', 'ui', 'turnover')
@@ -42,14 +43,9 @@ def main():
         extra = []
         if name in ('motion_integration', 'recovery', 'ui', 'turnover'):
             lv_inventory = json.loads((ROOT/'build/v3-motion-investigation/installed-v3-0.1.10-files.private.json').read_text())
-            assert hashlib.sha256((ROOT/'trailguide_v3/lv_conf.h').read_bytes()).hexdigest() == lv_inventory['prepared/trailguide_v3/lv_conf.h'], 'Cannot reuse LVGL objects with different configuration'
             assert hashlib.sha256((LVBASE/'prepared/trailguide_v3/cards_generated.h').read_bytes()).hexdigest() == lv_inventory['prepared/trailguide_v3/cards_generated.h']
-            objects = []
-            for p in sorted((LVBASE/'host').glob('*.o')):
-                assert hashlib.sha256(p.read_bytes()).hexdigest() == lv_inventory[str(p.relative_to(LVBASE))], p
-                objects.append(str(p))
-            assert len(objects) == 424, 'Expected one complete pinned LVGL object set'
-            extra = ['-DLV_CONF_INCLUDE_SIMPLE', '-DLV_CONF_PATH='+str(ROOT/'trailguide_v3/lv_conf.h'), '-I'+str(LVBASE/'libraries/lvgl'), '-I'+str(LVBASE/'prepared/trailguide_v3')]
+            objects = native.current_objects()
+            extra = native.flags()
             if name == 'ui':
                 extra.append('-Wl,--wrap=lv_timer_create')
         binary = OUT/('v3-range-'+name)
@@ -60,7 +56,7 @@ def main():
         result = subprocess.run([str(binary)], cwd=ROOT, timeout=180)
         if result.returncode:
             return result.returncode if result.returncode > 0 else 128-result.returncode
-    print('PASS focused synthetic checks; no prepare/full suite/target/hardware/network', flush=True)
+    print('PASS focused synthetic checks; no target/hardware/network; current host cache rebuilt only if needed', flush=True)
     return 0
 
 if __name__ == '__main__':

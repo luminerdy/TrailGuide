@@ -15,13 +15,13 @@ def load_tool(name):
 class Contracts(unittest.TestCase):
  def test_new_output_isolation(self):
   import prepare_v3
-  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.12')
+  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.13')
  def test_installed_roots_rejected_before_archive_read(self):
   import prepare_v3
   from unittest.mock import patch
   # No successful preparation is allowed, even while proving the old guard RED.
   with patch.object(Path,'read_bytes',side_effect=AssertionError('archive read before immutable guard')):
-   for version in ('1.6','1.7','1.8','1.9','1.10','1.11'):
+   for version in ('1.6','1.7','1.8','1.9','1.10','1.11','1.12'):
     for suffix in ('','/nested','/nested/deep'):
      with self.subTest(version=version,suffix=suffix):
       with self.assertRaisesRegex(ValueError,'immutable'):
@@ -32,7 +32,7 @@ class Contracts(unittest.TestCase):
   with patch.object(Path,'read_bytes',side_effect=AssertionError('foreign output read archive')):
    with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/'build/v3-0.1.0')
  def test_diagnostic_increment_version(self):
-  self.assertIn('version="v3-0.1.12"',(ROOT/'trailguide_v3/ui.h').read_text())
+  self.assertIn('version="v3-0.1.13"',(ROOT/'trailguide_v3/ui.h').read_text())
   self.assertIn('gyr_range_dps=2048 odr_enum=normal60 reset=not_issued suffix=unidentified', (ROOT/'trailguide_v3/trailguide_v3.ino').read_text())
  def test_owned_preparer_exists(self):
   self.assertTrue((ROOT/'tools/prepare_v3.py').is_file(),'first app preparer missing')
@@ -58,14 +58,14 @@ class Contracts(unittest.TestCase):
   import tempfile
   from unittest.mock import patch
   replay_v3_recovery=load_tool('replay_v3_recovery')
-  self.assertEqual(replay_v3_recovery.OUT,ROOT/'build/v3-0.1.12/evidence')
+  self.assertEqual(replay_v3_recovery.OUT,ROOT/'build/v3-0.1.13/evidence')
   with tempfile.TemporaryDirectory() as d:
    root=Path(d);capture=root/'synthetic.txt'
    capture.write_text('TG_MOTION1 t=100 at=100 valid=1 rest=1 phase=4>4 trigger=0 gates=0,0,0,0,1 origin_e6=1:0,0,1000000 acc_g_e6=0,0,1000000 gyro_dps_e3=0,0,0\n')
    import subprocess
-   with patch.object(replay_v3_recovery,'ROOT',root),patch.object(replay_v3_recovery,'OUT',root/'build/v3-0.1.12/evidence'),patch.object(sys,'argv',['replay',str(capture),'--start','100','--end','100','--expected-rows','1']),patch.object(replay_v3_recovery.subprocess,'run',return_value=subprocess.CompletedProcess([],0,'','')) as execute:
+   with patch.object(replay_v3_recovery,'ROOT',root),patch.object(replay_v3_recovery,'OUT',root/'build/v3-0.1.13/evidence'),patch.object(sys,'argv',['replay',str(capture),'--start','100','--end','100','--expected-rows','1']),patch.object(replay_v3_recovery.subprocess,'run',return_value=subprocess.CompletedProcess([],0,'','')) as execute:
     self.assertEqual(replay_v3_recovery.main(),0)
-   self.assertEqual(execute.call_args.args[0][0],str(root/'build/v3-0.1.12/host/v3-app-recovery-test'))
+   self.assertEqual(execute.call_args.args[0][0],str(root/'build/v3-0.1.13/host/v3-app-recovery-test'))
    self.assertFalse((root/'build/v3-0.1.11').exists())
  def test_content_and_exact_drivers(self):
   import prepare_v3

@@ -6,10 +6,11 @@ import hashlib
 import subprocess
 import sys
 from prepare_v3 import prepare
+import v3_native_objects as native
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.12/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.12/host'
+LVGL = ROOT / 'build/v3-0.1.13/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.13/host'
 
 def coaching_frame_directory():
     # The native harness writes here, including on a completely fresh output.
@@ -20,16 +21,13 @@ def coaching_frame_directory():
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.12/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.13/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
-    flags = ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',
-             '-DLV_CONF_INCLUDE_SIMPLE', '-DLV_CONF_PATH='+str(ROOT/'trailguide_v3/lv_conf.h'),
-             '-I'+str(ROOT/'trailguide_v3'), '-I'+str(LVGL)]
-    config = hashlib.sha256((ROOT/'trailguide_v3/lv_conf.h').read_bytes() + repr(flags).encode()).hexdigest()[:12]
+    flags = native.flags()
 
     def compile_source(source):
-        obj = OUT / (config + '-' + hashlib.sha256(str(source).encode()+source.read_bytes()).hexdigest()[:16] + '.o')
+        obj = native.object_path(source)
         if not obj.exists():
             subprocess.run(['gcc', '-std=c99', *flags, '-c', str(source), '-o', str(obj)], check=True, capture_output=True)
         return str(obj)
@@ -38,6 +36,7 @@ def main():
     assert sources, 'Missing pinned bundled LVGL sources'
     with ThreadPoolExecutor(max_workers=2) as pool:
         objects = list(pool.map(compile_source, sources))
+    native.seal(objects)
     sketch_source=(ROOT/'trailguide_v3/trailguide_v3.ino').read_text()
     start=sketch_source.index('  if (uint32_t(now-last_heartbeat)>=5000)')
     end=sketch_source.index('\n  delay(5);',start)
@@ -77,6 +76,10 @@ def main():
     subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
                     '-I'+str(Path(manifest['sketch'])),str(ROOT/'tests/v3_coaching_test.cpp'),*objects,'-lm','-o',str(coaching)],check=True)
     subprocess.run([str(coaching),str(coaching_frames)],cwd=ROOT,check=True,timeout=180)
+    compact=OUT/'v3-compact-ui-test'
+    subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
+                    str(ROOT/'tests/v3_compact_ui_test.cpp'),*objects,'-lm','-o',str(compact)],check=True)
+    subprocess.run([str(compact)],cwd=ROOT,check=True,timeout=180)
     for name in ('model','gesture','imu','motion','recorder'):
         binary=OUT/('v3-app-'+name+'-test')
         subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,str(ROOT/('tests/v3_app_'+name+'_test.cpp')),'-o',str(binary)],check=True)

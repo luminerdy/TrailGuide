@@ -6,7 +6,7 @@
 #include "cards_generated.h"
 #include "coaching_ui.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.12";
+static constexpr const char *version="v3-0.1.13";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:

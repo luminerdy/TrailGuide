@@ -1,8 +1,8 @@
 # Compass coaching — read-only preview
 
-## Native follow-on — v3-0.1.12
+## Native follow-on — v3-0.1.13
 
-Following approval of the browser flow and compact icons/short labels, a native version is installed and exact-version startup/IMU verified. **Tap the classic compass → Coaching**; use coaching **Options → Classic** to return. Native-renderer ASan/UBSan checks and 72 isolated Python checks pass, with application-only write/explicit flash verification. New physical coaching readability/touch and natural-opener gesture acceptance remain pending. The browser file remains a separate read-only study, not a hardware emulator or physical acceptance record. Native question/experiment/closing selection advances in authored order; opener draws shuffle. The classic boot default, canonical catalog, sensor/gesture math and original reveal/hold renderer remain preserved.
+Following approval of the browser flow and compact icons/short labels, the separately previewed compact native version is installed and exact-version startup/IMU verified. **Tap the classic compass → Coaching**; use coaching **Options → Classic** to return. Native-renderer ASan/UBSan checks and 80 isolated Python checks pass, with application-only write/explicit flash verification. New physical coaching readability/touch and natural-opener gesture acceptance remain pending. The browser file remains a separate read-only study, not a hardware emulator or physical acceptance record. Native question/experiment/closing selection advances in authored order; opener draws shuffle. The classic boot default, canonical catalog, sensor/gesture math and original reveal/hold renderer remain preserved. The compact device variant uses 18px body/12px perimeter and opening Options text, outward icons and a 208x112 blue face. Options has no visible button box but retains its 100x48 target. The browser artifact remains the earlier 20px/14px icon study; native and browser are not claimed pixel-identical.
 
 ## Scope and status
 

@@ -46,6 +46,8 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 
 - [Current project and coaching handoff](docs/HANDOFF.md)
 - [Project-led mentoring direction, examples and review gates](docs/COACHING-DIRECTION.md)
+- [Compass coaching — browser-only preview, design and checks](docs/COMPASS-COACHING-PREVIEW.md)
+- [Downloadable six-path compass coaching preview](prototype/compass-coaching.html)
 - [Learner-owned project brief and optional AI-coaching starter](docs/PROJECT-COACH.md)
 - [V3 shake/reveal experience study and hardware boundaries](docs/V3-EXPERIENCE.md)
 - [Downloadable simulated shake/reveal study](prototype/v3-experience.html)

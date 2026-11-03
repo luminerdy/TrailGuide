@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; base-uri 'none'; form-action 'none'">
+<title>TrailGuide · Draft compass coaching</title>
+<style>
+:root{color-scheme:dark;--ground:#171713;--surface:#25251e;--ink:#f5efdc;--muted:#c8c1ad;--amber:#e7b866;--edge:#7c7662}*{box-sizing:border-box}body{margin:0;background:#10110f;color:var(--ink);font:16px Arial,'DejaVu Sans',sans-serif}main{max-width:850px;margin:28px auto;padding:0 16px}h1{font-weight:500;font-size:24px;margin:8px 0}.eyebrow{color:var(--amber);letter-spacing:.12em;font-size:12px}.intro,.notes{color:var(--muted);line-height:1.5;max-width:680px}.stage{display:flex;align-items:center;gap:32px;flex-wrap:wrap}#device-scroll{width:376px;max-width:100%;padding:8px;overflow-x:auto;flex:none}#dial{width:360px;height:360px;position:relative;background:var(--ground);border-radius:50%;clip-path:circle(50%);isolation:isolate;touch-action:pan-x}#dial:before{content:'';position:absolute;inset:12px;border:1px solid #484637;border-radius:50%;pointer-events:none}button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--edge);border-radius:8px;cursor:pointer;min-height:48px;padding:5px;line-height:20px;touch-action:pan-x}button:hover:not(:disabled){background:#38372b;border-color:var(--amber)}button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--amber);outline-offset:2px}button:disabled{color:var(--muted);border-style:dashed;cursor:default}button[aria-pressed=true]{background:var(--amber);color:#171713;border-color:var(--amber)}#dial button{position:absolute;font-size:16px}#body-copy{position:absolute;margin:0;font-size:20px;line-height:26px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;scrollbar-color:var(--amber) var(--surface);padding:0 5px 0 0}#cue{position:absolute;color:var(--amber);font-size:12px;line-height:16px;text-align:center}#context{position:absolute;font-size:13px;line-height:18px;color:var(--muted);text-align:center}.review{flex:1;min-width:220px;max-width:340px}.review h2{font-size:16px;font-weight:500}.review p{color:var(--muted);line-height:1.5;font-size:14px}.review button{display:block;width:100%;margin:10px 0;text-align:left}#viewport-note{display:none;color:var(--muted);font-size:14px;line-height:1.5}.notes{font-size:14px}#complete-copy{white-space:pre-wrap;font-size:20px;line-height:1.5;overflow-wrap:anywhere}details{margin-top:20px}summary{cursor:pointer;min-height:48px;padding:12px 0}#pool-note{font-size:14px;color:var(--amber)}@media(max-width:430px){main{margin:20px 0;padding:0}h1,.eyebrow,.intro,.notes,#viewport-note,details{margin-left:16px;margin-right:16px}.stage{justify-content:center;gap:16px}#device-scroll{padding:0;width:360px;flex:0 1 360px;min-width:0}.review{margin:0 16px;max-width:calc(100% - 32px);min-width:0;flex:0 1 360px}}@media(max-width:359px){#viewport-note{display:block}}
+</style></head><body><main>
+<p class="eyebrow">FRONTIER OPS / COACHING STUDY · DRAFT</p><h1>TrailGuide</h1>
+<p class="intro">Explore a conversation, not a checklist. Choose any path, offer an optional experiment, or leave space for a next step. Standalone read-only preview — not firmware and not a replacement for the installed compass.</p>
+<p id="viewport-note">The circle stays 360 logical pixels wide. Scroll the device area horizontally to reach both edges; type and targets are not reduced.</p>
+<div class="stage"><div id="device-scroll" tabindex="0" role="region" aria-label="360 pixel circular preview; horizontally scrollable" aria-describedby="viewport-note"><section id="dial" aria-label="Draft compass coaching screen"></section></div>
+<aside class="review" aria-label="External review controls"><h2>Review controls / outside the device</h2><p>Turnover simulated; animation timing and physical sensing not modeled. No shake, device input, network, recording, analytics or persistence. State lasts in RAM only.</p><button id="simulate-turnover">Simulate turnover · opening screen only</button><p id="pool-note" role="status"></p><p>Navigation/content study only. Long wording stays at 20px: focus the copy and scroll to its end. The complete-copy view below is an external review aid.</p></aside></div>
+<details id="full-copy"><summary>External review / complete current copy</summary><div id="complete-copy"></div></details>
+<p class="notes">All content is DRAFT, including exact references to canonical cards. Paths describe conversation contexts, not team diagnoses. No question quota or required response. Adapt, pass, request direct assistance, or keep a human-only approach. Browser geometry is not physical readability or touch acceptance.</p>
+</main><script id="coaching-data" type="application/json">__COACHING_JSON__</script><script>
+'use strict';
+(()=>{
+const content=JSON.parse(document.getElementById('coaching-data').textContent),dial=document.getElementById('dial');
+const pools=new Map(),byId=new Map(content.entries.map(e=>[e.id,e])),pathStates=new Map();
+let s={view:'opener',path:null,entry:null,scroll:0},openerState=null,stack=[],draws=0,pressed=null,released=null;
+const pool=(type,path=null)=>content.entries.filter(e=>e.type===type && (path===null || e.path===path));
+function draw(type,path=null){
+ const eligible=pool(type,path),key=type+'|'+path,last=pools.get(key);
+ const choices=eligible.length>1?eligible.filter(e=>e.id!==last):eligible;
+ if(!choices.length)return null;
+ const item=choices[Math.floor(Math.random()*choices.length)];pools.set(key,item.id);draws++;return item.id;
+}
+function save(){
+ s.scroll=document.getElementById('body-copy')?.scrollTop||0;
+ if(s.view==='opener')openerState={...s};
+ if(s.path && ['question','experiment'].includes(s.view)){
+  const memory=pathStates.get(s.path)||{};memory.current=s.view;memory[s.view]={...s};pathStates.set(s.path,memory);
+ }
+ return {...s};
+}
+function pickPath(path){
+ if(s.view==='picker' && s.path===path){back();return;}
+ save();const memory=pathStates.get(path);
+ s=memory?.[memory.current]?{...memory[memory.current]}:{view:'question',path,entry:draw('question',path),scroll:0};
+ stack=[];render();
+}
+function changeFace(view){
+ save();const memory=pathStates.get(s.path);
+ s=memory?.[view]?{...memory[view]}:{view,path:s.path,entry:draw(view,s.path),scroll:0};render();
+}
+function anotherFace(){s.entry=draw(s.view,s.path);s.scroll=0;render();}
+function open(view,entry=s.entry){if(s.view===view)return;stack.push(save());s={...s,view,entry,scroll:0};render();}
+function back(){if(stack.length){s=stack.pop();render();}}
+function button(id,text,x,y,w,h,fn,disabled=false){
+ const b=document.createElement('button');b.id=id;b.textContent=text;b.disabled=disabled;
+ Object.assign(b.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+ b.addEventListener('click',event=>{if(!b.isConnected||b.disabled||event.detail>1)return;if(event.detail && released!==b)return;released=null;fn();});dial.append(b);return b;
+}
+function label(id,text,x,y,w,h){const e=document.createElement('div');e.id=id;e.textContent=text;e.dataset.envelope='';Object.assign(e.style,{position:'absolute',left:x+'px',top:y+'px',width:w+'px',height:h+'px'});dial.append(e);return e;}
+function copy(text,ring=false){
+ const e=label('body-copy',text,ring?120:70,ring?104:134,ring?120:220,ring?100:84);e.tabIndex=0;e.setAttribute('role','region');e.setAttribute('aria-label','Complete current wording; scroll to read all');e.scrollTop=s.scroll;
+ e.addEventListener('scroll',()=>{s.scroll=e.scrollTop;});
+ label('cue','Full copy · scroll ↕',ring?116:90,ring?208:222,ring?128:180,18);
+ document.getElementById('complete-copy').textContent=text;
+}
+function release(){if(s.view!=='closing')open('closing',draw('closing'));}
+function anotherOpener(){s={view:'opener',path:null,entry:draw('opener'),scroll:0};stack=[];render();}
+function returnToOpener(){save();s={...openerState};stack=[];render();}
+function top(){button('back','Back',70,64,104,48,back);button('release','Next step',186,64,104,48,release,s.view==='closing');}
+function render(){
+ dial.replaceChildren();dial.dataset.view=s.view;
+ document.getElementById('simulate-turnover').disabled=s.view!=='opener' || pool('opener').length<2;
+ const e=byId.get(s.entry);
+ const poolType=['question','experiment','closing'].includes(s.view)?s.view:'opener';
+ const count=pool(poolType,s.path && ['question','experiment'].includes(s.view)?s.path:null).length;
+ document.getElementById('pool-note').textContent=(count===0?'No '+poolType+' entries in this pool. ':count===1?'Only one '+poolType+' in this pool; another is unavailable. ':'')+'DRAFT · RAM only · no progress tracked';
+ if(s.view==='opener' || s.view==='picker'){
+  const xy=[[130,30,100],[248,104,72],[248,208,72],[126,282,108],[40,208,72],[40,104,72]];
+  content.paths.forEach((p,i)=>{const [x,y,w]=xy[i];const b=button('path-'+p.id,p.label,x,y,w,48,()=>pickPath(p.id));b.setAttribute('aria-pressed',String(s.path===p.id));b.setAttribute('aria-label',p.label+(s.path===p.id?' · selected':''));});
+  if(s.view==='opener'){
+   copy(e?.text||'No opening questions available.',true);
+   button('options','Options',128,230,104,48,()=>open('options'));
+  }else{
+   label('context','Choose any path',120,90,120,18);
+   button('opening','Opening',128,118,104,48,returnToOpener);
+   button('release','Next step',128,174,104,48,release);
+   button('back','Back',128,230,104,48,back);
+   document.getElementById('complete-copy').textContent='Choose any path, return to the preserved opening question, or leave space for a next step. Back preserves the current path and wording.';
+  }
+ }else if(s.view==='options'){
+  top();button('another-opener','Another opener',70,126,220,48,anotherOpener,pool('opener').length<2);
+  button('guide','Guide me',70,182,220,48,()=>open('guide'));button('release-row','Next step / Release',70,238,220,48,release);
+  document.getElementById('complete-copy').textContent=e?.text||'No opener available.';
+ }else if(s.view==='question' || s.view==='experiment'){
+  button('paths','Paths',70,64,64,48,()=>open('picker'));button('guide','Guide me',148,64,64,48,()=>open('guide'));button('release','Next step',226,64,64,48,release);
+  label('context',content.paths.find(p=>p.id===s.path).label+' / '+(s.view==='question'?'Question':'Optional experiment'),70,114,220,18);
+  copy(e?.text||('No '+(s.view==='question'?'questions':'experiments')+' available for this path. Choose another path or a next step.'));
+  if(s.view==='question'){
+   button('another-question','Another question',70,246,104,52,anotherFace,pool('question',s.path).length<2);
+   button('experiment','Optional experiment',186,246,104,52,()=>changeFace('experiment'),!pool('experiment',s.path).length);
+  }else{
+   button('another-experiment','Another experiment',70,246,104,52,anotherFace,pool('experiment',s.path).length<2);
+   button('question','Question',186,246,104,52,()=>changeFace('question'),!pool('question',s.path).length);
+  }
+ }else if(s.view==='guide'){
+  top();label('context','Guide me · optional support',70,114,220,18);
+  copy(e?.guidance||'Listen before solving. Follow their words. Offer requested direct help; no response or experiment is required.');
+  button('reminders','Private listening reminders',96,246,168,52,()=>open('reminders'));
+ }else if(s.view==='reminders'){
+  top();label('context','Private cues · not team questions',70,114,220,18);
+  copy(pool('reminder').map(e=>e.text).join('\n\n')||'No reminders available.');
+ }else if(s.view==='closing'){
+  top();label('context','Next step · no completion required',70,114,220,18);copy(e?.text||'No closing questions available. You can stop here.');
+  button('another-closing','Another closing',96,246,168,48,()=>{s.entry=draw('closing');s.scroll=0;render();},pool('closing').length<2);
+ }
+}
+function snapshot(){return Object.freeze({view:s.view,path:s.path,entry_id:s.entry,text:document.getElementById('body-copy')?.textContent||'',scroll:s.scroll,draws});}
+const safe=event=>{const r=dial.getBoundingClientRect();return Math.hypot(event.clientX-r.left-180,event.clientY-r.top-180)<=168;};
+dial.addEventListener('pointerdown',event=>{released=null;pressed=safe(event)?{button:event.target.closest('button'),x:event.clientX,y:event.clientY,id:event.pointerId}:null;},true);
+dial.addEventListener('pointermove',event=>{if(pressed && Math.hypot(event.clientX-pressed.x,event.clientY-pressed.y)>8)pressed=null;},true);
+dial.addEventListener('pointerup',event=>{released=pressed && pressed.id===event.pointerId && safe(event) && pressed.button===event.target.closest('button') && Math.hypot(event.clientX-pressed.x,event.clientY-pressed.y)<=8?pressed.button:null;pressed=null;},true);
+dial.addEventListener('pointercancel',()=>{pressed=null;released=null;},true);
+// Touch pointers leave after pointerup, before their compatibility click.
+// Cancel a live drag on leave, but retain an already-qualified release.
+dial.addEventListener('pointerleave',()=>{if(pressed)released=null;pressed=null;});
+dial.addEventListener('click',event=>{if(event.detail && !safe(event)){event.preventDefault();event.stopImmediatePropagation();}},true);
+document.getElementById('simulate-turnover').addEventListener('click',event=>{if(s.view==='opener' && event.detail<=1)anotherOpener();});
+window.compassCoaching=Object.freeze({snapshot});s.entry=draw('opener');openerState={...s};render();
+})();
+</script></body></html>

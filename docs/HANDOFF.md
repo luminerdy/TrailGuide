@@ -10,6 +10,12 @@ The earlier, separate V3 browser experience study explores **shake → one rando
 
 This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. V2's reveal is a presentation-only firmware increment; V1, canonical card copy/IDs/revisions/review states, model/deck order, networking and partitions remain unchanged. No USB upload or serial reset was used for the reveal update.
 
+## Separate browser-only compass coaching preview
+
+The approved six-path coaching direction now has a [portable read-only preview and reproducible checks](COMPASS-COACHING-PREVIEW.md), separate from both the installed V3 experience and older eight-card browser studies. It includes six openers, optional path questions/experiments, private guidance and unrestricted release; a small draft content layer references the existing catalog without modifying it. Parent execution passed 13 focused tests with actual Chromium, plus delivered-artifact navigation/geometry/touch-scroll checks and representative visual inspection. Return to the exact opener and release from the path picker were corrected with actual RED/GREEN tests. No firmware builds, device contact, tracking, persistence or live AI were added.
+
+The ring leaves long openers in a narrow scrollable region. This is an explicit usability tradeoff for facilitator review, not approved hardware readability. Do not port it automatically: collect focused preview feedback before separately approving integration. Preserve the installed turn-over/back → black → reveal → controls behavior and all fallback artifacts.
+
 ## Read in this order
 
 1. [README — vision versus implementation](../README.md).

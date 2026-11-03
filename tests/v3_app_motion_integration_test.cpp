@@ -65,7 +65,7 @@ int main(){
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.8/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.9/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  // Recorder is a second session on the same SINGLE parser, never two readers.
@@ -75,7 +75,7 @@ int main(){
  Serial.rx+="RECORD\n";step(46005);assert(motionDiagnostics.recorder.active());
  Serial.connected=false;
  const auto basePoll=imu.last_poll().sequence;
- for(uint32_t t=46010;t<91005;t+=5){
+ for(uint32_t t=46010;t<166005;t+=5){
   if(t==47000)lv_event_send(ui.root,LV_EVENT_PRESSED,nullptr);
   if(t==47005)lv_event_send(ui.root,LV_EVENT_RELEASED,nullptr);
   if(t==48000)bus.r[0x2e]=0;
@@ -90,18 +90,18 @@ int main(){
   if(t==50500)bus.r[0x3a]=32;
   step(t);
  }
- step(91005);auto &ram=motionDiagnostics.recorder.ram;
- assert(ram.state==2 && ram.reason==1 && ram.count==imu.last_poll().sequence-basePoll && ram.count>=2248);
+ step(166005);auto &ram=motionDiagnostics.recorder.ram;
+ assert(ram.state==2 && ram.reason==1 && ram.count==imu.last_poll().sequence-basePoll && ram.count>=5998);
  bool wait=false,clip=false,contact=false,readError=false,reveal=false,axisReject=false;unsigned triggers=0;
  for(unsigned i=0;i<ram.count;++i){auto &r=ram.records[i];wait|=r.flags&16;clip|=r.clip==32;contact|=(r.resets&20)==20;readError|=(r.flags&8) && r.reset_reason==1 && (r.resets&256);triggers+=bool((r.flags&128) && r.reset_reason==9);axisReject|=r.reset_reason==6 && r.clip==0 && (r.flags&1);reveal|=r.gates_after&8;}
  assert(wait && clip && contact && readError && axisReject && triggers==1 && reveal && !motionDiagnostics.draining());
  assert(ram.crc32==v3app::FlightRecorder::crc(ram.records,ram.count*40));
  assert(ui.model.index!=beforeRecordIndex);
  const auto afterRecordRng=rngCalls;
- Serial.connected=true;Serial.rx+="STATUS\n";for(unsigned t=91010;t<91500;t+=5)step(t);
+ Serial.connected=true;Serial.rx+="STATUS\n";for(unsigned t=166010;t<166500;t+=5)step(t);
  assert(Serial.tx.find("TGFR1 STATUS")!=std::string::npos && !motionDiagnostics.draining());
  Serial.capacity=16;Serial.rx+="DUMP 1 0 32 4242\n";
- for(uint32_t t=91500;t<93500;t+=5)step(t);
+ for(uint32_t t=166500;t<168500;t+=5)step(t);
  assert(Serial.tx.find("TGFR1 END session=1 token=4242")!=std::string::npos && !motionDiagnostics.draining());
  assert(rngCalls==afterRecordRng && ui.model.view==v3app::View::Card && ui.eligible());
 #else

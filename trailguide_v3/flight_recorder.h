@@ -15,7 +15,7 @@ static_assert(sizeof(FlightRecord)==40,"flight wire ABI");
 static_assert(offsetof(FlightRecord,raw)==12 && offsetof(FlightRecord,flags)==35,"flight offsets");
 // JTAG: motionDiagnostics.recorder.ram; records points to one PSRAM allocation.
 struct FlightRam {
- uint32_t magic=0x31524654,version=1,record_bytes=40,capacity=2304;
+ uint32_t magic=0x31524654,version=1,record_bytes=40,capacity=8192;
  uint32_t session=0,state=0,count=0,started=0,ended=0,reason=0,crc32=0,error=0;
  FlightRecord *records=nullptr;
 };
@@ -23,7 +23,7 @@ static_assert(offsetof(FlightRam,records)==48,"JTAG flight header ABI");
 class FlightRecorder {
  public:
  using Allocate=void *(*)(size_t);using Release=void (*)(void *);
- static constexpr uint32_t DurationMs=45000,Capacity=2304,ChunkMax=32;
+ static constexpr uint32_t DurationMs=120000,Capacity=8192,ChunkMax=32;
  FlightRam ram;
  explicit FlightRecorder(Allocate a=nullptr,Release r=nullptr):allocate_(a),release_(r){}
  ~FlightRecorder(){if(ram.records && release_)release_(ram.records);}
@@ -78,7 +78,8 @@ class FlightRecorder {
   const bool stat=length==6 && std::memcmp(verb,"STATUS",6)==0;
   const bool clearCommand=length==5 && std::memcmp(verb,"CLEAR",5)==0;
   const bool dump=length==4 && std::memcmp(verb,"DUMP",4)==0;
-  if(!rec && !stat && !clearCommand && !dump)return false;
+  const bool manual=length==6 && std::memcmp(verb,"FREEZE",6)==0;
+  if(!rec && !stat && !clearCommand && !dump && !manual)return false;
   auto refuse=[&](){ram.error=3;status(now,0);return true;};
   uint32_t args[4]={};unsigned fields=0;
   while(space(*p))++p;
@@ -88,6 +89,12 @@ class FlightRecorder {
    do{const uint32_t digit=uint32_t(*p-'0');if(value>(0xffffffffu-digit)/10u)return refuse();value=value*10u+digit;++p;}while(*p>='0' && *p<='9');
    if(*p && !space(*p))return refuse();
    args[fields++]=value;while(space(*p))++p;
+  }
+  if(manual){
+   if(fields!=2)return refuse();
+   if(!args[0] || args[0]!=ram.session || (ram.state!=1 && ram.state!=2)){ram.error=3;status(now,args[1]);return true;}
+   if(active()){tick(now);if(active())freeze(now,3);}
+   ram.error=0;status(now,args[1]);return true;
   }
   if(!dump){
    if(fields>1)return refuse();
@@ -117,7 +124,7 @@ class FlightRecorder {
  uint32_t lastPoll_=0,lastResets_[8]={},offset_=0,end_=0,next_=0,token_=0,chunkCrc_=0,lastProgress_=0;
  unsigned stage_=0;char line_[256]={};size_t length_=0,cursor_=0;
  void freeze(uint32_t now,uint32_t why){ram.ended=now;ram.reason=why;ram.crc32=crc(ram.records,ram.count*sizeof(FlightRecord));ram.state=2;}
- void status(uint32_t now,uint32_t nonce){cancel();lastProgress_=now;length_=size_t(std::snprintf(line_,sizeof(line_),"\nTGFR1 STATUS token=%lu magic=31524654 version=1 session=%lu state=%lu count=%lu ready=%u size=40 capacity=2304 start=%lu end=%lu reason=%lu crc=%08lx error=%lu\n",(unsigned long)nonce,(unsigned long)ram.session,(unsigned long)ram.state,(unsigned long)ram.count,unsigned(ram.count>0),(unsigned long)ram.started,(unsigned long)ram.ended,(unsigned long)ram.reason,(unsigned long)ram.crc32,(unsigned long)ram.error));}
+ void status(uint32_t now,uint32_t nonce){cancel();lastProgress_=now;length_=size_t(std::snprintf(line_,sizeof(line_),"\nTGFR1 STATUS token=%lu magic=31524654 version=1 session=%lu state=%lu count=%lu ready=%u size=40 capacity=%lu start=%lu end=%lu reason=%lu crc=%08lx error=%lu\n",(unsigned long)nonce,(unsigned long)ram.session,(unsigned long)ram.state,(unsigned long)ram.count,unsigned(ram.count>0),(unsigned long)ram.capacity,(unsigned long)ram.started,(unsigned long)ram.ended,(unsigned long)ram.reason,(unsigned long)ram.crc32,(unsigned long)ram.error));}
  void nextLine(uint32_t now){
   cursor_=0;lastProgress_=now;
   if(stage_==0){length_=size_t(std::snprintf(line_,sizeof(line_),"\nTGFR1 BEGIN session=%lu token=%lu offset=%lu count=%lu total=%lu size=40 magic=31524654 version=1 crc=%08lx fullcrc=%08lx\n",(unsigned long)ram.session,(unsigned long)token_,(unsigned long)offset_,(unsigned long)(end_-offset_),(unsigned long)ram.count,(unsigned long)chunkCrc_,(unsigned long)ram.crc32));stage_=1;}

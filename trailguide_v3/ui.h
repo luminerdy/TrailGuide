@@ -5,7 +5,7 @@
 #include "window_reveal.h"
 #include "cards_generated.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.8";
+static constexpr const char *version="v3-0.1.9";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:

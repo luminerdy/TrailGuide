@@ -18,7 +18,8 @@ import zlib
 
 MAGIC=0x31524654
 SIZE=40
-CAPACITY=2304
+CAPACITY=8192
+CAPACITIES=(2304,8192)
 RECORD=struct.Struct('<III6h4H8B')
 
 class ProtocolError(ValueError):
@@ -39,8 +40,8 @@ def fields(line,kind):
         except ValueError as e:raise ProtocolError('invalid numeric field') from e
     return out
 
-def validate_chunk(lines,session,token,offset,count,total,fullcrc):
-    require(0<count<=32 and 0<=offset<total<=CAPACITY and offset+count<=total,'invalid chunk bounds')
+def validate_chunk(lines,session,token,offset,count,total,fullcrc,capacity=CAPACITY):
+    require(0<count<=32 and 0<=offset<total<=capacity<=CAPACITY and offset+count<=total,'invalid chunk bounds')
     require(len(lines)==count+2,'incomplete or duplicated chunk')
     b=fields(lines[0],'BEGIN');e=fields(lines[-1],'END')
     expected={'session':session,'token':token,'offset':offset,'count':count,'total':total,'size':SIZE,'magic':MAGIC,'version':1,'fullcrc':fullcrc}
@@ -61,10 +62,14 @@ def validate_chunk(lines,session,token,offset,count,total,fullcrc):
 
 def validate_status(s,frozen=False):
     require(isinstance(s,dict),'status object required')
-    require(all(isinstance(s.get(k),int) and not isinstance(s[k],bool) for k in ('magic','version','size','capacity','session','state','count','crc','reason','start','end','error')),'missing status fields')
-    require(s['magic']==MAGIC and s['version']==1 and s['size']==SIZE and s['capacity']==CAPACITY,'incompatible RAM ABI')
-    require(0<=s['count']<=CAPACITY and 0<=s['crc']<=0xffffffff and 0<=s['session']<=0xffffffff and s['state'] in (0,1,2),'status bounds')
-    if frozen:require(s['state']==2 and s['session']>0 and s['reason'] in (1,2),'not a frozen session')
+    keys=('magic','version','size','capacity','session','state','count','crc','reason','start','end','error')
+    require(all(isinstance(s.get(k),int) and not isinstance(s[k],bool) for k in keys),'missing status fields')
+    require(all(0<=s[k]<=0xffffffff for k in keys),'unsigned status metadata bounds')
+    for key,maximum in (('token',0xffffffff),('ready',1)):
+        if key in s:require(isinstance(s[key],int) and not isinstance(s[key],bool) and 0<=s[key]<=maximum,'optional status metadata bounds')
+    require(s['magic']==MAGIC and s['version']==1 and s['size']==SIZE and s['capacity'] in CAPACITIES,'incompatible RAM ABI')
+    require(0<=s['count']<=s['capacity'] and 0<=s['crc']<=0xffffffff and 0<=s['session']<=0xffffffff and s['state'] in (0,1,2),'status bounds')
+    if frozen:require(s['state']==2 and s['session']>0 and s['reason'] in (1,2,3),'not a frozen session')
     return s
 
 def validate_capture(c):
@@ -135,10 +140,34 @@ def status(port,command='STATUS',timeout=6):
             require(s['error']==0,f"device refused command: {errors.get(s['error'],'unknown error')} (error={s['error']} state={s['state']})")
         return s
 
-def fetch(port,session,wait=60,retries=3):
-    deadline=time.monotonic()+wait
+def freeze(port,session,retries=3):
+    require(isinstance(session,int) and not isinstance(session,bool) and 0<session<=0xffffffff,'nonzero uint32 session required')
+    require(isinstance(retries,int) and 1<=retries<=10,'invalid retry bound')
+    for attempt in range(retries):
+        try:s=status(port,f'FREEZE {session}')
+        except ProtocolError:
+            # Query after a lost ACK; never re-arm or change the requested session.
+            s=status(port)
+            require(s['session']==session,'wrong session; freeze not confirmed')
+            if s['state']==1 and attempt+1<retries:continue
+        require(s['session']==session and s['error']==0,'freeze refused or wrong session')
+        validate_status(s,True)
+        return s
+    raise ProtocolError('freeze not confirmed; RAM retained')
+
+def duration_ms(s):
+    require(s['capacity'] in CAPACITIES,'unknown capture duration')
+    return 45000 if s['capacity']==2304 else 120000
+
+def default_wait(s):
+    return duration_ms(s)/1000+15
+
+def fetch(port,session,wait=None,retries=3):
+    if wait is not None:require(isinstance(wait,(float,int)) and 0<=wait<=600,'wait must be finite and between 0 and 600 seconds')
+    deadline=None
     while True:
         s=status(port)
+        if deadline is None:deadline=time.monotonic()+(default_wait(s) if wait is None else wait)
         require(s['session']==session,'wrong session; refusing stale/overwritten capture')
         if s['state']==2:break
         require(s['state']==1 and time.monotonic()<deadline,'session not frozen before wait deadline')
@@ -164,7 +193,7 @@ def fetch(port,session,wait=60,retries=3):
                     lines.append(line)
                     require(len(lines)<=count+2,'oversize chunk')
                     if kind=='END':break
-                raw.extend(validate_chunk(lines,session,token,offset,count,s['count'],s['crc']))
+                raw.extend(validate_chunk(lines,session,token,offset,count,s['count'],s['crc'],capacity=s['capacity']))
                 break
             except ProtocolError:
                 if attempt+1==retries:raise
@@ -173,7 +202,7 @@ def fetch(port,session,wait=60,retries=3):
     c={'format':'TGFR1','status':s,'data_hex':raw.hex()}
     validate_capture(c)
     final=status(port)
-    require(all(final[k]==s[k] for k in ('session','count','crc','state')),'session changed during retrieval')
+    require(all(final[k]==s[k] for k in ('magic','version','size','capacity','session','count','crc','state','start','end','reason','error')),'session changed during retrieval')
     return c
 
 def save_capture(path,c):
@@ -191,10 +220,11 @@ def save_capture(path,c):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     sub=p.add_subparsers(dest='command',required=True)
-    for name in ('record','status','clear','fetch'):
+    for name in ('record','status','clear','fetch','freeze'):
         q=sub.add_parser(name);q.add_argument('--port',required=True)
+        if name in ('fetch','freeze'):q.add_argument('--session',type=int,required=True)
         if name=='fetch':
-            q.add_argument('--session',type=int,required=True);q.add_argument('--output',required=True);q.add_argument('--wait',type=float,default=60)
+            q.add_argument('--output',required=True);q.add_argument('--wait',type=float,default=None)
     q=sub.add_parser('verify');q.add_argument('capture');q.add_argument('--jsonl')
     q=sub.add_parser('import-ram');q.add_argument('raw');q.add_argument('--status',required=True);q.add_argument('--output',required=True)
     a=p.parse_args()
@@ -213,6 +243,7 @@ def main():
         if a.command=='fetch':
             c=fetch(port,a.session,a.wait);save_capture(a.output,c)
             print(f"VERIFIED session={a.session} records={c['status']['count']} saved={a.output}")
+        elif a.command=='freeze':print(json.dumps(freeze(port,a.session)))
         elif a.command=='record':
             before=status(port);require(before['state']!=1,'already recording; use status/fetch, not restart')
             # A lost start ACK must not silently start a second recording.
@@ -225,7 +256,7 @@ def main():
             while s['state']==1 and s['count']==0 and time.monotonic()<deadline:
                 time.sleep(.05);s=status(port)
             require(s['count']>0,'recorder active but no actual IMU polls observed; inspect status; do not reset')
-            print(json.dumps(s));print(f"READY session={s['session']} duration_ms=45000; reader may close now",flush=True)
+            print(json.dumps(s));print(f"READY session={s['session']} duration_ms={duration_ms(s)}; reader may close now",flush=True)
         else:print(json.dumps(status(port,'CLEAR' if a.command=='clear' else 'STATUS')))
     finally:port.close()
 

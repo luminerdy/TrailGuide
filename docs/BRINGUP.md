@@ -2,6 +2,13 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 longer bounded recorder and measured motion failure — v3-0.1.9
+
+- Diagnostic-only 120s/8192x40-byte PSRAM recorder, strict-session idempotent FREEZE/manual reason 3, legacy/new client compatibility and strict unsigned metadata validation. IMU/gesture/gates/fonts/cards/renderer unchanged; UI version only. All 53 isolated Python, native LVGL/content, SDK and differential checks pass; independent review/unblock PASS.
+- Actual S3 compile 645,639 program/128,184 globals; app 645,792 bytes. Original-board/security/16MB/originals/compatible image/partition/source gates, app-only write and explicit verification pass. Exact 1.9 ROM/UI/Home/healthy IMU and moving compass/sample counters pass.
+- Synthetic target return with 327,680-byte recorder plus 143,360-byte raster succeeds; normal reveal/hold/control restore, manual reason 3 and full 3725-row/149000-byte CRC export with one synthetic trigger. Long serial export errors were not accepted; exact-ELF read-only JTAG retrieved frozen RAM. Evidence exported before deliberate cleanup reset. Not human gesture or physical pixel acceptance.
+- Natural turnover capture 3101 rows/124040 bytes/70.862seconds/fullCRC, manual freeze ACK round trip 70ms. Sensor gravity reverses, gyro-X hits raw rails 8 times; invalid-health cancellation sends the cycle to Recover on both legs, no trigger. No new I2C errors or touch gate explains the cancellations. Physical flip remains failed; wider gyro range is a subsequent testable correction, not yet installed at this checkpoint. Raw traces remain private.
+
 ## V3 approved twelve-card integration — v3-0.1.8
 
 - Exact twelve endorsed openings/cues/follow-ups/help integrated into existing canonical IDs;12 revisions advance once, 28 other records unchanged and all scopes draft. Two documented 003/014 activity clarifications preserve genuine AI-assisted evidence checking and a complete human-only option. V3 bags derive count 12; V2/browser source pools remain 8; no V2/V1 hardware update.

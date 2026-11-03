@@ -2,7 +2,7 @@
 
 ## Current installed checkpoint
 
-**v3-0.1.8 DRAFT is installed and startup/UI/real-IMU verified.** It integrates the approved twelve-card content with the bounded RAM recorder, retaining the earlier recovery/logging corrections. Compass appearance and touch were reported working on the unchanged v3-0.1.5 layout; a complete physical flip on the corrected detector remains unaccepted. Twelve draft opening/cue/help sets are updated as endorsed; [V3-CARD-CONTENT.md](V3-CARD-CONTENT.md) details the two narrowly scoped base-activity clarifications. Reveal composition, fonts, geometry, sensor/gesture behavior and optional peripherals are unchanged.
+**v3-0.1.9 DRAFT is installed and startup/UI/real-IMU verified.** It integrates the approved twelve-card content with the bounded RAM recorder, retaining the earlier recovery/logging corrections. Compass appearance and touch were reported working on the unchanged v3-0.1.5 layout; a complete physical flip on the corrected detector remains unaccepted. Twelve draft opening/cue/help sets are updated as endorsed; [V3-CARD-CONTENT.md](V3-CARD-CONTENT.md) details the two narrowly scoped base-activity clarifications. Reveal composition, fonts, geometry, sensor/gesture behavior and optional peripherals are unchanged.
 
 The coordinated v3-0.1.5 trace contained 315 fresh, valid, resting, eligible records stuck in Recover, with current gravity nearly opposite the retained origin (alignment about -0.989). Old recovery rejected this position indefinitely. The corrected code retains the old reference until a fresh stable recovery hold qualifies, then adopts that pose without drawing. Same-origin recovery remains 600ms; a changed/opposed reference uses the existing 1200ms rebase dwell. Ready/Turning/Inverted and their thresholds are unchanged. Subsequent drawing still requires a whole opposition/return cycle.
 
@@ -26,6 +26,24 @@ python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json --jsonl PRIV
 ```
 
 Use `--wait 60` (separate arguments) for the fetch timeout. Keep raw captures private and use new output paths. Reader may close; do not reset/power-cycle before retrieval. This is diagnostic RAM, not product history. Actual baseline and capture/export logs: `build/v3-0.1.7/evidence/`; The approved twelve-card integration is installed in v3-0.1.8 after merged tests/review/build/write/readback.
+
+## Current two-minute recording checkpoint — v3-0.1.9
+
+REC is default OFF and now allocates/reuses 8192x40 bytes in PSRAM, freezes at 120seconds/capacity or `FREEZE <session> <token>`. Exact unsigned fields and matching nonzero session are required; retrying a matching frozen session preserves its ended time/reason/CRC/rows. Updated client supports legacy 2304/new 8192 capacities and manual reason 3; old unmodified clients reject 8192 rather than silently misread it. Legacy MOTION remains 45seconds. No sensor range, polling, detector thresholds/gates, card content, fonts or renderer changed in this release.
+
+```sh
+python3 tools/v3_flight_recorder.py record --port "$PORT"
+# Use the actual READY session; complete the whole natural movement without messaging between poses.
+python3 tools/v3_flight_recorder.py freeze --port "$PORT" --session "$SESSION"
+python3 tools/v3_flight_recorder.py fetch --port "$PORT" --session "$SESSION" --wait 0 --output PRIVATE_NEW_CAPTURE.json
+python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json
+```
+
+Keep data private; export before reset and use new destinations. Serial long-transfer timeouts/interleaved heartbeat text were observed; never accept partial output. Parent target tests used the exact ELF to retrieve already-frozen RAM through read-only JTAG and verified full CRC/header stability. No debugger was attached during the later human movement.
+
+Actual 53 isolated Python checks plus full native LVGL/content, SDK positive 1ms and driver/detector differential suites pass. Independent review passed after a RED/GREEN unsigned-metadata fix. Actual compile 645,639 program/128,184 globals; app 645,792 bytes. App-only write/hash and explicit flash verify passed after fresh original-board, security, backup/source/image/compatible component gates. Exact runtime 1.9/UI/Home/healthy IMU and advancing compass/sample counters pass. A synthetic target return proved larger recorder plus reveal allocation coexistence and normal reveal/hold/restoration; 3725 records/149000 bytes/manual reason 3/fullCRC contained exactly one synthetic trigger. Evidence was exported before intentional cleanup reset. These are not physical pixel or flip acceptance.
+
+The subsequent full natural-turnover capture contains 3101 rows/124040 bytes across 70.862seconds, manual reason 3; whole CRC passes. Host FREEZE ACK round trip was 0.070seconds (includes protocol/CRC/USB, not isolated CRC CPU timing). Gyro-X hit its configured raw rails 8 times; invalid-health cancellation put the detector into Recover on both turn legs, with no trigger. Read-error count did not increase and touch gates did not block the cycle. Physical result remains no card. This identifies measurement saturation in this attempt; a wider supported range and matched scaling/clip guards must be tested separately. Do not treat clipped peaks as recoverable data or claim that the range change is already installed.
 
 ## Current merged target verification
 
@@ -74,9 +92,9 @@ Use pinned original-family archive/toolchain in [V3-BRINGUP.md](V3-BRINGUP.md). 
 
 ```sh
 umask 077
-mkdir -p build/v3-0.1.8
-python3 tools/prepare_v3.py > build/v3-0.1.8/preparation-output.json
-ROOT="$PWD/build/v3-0.1.8"
+mkdir -p build/v3-0.1.9
+python3 tools/prepare_v3.py > build/v3-0.1.9/preparation-output.json
+ROOT="$PWD/build/v3-0.1.9"
 FQBN='esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
 FLAGS="-I$ROOT/config -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH=$ROOT/config/lv_conf.h"
 arduino-cli compile --jobs 2 --fqbn "$FQBN" --libraries "$ROOT/libraries" \

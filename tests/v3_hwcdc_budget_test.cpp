@@ -107,13 +107,13 @@ int main(int argc,char **argv){
  assert(motionDiagnostics.recorder.active() && Serial.tx_timeout_ms==1);
  reading=false;used=ringSize;const auto callsBefore=mutexTicks;
  v3app::FlightRecord record{};
- for(uint32_t now=81020;now<126000;now+=20){record.poll_ms=now;motionDiagnostics.recorder.append(record);motionDiagnostics.service(Serial,now);heartbeat(now);}
- motionDiagnostics.service(Serial,126000);
- assert(motionDiagnostics.recorder.ram.state==2 && motionDiagnostics.recorder.ram.count==2249);
+ for(uint32_t now=81020;now<201000;now+=20){record.poll_ms=now;motionDiagnostics.recorder.append(record);motionDiagnostics.service(Serial,now);heartbeat(now);}
+ motionDiagnostics.service(Serial,201000);
+ assert(motionDiagnostics.recorder.ram.state==2 && motionDiagnostics.recorder.ram.count==5999);
  assert(mutexTicks==callsBefore && !motionDiagnostics.draining() && last_heartbeat==80000);
  Serial.rx+="DUMP 1 0 32 99\n";
- for(uint32_t now=126005;now<132000;now+=5)motionDiagnostics.service(Serial,now);
- assert(!motionDiagnostics.draining() && motionDiagnostics.recorder.ram.count==2249 && Serial.tx_timeout_ms==1);
- puts("PASS recorder + verbatim SDK: full unread ACK/DUMP expires without writes/waits; all 2249 synthetic polls retained and frozen; no zero TX budget");
+ for(uint32_t now=201005;now<207000;now+=5)motionDiagnostics.service(Serial,now);
+ assert(!motionDiagnostics.draining() && motionDiagnostics.recorder.ram.count==5999 && Serial.tx_timeout_ms==1);
+ puts("PASS recorder + verbatim SDK: full unread ACK/DUMP expires without writes/waits; all 5999 synthetic polls retained and frozen; no zero TX budget");
  puts("PASS actual sketch setup+MOTION activation budget=1; connected/unread active+timeout: 9020 caller steps; reader drain/default OFF; oversized regular heartbeat+unread transport: 4001 app steps; reopen/close without reset returns; synthetic USB only");
 }

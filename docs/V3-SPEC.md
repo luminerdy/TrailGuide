@@ -2,7 +2,7 @@
 
 Version assignment: this is the round target now running its first read-only hardware trial. The current V2 is the separate portrait ESP32-C6 board described in [V2-SPEC.md](V2-SPEC.md). The existing round browser preview is retained for V3; neither renumbering nor browser work verifies the attached board or ports the UI.
 
-[V3-BRINGUP.md](V3-BRINGUP.md) records original Rev2.1/S3/16MB and two full recovery images. Current **v3-0.1.8 DRAFT** [trial](V3-TRIAL.md) is installed and startup/UI/real-IMU verified. The approved twelve draft pairs, plain compass, independent bags, Guide/Back, complete-copy routes, six-second reveal/five-second hold and bounded opt-in RAM recorder are integrated. Recorder capture/export and actual target draw/reveal/hold under explicit synthetic state injection pass; physical flip recognition remains unresolved. Sensor/gesture thresholds and renderer are unchanged by the content increment. Earlier artifacts remain preserved; production saving/OTA and broad stress/learning claims remain separate.
+[V3-BRINGUP.md](V3-BRINGUP.md) records original Rev2.1/S3/16MB and two full recovery images. Current **v3-0.1.9 DRAFT** [trial](V3-TRIAL.md) is installed and startup/UI/real-IMU verified. The approved twelve draft pairs, plain compass, independent bags, Guide/Back, complete-copy routes, six-second reveal/five-second hold and bounded opt-in RAM recorder are integrated. Recorder capture/export and actual target draw/reveal/hold under explicit synthetic state injection pass; physical flip recognition remains unresolved. Sensor/gesture thresholds and renderer are unchanged by the content increment. Earlier artifacts remain preserved; production saving/OTA and broad stress/learning claims remain separate.
 
 ## Product requirements
 

@@ -30,7 +30,7 @@ int main(){
   t.tx.clear();assert(f.command("DUMP 1 0 1 9876",102000));
   for(uint32_t n=102000;n<104000;++n)f.service(t,n);
   assert(!f.draining() && t.tx.find("TGFR1 END session=1 token=9876")!=std::string::npos);
-  if(cap==16){FILE *wire=std::fopen("build/v3-0.1.13/recorder.synthetic.wire","wb");assert(wire);std::fwrite(t.tx.data(),1,t.tx.size(),wire);std::fclose(wire);}
+  if(cap==16){FILE *wire=std::fopen("build/v3-0.1.14/recorder.synthetic.wire","wb");assert(wire);std::fwrite(t.tx.data(),1,t.tx.size(),wire);std::fclose(wire);}
  }
  Transport stalled;stalled.capacity=0;
  assert(f.command("DUMP 1 0 1 42",200000));f.service(stalled,200000);f.service(stalled,205000);
@@ -71,7 +71,7 @@ int main(){
  for(uint32_t t=60;t<100;++t)manual.service(manualWire,t);
  assert(manualWire.tx.find("capacity=8192")!=std::string::npos && manualWire.tx.find("reason=3")!=std::string::npos);
  assert(manual.command("DUMP 77 0 1 905",100));for(uint32_t t=100;t<200;++t)manual.service(manualWire,t);
- FILE *manualFile=std::fopen("build/v3-0.1.13/recorder.manual.synthetic.wire","wb");assert(manualFile);std::fwrite(manualWire.tx.data(),1,manualWire.tx.size(),manualFile);std::fclose(manualFile);
+ FILE *manualFile=std::fopen("build/v3-0.1.14/recorder.manual.synthetic.wire","wb");assert(manualFile);std::fwrite(manualWire.tx.data(),1,manualWire.tx.size(),manualFile);std::fclose(manualFile);
  assert(manual.command("FREEZE 77 902",90));assert(manual.ram.error==0);
  for(const char *bad:{"FREEZE","FREEZE 77","FREEZE 77 1 2","FREEZE 0 1","FREEZE 78 1","FREEZE -77 1","FREEZE +77 1","FREEZE 4294967296 1","FREEZE 77 4294967296","FREEZE 77 1junk","FREEZE 77 -1","FREEZE 77 +1","FREEZE 18446744073709551616 1","FREEZE junk 1"}){
   assert(manual.command(bad,100));assert(manual.ram.error==3);

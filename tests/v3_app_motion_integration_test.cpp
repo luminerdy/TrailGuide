@@ -75,7 +75,7 @@ int main(){
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.13/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.14/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  // Recorder is a second session on the same SINGLE parser, never two readers.

@@ -10,7 +10,13 @@ The earlier, separate V3 browser experience study explores **shake → one rando
 
 This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. V2's reveal is a presentation-only firmware increment; V1, canonical card copy/IDs/revisions/review states, model/deck order, networking and partitions remain unchanged. No USB upload or serial reset was used for the reveal update.
 
-## Current compact presentation checkpoint — v3-0.1.13
+## Current narrower-card checkpoint — v3-0.1.14
+
+Installed and exact-version startup/UI/real-IMU verified. The approved native comparison trims 8px from each side of the coaching blue face: **192x112**, with unchanged 168px text wrapping, 18px body, 12px perimeter/plain Options labels, outward icons and touch regions. Entry remains **tap compass → Coaching**; coaching **Options → Classic** preserves the fallback. The preceding icons and spacing received positive physical feedback; physical acceptance of this narrower face remains pending. No content, flow, sensor/gesture or timing change is included; the snapshot remains 256x140, reveal 6000ms and additional reading hold 5000ms.
+
+Actual full current-source LVGL ASan/UBSan/native/classic/content/SDK/differential checks, all 55 coaching faces, six opener fits, overflow and exact raster/live handoff pass; 80 isolated Python tests and all six generators pass. Guard/version/exact-approved-payload regressions have actual RED/GREEN evidence; the golden now pins the approved narrow source directly. Independent scoped source/output/deployer review clears. Actual S3/package, original-board/source/backup/security checks, app-only write and explicit flash comparison pass; fresh matching-ELF addresses establish the running 1.14 ROM identity, initialized active root and advancing valid IMU/UI counters. Recorder stays default OFF; device resumed without synthetic input. Installed 1.6–1.13 complete inventories remain unchanged. Writable build/test/replay outputs now use ignored `build/v3-0.1.14/`; full raw native frames are losslessly SHA-verified in its private archive. Local installation/commit does not imply remote publication.
+
+## Previous compact presentation checkpoint — v3-0.1.13
 
 Installed and exact-version startup/UI/real-IMU verified. Entry remains **tap compass → Coaching**; coaching **Options → Classic** retains the original fallback. The approved compact native comparison is ported with icons 4px outward, 12px perimeter captions, 18px coaching body, 208x112 blue face and a small plain 12px **Options** label without a visible box. Its 100x48 tap area remains intact. Other navigation captions stay 14px. All six canonical openers fit fully in native rendering; future long content retains a real scroll route. Actual physical smaller-type/touch acceptance is pending.
 
@@ -18,7 +24,7 @@ This is presentation-only: canonical content, coaching state model, classic mode
 
 Actual full LVGL ASan/UBSan/native/classic/content/SDK/differential checks and 80 isolated Python tests pass. The extra Options request has actual native RED/GREEN typography, transparency, target-size and pointer navigation checks. Fit fixtures correctly allow negative scroll-bottom spare space; the payload check normalizes only the separately authorized Options statement against the frozen approved overlay. Independent compact/product and focused fixture reviews clear. Actual S3 program 673131 bytes/globals 129120; application 673280 bytes fits the compatible app slot. Original-board/source/backup/security gates, app-only write/explicit flash verification, exact 1.13 identity, initialized active root, valid real sensor and advancing IMU/UI counters pass. Recorder remains default OFF; device resumed without synthetic runtime input. Version 1.12 and its complete artifact inventory remain preserved.
 
-## Current native coaching checkpoint — v3-0.1.12
+## Previous native coaching checkpoint — v3-0.1.12
 
 The approved six-path flow is now installed on the original V3 with compact primitive line-icons and short labels, retaining classic boot as a fallback. Entry is **tap compass → Coaching**; exit is coaching **Options → Classic**. The coaching layer resolves canonical references into generated draft text without modifying the forty-card catalog or existing twelve-card classic selection. All six paths, optional experiments, help/reminders, independent path/face/scroll memory, Opening return and unrestricted release are native-tested. Questions/experiments/closings advance in authored order only on explicit actions; openers use an independent shuffled pool. No team data, storage, live AI, audio, networking or automatic reminders are added.
 

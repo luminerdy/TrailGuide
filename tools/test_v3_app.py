@@ -9,8 +9,8 @@ from prepare_v3 import prepare
 import v3_native_objects as native
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.13/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.13/host'
+LVGL = ROOT / 'build/v3-0.1.14/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.14/host'
 
 def coaching_frame_directory():
     # The native harness writes here, including on a completely fresh output.
@@ -21,7 +21,7 @@ def coaching_frame_directory():
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.13/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.14/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = native.flags()

@@ -2,7 +2,7 @@
 
 ## Current installed checkpoint
 
-**v3-0.1.13 DRAFT is installed, application-flash verified and exact-version startup/UI/real-IMU liveness checked.** Tap the classic compass, then **Coaching** for the compact six-path icon flow, smaller question text/blue face and text-only Options. Coaching **Options → Classic** returns to the original compass/cards. New physical coaching readability, touch and natural-opener gesture checks remain pending; earlier 1.10/1.11 human acceptance below is historical, not a new 1.13 acceptance claim.
+**v3-0.1.14 DRAFT is installed, application-flash verified and exact-version startup/UI/real-IMU liveness checked.** Tap the classic compass, then **Coaching** for the approved narrower 192x112 blue face. Text, outward icons, spacing, text-only Options and the coaching flow are unchanged. Coaching **Options → Classic** returns to the original compass/cards. Physical feedback liked the preceding icons and spacing; physical acceptance of this side trim and broader coaching touch/natural-opener checks remain pending. Earlier 1.10/1.11 human gesture acceptance below is historical, not a new 1.14 acceptance claim.
 
 The coordinated v3-0.1.5 trace contained 315 fresh, valid, resting, eligible records stuck in Recover, with current gravity nearly opposite the retained origin (alignment about -0.989). Old recovery rejected this position indefinitely. The corrected code retains the old reference until a fresh stable recovery hold qualifies, then adopts that pose without drawing. Same-origin recovery remains 600ms; a changed/opposed reference uses the existing 1200ms rebase dwell. Ready/Turning/Inverted and their thresholds are unchanged. Subsequent drawing still requires a whole opposition/return cycle.
 
@@ -27,13 +27,17 @@ python3 tools/v3_flight_recorder.py verify PRIVATE_NEW_CAPTURE.json --jsonl PRIV
 
 Use `--wait 60` (separate arguments) for the fetch timeout. Keep raw captures private and use new output paths. Reader may close; do not reset/power-cycle before retrieval. This is diagnostic RAM, not product history. Actual baseline and capture/export logs: `build/v3-0.1.7/evidence/`; The approved twelve-card integration is installed in v3-0.1.8 after merged tests/review/build/write/readback.
 
+## Narrower coaching blue face — v3-0.1.14
+
+The approved native side-trim comparison is installed: 8px removed from each side, taking the visible blue face from 208x112 to 192x112. The 168px text wrap, 18px body, 12px captions, icon positions, generous hit targets and plain Options are unchanged. The exact 256x140 snapshot, six-second reveal and additional five-second hold remain intact. All six openers fit, all 55 canonical coaching faces and complete-copy overflow pass native checks, and the animated/live handoff remains exact. Full current-source LVGL ASan/UBSan and 80 isolated Python checks pass; source/output/deployment review, S3/package checks, app-only flash/explicit comparison and exact-version initialized-UI/real-IMU readback pass. Installed 1.6–1.13 inventories remain unchanged; this is presentation-only, not new physical gesture acceptance.
+
 ## Compact coaching presentation — v3-0.1.13
 
 The approved smaller native layout and subsequent plain Options request are installed, app-flash verified and exact-version startup/real-IMU checked. The flow is unchanged. Main coaching text is 18px, perimeter captions and opening Options are 12px; icons move 4px outward and blue face is 208x112 inside the unchanged 256x140 snapshot panel. Tap targets remain at least 48px, including the 100x48 invisible Options area. All six canonical openers fit in native checks. Actual full native tests and 80 isolated checks pass; physical compact readability/touch remains pending. Classic, content, models, sensor/gesture and timing are preserved.
 
 ## Native six-path coaching — v3-0.1.12
 
-See the [current coaching checkpoint and entry instructions](HANDOFF.md#current-native-coaching-checkpoint--v3-0112) and [coaching content, interaction and browser boundaries](COMPASS-COACHING-PREVIEW.md). Classic remains the boot default; use its Options **Coaching** entry. This is an offline draft, not a recording release. No new shake detector or motion tuning is introduced.
+See the [current coaching checkpoint and entry instructions](HANDOFF.md#previous-native-coaching-checkpoint--v3-0112) and [coaching content, interaction and browser boundaries](COMPASS-COACHING-PREVIEW.md). Classic remains the boot default; use its Options **Coaching** entry. This is an offline draft, not a recording release. No new shake detector or motion tuning is introduced.
 
 ## Qualified-turnover blackout — v3-0.1.11
 

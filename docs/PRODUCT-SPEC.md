@@ -1,6 +1,6 @@
 # TrailGuide — Living product specification
 
-Status: approved product direction; implementation pending unless explicitly marked verified below.
+Status: approved product direction with an installed read-only V3 trial. Planned core-release features below are not implied by the trial. The [project specification](PROJECT-SPEC.md) gives the concise current baseline; this document preserves stable product requirement IDs and explicitly separates implemented behavior from future scope.
 
 ## 1. Purpose and source of truth
 
@@ -8,7 +8,7 @@ TrailGuide develops project-led mentoring for individuals and teams using AI in 
 
 The primary deliverables are mentoring practice, reusable materials and learner-owned context for continuing with an AI coach or other support. Connect to AI Learning Lab's Define → Direct → Check → Adjust loop and flexible AI-role map rather than inventing a competing curriculum. [COACHING-DIRECTION.md](COACHING-DIRECTION.md) and [PROJECT-COACH.md](PROJECT-COACH.md) define the draft practice and portable brief.
 
-An offline pocket device is an optional, enjoyable companion and building experiment, not the main deliverable or a prerequisite for mentoring. Ask/Try and Guide me offer questions, listening cues and activities; planned Team Trail records deliberate facilitator interventions. Future V3 adds a playful shake-to-idea and gradual reveal under P-20. The device's geometry must not constrain all mentoring materials.
+An offline pocket device is an optional, enjoyable companion and building experiment, not the main deliverable or a prerequisite for mentoring. Current V3 offers [Classic](CLASSIC-FLOW.md), a shuffled Ask/Try prompt deck, and [Coaching](COACHING-FLOW.md), a human-directed six-path conversation aid. It uses turn over and back, not shake, with the P-20 whole-face reveal. Planned Team Trail would record deliberate facilitator interventions but is not implemented. The device's geometry must not constrain all mentoring materials.
 
 This is the canonical product specification. Keep it in GitHub and update it as development proceeds. [PLAN.md](PLAN.md) defines sequencing; [V1-SPEC.md](V1-SPEC.md), [V2-SPEC.md](V2-SPEC.md) and [V3-SPEC.md](V3-SPEC.md) define hardware-specific requirements; [WIFI-UPDATES.md](WIFI-UPDATES.md) defines firmware updates. Actual execution evidence belongs in [BRINGUP.md](BRINGUP.md).
 
@@ -108,20 +108,20 @@ Initial situations: Too many ideas; Nobody's talking; AI sounds convincing; We'r
 
 ### P-16: Two-mode facilitator coaching — core release
 
-Approved direction; implementation pending. Detailed content, UI, storage and handoff requirements: [FACILITATOR-MODES.md](FACILITATOR-MODES.md).
+Ask/Try/Guide me are implemented in the read-only device trials; the full production filtering, eligibility, linked-face and durable-data contract remains future scope. Detailed content, UI, storage and handoff requirements: [FACILITATOR-MODES.md](FACILITATOR-MODES.md).
 
 - **Ask the Team** gives a natural open question. **Try a Move** gives a practical activity. Ask is the default for a fresh session.
 - **Guide me** coaches the facilitator without repeating the main card: Ask begins with what to listen for; Try begins with how to run the activity. Observable Notice cues and optional Follow up add depth. A distinct suggested invitation may appear later, not as a repeated opening. It is available in both modes and is core, not deferred Show me how content.
 - Reuse forty stable card identities and eight themes; author reviewed paired faces rather than duplicate cards or create mode-specific themes. Preserve V1 and existing agent variants.
 - Mode is independent of team, theme and optional Agent Workflow collection. FACILITATOR-MODES.md defines the proposed draft/reviewed/retired state scopes and separate Ask/Try Guide me eligibility. Apply one eligibility decision across draws, linked faces, saves and explicit reuse; empty pools explain the absence without silently substituting advice. Historical snapshots remain clearly labeled read-only history.
-- Related-face navigation preserves the current card/revision. Another draws within current mode/filter. Shake draws only from main card screens; Guide me and other navigation/confirmation states suppress it. One Guide me entry contains core support and later depth; record labels are Asked this / Offered this move.
+- Related-face navigation preserves the current card/revision. Another draws within current mode/filter. Eligible motion draws operate only in the appropriate main-card contexts; Guide me and other navigation/confirmation states suppress it. One Guide me entry contains core support and later depth; record labels are Asked this / Offered this move.
 - Asking, reading, waiting and switching faces record nothing. Deliberate confirmed use records the actual mode and destination team. Ask records use of a question; Try records offering/starting an activity, not completion or learning.
 - Save remains per scope/card and retains originating mode. History migration preserves old records as unspecified. Do not enable mode-aware history before durability/migration checks pass.
 - No answer capture, voice listening, automated learner diagnosis or mandatory transition into advice.
 
 ### P-17: V3 round-screen simplicity and prototype gate
 
-An initial read-only browser preview is built for eight representative draft pairs. Production firmware/tracking and facilitator/actual-hardware acceptance remain pending. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
+The initial eight-pair read-only browser gate is retained as a historical design study. Current installed native behavior is specified by P-21 and the mode maps; production tracking/filtering and the broader prototype interface remain future scope, with their own acceptance. Detailed coordinates, task paths, overflow handling and acceptance: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md).
 
 - Prioritize the question/action. Main card bottom actions are Guide me and Another; Back, team and More stay visible. Keep full title/reference in guidance/details and secondary operations in a paged action list.
 - Guide me is the only help entry; later Steps/AI/tool notes extend it, not a second Show me how button. Record-use labels are Asked this / Offered this move, with a separate named-team/mode confirmation.
@@ -130,9 +130,9 @@ An initial read-only browser preview is built for eight representative draft pai
 - First author eight representative draft pairs, one per theme, and a read-only round prototype with an overflow fixture. Recording/saving remain visibly disabled; use synthetic team context and no fake persisted history.
 - Review unprompted facilitator task completion and revise before completing forty paired faces or implementing storage migration. Eligibility, pools, durability and actual V3 display/touch/OTA gates follow; preserve V1 throughout.
 
-### P-18: V2 portrait ESP32-C6 adaptation — current target
+### P-18: V2 portrait ESP32-C6 adaptation — separate target
 
-The current V2 is the 1.47-inch ESP32-C6 capacitive-touch board with pin headers and nominal 172x320 portrait screen. V3 is the future round ESP32-S3 board. Hardware and bring-up contract: [V2-SPEC.md](V2-SPEC.md); preserve the separate [V3 contract](V3-SPEC.md).
+The current V2 is the 1.47-inch ESP32-C6 capacitive-touch board with pin headers and nominal 172x320 portrait screen. V3 is the separate round ESP32-S3 target with its own installed trial. Hardware and bring-up contract: [V2-SPEC.md](V2-SPEC.md); preserve the separate [V3 contract](V3-SPEC.md).
 
 - Re-identify the physical board/revision, chip, flash/partitions, drivers and serial port before selecting examples or writing firmware. USB enumeration is not chip/display/touch verification.
 - Preserve V1 as fallback and retain original C6 firmware if readable before an authorized write. No V1 binary, wiring map or V3 display configuration is assumed compatible.
@@ -166,9 +166,9 @@ This is the primary project track and does not wait for firmware, forty-card enr
 
 ### P-20: V3 playful idea draw and gradual reveal
 
-Status: a first read-only V3 hardware trial now implements an experimental gesture path, shuffled curated ideas and native whole-face reveal, alongside the earlier browser study. Actual physical compass/flip reliability remains pending; the earlier answer animation was positively observed; this is not production eligibility, recording or a validated learning intervention. See [V3-TRIAL.md](V3-TRIAL.md). Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
+Status: the installed read-only V3 trial retains the qualified turn-over/back gesture, shuffled authored ideas and native whole-face reveal, alongside earlier browser studies. Documented natural card/blackout observations are preserved; sustained reliability and new Coaching acceptance remain separate. This is not production eligibility, recording or a validated learning intervention. See [V3-TRIAL.md](V3-TRIAL.md). Detailed boundary and tests: [V3-EXPERIENCE.md](V3-EXPERIENCE.md).
 
-- Playful compass intro: initial Home shows a plain full-face wandering compass without instructions or buttons, clearly an idea compass rather than a real magnetic/navigation instrument. North/heading accuracy and added sensors are not required for this iteration. Idle movement never draws a card. A held screen-up → screen-down → return-up cycle draws an Ask question by default through the existing shared draw/reveal path. Qualified screen-down blanks the prior compass/card to black without drawing; return qualification stays black, completed return starts the existing reveal, and cancellation restores the prior scene. No shake or extra timed blank pause is required; a compass tap opens Options containing touch Ask/Try/Instant/Back, and Home returns to the intro. Instant text retains the card-reveal bypass; the decorative compass still wanders. The full-screen compass and twelve-card content are retained in installed v3-0.1.11. Compass/touch have been reported working; one natural flip now produces a human-confirmed card after a recorded gyro-range correction; repeated-use reliability and card-only timing still need separate acceptance.
+- Playful compass intro: initial Home shows a plain full-face wandering compass without instructions or buttons, clearly an idea compass rather than a real magnetic/navigation instrument. North/heading accuracy and added sensors are not required for this iteration. Idle movement never draws a card. A held screen-up → screen-down → return-up cycle draws an Ask question by default through the existing shared draw/reveal path. Qualified screen-down blanks the prior compass/card to black without drawing; return qualification stays black, completed return starts the existing reveal, and cancellation restores the prior scene. No shake or extra timed blank pause is required; a compass tap opens Options containing touch Ask/Try/Instant/Back, and Home returns to the intro. Instant text retains the card-reveal bypass; the decorative compass still wanders. The full-screen compass and twelve-card content from preserved v3-0.1.11 remain in current Classic. Compass/touch have been reported working; one natural flip now produces a human-confirmed card after a recorded gyro-range correction; repeated-use reliability and card-only timing still need separate acceptance.
 - After mode selection, one complete main-card turn-over/back cycle or Another uses the same active mode/filter and eligible pool. Ask offers a question; Try offers a concise practical move. Curated random content suggests a possibility, not a diagnosis, command or live AI answer.
 - Use a short nonblocking settling beat followed by the whole answer-bearing surface emerging with perceived depth and gentle settling, not typing or a uniform static-label fade alone. Keep complete copy together and final type readable; use a representative motion sample to check the intended feel before integration. Reveal all completes the same selected card; Instant text/reduced-motion support skips the effect. No essential action depends on shaking, animation or waiting.
 - Ignore rather than queue additional draws while busy. Invalidate old animation callbacks when context changes. Allow complete flip cycles only on the explicit playful compass intro or an eligible settled main card; suppress in other contexts, on wake and during updating; no gesture can record, save or confirm anything. The earlier gentle-shake trial failed its physical check. The current trial uses held gravity-opposition/return poses. Its default-OFF bounded RAM recorder retains technical poll evidence for explicit diagnostic capture; this is not product conversation or Team Trail recording. Pose holds, rest, timeout and cooldown still require physical handling checks.
@@ -178,9 +178,23 @@ Status: a first read-only V3 hardware trial now implements an experimental gestu
 
 P-20 is optional V3 work, not a prerequisite for mentoring materials, V2 acceptance or learner participation.
 
-The current v3-0.1.11 presentation hides controls during the six-second reveal and for five seconds after it settles. Tap can finish the same reveal or expose controls early; no required wait blocks access. New complete flips remain eligible after reveal, including during the settled hold, and use the same shuffled draw path. Presentation does not record card usage or establish a coaching outcome; the separately endorsed twelve-card content update is documented in V3-CARD-CONTENT.md.
+The v3-0.1.11 presentation, retained in the current trial, hides controls during the six-second reveal and for five seconds after it settles. Tap can finish the same reveal or expose controls early; no required wait blocks access. New complete flips remain eligible after reveal, including during the settled hold, and use the same shuffled draw path. Presentation does not record card usage or establish a coaching outcome; the separately endorsed twelve-card content update is documented in V3-CARD-CONTENT.md.
 
-The current mechanical increment corrects an observed retained-reference Recover lock: after cancellation a stable eligible changed/opposed pose can qualify as a new reference without drawing. Active-cycle thresholds, card copy and six-second reveal are unchanged; physical acceptance remains separate. Positive finite USB logging budget is retained.
+The retained earlier mechanical correction addresses an observed retained-reference Recover lock: after cancellation a stable eligible changed/opposed pose can qualify as a new reference without drawing. Active-cycle thresholds, card copy and six-second reveal are unchanged; physical acceptance remains separate. Positive finite USB logging budget is retained.
+
+### P-21: V3 Classic and optional compass Coaching — installed trial
+
+Status: implemented in installed `v3-0.1.14` DRAFT; software, target build, app-only flash and exact-version initialized-UI/real-IMU readback are verified. Human feedback accepted the earlier icons/spacing; physical acceptance of the latest narrower face and broader coaching touch/reliability remain separate. See the [current project specification](PROJECT-SPEC.md), [Classic Mermaid flow](CLASSIC-FLOW.md), [Coaching Mermaid flow](COACHING-FLOW.md) and [trial evidence](V3-TRIAL.md).
+
+- Classic boots to the decorative compass, with no automatic draw and Ask as the fresh-boot default. Compass turnovers explicitly draw Ask; settled-card turnovers and Another retain the active card mode. Ask/Try use independent shuffled twelve-card pools; Guide/Back and scrolling preserve identity. Home returns to the compass without drawing.
+- Coaching is an explicit Classic Options entry, not a mandatory replacement. Its Options → Classic route preserves the original experience; re-entry restores the same opener within the boot. All conversation context is RAM-only and resets on reboot.
+- Six shuffled opening questions lead, at the facilitator's discretion, to Progress, Stuck, Unclear, Exploring, AI Results or Team. These are conversation contexts, never diagnoses or permanent classifications.
+- Each path offers four authored questions and three optional experiments. Another cycles the selected face in authored order; path switching remembers question/experiment choice, position and scroll. It does not consume an opener draw. Opening restores the exact saved opener without a draw.
+- Guide me and four listening reminders are private facilitator support. Three optional closing questions support learner-owned next steps; Release is unrestricted, with no required question count, path or experiment. No response is listened to, captured or stored.
+- New opening draws use the retained reveal/hold path; coaching motion is eligible only on Opening. Initial entry displays its opener directly. No automatic path selection, conversation advancement or queued draw is added.
+- The approved coaching face is 192x112 inside an exact 256x140 capture, with fixed 168px opening wrap, 18px body and 12px perimeter/opening Options captions. The plain Options label retains its 100x48 target; path targets remain at least 48px. Preserve complete scrollable copy, successful animated capture and exact settled/live handoff.
+- The six-second whole-face reveal and additional five-second reading hold retain touch/Instant alternatives and cancellation restoration. Changing presentation must not change content, model/RNG semantics or sensor/gesture rules.
+- Current content is authored draft data, not live AI. V3 has no Team Trail, saved/history data, theme-filter UI, audio, participant profiling or OTA. These trial requirements do not turn the broader planned core-release features into mentoring prerequisites.
 
 ## 5. Content specification
 
@@ -247,7 +261,7 @@ A local export/backup and restore tool is a post-core priority, using explicit u
 
 Keep text and controls inside the active display's usable area: rectangular portrait for V2, circle-safe for V3. Prefer large tap targets, short pages, high contrast and text labels instead of color-only meanings. Validate on real hardware in workshop lighting; numeric sizing must follow actual display dimensions and touch calibration.
 
-Scrolling must not trigger buttons. Wake preserves the current card and consumes the first touch instead of marking use or drawing. Disable shake where handling could mutate history. Idle dimming does not lose team context or saved state. All essential actions work by touch; shaking is optional.
+Scrolling must not trigger buttons. Wake preserves the current card and consumes the first touch instead of marking use or drawing. Disable draw gestures where handling could mutate history. Idle dimming does not lose team context or saved state. All essential actions work by touch; motion is optional.
 
 A compass needle is a visual metaphor, not a magnetic heading instrument. Do not imply real north without appropriate verified hardware.
 
@@ -270,7 +284,7 @@ Host tests are required for deck, event attribution, deduplication, reversal, co
 
 ## 9. Delivery scope and fallback
 
-The primary project delivers P-19 mentoring practice and learner-owned materials independently of hardware. The optional device's shared core release remains P-01 through P-07 and P-10 through P-16. Apply P-18 for current V2 portrait and P-17 for future V3 round; do not require V3 hardware or optional P-20 novelty to release V2 or use the mentoring materials. P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
+The primary project delivers P-19 mentoring practice and learner-owned materials independently of hardware. The optional device's shared core release remains P-01 through P-07 and P-10 through P-16. Apply P-18 for V2 portrait, P-17 for the proposed production round UI and P-21 for the current V3 read-only modes; do not require V3 hardware or optional P-20 novelty to release V2 or use the mentoring materials. P-03 optional detail expansion can follow. A basic persistence layer is inseparable from releasing Used it or Team Trail: do not ship misleading volatile history.
 
 Next enhancements: P-08 follow-through/favorites, P-09 situations, expanded card details, explicit local export/restore. Subsequent possibilities require a separate scope decision: timers, richer notes, phone companion, cloud sync, live AI, audio or analytics.
 
@@ -288,10 +302,12 @@ For each meaningful change:
 
 ### Decision log
 
+- Current baseline and mode maps: distinguish the installed Classic prompt deck from optional six-path Coaching, preserve both as offline authored aids, and document their actual navigation separately from future Team Trail/production requirements. Add P-21 and a concise project/system specification without redefining the learner-facing loop or authorizing new runtime features.
+
 - V2 touch reveal: reuse the playful gradual-text idea without assuming a motion sensor. Add nonblocking main-card reveal and same-card Reveal all to the existing portrait controls; keep Guide/Back instant, content/order/networking/partitions unchanged and the V3 physical-shake contract separate. Record actual-LVGL, compile and authenticated wireless-readback evidence separately from human pacing/touch acceptance.
 
 - Project-led purpose: make broad mentoring and learner independence primary, anchored in meaningful projects and the existing AI Learning Lab. Device work remains an optional playful building track, not a curriculum or prerequisite. Add a reusable learner-owned project/coaching brief without an integrated AI service or canonical card changes.
-- V3 novelty: retain intentional shake-to-idea followed by gradual text reveal, with touch parity, Reveal all, Instant text and context/busy-state safeguards. Add P-20 and a separate browser experience study; do not retrofit or reflash V2 or claim sensor acceptance from a simulation.
+- Initial V3 novelty study: simulated shake-to-idea and gradual reveal explored P-20 separately from V2. The native gesture was subsequently superseded by the explicitly chosen turn over and back, with the whole blue answer face emerging together; current behavior is P-20/P-21, not the old simulated shake or text fade.
 
 - Facilitator development: add the research-gated P-19 direction to support the facilitator as well as the team, with invitation/listening/scaffolding, appropriate reliance and optional before/after practice. Preserve the live Ask/Try/Guide structure, learner agency and privacy. Research/practice proposals are not shipped features or evidence of effectiveness; current continuity is recorded in HANDOFF.md.
 

@@ -4,6 +4,10 @@ Goal: develop mentoring for individuals and teams learning through meaningful pr
 
 Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Proposed circular UX and prototype gates: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md). Hardware contracts: [V1 OLED](V1-SPEC.md), [V2 portrait C6](V2-SPEC.md), [V3 round S3](V3-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.
 
+## Current installed baseline
+
+The optional V3 companion is `v3-0.1.14` DRAFT, with Classic and six-path Coaching installed and exact-version read back. The [project specification](PROJECT-SPEC.md), [Classic flow](CLASSIC-FLOW.md) and [Coaching flow](COACHING-FLOW.md) describe what exists; [HANDOFF.md](HANDOFF.md) and [V3-TRIAL.md](V3-TRIAL.md) hold evidence and physical acceptance limits. The phases below remain delivery planning, not a claim that Team Trail, theme filtering or durable storage is shipped. No additional firmware work is authorized by this documentation checkpoint.
+
 ## Primary track — project-led mentoring and independence (P-19)
 
 Status: endorsed direction; draft [mentoring practice](COACHING-DIRECTION.md) and a [learner-owned project/coaching brief](PROJECT-COACH.md) are available for review. Research notes and a bounded synthesis have been collected separately; a reviewed curriculum, reliable integrated AI coach and effectiveness claims remain unestablished.

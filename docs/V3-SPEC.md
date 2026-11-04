@@ -1,56 +1,103 @@
-# V3 — Round Trail Guide Compass
+# V3 — round TrailGuide companion specification
 
-Version assignment: this is the round target now running its first read-only hardware trial. The current V2 is the separate portrait ESP32-C6 board described in [V2-SPEC.md](V2-SPEC.md). The existing round browser preview is retained for V3; neither renumbering nor browser work verifies the attached board or ports the UI.
+## Scope and authority
 
-[V3-BRINGUP.md](V3-BRINGUP.md) records original Rev2.1/S3/16MB and two full recovery images. Current **v3-0.1.11 DRAFT** [trial](V3-TRIAL.md) is installed and startup/UI/real-IMU verified. The approved twelve draft pairs, plain compass, independent bags, Guide/Back, complete-copy routes, six-second reveal/five-second hold and bounded opt-in RAM recorder are integrated. Recorder capture/export and actual target draw/reveal/hold under explicit synthetic state injection pass; one natural blank → card animation → controls turnover sequence has human confirmation and one clean recorded trigger; repeated-use reliability remains open. The earlier content increment preserved sensor behavior. The later range correction changes only gyro full scale and its matched conversion/safety predicates, not gesture timing, eligibility or the renderer. Earlier artifacts remain preserved; production saving/OTA and broad stress/learning claims remain separate.
+This is the hardware/runtime contract for the round ESP32-S3 target. The [project specification](PROJECT-SPEC.md) defines the current system baseline; [PRODUCT-SPEC.md](PRODUCT-SPEC.md) retains stable product requirements, including P-19 mentoring, P-20 playful reveal and P-21 Classic/Coaching. [CLASSIC-FLOW.md](CLASSIC-FLOW.md) and [COACHING-FLOW.md](COACHING-FLOW.md) map the actual mode flows.
 
-## Product requirements
+V3 is an optional enjoyable companion to project-led mentoring, not the curriculum or a prerequisite for learner independence. V1 OLED and V2 portrait C6 remain separate targets with preserved fallbacks. Do not reuse their drivers, pins, partitions or binaries.
 
-V3 is an optional playful companion to [project-led mentoring](COACHING-DIRECTION.md), not the main curriculum or a prerequisite for learner independence. Preserve the broader materials and [portable coaching brief](PROJECT-COACH.md) independently of this display. P-20 and [V3-EXPERIENCE.md](V3-EXPERIENCE.md) define the endorsed shake-to-idea/gradual-reveal direction and separate browser experiment.
+## Current baseline and evidence
 
-The [living product specification](PRODUCT-SPEC.md) is the canonical source for the touchscreen experience: Ask/Try unfiltered draws, eight themes, team selection, deliberate mode-aware tracking, saved ideas and durable Team Trail history. Follow-through, favorites, situation shortcuts and expanded guidance are phased enhancements. See [PLAN.md](PLAN.md) for delivery gates. Ask the Team, Try a Move and core Guide me are specified in [FACILITATOR-MODES.md](FACILITATOR-MODES.md), P-16. The proposed safe-circle layout, text/touch budgets and read-only prototype gates are specified in [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md), P-17. An initial read-only browser preview demonstrates eight paired cards; production features and actual-hardware acceptance remain pending.
+**v3-0.1.14 DRAFT is installed.** Application-only flash comparison and fresh matching-ELF readback verify the intended running version, initialized active UI and advancing valid real-IMU/application counters. Full current-source native LVGL ASan/UBSan, 80 isolated Python checks, content generators and S3/package checks passed for that firmware increment. See [V3-TRIAL.md](V3-TRIAL.md) and [HANDOFF.md](HANDOFF.md).
 
-## Target
-Target: photo-confirmed original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1; 360x360 round capacitive touchscreen, ESP32-S3, 16MB flash, 8MB PSRAM, QMI8658 accelerometer/gyroscope. This is the original 1.85 model, not 1.85B or 1.85C-BOX.
+Earlier Classic natural turnover/blackout observations and a clean recorded trigger are preserved. Compact icons and spacing received positive physical feedback; the latest side trim was approved from native renders. Physical acceptance of that narrower face, broader coaching touch/gesture behavior and sustained reliability remain separate and open. A compiled image or native framebuffer is not a photograph, a measured device frame rate or evidence of learning benefit.
 
-Use the already confirmed Rev2.1 identity, checked display/touch pin map and pinned dependencies. Re-identify the live target/port before updates; do not repeat model-photo requests or mistake nominal memory for health/performance acceptance. Do not reuse V1/C6 pins, partitions or binaries.
+## Target hardware
 
-## Experience
-- Playful Home wanders until a completed turn-over/back asks for an idea, or tap opens Options. This is not heading/calibration/navigation. Intro flip defaults to Ask; Options retains Ask/Try/Instant/Back. The v3-0.1.6 recovery increment can learn a new stable reference after cancellation rather than deadlock against an opposed old one. Rearming never draws; active-cycle behavior is unchanged. Corrected physical flip acceptance remains open.
-- Home is a plain full-face decorative compass with no instructions/buttons and no automatic draw. A compass tap opens Options with Ask/Try/Instant/Back; first flip draws Ask. No team/theme setup is required. New cards show only the answer through the unchanged six-second reveal and five-second settled hold; controls then return or can be exposed by tap. A flip after reveal still draws another shuffled card during the hold.
-- Tap Another or a complete main-card turn-over/back cycle to select one random curated question/action in the active mode/filter, settle briefly and let the whole answer emerge together from darkness, Magic-8-Ball-style. Keep the complete blue answer-bearing surface and words together as they approach with gentle perspective/tilt/drift and settle readable; do not substitute static-label opacity alone, typing letters, sequential words or changing wrapping during motion. A restrained decorative needle beat is optional; this is not live AI generation or a magnetic bearing. Let people accept, adapt or ignore the idea.
-- Reveal all finishes that same card immediately; an Instant text/reduced-motion option skips the pause/reveal. Keep readable complete copy and an overflow route, never a required wait or smaller font. Touch works without shaking. The effect is an optional shared moment, not evidence of better learning.
-- One core Guide me entry adds listening-first Ask or activity-first Try coaching without repeating the main card, followed by Notice/Follow up; optional Steps/tool notes live inside it later. Linked Ask/Try faces preserve identity and obey release eligibility. More exposes Asked this / Offered this move and Save without crowding the main question.
-- Reuse V1 advice meanings and shuffle behavior, with a readable circular layout.
-- Ignore, never queue, extra draw events during settling/reveal. Cancel stale callbacks on navigation/context change. Allow gesture draws on the explicit compass intro and eligible main cards only; suppress in Guide me, other menus, history, confirmations, dim/wake transitions and updates. Tune threshold, return-to-rest and cooldown from measured hardware traces; ordinary handling and sustained motion must not produce repeated draws.
-- Keep current advice until another draw. Idle dimming and wake preserve it; wake touch must not accidentally skip it.
-- Advice works entirely offline. Preserve the optional local Wi-Fi update capability described in [Wi-Fi updates](WIFI-UPDATES.md).
+- Original **Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1**, not 1.85B or 1.85C-BOX.
+- 360x360 round capacitive touchscreen; ESP32-S3; 16MB flash and nominal 8MB PSRAM.
+- ST77916 display, CST816-family touch, TCA9554 support and QMI8658 accelerometer/gyroscope use the inspected original-family package.
+- No magnetometer is required. The wandering compass is decorative and must not imply real north, calibration or navigation accuracy.
+- USB power is the baseline. Battery/enclosure selection, connector/polarity/charging checks and measured runtime are deferred.
 
-## Architecture
-Extract shared advice/deck logic from V1 and keep independent hardware targets. Separate content, pool selection, team/use-event model, persistent storage and hardware UI so they can be tested independently. States include Home, Theme selection, Team selection, Drawing, Advice, Details, Record confirmation, Saved, Team Trail and Idle/Dimmed. Inputs are context-specific: draw gestures cannot confirm recording. Use nonblocking animation. Durability, deduplication, event ordering and migration requirements are specified in PRODUCT-SPEC.md.
+Use the recorded board identity and pinned pin map. Re-identify the actual target, revision and live port before any operation that can reset/write it; USB enumeration alone does not verify the display or fitted peripherals. Preserve the two original full-flash recovery images and accepted firmware artifacts privately.
 
-## Power and case
-USB first. Battery and case are deferred. Before selecting a cell, verify exact connector, polarity, charge current, chemistry and fit for this board. Secure wiring and battery, retain USB access, and measure actual runtime/charging with final firmware. Battery readiness is not established by a capacity estimate.
+## Modes and navigation
 
-## Acceptance
-- Manufacturer display, touch and IMU examples run on received hardware.
-- All content/control/focus bounds fit the measured safe circle; verify longest copy, overflow handling, real font metrics and proposed P-17 touch targets in workshop lighting. Geometric containment is not proof of readability or accurate touch.
-- At least twenty deliberate shakes register; ordinary handling does not repeatedly draw.
-- Tap fallback is reliable; animation cannot queue unwanted draws. Reveal all/Instant text preserve card identity and do not record use; mode/filter/navigation changes cancel stale callbacks. Check both deliberate shakes and ordinary handling, carrying, putting down, rotation, touch/scroll, wake and updating.
-- The reveal remains nonblocking and responsive with complete readable copy and reduced-motion behavior on the actual display. Browser timing and simulated input are separate evidence, not IMU/display acceptance or proof of fun/learning.
-- Mode/filter pools obey eligibility and uniqueness/boundary-repeat rules, including empty and single-card pools; linked-face navigation does not consume a draw.
-- P-16 Guide me/navigation, all-path release eligibility, mode-aware saves/events and legacy migration pass FACILITATOR-MODES.md acceptance. P-17 read-only prototype tasks and actual-hardware UI/touch checks pass ROUND-UI-SPEC.md acceptance.
-- Quick start needs no team; recording requires explicit attribution and confirmation.
-- Team Trail, saves, feedback and Undo pass product-spec isolation/deduplication tests.
-- Trail data survives reboot; interrupted writes, full storage and schema migration have tested explicit outcomes.
-- All product-core acceptance checks in PRODUCT-SPEC.md pass; no team data leaks into shared diagnostics.
-- Idle/wake preserves advice and does not record or draw accidentally.
-- One-hour USB soak and reboot pass.
-- Battery operation is only declared ready after runtime and charging tests.
+### Classic — prompt deck
 
-## Deferred
-Real north requires a magnetometer; QMI8658 alone cannot supply magnetic heading. Audio, live AI, cloud sync, free-text notes and analytics are deferred. Themes and durable Team Trail history are now core-release requirements, superseding their earlier deferral. Follow-through, favorites and situation shortcuts follow only after the core works. Optional authenticated local firmware updates remain required; advice and team history never require internet access.
+- Boot to an uncluttered full-face compass with no automatic draw; Ask is the fresh-boot default.
+- A compass tap opens Options: **Ask the Team**, **Try a Move**, **Coaching**, **Instant text** and **Back**.
+- Ask/Try touch actions draw immediately in that mode. A qualified turn over and back from the compass draws Ask; the same gesture from a settled main card retains its active mode. Home returns to the compass without drawing.
+- Twelve selected card identities have independent shuffled Ask/Try bags, no within-cycle repeats and no immediate reshuffle-boundary repeat.
+- **Guide me** opens listening/activity support for the selected identity; Back returns without drawing. **Another** draws in the active mode. **More text** and scrolling retain the current copy. Home returns to the compass.
 
-Status: the first read-only V3 hardware trial is installed as described above; production recording firmware and board emulation are not implemented. The original full-flow browser preview is retained; a separate generated shake/reveal experience study explores P-20 with simulated input and draft content. Neither establishes display/touch/IMU behavior, battery readiness, learner outcomes or human acceptance on the actual board. V1/V2 firmware and canonical card review states remain unchanged.
+### Coaching — optional conversation aid
+
+- Enter explicitly from Classic Options. First entry displays a shuffled opener directly; later entry restores the saved opener within the boot. Coaching **Options → Classic** returns to the original compass.
+- Six contexts appear at 12/2/4/6/8/10 o'clock: **Progress, Stuck, Unclear, Exploring, AI Results, Team**. Compact captions shorten Exploring to Explore and AI Results to AI.
+- Each path has four questions and three optional experiments. Another cycles in authored order; switching Question/Experiment or paths preserves independent face/position/scroll state.
+- Guide me and listening reminders are private facilitator aids. Release/Next step leads to optional closing questions without requiring a path, a question quota or an experiment.
+- Opening restores the exact saved opener without a new draw. A new opener is available by Options touch action or a qualified turnover **only while on Opening**.
+- Nothing automatically listens, selects a context, advances the conversation or evaluates a team. Context is RAM-only and resets on reboot.
+
+## Motion and presentation contract
+
+1. A fresh eligible held inversion blacks the existing compass/card without selecting a replacement.
+2. A completed qualified return selects exactly one new card/opener and begins the retained whole-answer-face reveal.
+3. Cancellation, timeout or invalid context/health restores the prior scene without drawing.
+4. The entire blue answer-bearing surface and complete text emerge together with depth/tilt/drift over **6000ms**; do not substitute typing or a static-label fade.
+5. An additional **5000ms** card-only reading hold follows settlement, then controls return. A tap can finish the same reveal/start its hold; a subsequent settled tap can expose controls.
+6. The settled hold is not reveal-busy: an eligible new complete turnover may draw during it. Extra inputs during an active reveal are ignored, not queued.
+7. Touch routes and Instant text keep motion/animation optional. Safe rendering fallback must retain complete copy and controls; it is not successful animation.
+
+Motion is suppressed in Classic Options/Guide, in Coaching paths/help/closing/Options, during reveal and while pointer/scroll gates apply. Gesture thresholds, rest/return timing and cancellation behavior must not be retuned for a cosmetic change.
+
+The owned driver retains the supported ±2048dps gyro range, matched 16LSB-per-dps conversion and safety bounds. Keep register selection, conversion and clipping predicates coupled. Technical capture scaling belongs to its exact firmware; do not reinterpret older recordings using newer settings.
+
+## Layout and input contract
+
+- Classic retains its existing compass/card layout; do not apply Coaching's geometry to it.
+- Coaching Opening draws a **192x112** blue face inside the exact **256x140** snapshot panel, centered by trimming 8px from each previously approved side.
+- Opening copy wraps at **168px**, with **18px** main text and **12px** perimeter/opening Options captions. Text coordinates/wrapping and icon positions are unchanged by the side trim.
+- The plain Options text has no visible button box but retains its **100x48** touch target. Path targets remain at least 48px; visible caption size is not the hit-area size.
+- All six canonical openers fit in native rendering. Longer path/guidance/overflow copy remains genuinely scrollable, with no clipped essential text or accidental button activation during drag.
+- Preserve successful non-fallback capture, intermediate reveal pixels and exact settled-raster/live-text handoff. A smaller visible face must not shrink the renderer's required snapshot.
+- All controls/text/focus feedback must be usable on the actual circular panel, with real pointer and physical checks separate from geometry tests.
+
+## Software architecture and dependencies
+
+- Authored source: [cards.json](../content/cards.json) and [coaching.json](../content/coaching.json).
+- Validated generators produce separate Classic and Coaching headers; canonical identities/review states are preserved.
+- Pure models own bag/navigation/context behavior; UI owns LVGL objects, touch and timer lifetimes. Sensor sampling, Gesture recognition and WindowReveal remain distinct.
+- Pinned build baseline: Espressif Arduino core **3.3.2**, original-family vendor drivers and target-bundled **LVGL 8.3.10** with the reviewed display DMA adapter. Use the intended font configuration for both C and C++.
+- Cancel owned timers and release raster resources on navigation, object deletion and destruction. No per-animation-frame heap allocation or history write is permitted.
+- Keep the finite positive HWCDC transmit budget that prevents unread-monitor stalls; diagnostics must not block normal UI progress.
+
+## Flash, recovery and diagnostics
+
+- Retain the compatible existing partition table and bootloader. The application budget is `0x300000`; accepted app slots start at `0x10000` and `0x310000`. Their existence does not mean V3 OTA is implemented.
+- Authorized USB deployment is application-only, preceded by original-board, source, image/slot, security, recovery and evidence-preservation checks, then explicit flash comparison and fresh exact-version runtime readback.
+- Before preparation or regression runs, create a new isolated output increment and protect every installed release root/descendant. Never rerun the current default preparer over an accepted installed artifact tree.
+- The default-OFF technical RAM recorder is bounded to 8192 rows / 120 seconds, with session/token/range provenance and complete CRC-checked export. It records technical sensor/gesture evidence, not conversation content or learner outcomes.
+- Preserve any valuable active/frozen recording before reset/write. USB open and JTAG inspection can perturb execution; exclude those intervals from natural-motion claims.
+
+## Verification and acceptance
+
+For the current read-only trial:
+
+- Validate source/generation, all selected content, zero/single/max pools, bag boundaries and navigation/context/RNG invariants.
+- Exercise actual bundled LVGL with ASan/UBSan: complete copy, real pointer/drag routes, all six paths, unrestricted release, overflow, allocation/deletion/cancellation, blackout, reveal and handoff.
+- Compile the intended S3 target; check image identity, slot budget and unchanged compatible components. Verify the exact written target and resumed UI/IMU liveness.
+- Separately collect physical readability, edge/touch/scroll, deliberate turnover and ordinary-handling observations. Do not invent a shake-test quota or require extra gestures to accept a cosmetic change.
+- Sustained operation, reboot behavior and independent power need their own observed evidence. Battery readiness requires measured charging/runtime checks. No production or educational-effectiveness claim follows from a software gate.
+
+## Explicit future scope, not installed functionality
+
+V3 currently has **no** team roster, theme-filter UI, durable Team Trail, saved/history/feedback/Undo, participant data capture, idle/wake persistence, live AI, microphone/audio, cloud sync or OTA service. V2's authenticated LAN updater is separate and is not evidence of V3 networking.
+
+The broader future production contract in PRODUCT-SPEC.md includes filtering and deliberate, private, durable team records with attribution/deduplication/migration gates. Those features require their own approved implementation and tests; they are not prerequisites for mentoring or the current read-only Classic/Coaching trial. Optional enhancements must not silently become dependencies of the working device.
+
+Browser studies remain separate simulations, not firmware, a board emulator or physical acceptance. Source/docs may be public; original recovery images, credential-bearing builds, private logs and captures stay private.
 
 [Manufacturer reference](https://www.waveshare.com/wiki/ESP32-S3-Touch-LCD-1.85)

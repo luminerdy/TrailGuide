@@ -10,6 +10,10 @@ The earlier, separate V3 browser experience study explores **shake → one rando
 
 This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. V2's reveal is a presentation-only firmware increment; V1, canonical card copy/IDs/revisions/review states, model/deck order, networking and partitions remain unchanged. No USB upload or serial reset was used for the reveal update.
 
+## Documentation map
+
+Start with the [current project/system specification](PROJECT-SPEC.md), then the separate Mermaid maps for [Classic](CLASSIC-FLOW.md) and [Coaching](COACHING-FLOW.md). [PRODUCT-SPEC.md](PRODUCT-SPEC.md) preserves stable requirements and explicitly future features; [V3-SPEC.md](V3-SPEC.md) gives the refreshed round-target contract. These documents distinguish current offline authored modes from planned Team Trail, persistence and live-AI ideas. This checkpoint changes documentation only, not installed firmware or content.
+
 ## Current narrower-card checkpoint — v3-0.1.14
 
 Installed and exact-version startup/UI/real-IMU verified. The approved native comparison trims 8px from each side of the coaching blue face: **192x112**, with unchanged 168px text wrapping, 18px body, 12px perimeter/plain Options labels, outward icons and touch regions. Entry remains **tap compass → Coaching**; coaching **Options → Classic** preserves the fallback. The preceding icons and spacing received positive physical feedback; physical acceptance of this narrower face remains pending. No content, flow, sensor/gesture or timing change is included; the snapshot remains 256x140, reveal 6000ms and additional reading hold 5000ms.

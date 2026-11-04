@@ -1,5 +1,7 @@
 # TrailGuide
 
+[Project specification](docs/PROJECT-SPEC.md) · [Classic flow](docs/CLASSIC-FLOW.md) · [Coaching flow](docs/COACHING-FLOW.md)
+
 ## The product vision
 
 **Make something meaningful. Learn how to keep going.**
@@ -28,9 +30,9 @@ The device is a fun building project and possible shared learning aid, not a pre
 
 ## Development status
 
-The pitch above describes the intended direction, not a shipped coaching system. Draft [mentoring practice](docs/COACHING-DIRECTION.md) and a [portable AI-coaching starter](docs/PROJECT-COACH.md) can be reviewed without hardware; they are not a validated curriculum or an integrated AI service. The separate V3 experience study explores shuffled curated ideas and gradual reveal in a browser only.
+The pitch above describes the intended direction, not a production release or integrated AI-coaching service. The optional device Coaching trial is described separately below. Draft [mentoring practice](docs/COACHING-DIRECTION.md) and a [portable AI-coaching starter](docs/PROJECT-COACH.md) can be reviewed without hardware; they are not a validated curriculum or an integrated AI service. The separate V3 experience study explores shuffled curated ideas and gradual reveal in a browser only.
 
-**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 retains its installed v2-0.1.8 portrait trial. Current [V3 v3-0.1.14](docs/V3-TRIAL.md) adds the approved [six-path coaching experience](docs/COMPASS-COACHING-PREVIEW.md) with outward compact line icons, smaller labels and question text, a smaller blue card, text-only Options, optional questions/experiments, private guidance and unrestricted release. Tap the classic compass, then **Coaching**; coaching **Options → Classic** returns to the preserved original experience. The forty-card catalog and twelve-card classic selection remain unchanged. The simple turn-over/back recognition, supported sensor range and original six-second answer-face reveal plus five-second reading hold are retained; coaching motion draws only on its opening screen. Application-only flash verification and exact-version startup/UI/real-IMU liveness checks pass. Native-renderer and 72 isolated Python checks pass; new coaching readability/touch and natural gesture acceptance remain pending. Earlier human-confirmed turnover/blackout observations refer to the preserved classic checkpoint, not automatic acceptance of the new coaching UI. No tracking, saving, live AI or V3 OTA is implemented.
+**V1 is the hardware starting point and fallback**, with twelve OLED/button cards. V2 retains its installed v2-0.1.8 portrait trial. Current [V3 v3-0.1.14](docs/V3-TRIAL.md) adds the approved [six-path coaching experience](docs/COMPASS-COACHING-PREVIEW.md) with outward compact line icons, smaller labels and question text, a smaller blue card, text-only Options, optional questions/experiments, private guidance and unrestricted release. Tap the classic compass, then **Coaching**; coaching **Options → Classic** returns to the preserved original experience. The forty-card catalog and twelve-card classic selection remain unchanged. The simple turn-over/back recognition, supported sensor range and original six-second answer-face reveal plus five-second reading hold are retained; coaching motion draws only on its opening screen. Application-only flash verification and exact-version startup/UI/real-IMU liveness checks pass. Native-renderer and 80 isolated Python checks pass. Compact icons/spacing received positive physical feedback; the narrower blue face and broader coaching touch/natural-gesture acceptance remain pending. Earlier human-confirmed turnover/blackout observations refer to the preserved classic checkpoint, not automatic acceptance of the new coaching UI. No tracking, saving, live AI or V3 OTA is implemented.
 
 | Version | Hardware | Interaction | Status |
 | --- | --- | --- | --- |
@@ -44,6 +46,9 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 
 ## Start here
 
+- [Project specification — current scope, architecture and acceptance](docs/PROJECT-SPEC.md)
+- [Classic — Mermaid prompt-deck flow](docs/CLASSIC-FLOW.md)
+- [Coaching — Mermaid conversation-guide flow](docs/COACHING-FLOW.md)
 - [Current project and coaching handoff](docs/HANDOFF.md)
 - [Project-led mentoring direction, examples and review gates](docs/COACHING-DIRECTION.md)
 - [Compass coaching — browser-only preview, design and checks](docs/COMPASS-COACHING-PREVIEW.md)

@@ -2,7 +2,7 @@
 
 **Classic offers one curated question or practical move at a time.** Use it for a quick spark, then return attention to the person or team.
 
-This maps the installed V3 `v3-0.1.16` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
+This maps the installed V3 `v3-0.1.18-coaching-compass` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
 
 ```mermaid
 flowchart TD
@@ -16,7 +16,7 @@ flowchart TD
     Options -->|Instant text toggle| Options
     Options -->|Sound OFF or ON: shared RAM preference| Options
     Options -->|Back| Compass
-    Options -->|Coaching| Coaching([Enter Coaching: separate flow])
+    Options -->|Coaching| Coaching([Enter Coaching compass: separate flow])
     Draw -->|Animated presentation| Reveal["Whole answer-bearing face emerges<br/>6-second reveal"]
     Draw -->|Instant text or safe rendering fallback| Hold["Selected card alone<br/>Additional 5-second reading hold"]
     Reveal -->|Completes, or tap to finish this same reveal| Hold

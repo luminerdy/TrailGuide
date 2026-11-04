@@ -8,25 +8,11 @@ V3 is an optional enjoyable companion to project-led mentoring, not the curricul
 
 ## Current baseline and evidence
 
-**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
-fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
-an offline authored-content trial, not a production release. Local installation
-and documentation do not imply remote publication.
+**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 
-The installed S3 application is **688224 bytes**. Full native LVGL/audio
-ASan/UBSan checks, including SDK-like software-atomic adapter cases, pass;
-**84 isolated Python tests** also pass. The existing main-card pixels remain unchanged.
-The isolated runner now fails closed below 2 GiB free, contains browser config/cache
-in child-only XDG/Chrome directories and cleans up its disposable sandbox on failure;
-the successful suite left no new global profiles or sandbox leak. These are software
-results, not physical acceptance.
+The compiled S3 application is **689568 bytes**. Four candidate native suites and two independent frozen-baseline suites pass strict compilation and actual LVGL ASan/UBSan checks. The approved Coaching Home and six selected path frames match exactly; all 68 Coaching and 110 Classic comparison frames match the frozen baseline. These are recorded software/build results, not new tests run for this documentation or physical acceptance. The integrated candidate also passes the complete canonical native suite and all 84 isolated Python checks without skips; 512 real native-rendered frames were captured and hash-verified.
 
-Physical acceptance of the new quiet controls, Sound menu/mute behavior and
-settlement chime is pending. The earlier speaker bench established only one very
-soft tone at peak 768, not this new decaying chime; peak 1536 is a modest increase
-chosen for this trial, not measured loudness or hearing-safety evidence. Earlier
-icons/spacing were liked. Narrow-face readability, broader Coaching touch/natural
-opener behavior and sustained reliability remain separate open gates.
+The quieter button appearance was physically approved on the earlier checkpoint and is preserved. The new Coaching Home preview is approved; its on-device appearance/touch check is still pending. Sound menu/mute/chime, narrower-face readability, broader touch/natural-opener behavior and sustained reliability retain separate gates. The original physical flip/blank failure remains unresolved: touch recovery was reported on the earlier checkpoint, not proof of a gesture fix.
 
 See [V3-TRIAL.md](V3-TRIAL.md) and [HANDOFF.md](HANDOFF.md).
 
@@ -52,11 +38,11 @@ Use the recorded board identity and pinned pin map. Re-identify the actual targe
 
 ### Coaching — optional conversation aid
 
-- Enter explicitly from Classic Options. First entry displays a shuffled opener directly; later entry restores the saved opener within the boot. Coaching **Options → Classic** returns to the original compass.
+- Enter explicitly from Classic Options to the wordless full gold/blue-arrow compass, retaining the silently selected/saved opener in RAM. Six labelled path icons remain selectable. The invisible 136x64 center opens Options; Back restores compass versus opener card. Independent decorative LCG wandering never selects a path or draws content. Coaching **Options → Classic** returns to the original compass.
 - Six contexts appear at 12/2/4/6/8/10 o'clock: **Progress, Stuck, Unclear, Exploring, AI Results, Team**. Compact captions shorten Exploring to Explore and AI Results to AI.
 - Each path has four questions and three optional experiments. Another cycles in authored order; switching Question/Experiment or paths preserves independent face/position/scroll state.
 - Guide me and listening reminders are private facilitator aids. Release/Next step leads to optional closing questions without requiring a path, a question quota or an experiment.
-- Opening restores the exact saved opener without a new draw. A new opener is available by Options touch action or a qualified turnover **only while on Opening**.
+- Opening from paths returns to the compass, preserving the exact saved opener. Another opener in Options or a qualified turnover **only while on Opening** switches to the existing blue opener-card reveal and hold.
 - Coaching Options includes **Sound OFF/ON**, sharing the Classic preference.
 - Nothing automatically listens, selects a context, advances the conversation or evaluates a team. Context is RAM-only and resets on reboot.
 
@@ -78,9 +64,9 @@ The owned driver retains the supported ±2048dps gyro range, matched 16LSB-per-d
 
 - Buttons use `#0c1721` normal / `#1a2b38` pressed. Main-card pixels, icons, fonts, spacing and existing touch areas are unchanged.
 - Classic retains its existing compass/card layout; do not apply Coaching's geometry to it.
-- Coaching Opening draws a **192x112** blue face inside the exact **256x140** snapshot panel, centered by trimming 8px from each previously approved side.
+- Explicit new-opener draws (not compass entry) retain a **192x112** blue face inside the exact **256x140** snapshot panel, centered by trimming 8px from each previously approved side.
 - Opening copy wraps at **168px**, with **18px** main text and **12px** perimeter/opening Options captions. Text coordinates/wrapping and icon positions are unchanged by the side trim.
-- The plain Options text has no visible button box but retains its **100x48** touch target. Path targets remain at least 48px; visible caption size is not the hit-area size.
+- The compass center has an invisible **136x64** Options target. The legacy opener-card variant retains its plain Options text and **100x48** target. Path targets remain at least 48px; visible caption size is not the hit-area size.
 - All six canonical openers fit in native rendering. Longer path/guidance/overflow copy remains genuinely scrollable, with no clipped essential text or accidental button activation during drag.
 - Preserve successful non-fallback capture, intermediate reveal pixels and exact settled-raster/live-text handoff. A smaller visible face must not shrink the renderer's required snapshot.
 - All controls/text/focus feedback must be usable on the actual circular panel, with real pointer and physical checks separate from geometry tests.

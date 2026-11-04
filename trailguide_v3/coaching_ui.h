@@ -5,6 +5,7 @@
 #include "window_reveal.h"
 #include "sound_cue.h"
 #include <cstdio>
+#include <cmath>
 namespace v3app {
 using trailguide_coach::CoachModel;
 using trailguide_coach::Screen;
@@ -19,7 +20,8 @@ class CoachUi {
  bool leaveRequested=false;
 
  lv_obj_t *root=nullptr,*first=nullptr,*second=nullptr,*backButton=nullptr,*scroll=nullptr,*body=nullptr;
- bool instant=false,fallback=false;
+ bool instant=false,fallback=false,compassHome=false;
+ void enterCompass(){model.enter();compassHome=true;render();}
  CoachUi(trailguide_coach::RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f):model(r,c),window(a,f){}
  CoachUi(const CoachUi&)=delete;CoachUi &operator=(const CoachUi&)=delete;
  ~CoachUi(){cancel();if(root)lv_obj_del(root);}
@@ -49,7 +51,7 @@ class CoachUi {
   if(root)lv_obj_del(root);
   root=lv_obj_create(lv_scr_act());lv_obj_remove_style_all(root);lv_obj_set_pos(root,0,0);lv_obj_set_size(root,360,360);lv_obj_clear_flag(root,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_flag(root,LV_OBJ_FLAG_CLICKABLE);
   lv_obj_set_style_bg_color(root,lv_color_hex(0x02070d),0);lv_obj_set_style_bg_opa(root,LV_OPA_COVER,0);lv_obj_set_style_text_color(root,lv_color_hex(0xf3f5ee),0);
-  lv_obj_add_event_cb(root,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(root,contact,LV_EVENT_ALL,this);lv_obj_add_event_cb(root,drawBlank,LV_EVENT_DRAW_MAIN,this);
+  lv_obj_add_event_cb(root,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(root,contact,LV_EVENT_ALL,this);lv_obj_add_event_cb(root,drawBlank,LV_EVENT_DRAW_MAIN,this);lv_obj_add_event_cb(root,drawCompass,LV_EVENT_DRAW_MAIN,this);
   auto screen=model.current.screen;optionsOpen=screen==Screen::Options;
   if(screen==Screen::Opening || screen==Screen::Picker){
    const int xy[6][2]={{142,20},{272,94},{272,218},{142,292},{40,218},{40,94}};
@@ -79,23 +81,55 @@ class CoachUi {
   if(opening){lv_obj_add_event_cb(scroll,drawWindow,LV_EVENT_DRAW_MAIN,this);lv_obj_add_event_cb(scroll,maskText,LV_EVENT_DRAW_POST_END,this);lv_obj_set_style_pad_bottom(scroll,20,0);}
   auto *entry=model.entry();const char *text=entry?(screen==Screen::Guide?entry->guidance:entry->text):"Choose what would help.";
   body=label(scroll,text,opening?44:4,opening?20:4,opening?168:w-8,&lv_font_montserrat_18);lv_obj_move_background(scroll);lv_obj_add_event_cb(body,contact,LV_EVENT_ALL,this);lv_obj_update_layout(root);lv_obj_scroll_to_y(scroll,model.current.scroll,LV_ANIM_OFF);
-  label(root,"Scroll for full text",opening?112:76,opening?258:236,opening?136:208,&lv_font_montserrat_14);
+  auto *footer=label(root,"Scroll for full text",opening?112:76,opening?258:236,opening?136:208,&lv_font_montserrat_14);
+  if(opening && compassHome){lv_obj_add_flag(scroll,LV_OBJ_FLAG_HIDDEN);lv_obj_add_flag(footer,LV_OBJ_FLAG_HIDDEN);lv_obj_set_pos(backButton,112,148);lv_obj_set_size(backButton,136,64);lv_label_set_text(lv_obj_get_child(backButton,0),"");startCompass();}
   if(!opening){
    if(screen==Screen::Question || screen==Screen::Experiment){first=button(Action::Next,"Another",76,254,100,48);second=button(screen==Screen::Question?Action::Experiment:Action::Question,screen==Screen::Question?"Try (optional)":"Question",184,254,100,48);}
    else {first=button(Action::Opening,"Opening",76,254,100,48);second=button(screen==Screen::Guide?Action::Reminders:Action::Next,screen==Screen::Guide?"Reminders":"Next",184,254,100,48);}
   }
  }
  void perform(Action a){
+  stopCompass();
   if(scroll)model.remember(lv_obj_get_scroll_y(scroll));
   ++resetCounts[1];gesture.reset();
   if(unsigned(a)<6){model.path(unsigned(a));render();return;}
   if(a==Action::Another){if(busy())finish(true);else draw();return;}
-  switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Sound:sound->enabled=!sound->enabled;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
+  switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Sound:sound->enabled=!sound->enabled;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();compassHome=true;break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
   render();
  }
 
  private:
  struct Slot{CoachUi *owner;Action action;}slots[unsigned(Action::Count)]{};
+ // Decorative state is owned independently from opener/card RNG and reveal busy.
+ lv_timer_t *compassTimer=nullptr;uint32_t compassState=0;unsigned compassTicks=0;
+ float compassAngle=0,compassTarget=130;
+ void stopCompass(){if(compassTimer){lv_timer_del(compassTimer);compassTimer=nullptr;}}
+ void startCompass(){
+  stopCompass();compassState=lv_tick_get()^0x8b31fca5u;compassAngle=0;compassTarget=130;compassTicks=0;
+  lv_mem_monitor_t m;lv_mem_monitor(&m);
+  // Pinned allocator can assert before returning null. Leave a static compass.
+  if(m.free_biggest_size>=sizeof(lv_timer_t)+64)compassTimer=lv_timer_create(wander,160,this);
+ }
+ static void wander(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);
+  if(!u->root || !u->compassHome || u->model.current.screen!=Screen::Opening || u->blanked)return;
+  if(++u->compassTicks%12==0){u->compassState=u->compassState*1664525u+1013904223u;u->compassTarget+=float(70+u->compassState%160)*(u->compassState&256?1:-1);}
+  u->compassAngle+=(u->compassTarget-u->compassAngle)*.12f;
+  if(u->compassAngle>720 || u->compassAngle< -720){float shift=u->compassAngle>0?360:-360;u->compassAngle-=shift;u->compassTarget-=shift;}
+  const lv_area_t area={86,86,274,274};lv_obj_invalidate_area(u->root,&area);
+ }
+ static void drawCompass(lv_event_t *e){
+  auto *self=static_cast<CoachUi*>(lv_event_get_user_data(e));if(self->blanked || !self->compassHome || self->model.current.screen!=Screen::Opening)return;auto *ctx=lv_event_get_draw_ctx(e);
+  lv_draw_line_dsc_t d;lv_draw_line_dsc_init(&d);d.width=1;d.color=lv_color_hex(0x1a2b38);
+  auto pt=[](float rad,float deg){float a=deg*.01745329252f;return lv_point_t{lv_coord_t(180+std::sin(a)*rad),lv_coord_t(180-std::cos(a)*rad)};};
+  auto line=[&](lv_point_t p,lv_point_t q){lv_draw_line(ctx,&d,&p,&q);};
+  for(int deg=0;deg<360;deg+=3)line(pt(90,deg),pt(90,deg+3));
+  for(int deg=0;deg<360;deg+=15){d.color=lv_color_hex(deg%60?0x1a2b38:0x426274);line(pt(deg%60?86:81,deg),pt(90,deg));}
+  // Six-point rose corresponds to the six facilitator-selected directions.
+  d.color=lv_color_hex(0x294354);for(int deg=0;deg<360;deg+=60){line(pt(0,0),pt(78,deg));line(pt(12,deg-90),pt(78,deg));line(pt(12,deg+90),pt(78,deg));}
+  // Let the full Classic-style two-tone arrow remain visible through the hub.
+  d.width=5;d.round_start=d.round_end=1;d.color=lv_color_hex(0x83b4ca);line(pt(64,self->compassAngle+180),pt(0,0));d.color=lv_color_hex(0xf2bb62);auto tip=pt(82,self->compassAngle);line(pt(0,0),tip);
+  d.width=3;line(tip,pt(64,self->compassAngle-8));line(tip,pt(64,self->compassAngle+8));
+ }
  bool optionsOpen=false,pendingSettlement=false;
  void settled(){if(pendingSettlement){pendingSettlement=false;sound->settled();}}
  // Existing root/children only: no overlay, snapshot, timer or heap allocation.
@@ -115,14 +149,14 @@ class CoachUi {
  lv_timer_t *timer=nullptr;uint32_t started=0;bool motionAvailable=false,pointerDown=false,scrolling=false;Gesture gesture;
  uint32_t resetCounts[8]={};
  bool sampleSeen=false;uint32_t lastSampleAt=0;
- void draw(){model.draw();render();pendingSettlement=true;if(!instant)start();else {settled();hold();}}
- void chrome(bool hide){focused=hide;if(!root)return;for(unsigned i=0;i<lv_obj_get_child_cnt(root)&&i<32;++i){auto *o=lv_obj_get_child(root,i);if(o==scroll)continue;if(blanked){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);}else if(hide)lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);}}
+ void draw(){compassHome=false;model.draw();render();pendingSettlement=true;if(!instant)start();else {settled();hold();}}
+ void chrome(bool hide){focused=hide;if(!root || (compassHome && model.current.screen==Screen::Opening))return;for(unsigned i=0;i<lv_obj_get_child_cnt(root)&&i<32;++i){auto *o=lv_obj_get_child(root,i);if(o==scroll)continue;if(blanked){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);}else if(hide)lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);}}
 
  void stopFocus(){if(focusTimer){lv_timer_del(focusTimer);focusTimer=nullptr;}chrome(false);}
  static void focusDone(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
  void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,5000,this);if(focusTimer)chrome(true);}
- void cancel(){pendingSettlement=false;setBlank(false);stopFocus();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
+ void cancel(){stopCompass();pendingSettlement=false;setBlank(false);stopFocus();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
  void finish(bool readableHold=false){if(readableHold)settled();cancel();if(model.current.screen==Screen::Opening){if(readableHold)hold();}}
  void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){settled();hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;settled();cancel();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
  static void tick(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);auto elapsed=lv_tick_elaps(u->started);if(elapsed>=6000){u->finish(true);return;}u->window.render(elapsed);lv_obj_invalidate(u->scroll);}

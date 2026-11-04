@@ -1,6 +1,18 @@
 # V3 — read-only round-device trial
 
-## Current installed checkpoint
+## Current Coaching compass checkpoint — v3-0.1.18-coaching-compass
+
+**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+
+Selecting **Coaching** now enters a wordless decorative compass with the full gold/blue arrow and six labelled path icons. The model silently selects or retains its opener; entry does not show the question. The invisible **136x64 center** opens Options. Decorative wandering uses an independent LCG and never selects a path or consumes a card draw. **Another opener** or a qualified turn over and back on Opening displays the retained blue-card reveal (six seconds plus five seconds of reading hold). **Opening** from a path returns to the compass without changing the saved opener; Options **Back** restores the compass or opener-card variant it came from.
+
+Classic remains the boot default with the unchanged twelve-card Ask/Try selection. Catalog 40 / Classic 12 / Coaching 55, question/guidance/Release navigation, sensor rules and reveal timing are unchanged. Sound remains shared, RAM-only and OFF at boot; nominal chime peak stays 1536. The separate louder experiment is not included.
+
+The compiled S3 application is **689568 bytes**. Four candidate native suites and two independent frozen-baseline suites pass strict compilation and actual LVGL ASan/UBSan checks. The approved Coaching Home and six selected path frames match exactly; all 68 Coaching and 110 Classic comparison frames match the frozen baseline. These are recorded software/build results, not new tests run for this documentation or physical acceptance. The integrated candidate also passes the complete canonical native suite and all 84 isolated Python checks without skips; 512 real native-rendered frames were captured and hash-verified.
+
+The quieter button appearance was physically approved on the earlier checkpoint and is preserved. The new Coaching Home preview is approved; its on-device appearance/touch check is still pending. Sound menu/mute/chime, narrower-face readability, broader touch/natural-opener behavior and sustained reliability retain separate gates. The original physical flip/blank failure remains unresolved: touch recovery was reported on the earlier checkpoint, not proof of a gesture fix.
+
+## Previous quieter-controls and optional-chime checkpoint — v3-0.1.16
 
 **v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
 fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains

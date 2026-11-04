@@ -46,11 +46,8 @@ There are no required question counts, experiments, AI-use targets or inferred d
 
 ## 3. Current system checkpoint
 
-**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
-fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
-an offline authored-content trial, not a production release. Local installation
-and documentation do not imply remote publication.
-These are the firmware checkpoint results; preparing this documentation did not contact hardware.
+**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+These post-install checkpoint statements require verified running-target readback before publication; preparing this overlay did not contact hardware.
 
 The target is the original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1:
 360x360 round capacitive touch, ESP32-S3, 16MB flash, 8MB PSRAM and QMI8658 IMU.
@@ -88,8 +85,8 @@ See the [Classic flow](CLASSIC-FLOW.md) and [trial contract](V3-TRIAL.md).
 ## 5. Coaching mode: current behavior
 
 Enter through **compass → Options → Coaching**. Classic remains the boot default.
-The first entry selects an opening question; subsequent entries within the same boot
-restore the remembered opener context rather than requiring a new opener.
+First entry silently selects an opening question in the model; later entries retain it,
+but both enter the decorative compass rather than showing the opener card.
 Coaching **Options → Classic** returns to the plain Classic compass.
 
 The authored content in [content/coaching.json](../content/coaching.json) contains:
@@ -107,7 +104,9 @@ There are **55 entries** in total. Questions, experiments, closings and reminder
 cycle in authored order on explicit Another/Next actions; they are not random draws.
 Path labels may be shortened on the perimeter, but headings retain their full names.
 
-- Opening presents the six path controls and a plain text **Options** touch entry.
+- Opening enters the wordless gold/blue-arrow compass with six labelled path icons.
+  Its invisible **136x64 center** opens Options; independent decorative LCG wandering
+  never chooses a path or consumes a draw. Options Back restores compass versus card.
 - Options offers **Another opener**, **Guide me**, **Release**, **Classic**,
   **Instant**, **Reminders** and **Sound OFF/ON**, with Back to the previous context.
 - **Another opener** in Options requests a new random opener by touch. A motion
@@ -119,7 +118,9 @@ Path labels may be shortened on the perimeter, but headings retain their full na
   Release/Next step opens an optional closing without a quota or required experiment.
 - Guide me adds private guidance for the current entry; Reminders are private cues,
   not automatic notifications or learner assessments.
-- Opening returns to the exact remembered opener. Path question/experiment selection,
+- Opening from paths returns to the compass with the exact remembered opener retained.
+  Explicit Another opener or a qualified Opening flip switches to the blue opener card.
+  Path question/experiment selection,
   last face and scroll context are kept independently in RAM.
 
 No answer determines a path automatically. The mentor controls every question,
@@ -127,9 +128,10 @@ experiment and release, and can adapt, skip or stop. See [COACHING-FLOW.md](COAC
 
 ## 6. Presentation, input and accessibility
 
-The approved narrower coaching opening face is **192x112 pixels**, inside the unchanged
+The explicit new-opener card (not the compass entry) retains the approved narrower
+coaching opening face of **192x112 pixels**, inside the unchanged
 **256x140 snapshot**. Coaching body text is **18px**, opening wrap is **168px**,
-and perimeter captions/plain opening Options are **12px**. Other navigation captions
+and perimeter/card-variant Options captions are **12px**. Other navigation captions
 remain distinct; these dimensions do not redefine Classic's 20px main card typography.
 Compact outward line icons retain labels and generous touch targets.
 
@@ -164,12 +166,7 @@ not revive that canceled cue. Audio uses a low-priority TX-only worker; the read
 main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
 networking or OTA is enabled by this feature.
 
-Physical acceptance of the new quiet controls, Sound menu/mute behavior and
-settlement chime is pending. The earlier speaker bench established only one very
-soft tone at peak 768, not this new decaying chime; peak 1536 is a modest increase
-chosen for this trial, not measured loudness or hearing-safety evidence. Earlier
-icons/spacing were liked. Narrow-face readability, broader Coaching touch/natural
-opener behavior and sustained reliability remain separate open gates.
+The quieter button appearance was physically approved on the earlier checkpoint and is preserved. The new Coaching Home preview is approved; its on-device appearance/touch check is still pending. Sound menu/mute/chime, narrower-face readability, broader touch/natural-opener behavior and sustained reliability retain separate gates. The original physical flip/blank failure remains unresolved: touch recovery was reported on the earlier checkpoint, not proof of a gesture fix.
 Host geometry and rendered fit do not establish physical usability or reliability.
 
 ## 7. Content and software architecture
@@ -196,17 +193,9 @@ Keep private diagnostics, credentials, device identifiers and runtime data out o
 
 ## 8. Evidence, remaining gates and roadmap
 
-The installed S3 application is **688224 bytes**. Full native LVGL/audio
-ASan/UBSan checks, including SDK-like software-atomic adapter cases, pass;
-**84 isolated Python tests** also pass. The existing main-card pixels remain unchanged.
-The isolated runner now fails closed below 2 GiB free, contains browser config/cache
-in child-only XDG/Chrome directories and cleans up its disposable sandbox on failure;
-the successful suite left no new global profiles or sandbox leak. These are software
-results, not physical acceptance.
-Application-only flash comparison and exact-runtime readback pass for this installed
-checkpoint. These recorded firmware results are not tests newly run for this document.
-Earlier natural Classic gesture observations do not prove new Coaching physical acceptance.
-Broader handling, endurance, power, memory and learner-benefit claims retain separate gates.
+The compiled S3 application is **689568 bytes**. Four candidate native suites and two independent frozen-baseline suites pass strict compilation and actual LVGL ASan/UBSan checks. The approved Coaching Home and six selected path frames match exactly; all 68 Coaching and 110 Classic comparison frames match the frozen baseline. These are recorded software/build results, not new tests run for this documentation or physical acceptance. The integrated candidate also passes the complete canonical native suite and all 84 isolated Python checks without skips; 512 real native-rendered frames were captured and hash-verified.
+Installation and running-version verification are deployment gates, not documentation tests.
+Earlier natural Classic gesture observations do not accept this Coaching presentation.
 
 Team Trail, durable history/saves, filters, production eligibility, broader Home designs
 and richer integrations are **unimplemented roadmap**, not prerequisites for mentoring

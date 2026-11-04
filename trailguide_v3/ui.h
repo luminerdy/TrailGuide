@@ -6,7 +6,7 @@
 #include "cards_generated.h"
 #include "coaching_ui.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.16";
+static constexpr const char *version="v3-0.1.18-coaching-compass";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:
@@ -82,7 +82,7 @@ class Ui {
   motionStatus=label(root,"",104,310,152,&lv_font_montserrat_14);updateStatus();lv_obj_update_layout(root);
  }
  void perform(Action a){
-  if(a==Action::Coaching){cancel();if(root)lv_obj_del(root);coachingMode=true;coach.leaveRequested=false;coach.instant=instant;coach.model.enter();coach.render();return;}
+  if(a==Action::Coaching){cancel();if(root)lv_obj_del(root);coachingMode=true;coach.leaveRequested=false;coach.instant=instant;coach.enterCompass();return;}
   ++resetCounts[1];gesture.reset();
   if(a==Action::Options){optionsOpen=true;render();return;}
   if(a==Action::Home || (a==Action::Back && optionsOpen)){optionsOpen=false;model.home();render();return;}

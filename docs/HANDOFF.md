@@ -12,9 +12,56 @@ This handoff records a checkpoint, not a guarantee of live hardware availability
 
 ## Documentation map
 
-Start with the [current project/system specification](PROJECT-SPEC.md), then the separate Mermaid maps for [Classic](CLASSIC-FLOW.md) and [Coaching](COACHING-FLOW.md). [PRODUCT-SPEC.md](PRODUCT-SPEC.md) preserves stable requirements and explicitly future features; [V3-SPEC.md](V3-SPEC.md) gives the refreshed round-target contract. These documents distinguish current offline authored modes from planned Team Trail, persistence and live-AI ideas. This checkpoint changes documentation only, not installed firmware or content.
+Start with the [current project/system specification](PROJECT-SPEC.md), then the separate Mermaid maps for [Classic](CLASSIC-FLOW.md) and [Coaching](COACHING-FLOW.md). [PRODUCT-SPEC.md](PRODUCT-SPEC.md) preserves stable requirements and explicitly future features; [V3-SPEC.md](V3-SPEC.md) gives the refreshed round-target contract. These documents distinguish current offline authored modes from planned Team Trail, persistence and live-AI ideas. Documentation records the installed checkpoint below; preparing it did not itself install firmware or change content.
 
-## Current narrower-card checkpoint — v3-0.1.14
+## Current quieter-controls and optional-chime checkpoint — v3-0.1.16
+
+**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
+fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
+an offline authored-content trial, not a production release. Local installation
+and documentation do not imply remote publication.
+
+Buttons are `#0c1721` normal / `#1a2b38` pressed; main-card pixels, icons, fonts, spacing and existing touch areas are preserved. Coaching stays 192x112 / 168px wrap / 18px body / 12px captions / 256x140 capture; reveal/hold remain 6000ms + 5000ms. Catalog 40, Classic 12, Coaching 55 and ±2048 dps sensing are unchanged.
+
+**Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
+It defaults **OFF after every reboot**. Booting and toggling either way are silent.
+When ON, an accepted new Classic card or explicitly requested new Coaching opener
+can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
+of **1536**. It begins when that draw becomes readable: normally after the six-second
+reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
+The additional five-second reading hold is unchanged. Initial Coaching entry is
+silent even though it selects its first opener; context restoration, Guide/Back,
+path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
+not queued. OFF requests cancellation of active playback; switching ON again does
+not revive that canceled cue. Audio uses a low-priority TX-only worker; the ready
+main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
+networking or OTA is enabled by this feature.
+
+The installed S3 application is **688224 bytes**. Full native LVGL/audio
+ASan/UBSan checks, including SDK-like software-atomic adapter cases, pass;
+**84 isolated Python tests** also pass. The existing main-card pixels remain unchanged.
+The isolated runner now fails closed below 2 GiB free, contains browser config/cache
+in child-only XDG/Chrome directories and cleans up its disposable sandbox on failure;
+the successful suite left no new global profiles or sandbox leak. These are software
+results, not physical acceptance.
+
+Fresh installed-target readback also confirms Sound OFF with sequence zero,
+all nine audio boot diagnostic/owner words zero (no allocated TX owner), and the
+technical recorder default OFF/empty. No new settlement chime was actually played;
+this idle readback is not audible-chime or physical mute acceptance. Focused
+SDK/software-atomic unblock review passed; six actual generator checks and both
+V1 fallback suites also pass.
+
+Physical acceptance of the new quiet controls, Sound menu/mute behavior and
+settlement chime is pending. The earlier speaker bench established only one very
+soft tone at peak 768, not this new decaying chime; peak 1536 is a modest increase
+chosen for this trial, not measured loudness or hearing-safety evidence. Earlier
+icons/spacing were liked. Narrow-face readability, broader Coaching touch/natural
+opener behavior and sustained reliability remain separate open gates.
+
+Physical acceptance and remote-publication verification remain separate gates. Older sections retain their version-specific results, including failures later corrected; they are not the current baseline.
+
+## Previous narrower-card checkpoint — v3-0.1.14
 
 Installed and exact-version startup/UI/real-IMU verified. The approved native comparison trims 8px from each side of the coaching blue face: **192x112**, with unchanged 168px text wrapping, 18px body, 12px perimeter/plain Options labels, outward icons and touch regions. Entry remains **tap compass → Coaching**; coaching **Options → Classic** preserves the fallback. The preceding icons and spacing received positive physical feedback; physical acceptance of this narrower face remains pending. No content, flow, sensor/gesture or timing change is included; the snapshot remains 256x140, reveal 6000ms and additional reading hold 5000ms.
 
@@ -97,9 +144,9 @@ Implemented trial:
 
 Not implemented: theme picker, production eligibility/pools, linked-face shortcut, team roster, saving/recording, durable Team Trail, facilitator practice mode, live AI, learner monitoring or cloud updating. Reserved partitions or tests must not be mistaken for those features.
 
-### V3 — qualified-turnover blackout installed and observed
+### Previous V3 checkpoint — qualified-turnover blackout installed and observed
 
-Current **v3-0.1.11 DRAFT** is installed and exact-version/UI/bus/real-IMU verified. Plain full-face compass/tap-to-Options, twelve shuffled draft pairs, Guide/Back, whole six-second reveal and five-second settled card-only hold are unchanged. Compass/touch were positively reported; one natural turnover now showed blank → card animation → controls, with one clean recorded trigger. Repeated-use reliability and card-only timing remain separate acceptance checks. The approved twelve-card wording and optional guidance are installed; bubbles remain preview-only.
+At that previous checkpoint, **v3-0.1.11 DRAFT** was installed and exact-version/UI/bus/real-IMU verified. Plain full-face compass/tap-to-Options, twelve shuffled draft pairs, Guide/Back, whole six-second reveal and five-second settled card-only hold are unchanged. Compass/touch were positively reported; one natural turnover now showed blank → card animation → controls, with one clean recorded trigger. Repeated-use reliability and card-only timing remain separate acceptance checks. The approved twelve-card wording and optional guidance are installed; bubbles remain preview-only.
 
 Actual v3-0.1.5 trace had 315 valid eligible resting rows stuck in Recover with gravity opposite the remembered origin. The former inversion veto blocked rearming indefinitely. v3-0.1.6 permits a new stable eligible reference after existing 1200ms rebase dwell (same-origin 600ms), retaining the old one until qualification. Reacquisition clears the canceled cycle/dwell and never draws. Active Ready/Turning/Inverted, thresholds, cooldown, sensor/model/content/renderer and positive USB TX budgets are unchanged.
 
@@ -115,7 +162,7 @@ The v3-0.1.7 opt-in flight recorder now retains actual poll attempts in bounded 
 
 The twelve-card content was recovered from the endorsed draft and independently reviewed: exact openings/private cues/conditional follow-up/optional help, 12 revisions advanced once, 28 other records unchanged, all review scopes draft. V3 model count derives from generated 12; V2/browser selectors remain 8. Four clean harness/preparer merges retained recorder and typography tests. Actual merged 45 Python checks, LVGL 48 contexts/179 pages, expanded bags/legacy RNG, SDK/recorder/differential tests and integration review passed. Build645,507 program / 128,184 globals; app 645,648 bytes. Exact installed 1.8 source/hash/slot/components/originals/same-board identity and startup/UI/IMU passed. A real-target explicitly synthetic return-state bench selected tg-004 and read its exact approved question from ROM; normal reveal/hold/restoration completed, and full 1,904-row/76,160-byte recorder export CRC f09b5d32 retained exactly one synthetic trigger. This is not human-motion success. Evidence exported before intentional cleanup reset; Home/index-1/compass verified and monitors closed. Current package `build/v3-0.1.8/`; [V3-CARD-CONTENT.md](V3-CARD-CONTENT.md) records editorial scope.
 
-Latest V3 v3-0.1.11 adds only the approved phase-linked presentation: existing qualified inversion hides old compass/card to black without selecting, allocating or resetting; confirmed return calls the original draw/reveal once. No new shake, extra delay or change to 2048dps recognition, timing, model/RNG, cards, renderer or recorder. Real pointer cancellation restores/swallow-clicks, focus deadlines retain hidden chrome masks, and lifecycle/timeout/health routes restore safely. Bounded mask supports normal≤6 children; foreign>32 roots decline blackout, and foreign reordering is unsupported.
+The previous V3 v3-0.1.11 increment added only the approved phase-linked presentation: existing qualified inversion hides old compass/card to black without selecting, allocating or resetting; confirmed return calls the original draw/reveal once. No new shake, extra delay or change to 2048dps recognition, timing, model/RNG, cards, renderer or recorder. Real pointer cancellation restores/swallow-clicks, focus deadlines retain hidden chrome masks, and lifecycle/timeout/health routes restore safely. Bounded mask supports normal≤6 children; foreign>32 roots decline blackout, and foreign reordering is unsupported.
 
 All 53 isolated Python and full native LVGL/content/SDK/differential checks and independent 14-file review pass. Native 13-frame preview has exact all-black inversion/preconfirm frames and matching cancellation-restoration bytes. Actual target 646,191 program/128,192 globals, app 646,336 bytes passed package/original/same-board/security/source/compatible components and app-only write/explicit verify. Exact 1.11 runtime/UI/IMU/compass and default-OFF recorder verified. Legacy streaming probe failed to produce accepted rows; direct exact-ELF runtime checks passed and are the evidence, not that probe.
 

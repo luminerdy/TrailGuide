@@ -3,6 +3,7 @@
 #include "coaching_model.h"
 #include "gesture.h"
 #include "window_reveal.h"
+#include "sound_cue.h"
 #include <cstdio>
 namespace v3app {
 using trailguide_coach::CoachModel;
@@ -11,7 +12,8 @@ using trailguide_coach::Screen;
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class CoachUi {
  public:
- enum class Action { Progress, Stuck, Unclear, Exploring, Ai, Team, Options, Back, Another, Guide, Release, Classic, Instant, Picker, Opening, NextStep, Next, Experiment, Question, Reminders, Count };
+ enum class Action { Progress, Stuck, Unclear, Exploring, Ai, Team, Options, Back, Another, Guide, Release, Classic, Instant, Picker, Opening, NextStep, Next, Experiment, Question, Reminders, Sound, Count };
+ SoundCue localSound;SoundCue *sound=&localSound;
  CoachModel model;WindowReveal window;
  void (*exitCallback)(void*)=nullptr;void *exitContext=nullptr;
  bool leaveRequested=false;
@@ -61,7 +63,8 @@ class CoachUi {
    button(Action::Release,"Release",184,164,100,48);
    button(Action::Classic,"Classic",76,216,100,48);
    button(Action::Instant,instant?"Instant ON":"Instant OFF",184,216,100,48);
-   button(Action::Reminders,"Reminders",112,274,136,48);return;
+   button(Action::Reminders,"Reminders",88,268,88,48);
+   button(Action::Sound,sound->enabled?"Sound ON":"Sound OFF",184,268,88,48);return;
   }
   if(screen==Screen::Picker){
    label(root,"Choose a path",112,84,136,&lv_font_montserrat_14);
@@ -87,13 +90,14 @@ class CoachUi {
   ++resetCounts[1];gesture.reset();
   if(unsigned(a)<6){model.path(unsigned(a));render();return;}
   if(a==Action::Another){if(busy())finish(true);else draw();return;}
-  switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
+  switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Sound:sound->enabled=!sound->enabled;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
   render();
  }
 
  private:
  struct Slot{CoachUi *owner;Action action;}slots[unsigned(Action::Count)]{};
- bool optionsOpen=false;
+ bool optionsOpen=false,pendingSettlement=false;
+ void settled(){if(pendingSettlement){pendingSettlement=false;sound->settled();}}
  // Existing root/children only: no overlay, snapshot, timer or heap allocation.
  bool blanked=false,touchCancelledBlank=false;uint32_t hiddenBeforeBlank=0;
  void setBlank(bool hide){
@@ -111,16 +115,16 @@ class CoachUi {
  lv_timer_t *timer=nullptr;uint32_t started=0;bool motionAvailable=false,pointerDown=false,scrolling=false;Gesture gesture;
  uint32_t resetCounts[8]={};
  bool sampleSeen=false;uint32_t lastSampleAt=0;
- void draw(){model.draw();render();if(!instant)start();else hold();}
+ void draw(){model.draw();render();pendingSettlement=true;if(!instant)start();else {settled();hold();}}
  void chrome(bool hide){focused=hide;if(!root)return;for(unsigned i=0;i<lv_obj_get_child_cnt(root)&&i<32;++i){auto *o=lv_obj_get_child(root,i);if(o==scroll)continue;if(blanked){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);}else if(hide)lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);}}
 
  void stopFocus(){if(focusTimer){lv_timer_del(focusTimer);focusTimer=nullptr;}chrome(false);}
  static void focusDone(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
  void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,5000,this);if(focusTimer)chrome(true);}
- void cancel(){setBlank(false);stopFocus();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
- void finish(bool readableHold=false){cancel();if(model.current.screen==Screen::Opening){if(readableHold)hold();}}
- void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;cancel();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
+ void cancel(){pendingSettlement=false;setBlank(false);stopFocus();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
+ void finish(bool readableHold=false){if(readableHold)settled();cancel();if(model.current.screen==Screen::Opening){if(readableHold)hold();}}
+ void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){settled();hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;settled();cancel();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
  static void tick(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);auto elapsed=lv_tick_elaps(u->started);if(elapsed>=6000){u->finish(true);return;}u->window.render(elapsed);lv_obj_invalidate(u->scroll);}
  static void drawWindow(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);auto *ctx=lv_event_get_draw_ctx(e);if(u->window.active())u->window.draw(ctx,a);else compactFace(ctx,a);}
  // Presentation-only clipping: the snapshot stays 256x140. Black bands mask
@@ -153,7 +157,7 @@ class CoachUi {
  }
 
  lv_obj_t *label(lv_obj_t *p,const char *s,int x,int y,int w,const lv_font_t *font){auto *o=lv_label_create(p);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_clear_flag(o,LV_OBJ_FLAG_CLICKABLE);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,w);lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_font(o,font,0);lv_obj_set_style_text_line_space(o,4,0);lv_label_set_text(o,s);return o;}
- lv_obj_t *button(Action a,const char *s,int x,int y,int w,int h){auto *o=lv_btn_create(root);lv_obj_remove_style_all(o);lv_obj_set_pos(o,x,y);lv_obj_set_size(o,w,h);lv_obj_clear_flag(o,LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_PRESS_LOCK);lv_obj_set_style_bg_opa(o,LV_OPA_COVER,0);lv_obj_set_style_bg_color(o,lv_color_hex(a==Action::Progress?0x27689f:0x285066),0);lv_obj_set_style_bg_color(o,lv_color_hex(0x407994),LV_STATE_PRESSED);lv_obj_set_style_radius(o,8,0);lv_obj_set_style_outline_width(o,2,LV_STATE_FOCUSED);lv_obj_set_style_outline_pad(o,0,LV_STATE_FOCUSED);lv_obj_set_style_outline_color(o,lv_color_hex(0xffffff),LV_STATE_FOCUSED);auto *text=label(o,s,0,0,unsigned(a)<6?w:w-8,unsigned(a)<6?&lv_font_montserrat_12:&lv_font_montserrat_14);lv_obj_set_style_text_align(text,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(text);if(unsigned(a)<6){lv_obj_set_align(text,LV_ALIGN_TOP_LEFT);lv_obj_set_pos(text,0,27);}auto &slot=slots[unsigned(a)];slot={this,a};lv_obj_add_event_cb(o,clicked,LV_EVENT_CLICKED,&slot);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(o,contact,LV_EVENT_ALL,this);return o;}
+ lv_obj_t *button(Action a,const char *s,int x,int y,int w,int h){auto *o=lv_btn_create(root);lv_obj_remove_style_all(o);lv_obj_set_pos(o,x,y);lv_obj_set_size(o,w,h);lv_obj_clear_flag(o,LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_PRESS_LOCK);lv_obj_set_style_bg_opa(o,LV_OPA_COVER,0);lv_obj_set_style_bg_color(o,lv_color_hex(0x0c1721),0);lv_obj_set_style_bg_color(o,lv_color_hex(0x1a2b38),LV_STATE_PRESSED);lv_obj_set_style_radius(o,8,0);lv_obj_set_style_outline_width(o,2,LV_STATE_FOCUSED);lv_obj_set_style_outline_pad(o,0,LV_STATE_FOCUSED);lv_obj_set_style_outline_color(o,lv_color_hex(0xffffff),LV_STATE_FOCUSED);auto *text=label(o,s,0,0,unsigned(a)<6?w:w-8,unsigned(a)<6?&lv_font_montserrat_12:&lv_font_montserrat_14);lv_obj_set_style_text_align(text,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(text);if(unsigned(a)<6){lv_obj_set_align(text,LV_ALIGN_TOP_LEFT);lv_obj_set_pos(text,0,27);}auto &slot=slots[unsigned(a)];slot={this,a};lv_obj_add_event_cb(o,clicked,LV_EVENT_CLICKED,&slot);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(o,contact,LV_EVENT_ALL,this);return o;}
  static void icon(lv_event_t *e){auto *slot=static_cast<Slot*>(lv_event_get_user_data(e));auto *ctx=lv_event_get_draw_ctx(e);lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);int x=(a.x1+a.x2)/2,y=a.y1+13;lv_draw_line_dsc_t d;lv_draw_line_dsc_init(&d);d.color=lv_color_hex(0x83b4ca);d.width=2;d.round_start=d.round_end=1;
   auto line=[&](int x1,int y1,int x2,int y2){lv_point_t p={lv_coord_t(x+x1),lv_coord_t(y+y1)},q={lv_coord_t(x+x2),lv_coord_t(y+y2)};lv_draw_line(ctx,&d,&p,&q);};
   switch(slot->action){case Action::Progress:line(-10,6,-3,0);line(-3,0,9,-6);line(3,-6,9,-6);line(9,-6,9,0);break;case Action::Stuck:line(-10,6,-3,6);line(0,-8,0,8);line(4,-8,4,8);line(7,6,11,6);break;case Action::Unclear:line(-6,-4,-3,-8);line(-3,-8,4,-8);line(4,-8,7,-4);line(7,-4,0,1);line(0,1,0,3);line(0,7,0,8);break;case Action::Exploring:line(0,8,0,-2);line(0,-2,-9,-8);line(0,-2,9,-8);line(-9,-8,-9,-3);line(9,-8,9,-3);break;case Action::Ai:line(-8,-8,5,-8);line(-8,-8,-8,8);line(-8,8,5,8);line(5,-8,5,8);line(-4,-3,1,-3);line(-4,2,1,2);line(10,-6,10,0);line(7,-3,13,-3);break;case Action::Team:line(-8,-7,-4,-7);line(4,-7,8,-7);line(-10,7,-10,0);line(-10,0,-2,0);line(-2,0,-2,7);line(2,7,2,0);line(2,0,10,0);line(10,0,10,7);break;default:break;}

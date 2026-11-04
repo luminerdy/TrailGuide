@@ -9,8 +9,8 @@ from prepare_v3 import prepare
 import v3_native_objects as native
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.14/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.14/host'
+LVGL = ROOT / 'build/v3-0.1.16/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.16/host'
 
 def coaching_frame_directory():
     # The native harness writes here, including on a completely fresh output.
@@ -21,7 +21,7 @@ def coaching_frame_directory():
 def main():
     subprocess.run([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.14/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.16/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = native.flags()
@@ -80,6 +80,27 @@ def main():
     subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
                     str(ROOT/'tests/v3_compact_ui_test.cpp'),*objects,'-lm','-o',str(compact)],check=True)
     subprocess.run([str(compact)],cwd=ROOT,check=True,timeout=180)
+    sound_ui=OUT/'v3-sound-ui-test'
+    subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
+                    str(ROOT/'tests/v3_sound_ui_test.cpp'),*objects,'-Wl,--wrap=lv_timer_create','-lm','-o',str(sound_ui)],check=True)
+    subprocess.run([str(sound_ui)],cwd=ROOT,check=True,timeout=180)
+    for source in ('v3_chime_test.cpp','v3_chime_adapter_test.cpp'):
+        binary=OUT/source.removesuffix('.cpp')
+        subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,'-pthread',
+                        '-I'+str(ROOT/'tests/stubs'),str(ROOT/'tests'/source),'-o',str(binary)],check=True)
+        subprocess.run([str(binary)],cwd=ROOT,check=True,timeout=60)
+        if source=='v3_chime_adapter_test.cpp':
+            for failure in range(1,9):subprocess.run([str(binary),str(failure)],cwd=ROOT,check=True,timeout=60)
+            # The S3 SDK disables hardware atomics; standard atomic correctness
+            # is required, not the host's always-lock-free optimization trait.
+            software=OUT/'v3_chime_sdk_atomic_test'
+            software_flags=['-UTRAILGUIDE_CHIME_EXPECT_SOFTWARE_ATOMICS','-DTRAILGUIDE_CHIME_EXPECT_SOFTWARE_ATOMICS',
+                            '-U__GCC_ATOMIC_INT_LOCK_FREE','-D__GCC_ATOMIC_INT_LOCK_FREE=1',
+                            '-U__GCC_ATOMIC_LONG_LOCK_FREE','-D__GCC_ATOMIC_LONG_LOCK_FREE=1']
+            subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,'-pthread',*software_flags,
+                            '-I'+str(ROOT/'tests/stubs'),str(ROOT/'tests'/source),'-o',str(software)],check=True)
+            subprocess.run([str(software)],cwd=ROOT,check=True,timeout=60)
+            for failure in range(1,9):subprocess.run([str(software),str(failure)],cwd=ROOT,check=True,timeout=60)
     for name in ('model','gesture','imu','motion','recorder'):
         binary=OUT/('v3-app-'+name+'-test')
         subprocess.run(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,str(ROOT/('tests/v3_app_'+name+'_test.cpp')),'-o',str(binary)],check=True)

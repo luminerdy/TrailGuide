@@ -2,7 +2,7 @@
 
 **Classic offers one curated question or practical move at a time.** Use it for a quick spark, then return attention to the person or team.
 
-This maps the installed V3 `v3-0.1.14` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
+This maps the installed V3 `v3-0.1.16` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
 
 ```mermaid
 flowchart TD
@@ -14,11 +14,13 @@ flowchart TD
     Ask --> Draw[Draw one card in the active Ask or Try mode]
     Try --> Draw
     Options -->|Instant text toggle| Options
+    Options -->|Sound OFF or ON: shared RAM preference| Options
     Options -->|Back| Compass
     Options -->|Coaching| Coaching([Enter Coaching: separate flow])
     Draw -->|Animated presentation| Reveal["Whole answer-bearing face emerges<br/>6-second reveal"]
     Draw -->|Instant text or safe rendering fallback| Hold["Selected card alone<br/>Additional 5-second reading hold"]
     Reveal -->|Completes, or tap to finish this same reveal| Hold
+    Hold -.-> Cue["New draw now readable: optional settlement chime<br/>Sound ON only; busy cues dropped"]
     Hold -->|Hold finishes, or tap to show controls| Card["Same question or activity<br/>Controls available"]
     Hold -->|New complete turn over and back| Draw
     Card -->|Another, or complete turn over and back| Draw
@@ -47,6 +49,24 @@ flowchart TD
 - A tap can finish the same reveal and start its hold; a subsequent settled tap can expose controls. Neither consumes another draw.
 - Guide/Back, scrolling and ordinary rerendering preserve the selected identity and do not replay the reveal. Full text remains accessible.
 - Instant text bypasses the animation, not the card's identity or complete-copy access. A safe allocation/capture fallback is not a successful animation.
+
+## Optional settlement sound
+
+**Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
+It defaults **OFF after every reboot**. Booting and toggling either way are silent.
+When ON, an accepted new Classic card or explicitly requested new Coaching opener
+can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
+of **1536**. It begins when that draw becomes readable: normally after the six-second
+reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
+The additional five-second reading hold is unchanged. Initial Coaching entry is
+silent even though it selects its first opener; context restoration, Guide/Back,
+path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
+not queued. OFF requests cancellation of active playback; switching ON again does
+not revive that canceled cue. Audio uses a low-priority TX-only worker; the ready
+main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
+networking or OTA is enabled by this feature.
+
+Button fills are `#0c1721` normal / `#1a2b38` pressed; main-card pixels, icons, fonts, spacing and existing touch areas are unchanged. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
 
 ## Boundaries
 

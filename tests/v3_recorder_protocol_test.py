@@ -10,7 +10,7 @@ sys.path.insert(0,str(ROOT/'tools'))
 class Protocol(unittest.TestCase):
  def test_actual_manual_cpp_header_rows_crc(self):
   from v3_flight_recorder import fields,validate_chunk,validate_capture,decoded
-  path=ROOT/'build/v3-0.1.14/recorder.manual.synthetic.wire'
+  path=ROOT/'build/v3-0.1.16/recorder.manual.synthetic.wire'
   if not path.exists():self.skipTest('run focused C++ recorder test first')
   lines=[s for s in path.read_text().splitlines() if s]
   s=fields(lines.pop(0),'STATUS');self.assertEqual(s['reason'],3);self.assertEqual(s['capacity'],8192)
@@ -40,7 +40,7 @@ class Protocol(unittest.TestCase):
    with self.assertRaises(ProtocolError):validate_capture({**capture,'status':{**status,field:value}})
  def test_actual_cpp_writer_and_decoder(self):
   from v3_flight_recorder import fields,validate_chunk,decoded
-  path=ROOT/'build/v3-0.1.14/recorder.synthetic.wire'
+  path=ROOT/'build/v3-0.1.16/recorder.synthetic.wire'
   if not path.exists():self.skipTest('run tools/test_v3_app.py first for C++ writer artifact')
   lines=[s for s in path.read_text().splitlines() if s]
   begin=fields(lines[0],'BEGIN')

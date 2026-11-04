@@ -46,10 +46,11 @@ There are no required question counts, experiments, AI-use targets or inferred d
 
 ## 3. Current system checkpoint
 
-The round device runs **v3-0.1.14 DRAFT**, installed with application-flash comparison
-and exact-version startup, initialized UI and real-IMU liveness verification recorded.
-This is an offline, read-only draft-content trial, not the broader product release.
-No new hardware contact or firmware test is implied by this documentation baseline.
+**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
+fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
+an offline authored-content trial, not a production release. Local installation
+and documentation do not imply remote publication.
+These are the firmware checkpoint results; preparing this documentation did not contact hardware.
 
 The target is the original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1:
 360x360 round capacitive touch, ESP32-S3, 16MB flash, 8MB PSRAM and QMI8658 IMU.
@@ -67,7 +68,7 @@ See [V1-SPEC.md](V1-SPEC.md), [V2-SPEC.md](V2-SPEC.md) and [V2-TRIAL.md](V2-TRIA
 - Fresh boot opens the plain decorative wandering compass, without an automatic draw.
 - The compass is an idea metaphor, not a magnetic heading or navigation instrument.
 - Tap the compass for Options: **Coaching**, **Back**, **Ask the Team**,
-  **Try a Move** and **Instant text** are the touch choices.
+  **Try a Move**, **Instant text** and **Sound OFF/ON** are the touch choices.
 - Ask and Try draw from the same selected twelve curated paired draft cards.
   Ask presents a question; Try presents an action. They have independent shuffled bags,
   with no repeats within a bag cycle and no immediate repeat at its boundary.
@@ -108,7 +109,7 @@ Path labels may be shortened on the perimeter, but headings retain their full na
 
 - Opening presents the six path controls and a plain text **Options** touch entry.
 - Options offers **Another opener**, **Guide me**, **Release**, **Classic**,
-  **Instant** and **Reminders**, with Back to the previous context.
+  **Instant**, **Reminders** and **Sound OFF/ON**, with Back to the previous context.
 - **Another opener** in Options requests a new random opener by touch. A motion
   request works **only while on Opening**; path browsing cannot be replaced by it.
 - A path restores its last question/experiment face. Question faces offer **Paths**,
@@ -146,9 +147,29 @@ return draws once, and cancellation restores the previous scene. Reveal-busy inp
 is not queued. The settled hold is separate from reveal-busy: a new eligible complete
 turnover may draw during that hold. Touch, menus, guidance and scrolling suppress motion.
 
-The preceding v3-0.1.13 icons and spacing received positive physical feedback.
-The v3-0.1.14 side trim was approved in native preview; its new physical acceptance,
-broader coaching touch/readability and natural-opener gesture checks remain pending.
+Button fills are `#0c1721` normal and `#1a2b38` pressed. Existing main-card pixels,
+icons, fonts, spacing and touch areas are unchanged.
+
+**Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
+It defaults **OFF after every reboot**. Booting and toggling either way are silent.
+When ON, an accepted new Classic card or explicitly requested new Coaching opener
+can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
+of **1536**. It begins when that draw becomes readable: normally after the six-second
+reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
+The additional five-second reading hold is unchanged. Initial Coaching entry is
+silent even though it selects its first opener; context restoration, Guide/Back,
+path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
+not queued. OFF requests cancellation of active playback; switching ON again does
+not revive that canceled cue. Audio uses a low-priority TX-only worker; the ready
+main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
+networking or OTA is enabled by this feature.
+
+Physical acceptance of the new quiet controls, Sound menu/mute behavior and
+settlement chime is pending. The earlier speaker bench established only one very
+soft tone at peak 768, not this new decaying chime; peak 1536 is a modest increase
+chosen for this trial, not measured loudness or hearing-safety evidence. Earlier
+icons/spacing were liked. Narrow-face readability, broader Coaching touch/natural
+opener behavior and sustained reliability remain separate open gates.
 Host geometry and rendered fit do not establish physical usability or reliability.
 
 ## 7. Content and software architecture
@@ -175,10 +196,15 @@ Keep private diagnostics, credentials, device identifiers and runtime data out o
 
 ## 8. Evidence, remaining gates and roadmap
 
-The last firmware checkpoint records full actual native LVGL 8.3.10 ASan/UBSan checks,
-80 isolated Python tests, both V1 suites, all six generator checks, S3/package checks,
-application-only write/explicit flash comparison and exact-runtime readback passing.
-These are recorded firmware results, not tests newly run for this document.
+The installed S3 application is **688224 bytes**. Full native LVGL/audio
+ASan/UBSan checks, including SDK-like software-atomic adapter cases, pass;
+**84 isolated Python tests** also pass. The existing main-card pixels remain unchanged.
+The isolated runner now fails closed below 2 GiB free, contains browser config/cache
+in child-only XDG/Chrome directories and cleans up its disposable sandbox on failure;
+the successful suite left no new global profiles or sandbox leak. These are software
+results, not physical acceptance.
+Application-only flash comparison and exact-runtime readback pass for this installed
+checkpoint. These recorded firmware results are not tests newly run for this document.
 Earlier natural Classic gesture observations do not prove new Coaching physical acceptance.
 Broader handling, endurance, power, memory and learner-benefit claims retain separate gates.
 

@@ -2,11 +2,11 @@
 
 **Coaching helps the facilitator open, listen, explore and release ownership of the next step.** The guide chooses the pace and direction; the device does not diagnose the team or listen to the conversation.
 
-This maps the installed V3 `v3-0.1.14` experience. It is a flexible navigation map, not a required sequence. Read alongside the [Classic flow](CLASSIC-FLOW.md) and [project specification](PROJECT-SPEC.md).
+This maps the installed V3 `v3-0.1.16` experience. It is a flexible navigation map, not a required sequence. Read alongside the [Classic flow](CLASSIC-FLOW.md) and [project specification](PROJECT-SPEC.md).
 
 ```mermaid
 flowchart TD
-    Entry([Classic compass: tap, then Coaching]) --> Opener["Opening question<br/>First entry draws; later entry restores it"]
+    Entry([Classic compass: tap, then Coaching]) --> Opener["Opening question<br/>First entry selects silently; later entry restores silently"]
     Opener --> Listen["Listen to the person or team<br/>Human activity, off-device"]
     Listen -->|Tap a path icon when useful| Context["Your selected path<br/>Restore its last question or experiment face"]
     Context -->|Question face| Question[Question for this path]
@@ -15,7 +15,9 @@ flowchart TD
     Opener -->|Complete turn over and back| NewOpener["Draw another shuffled opener<br/>Optional reveal and reading hold"]
     Options -->|Another opener| NewOpener
     NewOpener --> Opener
+    NewOpener -.-> Cue["Only this explicit new draw: optional chime when readable<br/>Not initial entry or restoration; Sound ON only"]
     Options -->|Instant text toggle| Options
+    Options -->|Sound OFF or ON: shared RAM preference| Options
     Options -->|Classic| Classic([Return to Classic compass])
     Options -->|Back| Opener
     Question -->|Another: authored order| Question
@@ -75,6 +77,24 @@ Each path has four questions and three optional experiments. Questions and exper
 - Motion draws operate **only on the Opening screen**. Flipping while browsing a path, help, closing or Options cannot replace that content.
 - Qualified inversion blacks the old opening scene; completed return starts the six-second reveal, followed by five additional seconds for reading. Cancellation restores the previous scene. Tap alternatives and early reveal/hold completion remain available.
 - The coaching blue face is 192x112 inside the unchanged 256x140 capture panel, with 18px body text, 168px opening wrap and 12px ring/Options captions. Invisible touch targets remain generous; long text is scrollable.
+
+## Optional settlement sound
+
+**Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
+It defaults **OFF after every reboot**. Booting and toggling either way are silent.
+When ON, an accepted new Classic card or explicitly requested new Coaching opener
+can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
+of **1536**. It begins when that draw becomes readable: normally after the six-second
+reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
+The additional five-second reading hold is unchanged. Initial Coaching entry is
+silent even though it selects its first opener; context restoration, Guide/Back,
+path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
+not queued. OFF requests cancellation of active playback; switching ON again does
+not revive that canceled cue. Audio uses a low-priority TX-only worker; the ready
+main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
+networking or OTA is enabled by this feature.
+
+Button fills are `#0c1721` normal / `#1a2b38` pressed; main-card pixels, icons, fonts, spacing and existing touch areas are unchanged. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
 
 ## Boundaries
 

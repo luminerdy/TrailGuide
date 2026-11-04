@@ -15,7 +15,7 @@ from prepare_v3 import ARCHIVE_SHA256
 class NativeObjects(unittest.TestCase):
  def setUp(self):
   self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
-  self.root=Path(self.temp.name);self.out=self.root/'build/v3-0.1.14'
+  self.root=Path(self.temp.name);self.out=self.root/'build/v3-0.1.16'
   (self.root/'trailguide_v3').mkdir();(self.root/'trailguide_v3/lv_conf.h').write_text('#define LV_FONT_MONTSERRAT_12 1\n')
   (self.out/'host').mkdir(parents=True)
   for name,value in [('ROOT',self.root),('OUT',self.out)]:

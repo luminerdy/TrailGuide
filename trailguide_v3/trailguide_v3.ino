@@ -1,4 +1,4 @@
-// Original-family Rev2.1 read-only DRAFT app. No WiFi/OTA/audio/storage.
+// Original-family Rev2.1 DRAFT: optional TX-only chime; no WiFi/OTA/microphone/storage.
 // Prepare pinned drivers and the reviewed DMA safety adapter with tools/prepare_v3.py.
 #include <Arduino.h>
 #if !defined(CONFIG_IDF_TARGET_ESP32S3)
@@ -8,6 +8,7 @@
 #include "ui.h"
 #include "imu.h"
 #include "motion_diagnostics.h"
+#include "chime.h"
 
 #include <esp_heap_caps.h>
 #include <esp_system.h>
@@ -99,6 +100,7 @@ void loop() {
                     imu.address(), imu.revision());
     }
   }
+  if (ready) v3audio::service(ui.sound.enabled,ui.sound.sequence);
   if (uint32_t(now-last_heartbeat)>=5000) {
     if(!motionDiagnostics.active() && !motionDiagnostics.draining()){
     last_heartbeat=now;

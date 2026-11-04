@@ -8,9 +8,27 @@ V3 is an optional enjoyable companion to project-led mentoring, not the curricul
 
 ## Current baseline and evidence
 
-**v3-0.1.14 DRAFT is installed.** Application-only flash comparison and fresh matching-ELF readback verify the intended running version, initialized active UI and advancing valid real-IMU/application counters. Full current-source native LVGL ASan/UBSan, 80 isolated Python checks, content generators and S3/package checks passed for that firmware increment. See [V3-TRIAL.md](V3-TRIAL.md) and [HANDOFF.md](HANDOFF.md).
+**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
+fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
+an offline authored-content trial, not a production release. Local installation
+and documentation do not imply remote publication.
 
-Earlier Classic natural turnover/blackout observations and a clean recorded trigger are preserved. Compact icons and spacing received positive physical feedback; the latest side trim was approved from native renders. Physical acceptance of that narrower face, broader coaching touch/gesture behavior and sustained reliability remain separate and open. A compiled image or native framebuffer is not a photograph, a measured device frame rate or evidence of learning benefit.
+The installed S3 application is **688224 bytes**. Full native LVGL/audio
+ASan/UBSan checks, including SDK-like software-atomic adapter cases, pass;
+**84 isolated Python tests** also pass. The existing main-card pixels remain unchanged.
+The isolated runner now fails closed below 2 GiB free, contains browser config/cache
+in child-only XDG/Chrome directories and cleans up its disposable sandbox on failure;
+the successful suite left no new global profiles or sandbox leak. These are software
+results, not physical acceptance.
+
+Physical acceptance of the new quiet controls, Sound menu/mute behavior and
+settlement chime is pending. The earlier speaker bench established only one very
+soft tone at peak 768, not this new decaying chime; peak 1536 is a modest increase
+chosen for this trial, not measured loudness or hearing-safety evidence. Earlier
+icons/spacing were liked. Narrow-face readability, broader Coaching touch/natural
+opener behavior and sustained reliability remain separate open gates.
+
+See [V3-TRIAL.md](V3-TRIAL.md) and [HANDOFF.md](HANDOFF.md).
 
 ## Target hardware
 
@@ -27,7 +45,7 @@ Use the recorded board identity and pinned pin map. Re-identify the actual targe
 ### Classic — prompt deck
 
 - Boot to an uncluttered full-face compass with no automatic draw; Ask is the fresh-boot default.
-- A compass tap opens Options: **Ask the Team**, **Try a Move**, **Coaching**, **Instant text** and **Back**.
+- A compass tap opens Options: **Ask the Team**, **Try a Move**, **Coaching**, **Instant text**, **Sound OFF/ON** and **Back**.
 - Ask/Try touch actions draw immediately in that mode. A qualified turn over and back from the compass draws Ask; the same gesture from a settled main card retains its active mode. Home returns to the compass without drawing.
 - Twelve selected card identities have independent shuffled Ask/Try bags, no within-cycle repeats and no immediate reshuffle-boundary repeat.
 - **Guide me** opens listening/activity support for the selected identity; Back returns without drawing. **Another** draws in the active mode. **More text** and scrolling retain the current copy. Home returns to the compass.
@@ -39,6 +57,7 @@ Use the recorded board identity and pinned pin map. Re-identify the actual targe
 - Each path has four questions and three optional experiments. Another cycles in authored order; switching Question/Experiment or paths preserves independent face/position/scroll state.
 - Guide me and listening reminders are private facilitator aids. Release/Next step leads to optional closing questions without requiring a path, a question quota or an experiment.
 - Opening restores the exact saved opener without a new draw. A new opener is available by Options touch action or a qualified turnover **only while on Opening**.
+- Coaching Options includes **Sound OFF/ON**, sharing the Classic preference.
 - Nothing automatically listens, selects a context, advances the conversation or evaluates a team. Context is RAM-only and resets on reboot.
 
 ## Motion and presentation contract
@@ -57,6 +76,7 @@ The owned driver retains the supported ±2048dps gyro range, matched 16LSB-per-d
 
 ## Layout and input contract
 
+- Buttons use `#0c1721` normal / `#1a2b38` pressed. Main-card pixels, icons, fonts, spacing and existing touch areas are unchanged.
 - Classic retains its existing compass/card layout; do not apply Coaching's geometry to it.
 - Coaching Opening draws a **192x112** blue face inside the exact **256x140** snapshot panel, centered by trimming 8px from each previously approved side.
 - Opening copy wraps at **168px**, with **18px** main text and **12px** perimeter/opening Options captions. Text coordinates/wrapping and icon positions are unchanged by the side trim.
@@ -64,6 +84,22 @@ The owned driver retains the supported ±2048dps gyro range, matched 16LSB-per-d
 - All six canonical openers fit in native rendering. Longer path/guidance/overflow copy remains genuinely scrollable, with no clipped essential text or accidental button activation during drag.
 - Preserve successful non-fallback capture, intermediate reveal pixels and exact settled-raster/live-text handoff. A smaller visible face must not shrink the renderer's required snapshot.
 - All controls/text/focus feedback must be usable on the actual circular panel, with real pointer and physical checks separate from geometry tests.
+
+## Optional settlement sound
+
+**Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
+It defaults **OFF after every reboot**. Booting and toggling either way are silent.
+When ON, an accepted new Classic card or explicitly requested new Coaching opener
+can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
+of **1536**. It begins when that draw becomes readable: normally after the six-second
+reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
+The additional five-second reading hold is unchanged. Initial Coaching entry is
+silent even though it selects its first opener; context restoration, Guide/Back,
+path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
+not queued. OFF requests cancellation of active playback; switching ON again does
+not revive that canceled cue. Audio uses a low-priority TX-only worker; the ready
+main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
+networking or OTA is enabled by this feature.
 
 ## Software architecture and dependencies
 
@@ -89,12 +125,12 @@ For the current read-only trial:
 - Validate source/generation, all selected content, zero/single/max pools, bag boundaries and navigation/context/RNG invariants.
 - Exercise actual bundled LVGL with ASan/UBSan: complete copy, real pointer/drag routes, all six paths, unrestricted release, overflow, allocation/deletion/cancellation, blackout, reveal and handoff.
 - Compile the intended S3 target; check image identity, slot budget and unchanged compatible components. Verify the exact written target and resumed UI/IMU liveness.
-- Separately collect physical readability, edge/touch/scroll, deliberate turnover and ordinary-handling observations. Do not invent a shake-test quota or require extra gestures to accept a cosmetic change.
+- Separately collect physical Sound menu/mute/chime, readability, edge/touch/scroll, deliberate turnover and ordinary-handling observations. Do not invent a shake-test quota or require extra gestures to accept a cosmetic change.
 - Sustained operation, reboot behavior and independent power need their own observed evidence. Battery readiness requires measured charging/runtime checks. No production or educational-effectiveness claim follows from a software gate.
 
 ## Explicit future scope, not installed functionality
 
-V3 currently has **no** team roster, theme-filter UI, durable Team Trail, saved/history/feedback/Undo, participant data capture, idle/wake persistence, live AI, microphone/audio, cloud sync or OTA service. V2's authenticated LAN updater is separate and is not evidence of V3 networking.
+V3 currently has **no** team roster, theme-filter UI, durable Team Trail, saved/history/feedback/Undo, participant data capture, idle/wake persistence, live AI, microphone/input audio, cloud sync or OTA service. V2's authenticated LAN updater is separate and is not evidence of V3 networking.
 
 The broader future production contract in PRODUCT-SPEC.md includes filtering and deliberate, private, durable team records with attribution/deduplication/migration gates. Those features require their own approved implementation and tests; they are not prerequisites for mentoring or the current read-only Classic/Coaching trial. Optional enhancements must not silently become dependencies of the working device.
 

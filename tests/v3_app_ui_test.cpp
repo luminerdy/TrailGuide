@@ -19,7 +19,7 @@ static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.14/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.16/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -31,6 +31,12 @@ int main(){
  lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buf,nullptr,360*20);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);
  lv_indev_drv_t input;lv_indev_drv_init(&input);input.type=LV_INDEV_TYPE_POINTER;input.read_cb=readTouch;lv_indev_drv_register(&input);
  uint32_t seed=7;
+ {v3app::Ui u(rng,&seed,allocate,release);u.perform(v3app::Ui::Action::Ask);u.perform(v3app::Ui::Action::Another);
+  assert(lv_obj_get_style_bg_color(u.first,0).full==lv_color_hex(0x0c1721).full);
+  assert(lv_obj_get_style_border_width(u.first,0)==0);
+  lv_obj_add_state(u.first,LV_STATE_PRESSED);assert(lv_obj_get_style_bg_color(u.first,0).full==lv_color_hex(0x1a2b38).full);
+  lv_obj_clear_state(u.first,LV_STATE_PRESSED);lv_obj_add_state(u.first,LV_STATE_FOCUSED);assert(lv_obj_get_style_outline_width(u.first,0)==2);
+ }
  {v3app::Ui u(rng,&seed,allocate,release);u.render();v3::ImuSample s;s.valid=true;s.acc_g[2]=1;s.gyr_dps[0]=2.2f;
   const auto initialSeed=seed;const auto count=timers();const auto allocated=allocations;
   for(unsigned t=20;t<=800;t+=20){s.at_ms=t;u.sample(s,t,true);const auto a=u.diagnostic(s,t);const auto b=u.diagnostic(s,t);assert(a.key()==b.key());}
@@ -115,14 +121,14 @@ int main(){
  {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);auto randomBefore=seed;auto timerBefore=timers();lv_mem_monitor_t m;lv_mem_monitor(&m);auto freeBefore=m.free_size;
   auto allocBefore=allocations;auto pixelsBefore=flushedPixels;advance(160);assert(flushedPixels-pixelsBefore<60000 && "idle animation must not invalidate full screen");advance(29840);lv_mem_monitor(&m);assert(allocations==allocBefore);assert(m.free_size==freeBefore && seed==randomBefore && u.model.index==-1 && !u.busy() && timers()==timerBefore);
   press(180,314);advance(500);assert(u.model.index==-1);lift();assert(!u.eligible() && !u.busy() && u.model.index==-1);bounds(u.first,true);bounds(u.second,true);bounds(u.toggle,true);bounds(u.backButton,true);
-  save(104);press(180,276);lift();assert(u.instant && !u.busy());press(232,208);lift();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Try && !u.busy());
+  save(104);press(126,276);lift();assert(u.instant && !u.busy());press(232,208);lift();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Try && !u.busy());
   u.perform(v3app::Ui::Action::Home);auto still=face();advance(1600);assert(still!=face() && !u.busy());
   lv_obj_del(u.root);assert(!u.root && timers()==baselineTimers);advance(6500);
   u.render();assert(timers()==baselineTimers+1);lv_obj_del(lv_obj_get_child(u.root,0));assert(timers()==baselineTimers);advance(6500);
   u.render();assert(timers()==baselineTimers+1);
   auto *child=lv_label_create(lv_obj_get_child(u.root,0));lv_label_set_text(child," ");lv_obj_del(child);advance(500);assert(timers()==baselineTimers+1 && !u.busy());
   // Both Options actions use real pointer release, without click-through draws.
-  auto beforeOptions=seed;press(180,314);lift();assert(seed==beforeOptions && !u.eligible());press(180,276);lift();assert(!u.instant && seed==beforeOptions);press(126,208);advance(600);assert(seed==beforeOptions);lift();assert(u.model.mode==v3app::Mode::Ask && u.busy());auto afterAsk=seed;advance(200);assert(seed==afterAsk);
+  auto beforeOptions=seed;press(180,314);lift();assert(seed==beforeOptions && !u.eligible());press(126,276);lift();assert(!u.instant && seed==beforeOptions);press(126,208);advance(600);assert(seed==beforeOptions);lift();assert(u.model.mode==v3app::Mode::Ask && u.busy());auto afterAsk=seed;advance(200);assert(seed==afterAsk);
   u.perform(v3app::Ui::Action::Home);assert(!u.first && !u.toggle && u.eligible());
  }assert(timers()==baselineTimers);advance(6500);
  // Synthetic samples exercise the app gate, not physical motion acceptance.

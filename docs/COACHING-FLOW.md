@@ -2,7 +2,9 @@
 
 **Coaching helps the facilitator open, listen, explore and release ownership of the next step.** The guide chooses the pace and direction; the device does not diagnose the team or listen to the conversation.
 
-This maps the installed V3 `v3-0.1.18-coaching-compass` experience. It is a flexible navigation map, not a required sequence. Read alongside the [Classic flow](CLASSIC-FLOW.md) and [project specification](PROJECT-SPEC.md).
+This maps the installed V3 `v3-0.1.20-shake-calibration` experience. It is a flexible navigation map, not a required sequence. Read alongside the [Classic flow](CLASSIC-FLOW.md) and [project specification](PROJECT-SPEC.md).
+
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
 ```mermaid
 flowchart TD
@@ -11,13 +13,13 @@ flowchart TD
     Context -->|Question face| Question[Question for this path]
     Context -->|Saved experiment face| Experiment[Optional small experiment]
     Compass -->|Invisible center: Options| Options[Coaching Options]
-    Compass -->|Complete turn over and back| NewOpener["Draw another shuffled opener<br/>Optional reveal and reading hold"]
+    Compass -->|Complete turn over and back, or sustained shake| NewOpener["Draw another shuffled opener<br/>Optional reveal and reading hold"]
     Options -->|Another opener| NewOpener
     NewOpener --> Opener["Optional opener card<br/>6-second whole-face reveal + 5-second hold"]
     Opener --> Listen["Listen: human activity, off-device"]
     Opener -->|Select any of six paths| Context
     Opener -->|Options| Options
-    Opener -->|Complete turn over and back| NewOpener
+    Opener -->|Complete turn over and back, or rearmed sustained shake| NewOpener
     NewOpener -.-> Cue["Only this explicit new draw: optional chime when readable<br/>Not initial entry or restoration; Sound ON only"]
     Options -->|Instant text toggle| Options
     Options -->|Sound OFF or ON: shared RAM preference| Options
@@ -78,11 +80,15 @@ Each path has four questions and three optional experiments. Questions and exper
 ## Opening and presentation rules
 
 - Six opening questions use their own shuffled pool. Only a deliberate new opener consumes that pool.
-- Entry shows the compass, not an opener question: the model selects/retains the opener silently. Another opener from Options or a qualified completed turnover switches to the legacy blue opener-card reveal, unless Instant text or a safe fallback bypasses it.
+- Entry shows the compass, not an opener question: the model selects/retains the opener silently. Another opener from Options, a qualified completed turnover or sustained shake on Opening switches to the legacy blue opener-card reveal, unless Instant text or a safe fallback bypasses it.
 - The compass has six labelled path icons and an invisible **136x64 center Options** target. Its independent decorative LCG wandering never selects a path, changes the opener or consumes a draw. Options Back restores whichever Opening variant opened it.
-- Motion draws operate **only on the Opening screen**. Flipping while browsing a path, help, closing or Options cannot replace that content.
+- Motion draws operate **only on the Opening screen**. Flipping or shaking while browsing a path, help, closing or Options cannot replace that content.
 - Qualified inversion blacks the old opening scene; completed return starts the six-second reveal, followed by five additional seconds for reading. Cancellation restores the previous scene. Tap alternatives and early reveal/hold completion remain available.
 - The explicit opener-card variant (not compass entry) retains a blue face of 192x112 inside the unchanged 256x140 capture panel, with 18px body text, 168px opening wrap and 12px ring/Options captions. Invisible touch targets remain generous; long text is scrollable.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
+
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual.
 
 ## Optional settlement sound
 
@@ -100,9 +106,9 @@ not revive that canceled cue. Audio uses a low-priority TX-only worker; the read
 main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
 networking or OTA is enabled by this feature.
 
-Button fills are `#0c1721` normal / `#1a2b38` pressed; main-card pixels, icons, fonts, spacing and existing touch areas are unchanged. The quieter button appearance is physically approved and preserved. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
+Button fills are `#0c1721` normal / `#1a2b38` pressed; apart from conditional text cues, accepted fonts, icons, spacing and touch areas are retained. The quieter button appearance is physically approved and preserved. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
 
-The new Coaching Home preview is approved, but on-device Home/touch acceptance is pending. The original physical flip/blank issue remains unresolved; earlier touch recovery is not a fix claim.
+Natural sustained shaking from the Coaching compass is physically confirmed to produce a card, with qualitative feedback that it is much better and consistent and that the current experience is liked. The UI cleanup was physically approved on v3-0.1.19 and retained exactly in v3-0.1.20 apart from release identity. No numerical trial count or separate Classic shake trial is inferred. Exhaustive readability/touch, Sound menu/mute/chime, sustained reliability, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank issue remains OPEN**; the additional shake trigger is not a diagnosis or demonstrated fix.
 
 ## Boundaries
 

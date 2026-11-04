@@ -1,8 +1,24 @@
 # V3 — read-only round-device trial
 
-## Current Coaching compass checkpoint — v3-0.1.18-coaching-compass
+## Current shake and UI-cleanup checkpoint — v3-0.1.20-shake-calibration
 
-**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+**v3-0.1.20-shake-calibration DRAFT is installed**, with exact running-target verification. This is an offline authored-content trial, not a production release; local installation does not imply GitHub publication.
+
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
+
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
+
+The correction from v3-0.1.19 changes only the prototype shake rotation veto from 180 dps to the existing 2044 dps gyro safety bound, plus release identity. Finite/per-axis clipping, freshness/gap, false-positive, quiet/cooldown and rearm safeguards remain. The turnover recognizer, sensor configuration/driver and qualified-inversion blackout policy are unchanged. Both new-draw routes retain the six-second whole-face reveal plus five-second reading hold and touch/Instant alternatives. Sound stays shared, RAM-only and default OFF, with nominal peak 1536; the separate louder experiment is excluded. Catalog 40 / Classic 12 / Coaching 55 and six freely chosen paths are unchanged.
+
+The compiled S3 application is **691248 bytes**. Recorded v3-0.1.20 evidence includes 14 actual-LVGL native integration groups, 42 retained detector assertions and 26 new rotation-policy assertions, strict compilation and ASan/UBSan checks, plus independent scoped review. An exact private 5025-row replay of the failed v3-0.1.19 motion changes from zero events to exactly one with the single-rule correction; replay is not a new physical trial. Actual S3 compilation, application-only flash comparison and exact-version initialized-UI/real-IMU runtime verification passed. Those deployment and physical-trial results are retained release evidence; preparing this publication does not change the device. The final publication integration also passes the full canonical native suite and all 86 isolated Python checks without skips; 533 actual native-rendered frames were archived and hash-verified. The earlier 84-check/512-frame result remains historical v3-0.1.18 evidence.
+
+Natural sustained shaking from the Coaching compass is physically confirmed to produce a card, with qualitative feedback that it is much better and consistent and that the current experience is liked. The UI cleanup was physically approved on v3-0.1.19 and retained exactly in v3-0.1.20 apart from release identity. No numerical trial count or separate Classic shake trial is inferred. Exhaustive readability/touch, Sound menu/mute/chime, sustained reliability, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank issue remains OPEN**; the additional shake trigger is not a diagnosis or demonstrated fix.
+
+## Previous Coaching compass checkpoint — v3-0.1.18-coaching-compass
+
+**v3-0.1.18-coaching-compass DRAFT was installed at this checkpoint**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 
 Selecting **Coaching** now enters a wordless decorative compass with the full gold/blue arrow and six labelled path icons. The model silently selects or retains its opener; entry does not show the question. The invisible **136x64 center** opens Options. Decorative wandering uses an independent LCG and never selects a path or consumes a card draw. **Another opener** or a qualified turn over and back on Opening displays the retained blue-card reveal (six seconds plus five seconds of reading hold). **Opening** from a path returns to the compass without changing the saved opener; Options **Back** restores the compass or opener-card variant it came from.
 
@@ -14,7 +30,7 @@ The quieter button appearance was physically approved on the earlier checkpoint 
 
 ## Previous quieter-controls and optional-chime checkpoint — v3-0.1.16
 
-**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
+**v3-0.1.16 DRAFT was installed at this checkpoint**, with application-only flash comparison and
 fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
 an offline authored-content trial, not a production release. Local installation
 and documentation do not imply remote publication.
@@ -153,15 +169,17 @@ At that previous bench checkpoint, the physical report was three complete sequen
 ## Implemented experience
 
 - Home is only the full-face wandering eight-point compass, centered at (180,180), without instructions, labels or buttons. Decoration stays within radius 168. It never auto-draws or consumes card RNG; it is not magnetic north.
-- A complete held turn-over/return draws Ask from Home. Tap the compass to open Options without drawing; Ask the Team / Try a Move / Coaching / Instant text / Sound / Back remain available. Back returns to the plain compass. Safe-circle advanced hit-testing rejects off-safe taps; background contact still suppresses motion.
+- A complete held turn-over/return or deliberate sustained shake draws Ask from Home. Tap the compass to open Options without drawing; Ask the Team / Try a Move / Coaching / Instant text / Sound / Back remain available. Back returns to the plain compass. Safe-circle advanced hit-testing rejects off-safe taps; background contact still suppresses motion.
 - The compass has its own 160ms timer/RNG and bounded old/new needle invalidation. Navigation/deletion/destruction cancel owned timers. Host frame samples are not device FPS.
 - Twelve existing canonical draft pairs form independent shuffled mode bags. Exact endorsed Ask/cue/help wording is installed; twelve revisions advance once, IDs/titles/themes remain stable and all scopes stay draft. V2/browser pools remain eight, with no V2 hardware update.
 - Each new card shows the unchanged whole blue answer face over six seconds, including its dark beat. Header/footer/controls stay hidden during reveal, then for five seconds after settlement. Tap during reveal completes the same card and starts the hold; tap during hold exposes controls. Drag does neither.
-- The settled hold is not reveal-busy: another complete flip can draw the next shuffled current-mode card and cancel the old deadline. Instant text/capture fallback start the hold immediately; optional-timer allocation failure leaves controls accessible. Guide/Back stay instant and preserve identity; swipe/More text retain complete copy.
+- The settled hold is not reveal-busy: another complete flip or rearmed sustained shake can draw the next shuffled current-mode card and cancel the old deadline. Instant text/capture fallback start the hold immediately; optional-timer allocation failure leaves controls accessible. Guide/Back stay instant and preserve identity; swipe/More text retain complete copy.
 - Main text stays 20px, Guide 18px, controls at least 48px high. Main viewport stays 256x140 at (52,112). Plain compass has no text.
 - Bubbles remain browser-preview-only. The optional TX-only settlement chime is the only output audio feature. No saving, roster, Team Trail/history, accounts, live AI, cloud, networking/OTA, microphone/input audio, RTC or SD is initialized. V3 updates use the independently identified USB interface.
 
 ## Gesture contract and physical check
+
+The sustained-shake alternative is roughly one second of deliberate motion from an eligible Home/card or Coaching Opening context; it does not require turnover before or afterward. Its current physical success report is from the Coaching compass only. The retained turnover instructions below are a separate route and do not establish that the original intermittent stuck/blank issue is fixed.
 
 Support the board without stressing its USB lead. Hold it screen-up and still, turn screen-down briefly, then return to approximately the same screen-up position and pause. Do not exchange messages between the two movements: the active cycle has a 12-second timeout. Leaving it inverted never repeats draws. Touch is sufficient without an IMU.
 
@@ -204,4 +222,4 @@ With the serial reader closed, actual JTAG halt/read/resume snapshots across ten
 
 Current private package/evidence: `build/v3-0.1.6/`; gesture capture:`build/v3-motion-investigation/coordinated-test/`; logging fault stack:`build/v3-motion-investigation/freeze-observation/`. Earlier v3-0.1.2 flip success, later failed trials and browser animation samples retain their separate scope. See [BRINGUP.md](BRINGUP.md).
 
-Remaining: corrected physical flip/card-only timing acceptance, broader handling/edge mapping, quantitative frame time, active-use power/memory/PSRAM stress, and production storage/update features. Do not repeat already accepted compass appearance or the100-tap exercise as substitutes. Never apply C6 binaries/pins/partitions to V3. Source publication still awaits GitHub authentication renewal.
+Remaining: corrected physical flip/card-only timing acceptance, broader handling/edge mapping, quantitative frame time, active-use power/memory/PSRAM stress, and production storage/update features. Do not repeat already accepted compass appearance or the100-tap exercise as substitutes. Never apply C6 binaries/pins/partitions to V3. Installation and GitHub publication remain separate; verify the exact remote source independently.

@@ -6,7 +6,7 @@ TrailGuide's main effort is **project-led mentoring across varied AI uses**, for
 
 Draft mentor practice and a learner-owned project/coaching brief connect to **AI Learning Lab's Define → Direct → Check → Adjust** and flexible AI roles. The next primary step is to use/review them on one real project milestone, inspect usefulness and carry context into a next conversation. They are not a validated curriculum or an integrated AI-coaching service.
 
-The earlier, separate V3 browser experience study explores **shake → one random curated idea → gradual text reveal**, with simulated shake, touch fallback, Reveal all and Instant text. It is not the native interaction: current V3 uses simple turn over and back, now confirmed for one recorded natural cycle; see the V3 checkpoint below. Current V2 is **v2-0.1.8**, adding touch-triggered gradual main-card reveal and same-card Reveal all, with instant Guide/Back. It was installed over authenticated local Wi-Fi; running version, changed application slot and continuing OTA readiness were read back. Physical pacing/readability/touch review remains open.
+The earlier, separate V3 browser experience study explores **shake → one random curated idea → gradual text reveal**, with simulated shake, touch fallback, Reveal all and Instant text. The installed native trial now offers both turn over and back and an additional sustained shake; their evidence and limits are separate from this browser simulation. See the current V3 checkpoint below. Current V2 is **v2-0.1.8**, adding touch-triggered gradual main-card reveal and same-card Reveal all, with instant Guide/Back. It was installed over authenticated local Wi-Fi; running version, changed application slot and continuing OTA readiness were read back. Physical pacing/readability/touch review remains open.
 
 This handoff records a checkpoint, not a guarantee of live hardware availability. Inspect the current Git commit/status for the exact source revision. V2's reveal is a presentation-only firmware increment; V1, canonical card copy/IDs/revisions/review states, model/deck order, networking and partitions remain unchanged. No USB upload or serial reset was used for the reveal update.
 
@@ -14,9 +14,25 @@ This handoff records a checkpoint, not a guarantee of live hardware availability
 
 Start with the [current project/system specification](PROJECT-SPEC.md), then the separate Mermaid maps for [Classic](CLASSIC-FLOW.md) and [Coaching](COACHING-FLOW.md). [PRODUCT-SPEC.md](PRODUCT-SPEC.md) preserves stable requirements and explicitly future features; [V3-SPEC.md](V3-SPEC.md) gives the refreshed round-target contract. These documents distinguish current offline authored modes from planned Team Trail, persistence and live-AI ideas. Documentation records the installed checkpoint below; preparing it did not itself install firmware or change content.
 
-## Current Coaching compass checkpoint — v3-0.1.18-coaching-compass
+## Current shake and UI-cleanup checkpoint — v3-0.1.20-shake-calibration
 
-**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+**v3-0.1.20-shake-calibration DRAFT is installed**, with exact running-target verification. This is an offline authored-content trial, not a production release; local installation does not imply GitHub publication.
+
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
+
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
+
+The correction from v3-0.1.19 changes only the prototype shake rotation veto from 180 dps to the existing 2044 dps gyro safety bound, plus release identity. Finite/per-axis clipping, freshness/gap, false-positive, quiet/cooldown and rearm safeguards remain. The turnover recognizer, sensor configuration/driver and qualified-inversion blackout policy are unchanged. Both new-draw routes retain the six-second whole-face reveal plus five-second reading hold and touch/Instant alternatives. Sound stays shared, RAM-only and default OFF, with nominal peak 1536; the separate louder experiment is excluded. Catalog 40 / Classic 12 / Coaching 55 and six freely chosen paths are unchanged.
+
+The compiled S3 application is **691248 bytes**. Recorded v3-0.1.20 evidence includes 14 actual-LVGL native integration groups, 42 retained detector assertions and 26 new rotation-policy assertions, strict compilation and ASan/UBSan checks, plus independent scoped review. An exact private 5025-row replay of the failed v3-0.1.19 motion changes from zero events to exactly one with the single-rule correction; replay is not a new physical trial. Actual S3 compilation, application-only flash comparison and exact-version initialized-UI/real-IMU runtime verification passed. Those deployment and physical-trial results are retained release evidence; preparing this publication does not change the device. The final publication integration also passes the full canonical native suite and all 86 isolated Python checks without skips; 533 actual native-rendered frames were archived and hash-verified. The earlier 84-check/512-frame result remains historical v3-0.1.18 evidence.
+
+Natural sustained shaking from the Coaching compass is physically confirmed to produce a card, with qualitative feedback that it is much better and consistent and that the current experience is liked. The UI cleanup was physically approved on v3-0.1.19 and retained exactly in v3-0.1.20 apart from release identity. No numerical trial count or separate Classic shake trial is inferred. Exhaustive readability/touch, Sound menu/mute/chime, sustained reliability, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank issue remains OPEN**; the additional shake trigger is not a diagnosis or demonstrated fix.
+
+## Previous Coaching compass checkpoint — v3-0.1.18-coaching-compass
+
+**v3-0.1.18-coaching-compass DRAFT was installed at this checkpoint**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 
 Selecting **Coaching** now enters a wordless decorative compass with the full gold/blue arrow and six labelled path icons. The model silently selects or retains its opener; entry does not show the question. The invisible **136x64 center** opens Options. Decorative wandering uses an independent LCG and never selects a path or consumes a card draw. **Another opener** or a qualified turn over and back on Opening displays the retained blue-card reveal (six seconds plus five seconds of reading hold). **Opening** from a path returns to the compass without changing the saved opener; Options **Back** restores the compass or opener-card variant it came from.
 
@@ -28,7 +44,7 @@ The quieter button appearance was physically approved on the earlier checkpoint 
 
 ## Previous quieter-controls and optional-chime checkpoint — v3-0.1.16
 
-**v3-0.1.16 DRAFT is installed**, with application-only flash comparison and
+**v3-0.1.16 DRAFT was installed at this checkpoint**, with application-only flash comparison and
 fresh exact-version initialized-UI/real-IMU liveness readback verified. This remains
 an offline authored-content trial, not a production release. Local installation
 and documentation do not imply remote publication.

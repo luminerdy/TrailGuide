@@ -2,7 +2,7 @@
 """Run every Python test in a seeded disposable source copy, never fallbacks.
 
 Only local pinned archive assets are seeded. No installs, target tools or serial.
-The isolated source copy is removed after the run; logs/hashes remain in 1.16 output.
+The isolated source copy is removed after the run; logs/hashes remain in the owned output.
 """
 from pathlib import Path
 from contextlib import contextmanager
@@ -16,7 +16,7 @@ import tempfile
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.18/evidence'
+OUT=ROOT/'build/v3-0.1.20/evidence'
 
 def inventory(root):
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
@@ -35,7 +35,7 @@ def disposable_sandbox():
     temp_root=Path(os.environ['TMPDIR'])
     if min(shutil.disk_usage(ROOT).free,shutil.disk_usage(temp_root).free)<2*1024**3:
         raise RuntimeError('Insufficient free space: require 2 GiB before isolated tests')
-    with tempfile.TemporaryDirectory(prefix='trailguide-v3-1.16-',dir=temp_root) as folder:
+    with tempfile.TemporaryDirectory(prefix='trailguide-v3-1.20-',dir=temp_root) as folder:
         yield Path(folder)
 
 def main():
@@ -45,6 +45,13 @@ def main():
         bench_root=ROOT/'build/v3-speaker-bench-0.1.15'
         bench_files=json.loads((ROOT/'build/v3-motion-investigation/installed-speaker-bench-0.1.15-files.private.json').read_text())
         assert all(inventory(ROOT/f'build/v3-0.1.{n}')==files for n,files in expected.items()) and inventory(bench_root)==bench_files,'installed fallback already changed'
+        installed_targets={
+            'v3-0.1.18-coaching-compass':ROOT/'build/v3-coaching-compass-port/target',
+            'v3-0.1.19-ui-shake':ROOT/'build/v3-ui-shake-0.1.19/target',
+            'v3-0.1.20-shake-calibration':ROOT/'build/v3-shake-calibration-0.1.20/target',
+        }
+        target_inventories={version:json.loads((ROOT/'build/v3-motion-investigation'/('installed-'+version+'-files.private.json')).read_text()) for version in installed_targets}
+        assert all(inventory(path)==target_inventories[version] for version,path in installed_targets.items()),'installed target already changed'
         source=sandbox/'source';source.mkdir()
         for name in ('tools','tests','content','docs','prototype','trailguide_v2','trailguide_v3','trailguide_v3_bringup','oled_oracle'):
             shutil.copytree(ROOT/name,source/name,ignore=shutil.ignore_patterns('__pycache__','node_modules'))
@@ -62,14 +69,15 @@ def main():
         shutil.copyfile(ROOT/'build/v3-s3-bringup/imu/preparation.json',seed/'imu/preparation.json')
         # Seed only clearly synthetic C++ fixtures, never captured evidence.
         for name in ('recorder.synthetic.wire','recorder.manual.synthetic.wire'):
-            fixture=ROOT/'build/v3-0.1.18'/name
+            fixture=ROOT/'build/v3-0.1.20'/name
             if fixture.exists():
-                (source/'build/v3-0.1.18').mkdir(exist_ok=True);shutil.copyfile(fixture,source/'build/v3-0.1.18'/name)
+                (source/'build/v3-0.1.20').mkdir(exist_ok=True);shutil.copyfile(fixture,source/'build/v3-0.1.20'/name)
         (sandbox/'tmp').mkdir()
         env=isolated_environment(sandbox)
         result=subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-p','*_test.py','-v'],cwd=source,env=env,capture_output=True,text=True,timeout=600)
         (OUT/'isolated-python.private.log').write_text(result.stdout+result.stderr)
         unchanged=all(inventory(ROOT/f'build/v3-0.1.{n}')==files for n,files in expected.items()) and inventory(bench_root)==bench_files
+        unchanged=unchanged and all(inventory(path)==target_inventories[version] for version,path in installed_targets.items())
         report={'returncode':result.returncode,'seeded_archive_sha256':ARCHIVE_SHA256,'PYTHONHASHSEED':17,'installed_file_counts':{str(n):len(files) for n,files in expected.items()},'installed_all_exact':unchanged,'source_sha256':inventory(source/'trailguide_v3'),'sandbox':str(sandbox),'target_or_hardware_run':False}
         (OUT/'isolated-python.private.json').write_text(json.dumps(report,indent=2)+'\n')
         print(result.stdout+result.stderr);assert unchanged,'installed 1.6/1.7/1.8/1.9/1.10/1.11/1.12/1.13/1.14/speaker-bench fallback changed'

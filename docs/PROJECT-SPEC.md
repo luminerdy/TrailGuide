@@ -46,8 +46,10 @@ There are no required question counts, experiments, AI-use targets or inferred d
 
 ## 3. Current system checkpoint
 
-**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
-These post-install checkpoint statements require verified running-target readback before publication; preparing this overlay did not contact hardware.
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
+
+**v3-0.1.20-shake-calibration DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+Exact-version runtime verification is recorded for this installed checkpoint; this documentation update did not contact hardware.
 
 The target is the original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1:
 360x360 round capacitive touch, ESP32-S3, 16MB flash, 8MB PSRAM and QMI8658 IMU.
@@ -69,13 +71,13 @@ See [V1-SPEC.md](V1-SPEC.md), [V2-SPEC.md](V2-SPEC.md) and [V2-TRIAL.md](V2-TRIA
 - Ask and Try draw from the same selected twelve curated paired draft cards.
   Ask presents a question; Try presents an action. They have independent shuffled bags,
   with no repeats within a bag cycle and no immediate repeat at its boundary.
-- A card offers **Guide me**, **Another**, **Home** and **More text** after the reveal/hold.
+- A card offers **Guide me**, **Another** and **Home** after the reveal/hold; **More text** appears only while actual text remains below.
   Another draws in the current Ask/Try mode. Guide me adds mode-specific help;
   Back returns to the same card without drawing. More text/scroll exposes complete copy.
 - Home returns to the compass without resetting the model's stored Ask/Try mode.
   However, the current Home gesture route explicitly draws Ask; settled-card gestures
   use the active mode. Do not infer a Try-on-Home gesture from retained model state.
-- A completed eligible turn-over-and-back selects one new card; shake is not required.
+- A completed eligible turn-over-and-back or sustained shake selects one new card; neither requires the other.
   Touch Ask/Try/Another provides a route without motion sensing.
 
 The installed selection is not the entire forty-card catalog and is not production
@@ -119,7 +121,7 @@ Path labels may be shortened on the perimeter, but headings retain their full na
 - Guide me adds private guidance for the current entry; Reminders are private cues,
   not automatic notifications or learner assessments.
 - Opening from paths returns to the compass with the exact remembered opener retained.
-  Explicit Another opener or a qualified Opening flip switches to the blue opener card.
+  Explicit Another opener, a qualified Opening flip or sustained Opening shake switches to the blue opener card.
   Path question/experiment selection,
   last face and scroll context are kept independently in RAM.
 
@@ -149,8 +151,7 @@ return draws once, and cancellation restores the previous scene. Reveal-busy inp
 is not queued. The settled hold is separate from reveal-busy: a new eligible complete
 turnover may draw during that hold. Touch, menus, guidance and scrolling suppress motion.
 
-Button fills are `#0c1721` normal and `#1a2b38` pressed. Existing main-card pixels,
-icons, fonts, spacing and touch areas are unchanged.
+Button fills remain `#0c1721` normal and `#1a2b38` pressed. Apart from footer removal and conditional text cues, the accepted geometry, fonts, icons and touch areas are retained.
 
 **Sound** is one shared, RAM-only preference in Classic Options and Coaching Options.
 It defaults **OFF after every reboot**. Booting and toggling either way are silent.
@@ -166,8 +167,12 @@ not revive that canceled cue. Audio uses a low-priority TX-only worker; the read
 main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
 networking or OTA is enabled by this feature.
 
-The quieter button appearance was physically approved on the earlier checkpoint and is preserved. The new Coaching Home preview is approved; its on-device appearance/touch check is still pending. Sound menu/mute/chime, narrower-face readability, broader touch/natural-opener behavior and sustained reliability retain separate gates. The original physical flip/blank failure remains unresolved: touch recovery was reported on the earlier checkpoint, not proof of a gesture fix.
+Natural sustained shaking from the Coaching compass is physically confirmed to produce a card, with qualitative feedback that it is much better and consistent and that the current experience is liked. The UI cleanup was physically approved on v3-0.1.19 and retained exactly in v3-0.1.20 apart from release identity. No numerical trial count or separate Classic shake trial is inferred. Exhaustive readability/touch, Sound menu/mute/chime, sustained reliability, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank issue remains OPEN**; the additional shake trigger is not a diagnosis or demonstrated fix.
 Host geometry and rendered fit do not establish physical usability or reliability.
+
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual. The v3-0.1.20 correction replaces only the prototype 180 dps shake rotation veto with the existing 2044 dps gyro safety bound, retaining finite/per-axis clipping, age/gap and false-positive/rearm checks. Sensor configuration/driver and turnover recognition are unchanged.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
 
 ## 7. Content and software architecture
 
@@ -182,7 +187,7 @@ The implementation pipeline is:
 1. Canonical cards/coaching JSON → content generators under `tools/`.
 2. Generated `cards_generated.h` / `coaching_generated.h` → pure selection/state models.
 3. `model.h` / `coaching_model.h` → `ui.h` / `coaching_ui.h` navigation and presentation.
-4. Gesture eligibility and shared `WindowReveal` → pinned LVGL 8.3.10 and board drivers.
+4. Turnover/shake eligibility and shared `WindowReveal` → pinned LVGL 8.3.10 and board drivers.
 
 Mode, pool, opener, path and scroll state are **RAM-only**. Returning to Classic and
 re-entering Coaching within a boot preserves opener context; reboot persistence is not promised.
@@ -193,9 +198,9 @@ Keep private diagnostics, credentials, device identifiers and runtime data out o
 
 ## 8. Evidence, remaining gates and roadmap
 
-The compiled S3 application is **689568 bytes**. Four candidate native suites and two independent frozen-baseline suites pass strict compilation and actual LVGL ASan/UBSan checks. The approved Coaching Home and six selected path frames match exactly; all 68 Coaching and 110 Classic comparison frames match the frozen baseline. These are recorded software/build results, not new tests run for this documentation or physical acceptance. The integrated candidate also passes the complete canonical native suite and all 84 isolated Python checks without skips; 512 real native-rendered frames were captured and hash-verified.
+The compiled S3 application is **691248 bytes**. Recorded v3-0.1.20 evidence includes 14 actual-LVGL native integration groups, 42 retained detector assertions and 26 new rotation-policy assertions, strict compilation and ASan/UBSan checks, plus independent scoped review. An exact private 5025-row replay of the failed v3-0.1.19 motion changes from zero events to exactly one with the single-rule correction; replay is not a new physical trial. Actual S3 compilation, application-only flash comparison and exact-version initialized-UI/real-IMU runtime verification passed. Those deployment and physical-trial results are retained release evidence; preparing this publication does not change the device. The final publication integration also passes the full canonical native suite and all 86 isolated Python checks without skips; 533 actual native-rendered frames were archived and hash-verified. The earlier 84-check/512-frame result remains historical v3-0.1.18 evidence.
 Installation and running-version verification are deployment gates, not documentation tests.
-Earlier natural Classic gesture observations do not accept this Coaching presentation.
+Earlier natural Classic turnover observations and the current qualitative Coaching shake report are distinct acceptance evidence.
 
 Team Trail, durable history/saves, filters, production eligibility, broader Home designs
 and richer integrations are **unimplemented roadmap**, not prerequisites for mentoring

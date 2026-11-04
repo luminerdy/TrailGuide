@@ -15,7 +15,7 @@ def load_tool(name):
 class Contracts(unittest.TestCase):
  def test_new_output_isolation(self):
   import prepare_v3
-  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.18')
+  self.assertEqual(prepare_v3.PRIVATE, ROOT/'build/v3-0.1.20')
  def test_installed_roots_rejected_before_archive_read(self):
   import prepare_v3
   from unittest.mock import patch
@@ -34,14 +34,29 @@ class Contracts(unittest.TestCase):
     with self.subTest(suffix=suffix):
      with self.assertRaisesRegex(ValueError,'immutable'):
       prepare_v3.prepare(ROOT/('build/v3-speaker-bench-0.1.15'+suffix))
+ def test_installed_target_roots_rejected_before_archive_read(self):
+  prepare_v3=load_tool('prepare_v3')
+  from unittest.mock import patch
+  roots=('build/v3-0.1.18','build/v3-0.1.19','build/v3-coaching-compass-port/target','build/v3-ui-shake-0.1.19/target','build/v3-shake-calibration-0.1.20/target')
+  with patch.object(Path,'read_bytes',side_effect=AssertionError('archive read before installed-target guard')):
+   for root in roots:
+    for suffix in ('','/nested/deep'):
+     with self.subTest(root=root,suffix=suffix):
+      with self.assertRaisesRegex(ValueError,'immutable'):prepare_v3.prepare(ROOT/(root+suffix))
  def test_foreign_root_rejected_before_archive_read(self):
   import prepare_v3
   from unittest.mock import patch
   with patch.object(Path,'read_bytes',side_effect=AssertionError('foreign output read archive')):
    with self.assertRaises(ValueError):prepare_v3.prepare(ROOT/'build/v3-0.1.0')
  def test_diagnostic_increment_version(self):
-  self.assertIn('version="v3-0.1.18-coaching-compass"',(ROOT/'trailguide_v3/ui.h').read_text())
+  self.assertIn('version="v3-0.1.20-shake-calibration"',(ROOT/'trailguide_v3/ui.h').read_text())
   self.assertIn('gyr_range_dps=2048 odr_enum=normal60 reset=not_issued suffix=unidentified', (ROOT/'trailguide_v3/trailguide_v3.ino').read_text())
+ def test_shake_source_and_native_suites_are_wired(self):
+  import ast
+  strings={node.value for node in ast.walk(ast.parse((ROOT/'tools/prepare_v3.py').read_text())) if isinstance(node,ast.Constant) and isinstance(node.value,str)}
+  self.assertIn('shake.h',strings)
+  runner=(ROOT/'tools/test_v3_app.py').read_text()
+  for source in ('v3_shake_detector_test.cpp','v3_shake_rotation_test.cpp','v3_shake_integration_native_test.cpp','v3_ui_cleanup_native_test.cpp'):self.assertIn(source,runner)
  def test_owned_preparer_exists(self):
   self.assertTrue((ROOT/'tools/prepare_v3.py').is_file(),'first app preparer missing')
  def test_coaching_build_wiring(self):
@@ -66,14 +81,14 @@ class Contracts(unittest.TestCase):
   import tempfile
   from unittest.mock import patch
   replay_v3_recovery=load_tool('replay_v3_recovery')
-  self.assertEqual(replay_v3_recovery.OUT,ROOT/'build/v3-0.1.18/evidence')
+  self.assertEqual(replay_v3_recovery.OUT,ROOT/'build/v3-0.1.20/evidence')
   with tempfile.TemporaryDirectory() as d:
    root=Path(d);capture=root/'synthetic.txt'
    capture.write_text('TG_MOTION1 t=100 at=100 valid=1 rest=1 phase=4>4 trigger=0 gates=0,0,0,0,1 origin_e6=1:0,0,1000000 acc_g_e6=0,0,1000000 gyro_dps_e3=0,0,0\n')
    import subprocess
-   with patch.object(replay_v3_recovery,'ROOT',root),patch.object(replay_v3_recovery,'OUT',root/'build/v3-0.1.18/evidence'),patch.object(sys,'argv',['replay',str(capture),'--start','100','--end','100','--expected-rows','1']),patch.object(replay_v3_recovery.subprocess,'run',return_value=subprocess.CompletedProcess([],0,'','')) as execute:
+   with patch.object(replay_v3_recovery,'ROOT',root),patch.object(replay_v3_recovery,'OUT',root/'build/v3-0.1.20/evidence'),patch.object(sys,'argv',['replay',str(capture),'--start','100','--end','100','--expected-rows','1']),patch.object(replay_v3_recovery.subprocess,'run',return_value=subprocess.CompletedProcess([],0,'','')) as execute:
     self.assertEqual(replay_v3_recovery.main(),0)
-   self.assertEqual(execute.call_args.args[0][0],str(root/'build/v3-0.1.18/host/v3-app-recovery-test'))
+   self.assertEqual(execute.call_args.args[0][0],str(root/'build/v3-0.1.20/host/v3-app-recovery-test'))
    self.assertFalse((root/'build/v3-0.1.11').exists())
  def test_content_and_exact_drivers(self):
   import prepare_v3

@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'build/v3-0.1.18'
+OUT = ROOT/'build/v3-0.1.20'
 
 def flags():
     return ['-O0', '-g', '-fsanitize=address,undefined', '-fno-omit-frame-pointer',

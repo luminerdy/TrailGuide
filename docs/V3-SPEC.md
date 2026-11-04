@@ -8,11 +8,13 @@ V3 is an optional enjoyable companion to project-led mentoring, not the curricul
 
 ## Current baseline and evidence
 
-**v3-0.1.18-coaching-compass DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
-The compiled S3 application is **689568 bytes**. Four candidate native suites and two independent frozen-baseline suites pass strict compilation and actual LVGL ASan/UBSan checks. The approved Coaching Home and six selected path frames match exactly; all 68 Coaching and 110 Classic comparison frames match the frozen baseline. These are recorded software/build results, not new tests run for this documentation or physical acceptance. The integrated candidate also passes the complete canonical native suite and all 84 isolated Python checks without skips; 512 real native-rendered frames were captured and hash-verified.
+**v3-0.1.20-shake-calibration DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 
-The quieter button appearance was physically approved on the earlier checkpoint and is preserved. The new Coaching Home preview is approved; its on-device appearance/touch check is still pending. Sound menu/mute/chime, narrower-face readability, broader touch/natural-opener behavior and sustained reliability retain separate gates. The original physical flip/blank failure remains unresolved: touch recovery was reported on the earlier checkpoint, not proof of a gesture fix.
+The compiled S3 application is **691248 bytes**. Recorded v3-0.1.20 evidence includes 14 actual-LVGL native integration groups, 42 retained detector assertions and 26 new rotation-policy assertions, strict compilation and ASan/UBSan checks, plus independent scoped review. An exact private 5025-row replay of the failed v3-0.1.19 motion changes from zero events to exactly one with the single-rule correction; replay is not a new physical trial. Actual S3 compilation, application-only flash comparison and exact-version initialized-UI/real-IMU runtime verification passed. Those deployment and physical-trial results are retained release evidence; preparing this publication does not change the device. The final publication integration also passes the full canonical native suite and all 86 isolated Python checks without skips; 533 actual native-rendered frames were archived and hash-verified. The earlier 84-check/512-frame result remains historical v3-0.1.18 evidence.
+
+Natural sustained shaking from the Coaching compass is physically confirmed to produce a card, with qualitative feedback that it is much better and consistent and that the current experience is liked. The UI cleanup was physically approved on v3-0.1.19 and retained exactly in v3-0.1.20 apart from release identity. No numerical trial count or separate Classic shake trial is inferred. Exhaustive readability/touch, Sound menu/mute/chime, sustained reliability, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank issue remains OPEN**; the additional shake trigger is not a diagnosis or demonstrated fix.
 
 See [V3-TRIAL.md](V3-TRIAL.md) and [HANDOFF.md](HANDOFF.md).
 
@@ -32,7 +34,7 @@ Use the recorded board identity and pinned pin map. Re-identify the actual targe
 
 - Boot to an uncluttered full-face compass with no automatic draw; Ask is the fresh-boot default.
 - A compass tap opens Options: **Ask the Team**, **Try a Move**, **Coaching**, **Instant text**, **Sound OFF/ON** and **Back**.
-- Ask/Try touch actions draw immediately in that mode. A qualified turn over and back from the compass draws Ask; the same gesture from a settled main card retains its active mode. Home returns to the compass without drawing.
+- Ask/Try touch actions draw immediately in that mode. A qualified turn over and back or sustained shake from the compass draws Ask; either gesture from a settled main card retains its active mode. Home returns to the compass without drawing.
 - Twelve selected card identities have independent shuffled Ask/Try bags, no within-cycle repeats and no immediate reshuffle-boundary repeat.
 - **Guide me** opens listening/activity support for the selected identity; Back returns without drawing. **Another** draws in the active mode. **More text** and scrolling retain the current copy. Home returns to the compass.
 
@@ -42,11 +44,13 @@ Use the recorded board identity and pinned pin map. Re-identify the actual targe
 - Six contexts appear at 12/2/4/6/8/10 o'clock: **Progress, Stuck, Unclear, Exploring, AI Results, Team**. Compact captions shorten Exploring to Explore and AI Results to AI.
 - Each path has four questions and three optional experiments. Another cycles in authored order; switching Question/Experiment or paths preserves independent face/position/scroll state.
 - Guide me and listening reminders are private facilitator aids. Release/Next step leads to optional closing questions without requiring a path, a question quota or an experiment.
-- Opening from paths returns to the compass, preserving the exact saved opener. Another opener in Options or a qualified turnover **only while on Opening** switches to the existing blue opener-card reveal and hold.
+- Opening from paths returns to the compass, preserving the exact saved opener. Another opener in Options, a qualified turnover or sustained shake **only while on Opening** switches to the existing blue opener-card reveal and hold.
 - Coaching Options includes **Sound OFF/ON**, sharing the Classic preference.
 - Nothing automatically listens, selects a context, advances the conversation or evaluates a team. Context is RAM-only and resets on reboot.
 
 ## Motion and presentation contract
+
+The turnover route retains this sequence; the additional sustained shake selects once and goes straight to the same reveal without requiring inversion.
 
 1. A fresh eligible held inversion blacks the existing compass/card without selecting a replacement.
 2. A completed qualified return selects exactly one new card/opener and begins the retained whole-answer-face reveal.
@@ -60,9 +64,13 @@ Motion is suppressed in Classic Options/Guide, in Coaching paths/help/closing/Op
 
 The owned driver retains the supported ±2048dps gyro range, matched 16LSB-per-dps conversion and safety bounds. Keep register selection, conversion and clipping predicates coupled. Technical capture scaling belongs to its exact firmware; do not reinterpret older recordings using newer settings.
 
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual. The v3-0.1.20 correction replaces only the prototype 180 dps shake rotation veto with the existing 2044 dps gyro safety bound, retaining finite/per-axis clipping, age/gap and false-positive/rearm checks. Sensor configuration/driver and turnover recognition are unchanged.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
+
 ## Layout and input contract
 
-- Buttons use `#0c1721` normal / `#1a2b38` pressed. Main-card pixels, icons, fonts, spacing and existing touch areas are unchanged.
+- Buttons retain `#0c1721` normal / `#1a2b38` pressed. Apart from the footer/conditional-cue cleanup, accepted fonts, icons, geometry and touch areas are retained.
 - Classic retains its existing compass/card layout; do not apply Coaching's geometry to it.
 - Explicit new-opener draws (not compass entry) retain a **192x112** blue face inside the exact **256x140** snapshot panel, centered by trimming 8px from each previously approved side.
 - Opening copy wraps at **168px**, with **18px** main text and **12px** perimeter/opening Options captions. Text coordinates/wrapping and icon positions are unchanged by the side trim.
@@ -111,7 +119,7 @@ For the current read-only trial:
 - Validate source/generation, all selected content, zero/single/max pools, bag boundaries and navigation/context/RNG invariants.
 - Exercise actual bundled LVGL with ASan/UBSan: complete copy, real pointer/drag routes, all six paths, unrestricted release, overflow, allocation/deletion/cancellation, blackout, reveal and handoff.
 - Compile the intended S3 target; check image identity, slot budget and unchanged compatible components. Verify the exact written target and resumed UI/IMU liveness.
-- Separately collect physical Sound menu/mute/chime, readability, edge/touch/scroll, deliberate turnover and ordinary-handling observations. Do not invent a shake-test quota or require extra gestures to accept a cosmetic change.
+- Separately collect physical Sound menu/mute/chime, readability, edge/touch/scroll, deliberate turnover/shake and ordinary-handling observations. The current Coaching shake report is qualitative, not exhaustive motion acceptance. Do not invent a shake-test quota or require extra gestures to accept a cosmetic change.
 - Sustained operation, reboot behavior and independent power need their own observed evidence. Battery readiness requires measured charging/runtime checks. No production or educational-effectiveness claim follows from a software gate.
 
 ## Explicit future scope, not installed functionality

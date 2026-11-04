@@ -2,13 +2,15 @@
 
 **Classic offers one curated question or practical move at a time.** Use it for a quick spark, then return attention to the person or team.
 
-This maps the installed V3 `v3-0.1.18-coaching-compass` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
+This maps the installed V3 `v3-0.1.20-shake-calibration` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
+
+**Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
 ```mermaid
 flowchart TD
     Boot([Start or reboot: Ask is the default mode]) --> Compass["Decorative compass<br/>No automatic card draw"]
     Compass -->|Tap compass| Options[Classic Options]
-    Compass -->|Complete turn over and back| Ask
+    Compass -->|Complete turn over and back, or sustained shake| Ask
     Options -->|Ask the Team| Ask[Set mode to Ask]
     Options -->|Try a Move| Try[Set mode to Try]
     Ask --> Draw[Draw one card in the active Ask or Try mode]
@@ -22,12 +24,12 @@ flowchart TD
     Reveal -->|Completes, or tap to finish this same reveal| Hold
     Hold -.-> Cue["New draw now readable: optional settlement chime<br/>Sound ON only; busy cues dropped"]
     Hold -->|Hold finishes, or tap to show controls| Card["Same question or activity<br/>Controls available"]
-    Hold -->|New complete turn over and back| Draw
-    Card -->|Another, or complete turn over and back| Draw
+    Hold -->|New complete turn over and back, or rearmed sustained shake| Draw
+    Card -->|Another, complete turnover, or sustained shake| Draw
     Card -->|Guide me| Guide[Listening cues or activity guidance]
     Guide -->|Back: no draw| Card
-    Card -->|More text or scroll: same card| Card
-    Guide -->|More text or scroll: same guidance| Guide
+    Card -->|More text only if text remains below; scroll: same card| Card
+    Guide -->|Conditional More text or scroll: same guidance| Guide
     Card -->|Home| Compass
     Guide -->|Home| Compass
 ```
@@ -38,7 +40,7 @@ flowchart TD
 - **Try a Move:** a practical activity from that same selection of card identities.
 - **Guide me:** support for the selected card, not a new draw. Ask guidance emphasizes listening; Try guidance emphasizes running the activity.
 - **Another:** a fresh shuffled draw in the active mode. Each mode has its own bag; the twelve selected identities do not repeat within its cycle, and reshuffling avoids an immediate boundary repeat.
-- **Home:** returns to the compass without drawing. A turnover from the compass explicitly draws Ask, even after a Try card; a turnover from a settled card retains that card's active mode. Choose Try a Move in Options when an activity is wanted.
+- **Home:** returns to the compass without drawing. A turnover or sustained shake from the compass explicitly draws Ask, even after a Try card; either gesture from a settled card retains that card's active mode. Choose Try a Move in Options when an activity is wanted.
 
 ## Gesture, reading and navigation rules
 
@@ -49,6 +51,10 @@ flowchart TD
 - A tap can finish the same reveal and start its hold; a subsequent settled tap can expose controls. Neither consumes another draw.
 - Guide/Back, scrolling and ordinary rerendering preserve the selected identity and do not replay the reveal. Full text remains accessible.
 - Instant text bypasses the animation, not the card's identity or complete-copy access. A safe allocation/capture fallback is not a successful animation.
+
+Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
+
+A deliberate sustained shake of roughly one second is an additional draw route, alongside turnover and touch; it goes straight to the existing reveal without requiring turnover. It is eligible only on Classic Home or a main card (Home draws Ask; a card retains active Ask/Try), or Coaching Opening (compass or opener card). Busy reveal, pointer contact, scrolling, Options, guidance, paths/questions/experiments and closings suppress motion. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition requires 400ms of fresh quiet before intent, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are implementation safeguards, not a prescribed handling ritual.
 
 ## Optional settlement sound
 
@@ -66,10 +72,12 @@ not revive that canceled cue. Audio uses a low-priority TX-only worker; the read
 main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
 networking or OTA is enabled by this feature.
 
-Button fills are `#0c1721` normal / `#1a2b38` pressed; main-card pixels, icons, fonts, spacing and existing touch areas are unchanged. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
+Button fills are `#0c1721` normal / `#1a2b38` pressed; apart from footer/conditional-cue cleanup, accepted fonts, icons, spacing and touch areas are retained. Physical Sound menu/mute/chime acceptance and narrower-face readability remain pending. The earlier single very soft bench tone is not acceptance of this cue.
+
+The UI cleanup is physically accepted on v3-0.1.19 and retained on v3-0.1.20. Natural Coaching-compass shake success has qualitative positive consistency feedback; no separate Classic shake trial or numerical reliability count is inferred. The original intermittent turnover-stuck-compass/blank issue remains OPEN, not fixed by adding shake. See [current evidence and acceptance limits](V3-TRIAL.md).
 
 ## Boundaries
 
 Classic is offline, authored draft content—not live AI, a diagnosis or a record of use. Draws, reading and navigation do not record learning, team activity or outcomes. There is no implemented Team Trail, saved-card or history interface on V3.
 
-Implementation references: [Classic UI](../trailguide_v3/ui.h), [deck model](../trailguide_v3/model.h), [gesture recognition](../trailguide_v3/gesture.h), [whole-face renderer](../trailguide_v3/window_reveal.h), [current device evidence](V3-TRIAL.md).
+Implementation references: [Classic UI](../trailguide_v3/ui.h), [deck model](../trailguide_v3/model.h), [turnover recognition](../trailguide_v3/gesture.h), sustained-shake detector `shake.h`, [whole-face renderer](../trailguide_v3/window_reveal.h), [current device evidence](V3-TRIAL.md).

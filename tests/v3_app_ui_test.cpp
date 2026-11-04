@@ -19,7 +19,7 @@ static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.18/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.20/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -44,7 +44,8 @@ int main(){
   s.valid=false;u.sample(s,820,true);a=u.diagnostic(s,820);assert(a.gesture.phase==4 && !a.healthy && a.eligible && !a.gesture.dwelling);
   assert(seed==initialSeed && allocations==allocated && timers()==count);
  }
- auto hidden=[](v3app::Ui &u,bool value){for(auto *o:{u.backButton,u.moreButton,u.first,u.second,u.motionStatus}){assert(o);assert(lv_obj_has_flag(o,LV_OBJ_FLAG_HIDDEN)==value);}};
+ // The removed footer stays absent. More has separate remaining-text coverage.
+ auto hidden=[](v3app::Ui &u,bool value){assert(!u.motionStatus);for(auto *o:{u.backButton,u.first,u.second}){assert(o);assert(lv_obj_has_flag(o,LV_OBJ_FLAG_HIDDEN)==value);}assert(u.moreButton);if(value)assert(lv_obj_has_flag(u.moreButton,LV_OBJ_FLAG_HIDDEN));};
  {v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(v3app::Ui::Action::Ask);hidden(u,true);
   const int id=u.model.index;const auto before=seed;save(300);const auto revealAlloc=allocations;advance(3000);save(303);advance(3000);assert(allocations==revealAlloc);
   assert(!u.busy() && u.eligible());hidden(u,true);save(301);
@@ -91,7 +92,7 @@ int main(){
  auto edgeSeed=seed;press(180,8);lift();assert(u.model.index==-1 && seed==edgeSeed && u.eligible() && "inside-object off-safe-circle contact must remain on pure compass");
  press(180,150);advance(500);assert(u.model.index==-1);lift();assert(!u.eligible() && u.model.index==-1 && seed==edgeSeed);press(126,208);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
  auto tappedSeed=seed;advance(60);assert(u.model.index==id && seed==tappedSeed);
- auto copy=std::string(lv_label_get_text(u.body));assert(std::strstr(lv_label_get_text(u.motionStatus),"ASK DRAFT"));assert(copy==trailguide::cards[id].ask);auto dark=face();advance(400);assert(face()==dark);u.perform(v3app::Ui::Action::Another);assert(!u.busy() && u.model.index==id);
+ auto copy=std::string(lv_label_get_text(u.body));assert(!u.motionStatus);assert(copy==trailguide::cards[id].ask);auto dark=face();advance(400);assert(face()==dark);u.perform(v3app::Ui::Action::Another);assert(!u.busy() && u.model.index==id);
  u.perform(v3app::Ui::Action::Guide);assert(!u.busy());assert(std::string(lv_label_get_text(u.body))==trailguide::cards[id].askGuide);bounds(u.scroll);u.perform(v3app::Ui::Action::Back);assert(u.model.index==id&&!u.busy());
  u.perform(v3app::Ui::Action::Another);auto initial=face();advance(1800);assert(initial!=face());u.perform(v3app::Ui::Action::Home);assert(!u.busy()&&!outstanding);advance(6500);assert(u.model.view==v3app::View::Home);
  u.perform(v3app::Ui::Action::Ask); // native host simulation sequence
@@ -107,7 +108,7 @@ int main(){
  // Low LVGL available memory: renderer declines before snapshot assertions.
  u.render();lv_mem_monitor_t mem;lv_mem_monitor(&mem);void *block=lv_mem_alloc(mem.free_biggest_size-1500);assert(block);assert(!u.window.capture(u.scroll));lv_mem_free(block);
  u.perform(v3app::Ui::Action::Another);assert(u.busy());lv_obj_del(u.second);assert(!u.busy()&&!outstanding);
- u.render();lv_obj_del(u.motionStatus);v3::ImuSample fresh;fresh.valid=true;fresh.at_ms=lv_tick_get();fresh.acc_g[2]=1;u.sample(fresh,lv_tick_get(),true);assert(u.motionStatus==nullptr);
+ u.render();assert(!u.motionStatus);lv_obj_del(u.moreButton);v3::ImuSample fresh;fresh.valid=true;fresh.at_ms=lv_tick_get();fresh.acc_g[2]=1;u.sample(fresh,lv_tick_get(),true);assert(u.moreButton==nullptr);
  u.perform(v3app::Ui::Action::Another);lv_obj_del(lv_obj_get_child(u.second,0));assert(!u.busy()&&!outstanding);
  u.perform(v3app::Ui::Action::Another);assert(u.busy());lv_obj_del(u.scroll);assert(!u.busy()&&!outstanding);advance(6500);
  for(int i=0;i<100;i++){u.perform(v3app::Ui::Action::Home);u.perform(v3app::Ui::Action::Ask);u.perform(v3app::Ui::Action::Guide);u.perform(v3app::Ui::Action::Back);assert(!u.busy()&&!outstanding);}

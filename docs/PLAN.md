@@ -1,5 +1,12 @@
 # Delivery plan
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 Goal: develop mentoring for individuals and teams learning through meaningful projects with varied AI assistance, and help learners continue with suitable support rather than depend on the mentor. The physical device is an optional, enjoyable building/novelty track; Frontier Ops remains a reusable theme. Preserve V1 and the running V2 trial.
 
 Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode implementation handoff: [Ask the Team / Try a Move](FACILITATOR-MODES.md). Proposed circular UX and prototype gates: [ROUND-UI-SPEC.md](ROUND-UI-SPEC.md). Hardware contracts: [V1 OLED](V1-SPEC.md), [V2 portrait C6](V2-SPEC.md), [V3 round S3](V3-SPEC.md). Execution evidence: [BRINGUP.md](BRINGUP.md). Planned work is not implemented functionality.

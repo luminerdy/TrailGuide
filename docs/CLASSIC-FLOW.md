@@ -1,10 +1,21 @@
 # Classic — prompt-deck flow
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 **Classic offers one curated question or practical move at a time.** Use it for a quick spark, then return attention to the person or team.
 
 This maps the installed V3 `v3-0.1.21-global-gestures` experience, not the broader planned Team Trail interface. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
+
+The candidate retains this navigation and six-second reveal plus five-second hold.
+Runtime fault cancellation and pending-cue ownership are scoped in the ledger above;
+no diagram restructuring or startup-default change is implied.
 
 ```mermaid
 flowchart TD

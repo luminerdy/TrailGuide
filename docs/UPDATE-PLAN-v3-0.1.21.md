@@ -1,6 +1,8 @@
 # TrailGuide update plan — based on the three v3-0.1.21 reviews
 
-**Status: proposed plan; implementation has not started.**
+**Original proposal status (historical): implementation had not started when this plan was written.**
+
+P0 and Delivery A software work are now implemented and checked. See the [candidate22 verification and deployment ledger](DELIVERY-A-CANDIDATE22.md) for completed gates and the remaining deployment boundary. The proposal and tracker below preserve their original scope; wording approval and future UI-policy decisions remain separate.
 
 ## Recommendation
 

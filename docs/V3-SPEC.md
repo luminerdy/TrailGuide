@@ -1,5 +1,12 @@
 # V3 — round TrailGuide companion specification
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 ## Scope and authority
 
 This is the hardware/runtime contract for the round ESP32-S3 target. The [project specification](PROJECT-SPEC.md) defines the current system baseline; [PRODUCT-SPEC.md](PRODUCT-SPEC.md) retains stable product requirements, including P-19 mentoring, P-20 playful reveal and P-21 Classic/Coaching. [CLASSIC-FLOW.md](CLASSIC-FLOW.md) and [COACHING-FLOW.md](COACHING-FLOW.md) map the actual mode flows.

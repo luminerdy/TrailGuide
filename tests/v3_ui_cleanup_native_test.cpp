@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
-static constexpr auto OUT="build/v3-0.1.21/evidence/ui-cleanup/frames/";
+static constexpr auto OUT="build/v3-0.1.22/evidence/ui-cleanup/frames/";
 static lv_color_t buffer[360*20],pixels[360*360];
 static uint32_t seed=7;
 static uint32_t rng(void *p){auto &s=*static_cast<uint32_t*>(p);return s=s*1664525u+1013904223u;}

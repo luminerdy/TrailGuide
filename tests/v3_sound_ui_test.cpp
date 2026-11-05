@@ -18,7 +18,7 @@ static void readTouch(lv_indev_drv_t *,lv_indev_data_t *d){d->point=point;d->sta
 static void tap(int x,int y){point={lv_coord_t(x),lv_coord_t(y)};pressed=true;advance(60);pressed=false;advance(60);}
 static lv_obj_t *find(lv_obj_t *o,const char *text){if(lv_obj_check_type(o,&lv_label_class)&&!strcmp(lv_label_get_text(o),text))return o;for(unsigned i=0;i<lv_obj_get_child_cnt(o);++i)if(auto *p=find(lv_obj_get_child(o,i),text))return p;return nullptr;}
 static lv_obj_t *control(lv_obj_t *root,const char *text,int x,int y,int w,int h){lv_obj_update_layout(root);auto *t=find(root,text);assert(t);auto *o=lv_obj_get_parent(t);lv_area_t a,b;lv_obj_get_coords(o,&a);lv_obj_get_coords(t,&b);assert(a.x1==x&&a.y1==y&&lv_obj_get_width(o)==w&&lv_obj_get_height(o)==h);assert(b.x1>=a.x1&&b.x2<=a.x2&&b.y1>=a.y1&&b.y2<=a.y2);for(int px:{int(a.x1)-2,int(a.x2)+2})for(int py:{int(a.y1)-2,int(a.y2)+2})assert((px-180)*(px-180)+(py-180)*(py-180)<=168*168);return o;}
-static void save(const char *name){lv_refr_now(nullptr);std::ofstream f(std::string("build/v3-0.1.21/evidence/ui/")+name+".ppm",std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:pixels){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(const char *name){lv_refr_now(nullptr);std::ofstream f(std::string("build/v3-0.1.22/evidence/ui/")+name+".ppm",std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:pixels){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 int main(){lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buffer,nullptr,360*20);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);lv_indev_drv_t input;lv_indev_drv_init(&input);input.type=LV_INDEV_TYPE_POINTER;input.read_cb=readTouch;lv_indev_drv_register(&input);
  using U=v3app::Ui;using C=v3app::CoachUi;
  {U u(rng,&seed,allocate,free);assert(!u.sound.enabled&&u.sound.sequence==0&&u.coach.sound==&u.sound);u.render();tap(180,180);
@@ -32,7 +32,7 @@ int main(){lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buffer,nullpt
  {C c(rng,&seed,allocate,free);assert(c.sound&&!c.sound->enabled&&c.sound->sequence==0);}
  for(bool coaching:{false,true}){U u(rng,&seed,allocate,free);if(coaching){u.perform(U::Action::Coaching);u.coach.perform(C::Action::Another);}else u.perform(U::Action::Ask);advance(6100);assert(u.sound.sequence==0);}
  static_assert(unsigned(C::Action::Progress)==0&&unsigned(C::Action::Team)==5,"path numeric IDs unchanged");
- assert(!strcmp(v3app::version,"v3-0.1.21-global-gestures"));
+ assert(!strcmp(v3app::version,"v3-0.1.22-reliability"));
  // Each explicit new draw cues once only when the whole card becomes readable.
  for(bool coaching:{false,true}){U u(rng,&seed,allocate,free);u.sound.enabled=true;if(coaching)u.perform(U::Action::Coaching);else u.render();assert(u.sound.sequence==0);
  auto draw=[&](){if(coaching)u.coach.perform(C::Action::Another);else u.perform(U::Action::Ask);};

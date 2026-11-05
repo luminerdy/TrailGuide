@@ -1,5 +1,12 @@
 # TrailGuide
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](docs/DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 [Project specification](docs/PROJECT-SPEC.md) · [Classic flow](docs/CLASSIC-FLOW.md) · [Coaching flow](docs/COACHING-FLOW.md)
 
 ## The product vision

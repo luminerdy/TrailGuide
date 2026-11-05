@@ -76,15 +76,19 @@ void loop() {
     const auto pollBefore=imu.last_poll().sequence;
     imu.tick(now);
     (void)pollBefore;
+    // Configured is not poll health: known read/raw/rail faults cancel
+    // partial intent; ordinary NotReady (16) retains its bounded pause.
+    const bool pollHealthy=imu.state()==v3::ImuState::Running &&
+      !(imu.last_poll().flags & (8u|32u|64u));
     if(motionDiagnostics.active()){
       const auto pre=ui.diagnostic(imu.sample(),now);
       bool triggered=false;
-      ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running,&triggered);
+      ui.sample(imu.sample(),now,pollHealthy,&triggered);
       const auto post=ui.diagnostic(imu.sample(),now);
       motionDiagnostics.observe(Serial,now,imu.sample(),imu.status(),pre,post,triggered);
       if(imu.last_poll().sequence!=pollBefore)motionDiagnostics.recorder.observe(imu.last_poll(),imu.sample(),pre,post,triggered);
     }else{
-      ui.sample(imu.sample(),now,imu.state()==v3::ImuState::Running);
+      ui.sample(imu.sample(),now,pollHealthy);
     }
     if (!motionDiagnostics.active() && !motionDiagnostics.draining() && before == v3::ImuState::Probing && imu.state() != before) {
       for (unsigned i = 0; i < 2; ++i) {
@@ -100,7 +104,7 @@ void loop() {
                     imu.address(), imu.revision());
     }
   }
-  if (ready) v3audio::service(ui.sound.enabled,ui.sound.sequence);
+  if (ready) v3audio::service(ui.sound.enabled,ui.sound.sequence,ui.sound.valid());
   if (uint32_t(now-last_heartbeat)>=5000) {
     if(!motionDiagnostics.active() && !motionDiagnostics.draining()){
     last_heartbeat=now;

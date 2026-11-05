@@ -1,5 +1,12 @@
 # TrailGuide — Living product specification
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 Status: approved product direction with an installed read-only V3 trial. Planned core-release features below are not implied by the trial. The [project specification](PROJECT-SPEC.md) gives the concise current baseline; this document preserves stable product requirement IDs and explicitly separates implemented behavior from future scope.
 
 ## 1. Purpose and source of truth

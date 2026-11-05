@@ -138,7 +138,7 @@ class CoachUi {
  }
  bool optionsOpen=false,pendingSettlement=false;
  // Blackout is not readable settlement; cancellation discards this pending cue.
- void settled(){if(pendingSettlement && !blanked){pendingSettlement=false;sound->settled();}}
+ void settled(){if(pendingSettlement && !blanked){pendingSettlement=false;sound->settled(this);}}
  // Existing root/children only: no overlay, snapshot, timer or heap allocation.
  bool blanked=false,touchCancelledBlank=false;uint32_t hiddenBeforeBlank=0;
  void setBlank(bool hide){
@@ -172,11 +172,11 @@ class CoachUi {
  static void focusDone(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
  void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,5000,this);if(focusTimer)chrome(true);}
- void cancel(){shake.reset();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();stopReveal();}
+ void cancel(){sound->cancel(this);shake.reset();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();stopReveal();}
  void stopReveal(){if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
  // Same-card automatic settlement must preserve motion evidence and blackout.
  void finish(bool readableHold=false){if(readableHold){stopReveal();settled();hold();}else cancel();}
- void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){settled();hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;settled();cancel();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
+ void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){settled();hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;stopReveal();settled();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
  static void tick(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);auto elapsed=lv_tick_elaps(u->started);if(elapsed>=6000){u->finish(true);return;}u->window.render(elapsed);lv_obj_invalidate(u->scroll);}
  static void drawWindow(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);auto *ctx=lv_event_get_draw_ctx(e);if(u->window.active())u->window.draw(ctx,a);else compactFace(ctx,a);}
  // Presentation-only clipping: the snapshot stays 256x140. Black bands mask

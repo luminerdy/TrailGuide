@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-0.1.21/. The local ZIP
+All derived files stay in ignored build/v3-0.1.22/. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -9,9 +9,13 @@ import hashlib
 import json
 import shutil
 import zipfile
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from preparation_safety import checked_path, validate_output, preparation_stage, publish
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-0.1.21'
+PRIVATE = ROOT / 'build/v3-0.1.22'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
@@ -19,17 +23,27 @@ DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST
 
 def prepare(output=None):
     # Default is the next increment; refuse paths that could erase any accepted fallback evidence.
-    private = Path(output).resolve() if output is not None else PRIVATE.resolve()
-    protected = tuple((ROOT / f'build/v3-0.1.{n}').resolve() for n in (6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19))
-    protected += tuple((ROOT/name).resolve() for name in ('build/v3-speaker-bench-0.1.15','build/v3-coaching-compass-port/target','build/v3-ui-shake-0.1.19/target','build/v3-shake-calibration-0.1.20/target','build/v3-global-gestures-0.1.21/target'))
+    try:
+        private = Path(output).absolute() if output is not None else PRIVATE.absolute()
+    except (TypeError, ValueError) as error:
+        raise ValueError('Output must be a filesystem path') from error
+    protected = tuple((ROOT / f'build/v3-0.1.{n}').absolute() for n in (6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19, 20))
+    protected += tuple((ROOT/name).absolute() for name in ('build/v3-speaker-bench-0.1.15','build/v3-coaching-compass-port/target','build/v3-ui-shake-0.1.19/target','build/v3-shake-calibration-0.1.20/target','build/v3-global-gestures-0.1.21/target'))
     if any(private == root or root in private.parents for root in protected):
         raise ValueError('Installed 1.6/1.7/1.8/1.9/1.10/1.11/1.12/1.13/1.14 and speaker-bench roots and descendants are immutable')
-    allowed = PRIVATE.resolve()
-    if private != allowed and allowed not in private.parents:
-        raise ValueError('Output must be inside ignored build/v3-0.1.21')
+    private = validate_output(ROOT, output if output is not None else PRIVATE,
+                              'build/v3-0.1.22', 'trailguide_v3')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')
+    private.mkdir(parents=True, exist_ok=True)
+    with preparation_stage(private) as stage:
+        manifest = _stage(stage, private, digest)
+        publish(stage, private, 'trailguide_v3')
+        return manifest
+
+
+def _stage(private, final, digest):
     sketch = private / 'prepared/trailguide_v3'
     libraries = private / 'libraries'
     config = private / 'config'
@@ -71,8 +85,8 @@ def prepare(output=None):
             relative = name[len(prefix):]
             if not (relative.startswith('src/') or relative in ('lvgl.h', 'library.properties', 'LICENCE.txt', 'demos/lv_demos.h')):
                 continue
+            destination = checked_path(libraries / 'lvgl' / relative, private)
             data = archive.read(name)
-            destination = libraries / 'lvgl' / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
             library_files[relative] = hashlib.sha256(data).hexdigest()
@@ -92,13 +106,16 @@ def prepare(output=None):
     (sketch/'coaching_generated.h').write_text(coaching)
     own_files['coaching_generated.h'] = hashlib.sha256(coaching.encode()).hexdigest()
     (config/'lv_conf.h').write_bytes((sketch/'lv_conf.h').read_bytes())
+    sketch = final / 'prepared/trailguide_v3'
+    libraries = final / 'libraries'
+    config = final / 'config'
     # Explicit path beats the vendor's src/lv_conf.h without changing vendor code.
     flags = f'-I{config} -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH={config}/lv_conf.h'
     fqbn = 'esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
     command = ['arduino-cli', 'compile', '--jobs', '2', '--fqbn', fqbn,
                '--libraries', str(libraries), '--build-property', f'compiler.c.extra_flags={flags}',
                '--build-property', f'compiler.cpp.extra_flags={flags}',
-               '--build-path', str(private/'compile-cache'), '--output-dir', str(private/'firmware'), str(sketch)]
+               '--build-path', str(final/'compile-cache'), '--output-dir', str(final/'firmware'), str(sketch)]
     manifest = {'archive_sha256': digest, 'sketch': str(sketch), 'vendor_files': files,
                 'original_vendor_files': original_files,
                 'derived_driver_note': 'Display_ST77916.cpp only: omit unsafe startup color bars and synchronously drain queued color DMA before returning the LVGL buffer; four exact guarded substitutions. Other drivers and LVGL unchanged.',

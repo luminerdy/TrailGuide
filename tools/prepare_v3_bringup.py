@@ -9,6 +9,10 @@ import hashlib
 import json
 import shutil
 import zipfile
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from preparation_safety import checked_path, validate_output, preparation_stage, publish
 
 ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = ROOT / 'build/v3-s3-bringup/imu'
@@ -19,13 +23,19 @@ DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST
 
 def prepare(output=None):
     # Default is the next increment; refuse paths that could erase v0.1.0 evidence.
-    private = Path(output).resolve() if output is not None else PRIVATE.resolve()
-    allowed = (ROOT / 'build/v3-s3-bringup/imu').resolve()
-    if private != allowed and allowed not in private.parents:
-        raise ValueError('Output must be inside ignored IMU increment build/v3-s3-bringup/imu')
+    private = validate_output(ROOT, output if output is not None else PRIVATE,
+                              'build/v3-s3-bringup/imu', 'trailguide_v3_bringup')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')
+    private.mkdir(parents=True, exist_ok=True)
+    with preparation_stage(private) as stage:
+        manifest = _stage(stage, private, digest)
+        publish(stage, private, 'trailguide_v3_bringup')
+        return manifest
+
+
+def _stage(private, final, digest):
     sketch = private / 'prepared/trailguide_v3_bringup'
     libraries = private / 'libraries'
     config = private / 'config'
@@ -67,8 +77,8 @@ def prepare(output=None):
             relative = name[len(prefix):]
             if not (relative.startswith('src/') or relative in ('lvgl.h', 'library.properties', 'LICENCE.txt', 'demos/lv_demos.h')):
                 continue
+            destination = checked_path(libraries / 'lvgl' / relative, private)
             data = archive.read(name)
-            destination = libraries / 'lvgl' / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
             library_files[relative] = hashlib.sha256(data).hexdigest()
@@ -78,13 +88,16 @@ def prepare(output=None):
         (sketch/name).write_bytes(data)
         own_files[name] = hashlib.sha256(data).hexdigest()
     (config/'lv_conf.h').write_bytes((sketch/'lv_conf.h').read_bytes())
+    sketch = final / 'prepared/trailguide_v3_bringup'
+    libraries = final / 'libraries'
+    config = final / 'config'
     # Explicit path beats the vendor's src/lv_conf.h without changing vendor code.
     flags = f'-I{config} -DLV_CONF_INCLUDE_SIMPLE -DLV_CONF_PATH={config}/lv_conf.h'
     fqbn = 'esp32:esp32:esp32s3:USBMode=hwcdc,CDCOnBoot=cdc,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi,FlashMode=qio'
     command = ['arduino-cli', 'compile', '--jobs', '2', '--fqbn', fqbn,
                '--libraries', str(libraries), '--build-property', f'compiler.c.extra_flags={flags}',
                '--build-property', f'compiler.cpp.extra_flags={flags}',
-               '--build-path', str(private/'compile-cache'), '--output-dir', str(private/'firmware'), str(sketch)]
+               '--build-path', str(final/'compile-cache'), '--output-dir', str(final/'firmware'), str(sketch)]
     manifest = {'archive_sha256': digest, 'sketch': str(sketch), 'vendor_files': files,
                 'original_vendor_files': original_files,
                 'derived_driver_note': 'Display_ST77916.cpp only: omit unsafe startup color bars and synchronously drain queued color DMA before returning the LVGL buffer; four exact guarded substitutions. Other drivers and LVGL unchanged.',

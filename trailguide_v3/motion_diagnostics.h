@@ -12,7 +12,7 @@ namespace v3app {
 class MotionDiagnostics {
  char command_[80]={}, pending_[768]={};
  size_t used_=0,length_=0,cursor_=0;
- bool overflow_=false,active_=false,have_=false,ending_=false;
+ bool overflow_=false,carriageReturn_=false,active_=false,have_=false,ending_=false;
  uint32_t started_=0,lastReport_=0,lastAt_=0,lastKey_=0,dropped_=0,observed_=0;
  uint32_t invalidEvents_=0,waitingEvents_=0,phaseEvents_=0,triggers_=0,lastInvalid_=0;
  unsigned invalidFrom_=0,invalidTo_=0,lastPhase_=0;bool lastValid_=false;
@@ -52,9 +52,16 @@ class MotionDiagnostics {
      // progress. Keep a finite positive budget during AND after diagnostics.
      serial.setTxTimeoutMs(1); // 1ms mutex bound, not strictly wait-free.
     }
-    used_=0;overflow_=false;
-   }else if(c!='\r'){
-    if(used_<sizeof(command_)-1)command_[used_++]=char(c);else overflow_=true;
+    used_=0;overflow_=false;carriageReturn_=false;
+   }else{
+    // CR is valid only as the final byte of CRLF, including across budgets.
+    // Reject the whole frame, never let a C-string terminator hide a suffix.
+    if(carriageReturn_)overflow_=true;
+    if(c=='\r')carriageReturn_=true;
+    else if(c<32 || c>126)overflow_=true; // ASCII command protocol only.
+    else if(!overflow_){
+     if(used_<sizeof(command_)-1)command_[used_++]=char(c);else overflow_=true;
+    }
    }
   }
   if(recorder.quiet()){recorder.service(serial,now);return;}

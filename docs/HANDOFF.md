@@ -1,5 +1,12 @@
 # TrailGuide — project and coaching handoff
 
+## Candidate22 / installed21 / publication status
+
+**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
+The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
+for passed software checks, pending deployment and unchanged behavior/content.
+Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+
 ## BLUF
 
 TrailGuide's main effort is **project-led mentoring across varied AI uses**, for individuals and teams, and helping learners continue without depending on the mentor. Start with something meaningful to make, investigate or improve; use the next useful piece to focus learning. Research and building can be learning activities even when the artifact contains no AI. The physical device remains an optional, enjoyable companion and building experiment—not the curriculum or a constraint on all materials.

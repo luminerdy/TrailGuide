@@ -144,7 +144,14 @@ static void recoveryGuards(){
  Trace held;held.rest();held.down(18000);held.expect(0);
  held.rest(500);held.expect(0);held.down(500);held.expect(1);
  // Existing cooldown remains 2500ms, and no baseline accrues within it.
- Trace cool;cool.rest();cool.down(500);while(!cool.tick(cool.up)){}
+ Trace cool;cool.rest();cool.down(500);
+ bool coolFired=false;unsigned coolSample=0;
+ for(;coolSample<300 && !coolFired;++coolSample)coolFired=cool.tick(cool.up);
+ if(!coolFired){
+  const auto exhausted=cool.d.diagnostic(cool.sample(cool.up),cool.t);
+  std::fprintf(stderr,"expected cooldown trigger exhausted seed=deterministic sample=%u t=%u phase=%u cooling=%u dwelling=%u\n",coolSample,unsigned(cool.t),unsigned(exhausted.phase),unsigned(exhausted.cooling),unsigned(exhausted.dwelling));
+  assert(coolFired);
+ }
  const auto fired=cool.t;cool.d.reset();
  while(cool.t-fired<2480)cool.tick(scaled(cool.up,-1));
  auto d=cool.d.diagnostic(cool.sample(scaled(cool.up,-1)),cool.t);

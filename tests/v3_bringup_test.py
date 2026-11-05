@@ -128,9 +128,10 @@ int main() {
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         # A regression must fail safely BEFORE deleting preserved fallback files.
-        with patch.object(mod.shutil, 'rmtree', side_effect=AssertionError('unsafe output deletion')):
+        with patch.object(mod.shutil, 'rmtree', side_effect=AssertionError('unsafe output deletion')), \
+             patch.object(mod.Path, 'read_bytes', side_effect=AssertionError('archive read before output validation')):
             for target in (ROOT/'build/v3-s3-bringup/minimal', ROOT/'build/v3-s3-bringup/vendor', ROOT, PRIVATE.parent):
-                with self.assertRaisesRegex(ValueError, 'IMU increment'):
+                with self.assertRaisesRegex(ValueError, 'owned preparation root'):
                     mod.prepare(target)
         manifest=mod.prepare(PRIVATE/'isolated-test')
         self.assertEqual(Path(manifest['sketch']).parents[1], PRIVATE/'isolated-test')

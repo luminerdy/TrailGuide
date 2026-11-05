@@ -25,21 +25,26 @@ def builder():
 class BuildTest(unittest.TestCase):
     def test_cli_check_detects_stale_output_and_invalid_content(self):
         self.assertTrue((ROOT / 'prototype/v3-experience.html').exists())
-        command = ['python3', str(ROOT / 'tools/build_v3_experience.py')]
+        command = [sys.executable, '-B', str(ROOT / 'tools/build_v3_experience.py')]
         generated = (ROOT / 'prototype/v3-experience.html').read_bytes()
-        self.assertEqual(subprocess.run(command + ['--check'], capture_output=True).returncode, 0)
-        self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+        self.assertEqual(subprocess.run(command + ['--check'], capture_output=True, timeout=30).returncode, 0)
         self.assertEqual((ROOT / 'prototype/v3-experience.html').read_bytes(), generated)
-        (ROOT / 'build').mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(dir=ROOT / 'build') as directory:
+        with tempfile.TemporaryDirectory() as directory:
             output, source = Path(directory) / 'study.html', Path(directory) / 'invalid.json'
+            synthetic=json.loads((ROOT/'content/cards.json').read_text())
+            next(c for c in synthetic['cards'] if c['card_id']==IDS[0])['facilitator']['ask']='Synthetic portable generation fixture.'
+            fixture=Path(directory)/'synthetic.json';fixture.write_text(json.dumps(synthetic))
+            build=subprocess.run(command+['--content',str(fixture),'--output',str(output)],capture_output=True,text=True,timeout=30)
+            self.assertEqual(build.returncode,0,build.stderr)
+            self.assertIn('Synthetic portable generation fixture.',output.read_text())
+            self.assertEqual(subprocess.run(command+['--content',str(fixture),'--output',str(output),'--check'],capture_output=True,timeout=30).returncode,0)
             output.write_text('stale')
-            check = subprocess.run(command + ['--output', str(output), '--check'], capture_output=True, text=True)
+            check = subprocess.run(command + ['--output', str(output), '--check'], capture_output=True, text=True, timeout=30)
             self.assertNotEqual(check.returncode, 0)
             self.assertIn('stale', check.stderr)
             for invalid in ('{', 'null', '{}'):
                 source.write_text(invalid)
-                run = subprocess.run(command + ['--content', str(source), '--output', str(output)], capture_output=True, text=True)
+                run = subprocess.run(command + ['--content', str(source), '--output', str(output)], capture_output=True, text=True, timeout=30)
                 self.assertNotEqual(run.returncode, 0)
                 self.assertNotIn('Traceback', run.stderr)
                 self.assertEqual(output.read_text(), 'stale')
@@ -146,7 +151,7 @@ class Chromium:
 class BrowserTest(unittest.TestCase):
     def setUp(self):
         self.assertTrue((ROOT / 'prototype/v3_experience_template.html').exists(), 'separate V3 template missing')
-        run = subprocess.run(['python3', str(ROOT / 'tools/build_v3_experience.py')], capture_output=True, text=True)
+        run = subprocess.run([sys.executable, '-B', str(ROOT / 'tools/build_v3_experience.py'), '--check'], capture_output=True, text=True, timeout=30)
         self.assertEqual(run.returncode, 0, run.stderr)
         self.chrome = Chromium().__enter__()
         self.addCleanup(self.chrome.__exit__)

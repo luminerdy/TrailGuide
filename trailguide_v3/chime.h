@@ -1,5 +1,7 @@
 #pragma once
-// Main loop only: service(uiSoundEnabled, cardReadableSequence), after ready.
+// Main loop only: service(uiSoundEnabled, cardReadableSequence, cueStillOwned).
+// Validity is checked at acceptance, after this iteration's motion/navigation.
+// Invalid edges are consumed without cancelling an already accepted worker.
 // Sequence starts at zero. Sound defaults OFF at caller. No boot/toggle cue.
 #include "chime_tone.h"
 #include <atomic>
@@ -91,7 +93,7 @@ inline void worker(void*) {
   diagnostics.state=sink.retained() ? Locked : result.error || result.cleanup ? Error : cancelled ? Cancelled : Done;
   vTaskDelete(nullptr);
 }
-inline void service(bool enabled,uint32_t sequence) {
+inline void service(bool enabled,uint32_t sequence,bool valid=true) {
   static uint32_t consumed=0; // Main-loop-owned, baseline zero.
   const uint32_t state=diagnostics.state.load();
   const bool busy=state==Starting || state==Playing;
@@ -99,7 +101,7 @@ inline void service(bool enabled,uint32_t sequence) {
   if(!enabled && busy) cancelRequested=1;
   if(sequence==consumed) return;
   consumed=sequence;
-  if(!enabled || busy || state==Locked) return;
+  if(!enabled || !valid || busy || state==Locked) return;
   cancelRequested=0;
   diagnostics.state=Starting;
   if(xTaskCreate(worker,"v3-chime",4096,nullptr,1,nullptr)!=pdPASS) {

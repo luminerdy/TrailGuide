@@ -93,15 +93,21 @@ def decoded(raw):
 class Port:
     def __init__(self,path):
         self.fd=os.open(path,os.O_RDWR|os.O_NOCTTY|os.O_NONBLOCK)
-        # Exclusive access prevents a second reader stealing a command/response.
-        import fcntl
-        fcntl.flock(self.fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        a=termios.tcgetattr(self.fd)
-        a[0]=a[1]=a[3]=0;a[2]=termios.CLOCAL|termios.CREAD|termios.CS8
-        a[4]=a[5]=termios.B115200;a[6][termios.VMIN]=0;a[6][termios.VTIME]=0
-        termios.tcsetattr(self.fd,termios.TCSANOW,a)
-        termios.tcflush(self.fd,termios.TCIFLUSH)
-        self.buffer=b''
+        try:
+            # Exclusive access prevents a second reader stealing a command/response.
+            import fcntl
+            fcntl.flock(self.fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            a=termios.tcgetattr(self.fd)
+            a[0]=a[1]=a[3]=0;a[2]=termios.CLOCAL|termios.CREAD|termios.CS8
+            a[4]=a[5]=termios.B115200;a[6][termios.VMIN]=0;a[6][termios.VTIME]=0
+            termios.tcsetattr(self.fd,termios.TCSANOW,a)
+            termios.tcflush(self.fd,termios.TCIFLUSH)
+            self.buffer=b''
+        except BaseException:
+            # Ownership begins at open, even when __init__ cannot return a Port.
+            try:os.close(self.fd)
+            except OSError:pass  # Never replace the original setup exception.
+            raise
     def close(self):os.close(self.fd)
     def send(self,command):
         data=('\n'+command+'\n').encode('ascii');deadline=time.monotonic()+2

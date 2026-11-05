@@ -8,10 +8,19 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 
 class Protocol(unittest.TestCase):
+ def producer_artifact(self,name):
+  import os
+  tier=os.environ.get('TG_PROTOCOL_TIER','parser')
+  if tier=='parser':
+   self.skipTest('explicit parser tier: C++ producer not exercised; set TG_PROTOCOL_TIER=integration for required cross-language checks')
+  self.assertEqual(tier,'integration','unknown protocol tier')
+  from v3_q1_protocol_artifacts import validate,output
+  try:validate(ROOT)
+  except ValueError as exc:self.fail('producer validation failed: '+str(exc))
+  return output(ROOT)/name
  def test_actual_manual_cpp_header_rows_crc(self):
   from v3_flight_recorder import fields,validate_chunk,validate_capture,decoded
-  path=ROOT/'build/v3-0.1.21/recorder.manual.synthetic.wire'
-  if not path.exists():self.skipTest('run focused C++ recorder test first')
+  path=self.producer_artifact('recorder.manual.synthetic.wire')
   lines=[s for s in path.read_text().splitlines() if s]
   s=fields(lines.pop(0),'STATUS');self.assertEqual(s['reason'],3);self.assertEqual(s['capacity'],8192)
   raw=validate_chunk(lines,77,905,0,1,1,s['crc'],capacity=s['capacity'])
@@ -40,8 +49,7 @@ class Protocol(unittest.TestCase):
    with self.assertRaises(ProtocolError):validate_capture({**capture,'status':{**status,field:value}})
  def test_actual_cpp_writer_and_decoder(self):
   from v3_flight_recorder import fields,validate_chunk,decoded
-  path=ROOT/'build/v3-0.1.21/recorder.synthetic.wire'
-  if not path.exists():self.skipTest('run tools/test_v3_app.py first for C++ writer artifact')
+  path=self.producer_artifact('recorder.synthetic.wire')
   lines=[s for s in path.read_text().splitlines() if s]
   begin=fields(lines[0],'BEGIN')
   raw=validate_chunk(lines,1,9876,0,1,1,begin['fullcrc'])

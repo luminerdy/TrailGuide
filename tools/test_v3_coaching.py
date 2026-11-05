@@ -4,7 +4,7 @@ from pathlib import Path
 import argparse,subprocess
 import v3_native_objects as native
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.21'
+OUT=ROOT/'build/v3-0.1.22'
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--legacy',action='store_true',help='Also run existing Ui and turnover suites, writing only to this new output')
@@ -22,7 +22,7 @@ def main():
             # Never run an old fixture against its accepted artifact directory.
             text=(ROOT/f'tests/v3_app_{name}_test.cpp').read_text()
             import re
-            text=re.sub(r'build/v3-0\.1\.\d+/', 'build/v3-0.1.21/evidence/legacy/',text)
+            text=re.sub(r'build/v3-0\.1\.\d+/', 'build/v3-0.1.22/evidence/legacy/',text)
             text=text.replace('../trailguide_v3/',str(ROOT/'trailguide_v3')+'/')
             source=out/f'legacy-{name}.cpp';source.write_text(text)
             for directory in ('frames','turnover-frames'):(out/'legacy'/directory).mkdir(parents=True,exist_ok=True)

@@ -14,9 +14,112 @@ import subprocess
 import sys
 import tempfile
 import zipfile
+import signal
+import time
+import threading
+
+
+def assert_complete_attempts(out):
+    for folder in sorted(out.glob('attempt-*')):
+        try:
+            status=json.loads((folder/'status.json').read_text())['status']
+        except (OSError,ValueError,KeyError):
+            status='incomplete'
+        if status not in ('passed','failed','timeout','interrupted'):
+            raise RuntimeError('incomplete prior attempt (inspect/retain before retry): '+str(folder))
+
+
+def run_attempt(command,cwd,env,out,protected,timeout=600,metadata=None):
+    """Stream evidence and audit after the owned Linux process group quiesces.
+
+    Normal owned helpers inherit this group via explicit environment opt-in.
+    Deliberate setsid/setpgid escape is outside this non-hostile runner contract;
+    /proc group-state inspection is read-only, never a name-based kill sweep.
+    SIGKILL/power loss cannot run finally; the next preflight rejects running or
+    missing status records instead. An operator must retain and resolve them.
+    """
+    out.mkdir(parents=True,exist_ok=True)
+    assert_complete_attempts(out)
+    folder=Path(tempfile.mkdtemp(prefix='attempt-',dir=out))
+    report={'status':'running','returncode':None,'command':list(command),'metadata':metadata or {},
+            'log':str(folder/'child.log'),'report':str(folder/'status.json'),
+            'process_group_reaped':False,'target_or_hardware_run':False}
+    def publish():
+        temp=folder/'status.tmp'
+        temp.write_text(json.dumps(report,indent=2)+'\n')
+        temp.replace(folder/'status.json')
+    publish()
+    child=None
+    old_handler=None
+    def interrupted(signum,frame):
+        raise InterruptedError('signal '+str(signum))
+    if threading.current_thread() is threading.main_thread():
+        old_handler=signal.signal(signal.SIGTERM,interrupted)
+    try:
+        with (folder/'child.log').open('w') as log:
+            # Explicitly opt normal owned helpers into this session's group.
+            # No signal handlers in worker threads or detached helper sessions.
+            child_env={**env,'TG_SUPERVISED_SESSION':'1'}
+            child=subprocess.Popen(command,cwd=cwd,env=child_env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+            report['pid']=child.pid
+            try:
+                report['returncode']=child.wait(timeout=timeout)
+                report['status']='passed' if report['returncode']==0 else 'failed'
+            except subprocess.TimeoutExpired:
+                report.update(status='timeout',returncode=124)
+    except (KeyboardInterrupt,InterruptedError) as exc:
+        report.update(status='interrupted',returncode=130,error=str(exc))
+    except Exception as exc:
+        report.update(status='failed',returncode=1,error=repr(exc))
+    finally:
+        report['completion_status']=report['status']
+        # Kill only the owned group even when its leader exited normally:
+        # inherited browser/helper children can outlive it. Never touch unrelated
+        # groups or delete their state.
+        try:
+            if child is not None:
+                try:os.killpg(child.pid,signal.SIGTERM)
+                except ProcessLookupError:pass
+                time.sleep(.05)
+                try:os.killpg(child.pid,signal.SIGKILL)
+                except ProcessLookupError:pass
+                child.wait(timeout=5)
+                # killpg is asynchronous. Confirm only this owned group is
+                # quiescent before inventory/sandbox finalization. Linux zombies
+                # are non-running; they cannot be waited by a non-parent.
+                deadline=time.monotonic()+5
+                while True:
+                    active=[]
+                    for entry in Path('/proc').iterdir():
+                        if not entry.name.isdigit():continue
+                        try:fields=(entry/'stat').read_text().rpartition(')')[2].split()
+                        except (FileNotFoundError,ProcessLookupError):continue
+                        if int(fields[2])==child.pid and fields[0] not in ('Z','X'):
+                            active.append(entry.name)
+                    if not active:break
+                    if time.monotonic()>=deadline:
+                        raise RuntimeError('owned process group still running: '+','.join(active))
+                    time.sleep(.01)
+                report['process_group_reaped']=True
+        except Exception as exc:
+            report.update(status='failed',returncode=1,cleanup_error=repr(exc))
+        post={}
+        for path,expected in protected.items():
+            try:
+                actual=inventory(path)
+                post[str(path)]={'exact':actual==expected,'files':actual}
+            except Exception as exc:
+                post[str(path)]={'exact':False,'error':repr(exc)}
+        report['post_inventories']=post
+        report['installed_all_exact']=all(p['exact'] for p in post.values())
+        if not report['installed_all_exact']:
+            report.update(status='failed',returncode=1)
+        publish()
+        if old_handler is not None:signal.signal(signal.SIGTERM,old_handler)
+    return report
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.21/evidence'
+OUT=ROOT/'build/v3-0.1.22/evidence'
 
 def inventory(root):
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
@@ -39,6 +142,7 @@ def disposable_sandbox():
         yield Path(folder)
 
 def main():
+    assert_complete_attempts(OUT)
     with disposable_sandbox() as sandbox:
         OUT.mkdir(parents=True,exist_ok=True)
         expected={n:json.loads((ROOT/f'build/v3-motion-investigation/installed-v3-0.1.{n}-files.private.json').read_text()) for n in (6,7,8,9,10,11,12,13,14,16)}
@@ -68,20 +172,26 @@ def main():
                 p.write_bytes(z.read('Arduino/examples/LVGL_Arduino/'+name))
         (seed/'imu').mkdir()
         shutil.copyfile(ROOT/'build/v3-s3-bringup/imu/preparation.json',seed/'imu/preparation.json')
-        # Seed only clearly synthetic C++ fixtures, never captured evidence.
-        for name in ('recorder.synthetic.wire','recorder.manual.synthetic.wire'):
-            fixture=ROOT/'build/v3-0.1.21'/name
-            if fixture.exists():
-                (source/'build/v3-0.1.21').mkdir(exist_ok=True);shutil.copyfile(fixture,source/'build/v3-0.1.21'/name)
+        # Copy only producer-bound synthetic artifacts, never captures. Missing
+        # or stale inputs fail the required integration cases (no silent skips).
+        from v3_q1_protocol_artifacts import OUTPUTS,MANIFEST,output
+        output(source).mkdir(parents=True,exist_ok=True)
+        for name in (*OUTPUTS,MANIFEST):
+            fixture=output(ROOT)/name
+            if fixture.exists():shutil.copyfile(fixture,output(source)/name)
         (sandbox/'tmp').mkdir()
         env=isolated_environment(sandbox)
-        result=subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-p','*_test.py','-v'],cwd=source,env=env,capture_output=True,text=True,timeout=600)
-        (OUT/'isolated-python.private.log').write_text(result.stdout+result.stderr)
-        unchanged=all(inventory(ROOT/f'build/v3-0.1.{n}')==files for n,files in expected.items()) and inventory(bench_root)==bench_files
-        unchanged=unchanged and all(inventory(path)==target_inventories[version] for version,path in installed_targets.items())
-        report={'returncode':result.returncode,'seeded_archive_sha256':ARCHIVE_SHA256,'PYTHONHASHSEED':17,'installed_file_counts':{str(n):len(files) for n,files in expected.items()},'installed_all_exact':unchanged,'source_sha256':inventory(source/'trailguide_v3'),'sandbox':str(sandbox),'target_or_hardware_run':False}
-        (OUT/'isolated-python.private.json').write_text(json.dumps(report,indent=2)+'\n')
-        print(result.stdout+result.stderr);assert unchanged,'installed 1.6/1.7/1.8/1.9/1.10/1.11/1.12/1.13/1.14/speaker-bench fallback changed'
-        return result.returncode
+        env['TG_PROTOCOL_TIER']='integration'
+        protected={ROOT/f'build/v3-0.1.{n}':files for n,files in expected.items()}
+        protected[bench_root]=bench_files
+        protected.update({path:target_inventories[version] for version,path in installed_targets.items()})
+        report=run_attempt([sys.executable,'-B','-m','unittest','discover','-s','tests','-p','*_test.py','-v'],
+                           source,env,OUT,protected,timeout=600,metadata={
+                               'seeded_archive_sha256':ARCHIVE_SHA256,'PYTHONHASHSEED':17,
+                               'source_sha256':inventory(source/'trailguide_v3'),
+                               'sandbox':str(sandbox),'protocol_tier':'integration'})
+        print(Path(report['log']).read_text())
+        print(json.dumps({'status':report['status'],'report':report['report']}))
+        return report['returncode']
 
 if __name__=='__main__':raise SystemExit(main())

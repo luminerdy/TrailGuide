@@ -19,7 +19,7 @@ static unsigned flushedPixels=0;
 static void flush(lv_disp_drv_t *d,const lv_area_t *a,lv_color_t *c){flushedPixels+=(a->x2-a->x1+1)*(a->y2-a->y1+1);for(int y=a->y1;y<=a->y2;y++)for(int x=a->x1;x<=a->x2;x++)screen[y*360+x]=*c++;lv_disp_flush_ready(d);}
 static unsigned heapPeak=0;
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);lv_timer_handler();lv_mem_monitor_t m;lv_mem_monitor(&m);heapPeak=std::max(heapPeak,unsigned(m.total_size-m.free_size));}lv_obj_update_layout(lv_scr_act());}
-static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.20/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
+static void save(unsigned n){lv_refr_now(nullptr);char path[128];snprintf(path,sizeof(path),"build/v3-0.1.21/frames/frame-%03u.ppm",n);std::ofstream f(path,std::ios::binary);assert(f);f<<"P6\n360 360\n255\n";for(auto p:screen){lv_color32_t c;c.full=lv_color_to32(p);f.put(c.ch.red);f.put(c.ch.green);f.put(c.ch.blue);}}
 static std::string face(){lv_refr_now(nullptr);std::string b;for(int y=112;y<252;y++)b.append(reinterpret_cast<char*>(screen+y*360+52),256*2);return b;}
 static void bounds(lv_obj_t *o,bool control=false){assert(o);lv_area_t a;lv_obj_get_coords(o,&a);for(int x:{a.x1-2,a.x2+2})for(int y:{a.y1-2,a.y2+2})assert((x-180)*(x-180)+(y-180)*(y-180)<=168*168);if(control)assert(lv_obj_get_height(o)>=48);}
 static unsigned timers(){unsigned n=0;for(auto *t=lv_timer_get_next(nullptr);t;t=lv_timer_get_next(t))++n;return n;}
@@ -90,7 +90,7 @@ int main(){
  lv_refr_now(nullptr);assert(screen[40*360+180].full!=screen[0].full && "large static compass rose must be visible");
  auto homePixels=face();save(100);for(unsigned n=0;n<40;++n){save(200+n);advance(40);}save(101);assert(face()!=homePixels && "Home compass must visibly wander");assert(u.model.index==-1 && !u.busy() && !outstanding);
  auto edgeSeed=seed;press(180,8);lift();assert(u.model.index==-1 && seed==edgeSeed && u.eligible() && "inside-object off-safe-circle contact must remain on pure compass");
- press(180,150);advance(500);assert(u.model.index==-1);lift();assert(!u.eligible() && u.model.index==-1 && seed==edgeSeed);press(126,208);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
+ press(180,150);advance(500);assert(u.model.index==-1);lift();assert(u.eligible() && u.model.index==-1 && seed==edgeSeed);press(126,208);lift();assert(u.busy());int id=u.model.index;assert(id>=0);bounds(u.scroll);bounds(u.backButton,true);bounds(u.moreButton,true);bounds(u.first,true);bounds(u.second,true);
  auto tappedSeed=seed;advance(60);assert(u.model.index==id && seed==tappedSeed);
  auto copy=std::string(lv_label_get_text(u.body));assert(!u.motionStatus);assert(copy==trailguide::cards[id].ask);auto dark=face();advance(400);assert(face()==dark);u.perform(v3app::Ui::Action::Another);assert(!u.busy() && u.model.index==id);
  u.perform(v3app::Ui::Action::Guide);assert(!u.busy());assert(std::string(lv_label_get_text(u.body))==trailguide::cards[id].askGuide);bounds(u.scroll);u.perform(v3app::Ui::Action::Back);assert(u.model.index==id&&!u.busy());
@@ -121,7 +121,7 @@ int main(){
  const auto baselineTimers=timers();
  {v3app::Ui u(rng,&seed,allocate,release);u.render();advance(60);auto randomBefore=seed;auto timerBefore=timers();lv_mem_monitor_t m;lv_mem_monitor(&m);auto freeBefore=m.free_size;
   auto allocBefore=allocations;auto pixelsBefore=flushedPixels;advance(160);assert(flushedPixels-pixelsBefore<60000 && "idle animation must not invalidate full screen");advance(29840);lv_mem_monitor(&m);assert(allocations==allocBefore);assert(m.free_size==freeBefore && seed==randomBefore && u.model.index==-1 && !u.busy() && timers()==timerBefore);
-  press(180,314);advance(500);assert(u.model.index==-1);lift();assert(!u.eligible() && !u.busy() && u.model.index==-1);bounds(u.first,true);bounds(u.second,true);bounds(u.toggle,true);bounds(u.backButton,true);
+  press(180,314);advance(500);assert(u.model.index==-1);lift();assert(u.eligible() && !u.busy() && u.model.index==-1);bounds(u.first,true);bounds(u.second,true);bounds(u.toggle,true);bounds(u.backButton,true);
   save(104);press(126,276);lift();assert(u.instant && !u.busy());press(232,208);lift();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Try && !u.busy());
   u.perform(v3app::Ui::Action::Home);auto still=face();advance(1600);assert(still!=face() && !u.busy());
   lv_obj_del(u.root);assert(!u.root && timers()==baselineTimers);advance(6500);
@@ -129,29 +129,30 @@ int main(){
   u.render();assert(timers()==baselineTimers+1);
   auto *child=lv_label_create(lv_obj_get_child(u.root,0));lv_label_set_text(child," ");lv_obj_del(child);advance(500);assert(timers()==baselineTimers+1 && !u.busy());
   // Both Options actions use real pointer release, without click-through draws.
-  auto beforeOptions=seed;press(180,314);lift();assert(seed==beforeOptions && !u.eligible());press(126,276);lift();assert(!u.instant && seed==beforeOptions);press(126,208);advance(600);assert(seed==beforeOptions);lift();assert(u.model.mode==v3app::Mode::Ask && u.busy());auto afterAsk=seed;advance(200);assert(seed==afterAsk);
+  auto beforeOptions=seed;press(180,314);lift();assert(seed==beforeOptions && u.eligible());press(126,276);lift();assert(!u.instant && seed==beforeOptions);press(126,208);advance(600);assert(seed==beforeOptions);lift();assert(u.model.mode==v3app::Mode::Ask && u.busy());auto afterAsk=seed;advance(200);assert(seed==afterAsk);
   u.perform(v3app::Ui::Action::Home);assert(!u.first && !u.toggle && u.eligible());
  }assert(timers()==baselineTimers);advance(6500);
  // Synthetic samples exercise the app gate, not physical motion acceptance.
  {v3app::Ui u(rng,&seed,allocate,release);u.render();
   auto feed=[&](float a,bool valid=true){advance(20);v3::ImuSample s;s.valid=valid;s.at_ms=lv_tick_get();s.acc_g[2]=a;s.gyr_dps[1]=-2.2f;u.sample(s,s.at_ms,true);u.sample(s,s.at_ms+1,true);u.sample(s,s.at_ms+2,true);};
-  auto quiet=[&](){for(int i=0;i<40;i++)feed(1);};
+  auto quiet=[&](){for(int i=0;i<170;i++)feed(1);}; // existing 2500ms cooldown plus fresh rest
   auto flip=[&](){for(int i=0;i<25;i++)feed(-1);for(int i=0;i<25;i++)feed(1);};
-  // Options is a Home substate: no draw or RNG, no queued gesture on close.
-  auto optionsSeed=seed;press(180,314);lift();quiet();flip();assert(!u.eligible() && u.model.index==-1 && seed==optionsSeed);
-  press(180,140);lift();assert(u.eligible() && !u.busy() && u.model.index==-1 && seed==optionsSeed);
+  // Options remains gesture-eligible: a qualified cycle draws once and closes it.
+  auto optionsSeed=seed;v3app::Model optionExpected(rng,&optionsSeed);optionExpected.draw(v3app::Mode::Ask);press(180,314);lift();quiet();flip();assert(u.eligible() && u.model.index==optionExpected.index && seed==optionsSeed && u.busy());
+  u.perform(v3app::Ui::Action::Home);press(180,314);lift();press(180,140);lift();assert(u.eligible() && !u.busy() && seed==optionsSeed);
+  u.model=v3app::Model(rng,&seed); // Independent fresh Home fixture after the Options draw.
   quiet(); // freshly arm the returned intro
   // Contact on the intro is dropped, not queued after release.
   auto before=seed;v3app::Model expected(rng,&before);expected.draw(v3app::Mode::Ask);
-  press(180,132);quiet();flip();assert(u.model.index==-1&&!u.busy());
+  press(180,132);quiet();flip();assert(seed==optionsSeed&&!u.busy());
   // Drag away cancels the compass click; quiet/rest must rearm after release.
   pt={0,0};advance(60);lift();
   assert(u.eligible());quiet();flip();assert(u.model.view==v3app::View::Card && u.busy() && u.model.mode==v3app::Mode::Ask && u.model.index==expected.index);assert(seed==before);int saved=u.model.index;
-  save(102);auto darkHomeDraw=face();advance(1500);save(103);assert(face()!=darkHomeDraw);quiet();flip();assert(u.model.index==saved); // busy drop
-  u.perform(v3app::Ui::Action::Guide);quiet();flip();assert(u.model.index==saved);u.perform(v3app::Ui::Action::Back);quiet();flip();assert(u.busy() && u.model.index!=saved);saved=u.model.index;quiet();flip();assert(u.model.index==saved); // draw once, never queue
+  save(102);auto darkHomeDraw=face();advance(1500);save(103);assert(face()!=darkHomeDraw);quiet();flip();expected.draw(v3app::Mode::Ask);assert(u.model.index==expected.index && seed==before && u.model.index!=saved && u.busy());saved=u.model.index; // global reveal restart
+  u.perform(v3app::Ui::Action::Guide);quiet();flip();expected.draw(v3app::Mode::Ask);assert(u.model.index==expected.index && seed==before && u.model.index!=saved && u.busy());u.perform(v3app::Ui::Action::Back);quiet();flip();expected.draw(v3app::Mode::Ask);assert(u.busy() && u.model.index==expected.index && seed==before);saved=u.model.index;quiet();flip();expected.draw(v3app::Mode::Ask);assert(u.model.index==expected.index && seed==before && u.model.index!=saved);saved=u.model.index; // exactly one per qualified cycle
   u.perform(v3app::Ui::Action::Home);advance(6500);assert(u.model.index==saved);u.perform(v3app::Ui::Action::Try);u.perform(v3app::Ui::Action::Another);saved=u.model.index;for(int i=0;i<100;i++)feed(2,false);assert(u.model.index==saved && !u.busy());
-  u.perform(v3app::Ui::Action::Home);advance(3000);quiet();flip();assert(u.model.mode==v3app::Mode::Ask && u.busy());u.perform(v3app::Ui::Action::Another);
-  u.perform(v3app::Ui::Action::Home);u.perform(v3app::Ui::Action::Instant);advance(3000);quiet();flip();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Ask && !u.busy());
+  u.perform(v3app::Ui::Action::Home);advance(3000);quiet();flip();assert(u.model.mode==v3app::Mode::Try && u.busy());u.perform(v3app::Ui::Action::Another);
+  u.perform(v3app::Ui::Action::Home);u.perform(v3app::Ui::Action::Instant);advance(3000);quiet();flip();assert(u.model.view==v3app::View::Card && u.model.mode==v3app::Mode::Try && !u.busy());
  }
  // Regression: every pointer-down area and inertia phase blocks gesture draws.
  {v3app::Ui u(rng,&seed,allocate,release);u.render();u.perform(v3app::Ui::Action::Ask);u.perform(v3app::Ui::Action::Another);

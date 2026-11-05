@@ -27,7 +27,8 @@ class CoachUi {
  CoachUi(const CoachUi&)=delete;CoachUi &operator=(const CoachUi&)=delete;
  ~CoachUi(){cancel();if(root)lv_obj_del(root);}
  bool busy()const{return timer!=nullptr;}
- bool eligible()const{return root && model.current.screen==Screen::Opening && !optionsOpen && !busy() && !pointerDown && !scrolling;}
+ // Start fresh from any live view, including reveal/hold; real contact still wins.
+ bool eligible()const{return root && !pointerDown && !scrolling;}
  struct Diagnostic {
   bool pointer=false,scrolling=false,options=false,reveal=false,eligible=false,root=false,healthy=false;
   unsigned view=0;uint32_t resetCounts[8]={};Gesture::Diagnostic gesture;
@@ -38,7 +39,7 @@ class CoachUi {
  }
  void sample(const v3::ImuSample &s,uint32_t now,bool available,bool *triggered=nullptr){
   // Availability is not validity: NotReady is a bounded pause inside Shake.
-  if(shake.consume(s,now,eligible(),available)){setBlank(false);gesture.reset();if(triggered)*triggered=true;draw();return;}
+  if(shake.consume(s,now,eligible(),available)){gesture.reset();if(triggered)*triggered=true;draw();return;}
   const bool healthy=available && s.valid && uint32_t(now-s.at_ms)<=60;
   motionAvailable=healthy;
   // The application loop is faster than the IMU poll. Dispatch each sample
@@ -95,9 +96,9 @@ class CoachUi {
  void perform(Action a){
   stopCompass();
   if(scroll)model.remember(lv_obj_get_scroll_y(scroll));
-  ++resetCounts[1];gesture.reset();
+  ++resetCounts[1];gesture.reset();shake.reset();
   if(unsigned(a)<6){model.path(unsigned(a));render();return;}
-  if(a==Action::Another){if(busy())finish(true);else draw();return;}
+  if(a==Action::Another){if(busy()){setBlank(false);finish(true);}else draw();return;}
   switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Sound:sound->enabled=!sound->enabled;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();compassHome=true;break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
   render();
  }
@@ -136,7 +137,8 @@ class CoachUi {
   d.width=3;line(tip,pt(64,self->compassAngle-8));line(tip,pt(64,self->compassAngle+8));
  }
  bool optionsOpen=false,pendingSettlement=false;
- void settled(){if(pendingSettlement){pendingSettlement=false;sound->settled();}}
+ // Blackout is not readable settlement; cancellation discards this pending cue.
+ void settled(){if(pendingSettlement && !blanked){pendingSettlement=false;sound->settled();}}
  // Existing root/children only: no overlay, snapshot, timer or heap allocation.
  bool blanked=false,touchCancelledBlank=false;uint32_t hiddenBeforeBlank=0;
  void setBlank(bool hide){
@@ -146,7 +148,7 @@ class CoachUi {
   if(hide && n>32)return;
   if(hide){hiddenBeforeBlank=0;for(unsigned i=0;i<n;++i){auto *o=lv_obj_get_child(root,i);if(lv_obj_has_flag(o,LV_OBJ_FLAG_HIDDEN))hiddenBeforeBlank|=1u<<i;lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);}}
   else for(unsigned i=0;i<n && i<32;++i)if(!(hiddenBeforeBlank&(1u<<i)))lv_obj_clear_flag(lv_obj_get_child(root,i),LV_OBJ_FLAG_HIDDEN);
-  blanked=hide;updateHint();lv_obj_invalidate(root);
+  blanked=hide;if(!hide && !busy())settled();updateHint();lv_obj_invalidate(root);
  }
  static void drawBlank(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));if(!u->blanked)return;lv_draw_rect_dsc_t d;lv_draw_rect_dsc_init(&d);d.bg_color=lv_color_black();d.bg_opa=LV_OPA_COVER;lv_area_t a;lv_obj_get_coords(u->root,&a);lv_draw_rect(lv_event_get_draw_ctx(e),&d,&a);}
  // Readable hold is separate from reveal busy: completed flips remain eligible.
@@ -170,8 +172,10 @@ class CoachUi {
  static void focusDone(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
  void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,5000,this);if(focusTimer)chrome(true);}
- void cancel(){shake.reset();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
- void finish(bool readableHold=false){if(readableHold)settled();cancel();if(model.current.screen==Screen::Opening){if(readableHold)hold();}}
+ void cancel(){shake.reset();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();stopReveal();}
+ void stopReveal(){if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
+ // Same-card automatic settlement must preserve motion evidence and blackout.
+ void finish(bool readableHold=false){if(readableHold){stopReveal();settled();hold();}else cancel();}
  void start(){lv_obj_update_layout(scroll);fallback=!window.capture(scroll);if(fallback){settled();hold();return;}started=lv_tick_get();lv_obj_add_flag(body,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);timer=lv_timer_create(tick,40,this);if(!timer){fallback=true;settled();cancel();hold();return;}chrome(true);lv_obj_invalidate(scroll);}
  static void tick(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);auto elapsed=lv_tick_elaps(u->started);if(elapsed>=6000){u->finish(true);return;}u->window.render(elapsed);lv_obj_invalidate(u->scroll);}
  static void drawWindow(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));lv_area_t a;lv_obj_get_coords(lv_event_get_target(e),&a);auto *ctx=lv_event_get_draw_ctx(e);if(u->window.active())u->window.draw(ctx,a);else compactFace(ctx,a);}
@@ -195,7 +199,7 @@ class CoachUi {
   default:break;}}
  static void deleted(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);
   // Restore before LVGL removes a child and changes the bounded mask indices.
-  if(u->blanked){u->setBlank(false);u->gesture.reset();}
+  if(u->blanked){u->pendingSettlement=false;u->setBlank(false);u->gesture.reset();}
   if(o==u->root){u->cancel();++u->resetCounts[7];u->gesture.reset();u->root=nullptr;u->first=u->second=u->backButton=u->body=u->scroll=u->footer=nullptr;u->pointerDown=false;u->scrolling=false;return;}
   if(o==u->footer)u->footer=nullptr;
   if(o==u->body)u->body=nullptr;

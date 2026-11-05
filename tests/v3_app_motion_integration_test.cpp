@@ -50,12 +50,12 @@ int main(){
  assert(Serial.tx.find("status=\"IMU: waiting\"")!=std::string::npos);
  assert(Serial.tx.find("phase=1>4")!=std::string::npos);
  assert(Serial.tx.find("last_bad="+std::to_string(lastFresh+20)+":1>4")!=std::string::npos);
- // Pointer, inertial scroll and Options are actual UI-owned gates.
+ // Pointer and inertial scroll gate motion; Options is globally eligible.
  lv_event_send(ui.root,LV_EVENT_PRESSED,nullptr);assert(ui.diagnostic(imu.sample(),1700).pointer && !ui.eligible());
  lv_event_send(ui.root,LV_EVENT_RELEASED,nullptr);assert(!ui.diagnostic(imu.sample(),1700).pointer);
  lv_event_send(ui.root,LV_EVENT_SCROLL_BEGIN,nullptr);assert(ui.diagnostic(imu.sample(),1700).scrolling && !ui.eligible());
  lv_event_send(ui.root,LV_EVENT_SCROLL_END,nullptr);assert(!ui.diagnostic(imu.sample(),1700).scrolling);
- ui.perform(v3app::Ui::Action::Options);assert(ui.diagnostic(imu.sample(),1700).options && !ui.eligible());ui.perform(v3app::Ui::Action::Back);
+ ui.perform(v3app::Ui::Action::Options);assert(ui.diagnostic(imu.sample(),1700).options && ui.eligible());ui.perform(v3app::Ui::Action::Back);
  // Successful flip still draws once through the instrumented actual loop.
  for(uint32_t t=1705;t<=2600;t+=5)step(t);
  // SYNTHETIC 600dps on both legs via actual raw conversion/dispatch/UI.
@@ -75,7 +75,7 @@ int main(){
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.20/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.21/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  // Recorder is a second session on the same SINGLE parser, never two readers.

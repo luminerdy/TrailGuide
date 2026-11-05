@@ -65,12 +65,25 @@ int main(int argc,char **argv){
  pose(1,500);expected.draw(v3app::Mode::Ask);
  assert(triggers==1 && ui.model.view==v3app::View::Card && ui.busy());
  assert(ui.model.index==expected.index && seed==expectedSeed);
- // Motion during reveal is dropped, not queued. Settling cannot draw on its own.
+ // Motion inside the existing cooldown is dropped, not queued. Settlement alone cannot draw.
  const auto drawn=seed;pose(-1,1400);pose(1,500);assert(triggers==1 && seed==drawn);
  for(unsigned n=0;n<6500;n+=20){lv_tick_inc(20);lv_timer_handler();}
  assert(!ui.busy() && triggers==1 && seed==drawn);
  // Complete cycle after fresh rest gives exactly one additional card.
  pose(1,900);pose(-1,500);pose(1,500);expected.draw(v3app::Mode::Ask);
  assert(triggers==2 && ui.model.index==expected.index && seed==expectedSeed);
- printf("PASS recovery %s: %zu rows; rearmed without draw; new whole flip exactly 1 card; busy drop/no queue; fresh-rest next cycle exactly 1 card; actual Ui/sample/LVGL ASan/UBSan; NOT PHYSICAL ACCEPTANCE\n",argc==2?"PRIVATE capture replay":"SYNTHETIC",frames.size());
+ // A fully qualified fresh cycle can restart the still-active reveal globally.
+ pose(1,3400);pose(-1,500);pose(1,500);expected.draw(v3app::Mode::Ask);
+ assert(triggers==3 && ui.busy() && ui.model.index==expected.index && seed==expectedSeed);
+ // Pointer contact and independent inertial scrolling still suppress whole cycles.
+ for(bool scroll:{false,true}){
+  lv_event_send(ui.root,scroll?LV_EVENT_SCROLL_BEGIN:LV_EVENT_PRESSED,nullptr);
+  const auto held=seed;const int index=ui.model.index;pose(1,3400);pose(-1,500);pose(1,500);
+  assert(!ui.eligible() && triggers==3 && ui.model.index==index && seed==held);
+  lv_event_send(ui.root,scroll?LV_EVENT_SCROLL_END:LV_EVENT_RELEASED,nullptr);
+  assert(ui.eligible());
+ }
+ pose(1,3400);pose(-1,500);pose(1,500);expected.draw(v3app::Mode::Ask);
+ assert(triggers==4 && ui.busy() && ui.model.index==expected.index && seed==expectedSeed);
+ printf("PASS recovery %s: %zu rows; rearmed without draw; whole flip one card; cooldown drop/no queue; global reveal restart; pointer/inertial-scroll suppression and fresh-rest resume; actual Ui/sample/LVGL ASan/UBSan; NOT PHYSICAL ACCEPTANCE\n",argc==2?"PRIVATE capture replay":"SYNTHETIC",frames.size());
 }

@@ -1,11 +1,11 @@
 # TrailGuide
 
-## Candidate22 / installed21 / publication status
+## Installed26 / published-source checkpoint
 
-**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
-The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](docs/DELIVERY-A-CANDIDATE22.md)
-for passed software checks, pending deployment and unchanged behavior/content.
-Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+**The development device runs `v3-0.1.26-manual-s` DRAFT.** Full application readback and exact-version runtime checks passed; physical S-assisted shake acceptance is pending. Automatic shake reliability remains open.
+See the [current progress and verification ledger](docs/V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
+
+The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current26 physical acceptance.
 
 [Project specification](docs/PROJECT-SPEC.md) · [Classic flow](docs/CLASSIC-FLOW.md) · [Coaching flow](docs/COACHING-FLOW.md)
 
@@ -35,7 +35,9 @@ For **V3's playful experience**, **turn over and back—or deliberately shake fo
 
 The device is a fun building project and possible shared learning aid, not a prerequisite for mentoring, a container for every material or evidence of better learning. Try the separate [V3 shake/reveal browser study](prototype/v3-experience.html); its shake is simulated, not sensor-tested.
 
-## Development status
+## Published implementation baseline and historical acceptance
+
+For the current installed26 state and open physical checks, use the [progress ledger](docs/V3-PROGRESS.md). The older implementation and acceptance descriptions in this section retain their original release scope.
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
@@ -53,7 +55,7 @@ The installed global start-fresh change is **qualitatively user-accepted in both
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.8 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Classic compass/cards plus optional six-path Coaching; turnover or sustained shake to reveal | v3-0.1.21-global-gestures DRAFT installed; global start-fresh gestures qualitatively accepted in both modes; broader gates open |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Classic compass/cards plus optional six-path Coaching; optional S-assisted shake | v3-0.1.26-manual-s DRAFT installed; application readback and runtime verified; physical S acceptance pending; automatic reliability open |
 
 A completed intentional turn over and back or a deliberate sustained shake starts fresh from **any owned screen**, including Options, Guide, paths, questions, experiments, the path picker, closings, reminders, the Opening compass and an active reveal or reading hold. Classic draws once in its active Ask/Try mode, including after Home, and clears Options before showing the card. Coaching leaves the current path, clears route history and draws one fresh **Opening card**, not another question in that path or a return to the compass. Old reveal/hold resources and pending settlement cues are canceled: no old callbacks, queued draws or stale cues reach the replacement. Actual pointer contact and inertial scrolling still suppress motion. Partial gesture intent and qualified blackout survive autonomous same-card reveal settlement and hold deadlines. Turnover stays black while qualified inverted and starts the new reveal on completed return; shake goes straight to reveal without an extra timed black pause. Each new card retains the six-second whole-face reveal plus five-second reading hold. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition retains 400ms of fresh quiet, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are safeguards, not a prescribed handling ritual.
 

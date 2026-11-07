@@ -2,6 +2,16 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 manual-S moving-start repair — v3-0.1.26-manual-s
+
+- Current installed scope and remaining physical checks: [V3 progress ledger](V3-PROGRESS.md). The prior version25 physical report was no card with automatic or S-assisted shaking; it is not overwritten by host passes. Version26 physical acceptance remains pending.
+- Manual acquisition only: moving-start/smooth-phase correction with the eight-second explicit intent preserved. Automatic recognition, UI appearance, drivers, thresholds and duration-credit policy are unchanged. The original human incident was not causally reproduced.
+- Retained evidence: 974 strict host checks plus 20 independent boundary checks; separate square/sine matrices of 18,720 scenarios each; focused actual-LVGL 54 cases / 639 checks; full 147 native commands with 27 fresh C++ commands, 424 verified host C objects, 547 frame comparisons and 11 protocol tests / zero skips. No new isolated 128-test claim.
+- Clean S3 build: 487 commands and independent package review PASS. Installer: 22 guarded offline tests and focused independent review PASS after a hexadecimal-output retry compatibility correction; strict runtime requirements retained.
+- Actual 695,712-byte application-only write at `0x10000`, full matching readback BEFORE native USB boot reset, then exact version26 ROM and strict two-snapshot initialized UI / advancing valid sensor and application checks PASS. Classic boot, sound OFF and empty recorder defaults verified; execution resumed. Previous25 evidence retained, no new recording or automatic rollback. This documentation update does not contact hardware or rerun those firmware checks.
+
+Earlier entries below retain their original version-specific scope, not current26 acceptance.
+
 ## V3 qualified-turnover blanking — v3-0.1.11
 
 - Presentation-only existing Inverted getter and root/child visibility masking: full black through return qualification, original one draw/6000ms reveal/5000ms hold, cancellation restoration and real-contact swallowing. No new overlay/allocation/timer, sensor, recognition, model/RNG, card, renderer or recorder change. Mask bound 32/normal≤6 children; unsupported foreign mutation limitations documented.

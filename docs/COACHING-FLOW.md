@@ -1,11 +1,11 @@
 # Coaching — conversation-guide flow
 
-## Candidate22 / installed21 / publication status
+## Installed26 / published-source checkpoint
 
-**This source snapshot contains `v3-0.1.22-reliability` DRAFT; it is not installed.**
-The physically accepted device remains on `v3-0.1.21-global-gestures`. See the [single candidate22 status and gate ledger](DELIVERY-A-CANDIDATE22.md)
-for passed software checks, pending deployment and unchanged behavior/content.
-Installed21 and older evidence below retains its original scope, not candidate22 acceptance.
+**The development device runs `v3-0.1.26-manual-s` DRAFT.** Full application readback and exact-version runtime checks passed; physical S-assisted shake acceptance is pending. Automatic shake reliability remains open.
+See the [current progress and verification ledger](V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
+
+The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current26 physical acceptance.
 
 **Coaching helps the facilitator open, listen, explore and release ownership of the next step.** The guide chooses the pace and direction; the device does not diagnose the team or listen to the conversation.
 

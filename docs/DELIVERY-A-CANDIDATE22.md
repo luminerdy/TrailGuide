@@ -1,5 +1,7 @@
 # Delivery A — candidate22 status
 
+> Historical pre-installation ledger. Version22 was subsequently installed and failed the physical repeat-shake reliability check. The development device now runs version26; see the [current progress ledger](V3-PROGRESS.md) for installation evidence and pending physical acceptance. Baseline and pending-deployment statements below describe the original candidate22 checkpoint, not the current device.
+
 ## Identities and scope
 
 - **Installed and physically accepted baseline:** `v3-0.1.21-global-gestures` DRAFT, application **691312 bytes**, remains running. Its qualitative global-gesture acceptance in Classic and Coaching is preserved; it is not exhaustive handling or field-reliability proof.

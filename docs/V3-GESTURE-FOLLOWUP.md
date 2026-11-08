@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-**An isolated off-device candidate is implemented and under review, not installed or release-ready.** Installed `v3-0.1.27-accel16` remains unchanged. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
+**The bounded pair-evidence experiment was run and rejected; no replacement is release-ready.** Installed `v3-0.1.27-accel16` remains unchanged. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
 
 The committed firmware baseline remains `v3-0.1.22-reliability`; this document does not publish or integrate the private27 firmware, recordings or deployment tooling. See the [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
 
@@ -70,9 +70,26 @@ Independent review still blocks the wider release gate:
 
 The producer-health composition is now complete on this same candidate: real fake-bus-driven Imu, verbatim extracted sketch health expression and actual Classic/Coaching UI dispatch pass35 cases /518 assertions. Parent read-only verification and independent native replay confirm those results. The unchanged baseline produces the expected separately labelled policy RED; old fixtures remain preserved. Nonfinite raw-driver injection is not claimed because the actual int16 conversion cannot produce it.
 
-Design feasibility is **HOLD at an explicit automatic-proof decision**. A numerical probe finds a unique bracketed unit-gravity line reference for all23 exact synthetic triangle patterns, but does not prove noisy-motion safety or integrated recognition. The other three cases cannot be solved by seeding alone: raw magnitude-strong evidence strictly younger than240ms cannot continuously cover a single-strong-polarity cycle recurring at250/280ms. The existing credit cap also means slow-sample completion can exceed the approximate1–2second goal; measured tails must not be hidden.
+At the preceding design gate, feasibility required **an explicit automatic-proof decision**. A numerical probe finds a unique bracketed unit-gravity line reference for all23 exact synthetic triangle patterns, but does not prove noisy-motion safety or integrated recognition. The other three cases cannot be solved by seeding alone: raw magnitude-strong evidence strictly younger than240ms cannot continuously cover a single-strong-polarity cycle recurring at250/280ms. The existing credit cap also means slow-sample completion can exceed the approximate1–2second goal; measured tails must not be hidden.
 
-One conditional off-device design combines bounded reference confidence with authorization owned by a freshly completed adjacent opposing pair. Adjacent pairs may share their intervening endpoint. Pair authorization expires after its own bounded lifetime, but its raw strong endpoint can become older than the current raw-proof limit. **This changes automatic evidence ownership even though numeric constants remain the same.** It is not a manual-S change, a silent proof-age extension, or an established safe fix. The new exposure requires explicit scope approval and adversarial bump/rotation/weak-continuation/expiry/noData tests before consuming the final implementation refinement. No such refinement or SDK gate has been started.
+One conditional off-device design combines bounded reference confidence with authorization owned by a freshly completed adjacent opposing pair. Adjacent pairs may share their intervening endpoint. Pair authorization expires after its own bounded lifetime, but its raw strong endpoint can become older than the current raw-proof limit. **This changes automatic evidence ownership even though numeric constants remain the same.** It is not a manual-S change, a silent proof-age extension, or an established safe fix. The new exposure required explicit approval and adversarial bump/rotation/weak-continuation/expiry/noData tests. That off-device experiment was subsequently approved and executed; its rejection is recorded below. No SDK or device gate was started.
+
+## Pair-evidence experiment — rejected, no merge
+
+The final bounded experiment changed only the Shake header in a new retained overlay. It combined bounded multi-sample reference fitting, adjacent-pair-owned automatic proof and conservative known-NotReady continuity handling. Other source files, manual seed/pair logic, sensor configuration, display and installed27 remained unchanged.
+
+It fixed all26 specifically targeted old cold-start misses, **but failed the broader compatibility gate**:
+
+- Cold1,440-row comparison: the prior overlay had26 misses; the experiment had147 misses in previously working rows, despite closing the exact old26. A concrete fast-sample triangle stopped acquiring because six consecutive samples covered only50ms at10ms cadence, insufficient for its required two-sided evidence.
+- The576-row weak-modulation matrix had36 failures, including failure to recognize the initial deliberate burst. A late final count of one cannot hide a missed first burst.
+- The previously working interleaved healthy-NotReady positive stopped drawing. The conservative continuity rule's positive-case cost was not accepted or waived.
+- The old quiet1,440-row outcomes and event times remained identical, including520 previously unsupported positives. The experiment used204 bytes of fixed state: its new256-byte engineering guard passed, while the original128-byte assertion failed and remains recorded. No old-ABI compatibility claim is made.
+
+The parent freshly compiled and ran the separate, pre-frozen independent oracle against the exact failed header: primary2,990 checks had148 failures; supplemental42 checks had0 failures. All26 named old misses were fixed. The producer packet and frozen expectations were not changed to obtain those results. Stricter synthetic confidence-window rejection checks are engineering controls, not evidence that those waveforms were ordinary handling or that a field false trigger occurred.
+
+**STOP:** the experiment is rejected and was not merged into the earlier evaluation overlay, committed firmware source or installed device. No additional implementation round, full native/SDK release build, UI recomposition or installation followed. Earlier native100-control/12-target and producer35-case/518-assertion passes belong to the earlier overlay, not this failed experiment.
+
+The evidence now favors returning to an attributed installed27 Coaching compass/path comparison before another redesign. Any future recording needs a prepared version-bound observer and separate permission/readiness. Do not request more unrecorded shaking or treat additional synthetic tuning as proof of the human cause.
 
 ## Validation and stopping gates
 

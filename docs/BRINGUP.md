@@ -39,6 +39,12 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Includes current16g/gyro safety edges, real status/raw faults, retained/stale timestamps, NotReady, contact/root deletion, exact8000ms expiry, no short-burst credit aggregation, fresh automatic event/model equivalence and continuous/modulated latch checks. Actual int16 producer cannot generate nonfinite values; no nonfinite injection claim or hardware result.
 - Design probe supports reference geometry for the23 exact unequal-extrema triangle patterns, not integrated or noisy-motion acceptance. Three square cases expose a raw-proof recurrence conflict and slow-sample credit timing. Conditional adjacent-pair-owned automatic authorization would change evidence semantics and needs approval before the final refinement. No source change, full SDK gate, device operation or new recording follows from this result.
 
+### Automatic pair-evidence experiment — STOP / rejected
+
+- Separately approved automatic-only experiment, Shake-header-only overlay: exact26 old cold misses fixed; broader cold1,440-row matrix regresses to147 previously working failures. Weak-modulation576 matrix has36 failures, including initial-burst misses; retained healthy-NotReady positive also fails. Quiet matrix remains identical, including520 unsupported old positives. No universal latency or physical-success claim.
+- Parent ran the independently frozen oracle with fresh sanitizer-enabled C++ against the exact experiment header: primary2,990 checks /148 failures, supplemental42 /0 failures. Header/source manifests and preexisting inputs verified; no oracle edit. Native state204 bytes passes the new256-byte engineering bound but fails the old128 assertion, retained explicitly.
+- Experiment rejected; no merge, further production tuning, full native/SDK build, UI/producer recomposition or hardware operation. Earlier focused native/producer passes remain bound to the earlier overlay. Installed27 and unrelated editorial work remain unchanged. Future field capture requires its own prepared observer and permission.
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

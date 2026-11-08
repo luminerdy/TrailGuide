@@ -19,6 +19,13 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - This establishes a deterministic requirement counterexample, not the cause of the unrecorded human27 incident or physical exactly-once acceptance. No new firmware, full147/SDK rerun, hardware contact or recording occurred. Original native link attempts exceeded their16 MiB peak envelope; those failures remain recorded. Final replay and independent parent reruns stayed within the replay envelope, not a retroactive pass for linking.
 - Findings, causal limits and the unimplemented scoped proposal: [V3-GESTURE-FOLLOWUP.md](V3-GESTURE-FOLLOWUP.md).
 
+### Bounded acquisition/rearm and independent inertia extension
+
+- Fresh sanitized C++ with424 reverified HOST C objects and exact27 build-bound source: five contexts demonstrate ten synthetic initial-acquisition/post-cooldown-rearm gaps under ordinary handling; quiet controls recover, and continuous strong motion remains at one gesture event. This is not a physical trial or attributed incident replay.
+- Independent LVGL scroll ownership plus changing post-release position confirms short inertia in Classic and Coaching. No draw occurs during the observed interval, but UI motion eligibility is prematurely true. Track this separate safety gap without claiming it explains missed gestures or establishes longer-inertia safety.
+- Eighteen axis/sign/cadence characterization rows use equal sample counts but unequal durations; short-window rejections are not evidence of a cadence defect. Parent verified the closed inputs/earlier packet and re-executed mechanism0 and intentional contract RED1.
+- Revised fresh-build32 MiB peak gate passed; workspace footprint and child RAM high-water were tracked separately. Original16 MiB failures remain failures. No firmware/policy/device change, recording or new full-suite/SDK run. The proposal in [V3-GESTURE-FOLLOWUP.md](V3-GESTURE-FOLLOWUP.md) remains unimplemented and requires approval.
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

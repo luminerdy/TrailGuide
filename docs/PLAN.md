@@ -22,7 +22,7 @@ See [V3-PROGRESS.md](V3-PROGRESS.md) for the physical observations, verified27 i
 
 ### Evidence-backed proposal, not implementation permission
 
-The [focused gesture follow-up](V3-GESTURE-FOLLOWUP.md) records a reproduced six-path post-navigation acquisition gap, working native compass/card controls, ranked alternatives and the proposed bounded automatic-acquisition direction. It does not prove the cause of the human27 failures. Complete independent scroll/inertia and acquisition-versus-rearm coverage, preserve compatibility/safety controls, and review the smallest supported proposal before changing policy. No new firmware candidate or device operation is implied.
+The [focused gesture follow-up](V3-GESTURE-FOLLOWUP.md) records a reproduced six-path post-navigation acquisition gap, working native compass/card controls, ranked alternatives and the proposed bounded automatic-acquisition direction. It does not prove the cause of the human27 failures. The bounded independent scroll/inertia and acquisition-versus-rearm comparisons are complete. They expose separate acquisition/rearm requirements and premature eligibility during independently owned inertia; the latter is not a missing-gesture explanation. Preserve compatibility/safety controls, require matched-duration and longer-inertia validation, and review the bounded automatic-acquisition/episode-release proposal before changing policy. No new firmware candidate or device operation is implied.
 
 ## Project delivery scope
 

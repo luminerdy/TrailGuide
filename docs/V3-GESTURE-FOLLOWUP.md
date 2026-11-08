@@ -14,7 +14,7 @@ The exact installed27 build-bound source was exercised through actual LVGL input
 - The identical burst succeeded after renewed quiet acquisition, or after a real released S tap. Each successful case produced one event and one model draw in the tested fixture.
 - Classic compass, Classic card, Coaching compass through normal UI delegation, and Coaching opening-card positive controls passed after acquisition. No unconditional Coaching-compass dispatch prohibition was found in those tested paths.
 - Contact and navigation reset automatic acquisition. Automatic recognition then requires fresh quiet/reference acquisition; S uses a different bounded seed path. Coaching and Classic own separate recognizer instances, so their prior acquisition histories can differ.
-- Pointer contact, pointer-driven scrolling, fault/stale/gap cancellation, recovery and continuous-episode controls passed within their documented scope. Independent post-release inertia and broader rearm coverage remain separate checks.
+- Pointer contact, pointer-driven scrolling, fault/stale/gap cancellation, recovery and continuous-episode controls passed within their documented scope. A bounded independent-inertia and acquisition-versus-rearm extension is now complete, with limits below.
 
 The focused native packet contains 27 scenario rows. Its mechanism/control run exits successfully; its separately labelled unchanged-baseline contract run intentionally remains RED. The parent re-executed both from source/fixture/binary-bound evidence and verified the six-path comparisons. Actual-header probes also demonstrate sensitivity to translation direction and fresh-frame cadence; they do not identify the conditions of the human failure.
 
@@ -32,6 +32,16 @@ Quiet-frame positives are diagnostic controls, **not a new instruction to hold t
 
 A separate premature-input-enabling defect, if found during inertia checks, would have the opposite failure direction from permanently missing shakes and must not be presented as the explanation for this incident.
 
+## Bounded extension — independently repeated
+
+Five contexts were compared: Classic compass, Classic touch-drawn card, Coaching compass, Coaching touch-drawn opening card and a pointer-selected Coaching path. In each, ordinary synthetic handling prevented both initial acquisition and later rearm after cooldown. Renewed quiet acquisition restored the first and second draws; continuous strong motion remained at one event. These are ten context-specific acquisition/rearm counterexamples, not ten physical trials or a proven human incident cause.
+
+Real pointer release also produced independently LVGL-owned inertia with changing scroll position in Classic and Coaching. No draw occurred during those short intervals and later quiet recovery passed. **A separate safety gap was exposed: UI motion eligibility was already true while LVGL still owned the scrolling.** This premature enabling cannot explain permanently missing gestures. The observed inertia was shorter than the recognition window, so zero observed draws do not establish safety during longer inertia.
+
+An 18-row axis/sign/cadence characterization used equal sample counts, not equal wall durations. Its shortest bursts were below the recognition window; their rejection is not evidence of a cadence defect. Matched-duration smooth/onset and prolonged-inertia checks remain future validation needs.
+
+The parent verified the closed source/binary evidence, unchanged earlier packet and sealed host-library objects, then reran both mechanism and intentional-RED contract modes with the same outcomes. The new fresh build stayed within its separately declared32 MiB workspace envelope; this does not erase the earlier16 MiB link failures. No production source, device state or raw recording was changed.
+
 ## Proposed correction boundary — approval required
 
 The proposed direction is to investigate **bounded automatic acquisition from a genuine alternating burst after navigation/contact**, without requiring a quiet setup interval. This is a design proposal, not an approved policy candidate.
@@ -42,7 +52,9 @@ The proposed direction is to investigate **bounded automatic acquisition from a 
 - Preserve the ±16g configuration/conversion/safety correction, gyro configuration, flip behavior, accepted UI/copy and reveal/hold timing. Do not use threshold lowering or a longer intent window as an unexplained substitute.
 - Compare retaining only a still-valid reference across benign scene changes as a narrower alternative. That alone would not address cold-start acquisition or justify retaining partial motion credit; choose only after focused controls distinguish the cases.
 
-Before implementation, complete the bounded off-device acquisition/rearm and independently observed scroll/inertia comparisons. Freeze working compatibility cases and new no-stillness requirements separately, then present the smallest supported change and validation matrix for approval.
+The bounded acquisition/rearm and independently observed scroll/inertia comparisons are complete. The proposal must distinguish two mechanisms: acquiring a reference initially, and recognizing that a completed strong-motion episode has ended. Explore whether ordinary non-shake handling can release an episode after cooldown without requiring motionlessness; a neutral-looking frame alone must not clear the fired latch.
+
+Treat an independently owned scroll/inertia veto as a separate safety prerequisite for any broader acquisition path, not as the explanation for missing shakes. Freeze compatibility and new no-stillness targets separately, require matched-duration onset/axis/cadence and longer-inertia controls, and obtain approval before creating a policy candidate.
 
 ## Validation and stopping gates
 

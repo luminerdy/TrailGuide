@@ -9,20 +9,20 @@ The committed firmware baseline remains `v3-0.1.22-reliability`. This documentat
 
 ## Next steps — Coaching shake reliability
 
-Physical testing is paused; keep27 installed and leave the device unchanged. The current bounded work is off-device diagnosis and reproducible checks, not permission to flash another candidate.
+Physical testing is paused; keep27 installed and leave the device unchanged. Off-device implementation and testing are approved, explicitly including automatic Coaching compass shaking. Installation is not included.
 
-1. Compare the exact installed Classic compass, Coaching compass and Coaching card paths: motion eligibility, pointer/scroll ownership, automatic acquisition/reference/rearm and Start Fresh dispatch.
-2. Compare path entry with the manual S-assisted route. The observed S fallback is evidence of a difference, not proof of its cause.
-3. Run a focused context comparison with working positive controls and fault/contact/scroll negatives. No27 movement recording exists; label synthetic requirement failures separately from incident reproduction.
-4. Present an evidence-backed minimal correction and its validation plan before implementation. Preserve the ±16g improvement, accepted UI, global Start Fresh behavior and touch alternative; do not tune thresholds blindly.
-5. For a future approved change, apply focused regressions, independent review and applicable full native/target/package gates. Installation/readback/runtime and later physical acceptance remain separate.
-6. When human testing resumes, coordinate one short, separately approved Coaching-focused recording; expand repeatability and ordinary-handling checks only after the positive paths are understood. No more movements are requested during the pause.
+1. **Completed:** compare installed contexts, automatic versus S-assisted acquisition, real pointer/scroll ownership and Start Fresh dispatch. No27 movement trace exists; synthetic failures are not incident attribution.
+2. **Completed, scoped:** implement the isolated three-header overlay and run the independently frozen actual-LVGL comparison. All100 controls and12 mandatory targets pass, including Coaching compass entry/return, all six paths, smooth shaking and ordinary-handling rearm. Independent review confirms those results, not broader release readiness.
+3. **Current behavior gate:** resolve design feasibility for the cold slower-sampled reference-admission and separate proof/credit timing mechanisms before spending the final bounded refinement. Do not lower thresholds, extend strong-proof age silently or credit missing evidence. Stop blocked if the remaining scope cannot satisfy the requirements.
+4. **Current coverage gate:** add separately named policy-updated producer → health-expression → actual-UI tests. Retain old cancellation/expiry REDs and prove that a later full automatic burst is a new event, not revived manual intent or retained credit. Preserve current-range fault, NotReady, stale, duplicate and continuous-episode safeguards.
+5. **Only after required behavior passes:** complete independent review and applicable full native/target/package gates. Preserve the ±16g gain, accepted appearance, flip implementation, global Start Fresh and touch/S alternatives. Installation/readback/runtime and later physical acceptance remain separate.
+6. When human testing resumes, coordinate one short, separately approved Coaching-focused recording. No more movements are requested during the pause; do not claim physical repair from the native fixture.
 
-See [V3-PROGRESS.md](V3-PROGRESS.md) for the physical observations, verified27 installation and causal limits. This documentation publication excludes private firmware source/packages and unrelated editorial work.
+See [V3-PROGRESS.md](V3-PROGRESS.md) and the [implementation/review detail](V3-GESTURE-FOLLOWUP.md). This documentation publication excludes private firmware source/packages and unrelated editorial work.
 
-### Evidence-backed proposal, not implementation permission
+### Scoped implementation approved; installation remains gated
 
-The [focused gesture follow-up](V3-GESTURE-FOLLOWUP.md) records a reproduced six-path post-navigation acquisition gap, working native compass/card controls, ranked alternatives and the proposed bounded automatic-acquisition direction. It does not prove the cause of the human27 failures. The bounded independent scroll/inertia and acquisition-versus-rearm comparisons are complete. They expose separate acquisition/rearm requirements and premature eligibility during independently owned inertia; the latter is not a missing-gesture explanation. Preserve compatibility/safety controls, require matched-duration and longer-inertia validation, and review the bounded automatic-acquisition/episode-release proposal before changing policy. No new firmware candidate or device operation is implied.
+The [focused gesture follow-up](V3-GESTURE-FOLLOWUP.md) distinguishes the reproduced acquisition/rearm gaps, the separate scroll-safety correction, approved off-device implementation and its current review blockers. The private merged candidate passes the focused Coaching compass/path contract, not the complete field-reliability goal. No device operation or publication of private firmware source is implied.
 
 ## Project delivery scope
 

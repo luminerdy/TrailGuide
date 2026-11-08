@@ -26,6 +26,13 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Eighteen axis/sign/cadence characterization rows use equal sample counts but unequal durations; short-window rejections are not evidence of a cadence defect. Parent verified the closed inputs/earlier packet and re-executed mechanism0 and intentional contract RED1.
 - Revised fresh-build32 MiB peak gate passed; workspace footprint and child RAM high-water were tracked separately. Original16 MiB failures remain failures. No firmware/policy/device change, recording or new full-suite/SDK run. The proposal in [V3-GESTURE-FOLLOWUP.md](V3-GESTURE-FOLLOWUP.md) remains unimplemented and requires approval.
 
+### Approved implementation — focused merged PASS, wider acceptance BLOCKED
+
+- Three-header private evaluation overlay: automatic acquisition/episode rearm plus existing Classic/Coaching eligibility predicates. Other26 build-bound source files remain byte-identical. Installed27 remains unchanged.
+- The parent freshly compiled the same independently frozen actual-LVGL fixture against the merged overlay: compiler0, mechanism0, contract0; all100 controls and12 mandatory targets PASS. Targets explicitly include Coaching compass entry/return without S or quiet setup, all six paths, smooth motion and ordinary-handling rearm. This is not physical acceptance.
+- Independent review separates23 cold40ms triangle reference-admission misses from3 square proof/credit timing misses. A seed-only change cannot close both; wider behavior remains blocked before full native/SDK release gates.
+- Held constant-offset and later-full-burst cancellation/expiry tests were classified explicitly, not silently rewritten: eight seconds without oscillation is not uninterrupted shaking, and nine fresh probes show later automatic events equal a never-manually-armed detector with manual intent canceled. Original REDs remain retained. Sensor-producer/health/actual-UI composition remains a separate pending check.
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

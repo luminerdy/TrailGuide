@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-**Investigation, not an implemented fix.** Installed `v3-0.1.27-accel16` remains unchanged. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
+**An isolated off-device candidate is implemented and under review, not installed or release-ready.** Installed `v3-0.1.27-accel16` remains unchanged. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
 
 The committed firmware baseline remains `v3-0.1.22-reliability`; this document does not publish or integrate the private27 firmware, recordings or deployment tooling. See the [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
 
@@ -42,9 +42,9 @@ An 18-row axis/sign/cadence characterization used equal sample counts, not equal
 
 The parent verified the closed source/binary evidence, unchanged earlier packet and sealed host-library objects, then reran both mechanism and intentional-RED contract modes with the same outcomes. The new fresh build stayed within its separately declared32 MiB workspace envelope; this does not erase the earlier16 MiB link failures. No production source, device state or raw recording was changed.
 
-## Proposed correction boundary — approval required
+## Approved off-device correction scope — installation separate
 
-The proposed direction is to investigate **bounded automatic acquisition from a genuine alternating burst after navigation/contact**, without requiring a quiet setup interval. This is a design proposal, not an approved policy candidate.
+The proposed direction is to investigate **bounded automatic acquisition from a genuine alternating burst after navigation/contact**, without requiring a quiet setup interval. The scope is approved for isolated off-device implementation and testing, explicitly including automatic Coaching compass shaking. Installation remains a separate permission boundary.
 
 - Establish a fresh provisional gravity/reference from bounded motion evidence; require confirmed opposing burst evidence before crediting a draw. Explore whether suitable evidence rules from the reviewed manual seed path can be reused without granting manual intent automatically.
 - Clear partial credit on contact, scrolling, faults, stale data and excessive gaps. Do not carry a partly completed pre-navigation gesture into a new context or reuse an unvalidated reference indefinitely.
@@ -54,7 +54,21 @@ The proposed direction is to investigate **bounded automatic acquisition from a 
 
 The bounded acquisition/rearm and independently observed scroll/inertia comparisons are complete. The proposal must distinguish two mechanisms: acquiring a reference initially, and recognizing that a completed strong-motion episode has ended. Explore whether ordinary non-shake handling can release an episode after cooldown without requiring motionlessness; a neutral-looking frame alone must not clear the fired latch.
 
-Treat an independently owned scroll/inertia veto as a separate safety prerequisite for any broader acquisition path, not as the explanation for missing shakes. Freeze compatibility and new no-stillness targets separately, require matched-duration onset/axis/cadence and longer-inertia controls, and obtain approval before creating a policy candidate.
+Treat an independently owned scroll/inertia veto as a separate safety prerequisite for any broader acquisition path, not as the explanation for missing shakes. Freeze compatibility and new no-stillness targets separately, require matched-duration onset/axis/cadence and longer-inertia controls, and keep the approved candidate blocked until its required behavior and safety gates pass.
+
+## Implemented candidate and independent review
+
+The evaluation overlay changes only the Shake header and the two existing Classic/Coaching eligibility method bodies. It retains the installed ±16g sensor/scaling correction, gyro configuration, flip implementation, appearance and S request/expiry API. The scrolling predicates now veto independently owned momentum or exact-object animation rather than trusting only event booleans.
+
+The parent merged the isolated changes and freshly compiled the unchanged, independently frozen actual-LVGL acceptance fixture. **All100 controls and12 mandatory targets passed**, including real pointer entry into Coaching compass, return to that compass, all six paths, smooth shaking and a second burst after ordinary handling. No S or motionless setup is required by those natural-use targets. This is native UI/model evidence, not physical acceptance.
+
+Independent review still blocks the wider release gate:
+
+- At40ms fresh-sample intervals,23 cold triangle cases cannot acquire a reference from unequal sampled extrema under the current midpoint model. Three square cases acquire a correct reference but lose bounded proof/credit and complete later than the tested window. A seed-only correction cannot solve both mechanisms. Even many passing40ms cases exceed the approximate1–2second target; no cadence-complete claim is made.
+- The held0.3g offset characterization stops oscillating for8seconds before another full burst. Its no-rearm expectation is a conservative engineering assumption, not proof of a violation during uninterrupted shaking. The matched oscillatory continuation stays at one event on the candidate. Preserve both observations rather than turning the old RED into an unexplained safety waiver.
+- Original cancellation/expiry tests that forbid a later complete automatic burst conflict with the newly approved no-quiet acquisition direction. Nine fresh independent probes show manual authorization canceled and subsequent event output identical to a never-manually-armed detector, not revived partial credit. Original REDs remain retained; separately named policy-updated tests must preserve cancellation, missing-data and continuous-episode safeguards.
+
+The remaining bounded work is design feasibility for the unequal-extrema and proof/cadence mechanisms, plus real sensor-producer → sketch-health-expression → actual-UI composition. Do not spend the final implementation refinement on a seed-only promise, lower thresholds, extend proof age silently, credit known missing data or launch an expensive SDK gate while mandatory behavior remains RED.
 
 ## Validation and stopping gates
 
@@ -64,4 +78,4 @@ Focused tests, independent review, applicable full native/target/package checks,
 
 The initial investigation's native linking exceeded its16 MiB working-output peak budget; those failures remain recorded and are not called clean resource passes. The final source-bound replay and the parent's independent reruns stayed within that replay budget. Future fresh compilation needs a separately measured envelope that includes objects, uncompressed sanitized binaries and compression coexistence; a small retained archive does not establish a small linking peak. These are workspace-file footprint checks, not process-memory measurements.
 
-**Device boundary:** no new firmware, reset, recording or installation is authorized by this investigation. Preserve the working27 setup and report what remains uncertain.
+**Device boundary:** off-device implementation approval does not authorize a firmware write, reset, recording or installation. Preserve the working27 setup and report what remains uncertain.

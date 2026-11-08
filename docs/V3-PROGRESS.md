@@ -52,6 +52,14 @@ Application SHA-256:
 
 No fresh isolated 128-test integration run is claimed for26 or27; the older run belongs to its original release scope. Build, transfer and runtime evidence do not establish exhaustive visible rendering, reliable repeated gestures, exactly-once physical behavior, battery endurance or sustained field reliability.
 
+## Verified off-device follow-up
+
+A focused actual-LVGL comparison against the installed27 build-bound source now demonstrates a deterministic post-navigation no-stillness requirement gap: all six real pointer-selected Coaching paths reject an immediate automatic burst without renewed quiet acquisition, while the identical burst succeeds after renewed acquisition or a real released S tap. Coaching compass and Classic compass/card positive controls also pass after acquisition; no unconditional Coaching-compass dispatch block was found in these tested routes.
+
+The parent re-executed the source/fixture/binary-bound 27-row mechanism/control loop successfully and the separately labelled unchanged-baseline contract loop as intentional RED. This is not reproduction of the unrecorded27 physical incident and does not explain every reported context difference. Quiet positives are diagnostic controls, not a new stillness requirement for the user. The original link-budget overrun remains disclosed; independently repeated replay-only loops stayed within their envelope.
+
+See [the focused findings and scoped correction proposal](V3-GESTURE-FOLLOWUP.md). No policy candidate or firmware change has been implemented. Bounded independent-scroll/inertia and acquisition-versus-rearm checks are the next off-device coverage step; actual incident attribution remains open.
+
 ## Next steps — off-device first
 
 1. **Preserve the working improvement.** Keep27 installed and leave the device untouched while physical testing is paused. No reset, reflash, new recording, recovery installation or unrelated tuning follows from this checkpoint.

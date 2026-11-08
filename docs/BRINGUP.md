@@ -12,6 +12,13 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Human feedback: shake works from Classic compass and Classic card / New; Coaching card shaking can work, but automatic shaking sometimes fails after path selection and S then shake works. Coaching compass shaking does not work. Counts, exactly-once behavior, flip and ordinary-handling negatives remain unestablished. No27 movement recording or further device operation is part of this documentation checkpoint.
 - Next: off-device context/eligibility/acquisition/dispatch comparisons and a focused reproducible test, then a scoped proposal before further implementation or installation. Preserve the current device while physical testing is paused.
 
+## V3 Coaching-context follow-up — unchanged installed27 source
+
+- Exact27 build-bound source, actual LVGL pointer input and UI/model dispatch, ASan/UBSan: focused27-scenario packet. Across all six real pointer-selected paths, immediate automatic bursts without renewed acquisition produce zero events; identical bursts after quiet acquisition or a released S tap produce one event and one model draw in each tested route. Classic/Coaching compass/card acquisition-positive controls pass.
+- Parent independently verified retained input/file hashes and reran source/fixture/binary-bound mechanism/control and contract loops: mechanism exit0; intentional unchanged-baseline contract RED exit1. Pointer/contact-scroll, fault/stale/gap, recovery and continuous-episode checks have bounded coverage; independent inertia/rebound and broader rearm remain separate.
+- This establishes a deterministic requirement counterexample, not the cause of the unrecorded human27 incident or physical exactly-once acceptance. No new firmware, full147/SDK rerun, hardware contact or recording occurred. Original native link attempts exceeded their16 MiB peak envelope; those failures remain recorded. Final replay and independent parent reruns stayed within the replay envelope, not a retroactive pass for linking.
+- Findings, causal limits and the unimplemented scoped proposal: [V3-GESTURE-FOLLOWUP.md](V3-GESTURE-FOLLOWUP.md).
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

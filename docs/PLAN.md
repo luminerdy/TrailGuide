@@ -20,6 +20,10 @@ Physical testing is paused; keep27 installed and leave the device unchanged. The
 
 See [V3-PROGRESS.md](V3-PROGRESS.md) for the physical observations, verified27 installation and causal limits. This documentation publication excludes private firmware source/packages and unrelated editorial work.
 
+### Evidence-backed proposal, not implementation permission
+
+The [focused gesture follow-up](V3-GESTURE-FOLLOWUP.md) records a reproduced six-path post-navigation acquisition gap, working native compass/card controls, ranked alternatives and the proposed bounded automatic-acquisition direction. It does not prove the cause of the human27 failures. Complete independent scroll/inertia and acquisition-versus-rearm coverage, preserve compatibility/safety controls, and review the smallest supported proposal before changing policy. No new firmware candidate or device operation is implied.
+
 ## Project delivery scope
 
 Goal: develop mentoring for individuals and teams learning through meaningful projects with varied AI assistance, and help learners continue with suitable support rather than depend on the mentor. The physical device is an optional, enjoyable building/novelty track; Frontier Ops remains a reusable theme. Preserve V1 and the running V2 trial.

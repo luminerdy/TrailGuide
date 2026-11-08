@@ -33,6 +33,12 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Independent review separates23 cold40ms triangle reference-admission misses from3 square proof/credit timing misses. A seed-only change cannot close both; wider behavior remains blocked before full native/SDK release gates.
 - Held constant-offset and later-full-burst cancellation/expiry tests were classified explicitly, not silently rewritten: eight seconds without oscillation is not uninterrupted shaking, and nine fresh probes show later automatic events equal a never-manually-armed detector with manual intent canceled. Original REDs remain retained. Sensor-producer/health/actual-UI composition remains a separate pending check.
 
+### Producer-health closure and remaining design decision
+
+- Same merged candidate, fresh C++ against real Imu with a fake bus, exact source-extracted sketch health expression and actual Ui/CoachUi:35 cases /518 assertions,0 failures. Parent reverified819 old/source inputs and repeated the sealed native executable. BASE repeats the known policy RED; its246 dependent assertion failures are not246 independent bugs. Original old-range/cancellation/expiry fixtures remain unchanged.
+- Includes current16g/gyro safety edges, real status/raw faults, retained/stale timestamps, NotReady, contact/root deletion, exact8000ms expiry, no short-burst credit aggregation, fresh automatic event/model equivalence and continuous/modulated latch checks. Actual int16 producer cannot generate nonfinite values; no nonfinite injection claim or hardware result.
+- Design probe supports reference geometry for the23 exact unequal-extrema triangle patterns, not integrated or noisy-motion acceptance. Three square cases expose a raw-proof recurrence conflict and slow-sample credit timing. Conditional adjacent-pair-owned automatic authorization would change evidence semantics and needs approval before the final refinement. No source change, full SDK gate, device operation or new recording follows from this result.
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

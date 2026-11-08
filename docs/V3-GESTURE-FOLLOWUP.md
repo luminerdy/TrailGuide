@@ -6,6 +6,17 @@
 
 The committed firmware baseline remains `v3-0.1.22-reliability`; this document does not publish or integrate the private27 firmware, recordings or deployment tooling. See the [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
 
+## Installed27 observer preparation — off-device complete
+
+The next evidence-collection tool is prepared and independently reviewed, not a replacement recognizer. It binds the exact installed27 application, matching archived ELF/map, source and ±16g conversion provenance. The historical26 recording remains ±4g evidence.
+
+- Independent reruns passed **53 observer cases and11 complete parent-bridge cases** against the corrected observer. The bridge exercises canonical-schema synthetic message authentication, preservation, context checks, one recording command, protocol/CRC export and resume/close cleanup. Processes, device I/O and message delivery are doubles; the100-second observation uses a fake clock.
+- An independent delayed-STATUS test first exposed recording with expired readiness evidence. The minimal host correction repeats freshness checks immediately before RECORD. The original failure remains retained; the same six-second delay now produces zero recording commands and zero sends. An unexpired positive completes one synthetic session and export.
+- The first proposed short sequence starts at Classic compass: only after the controller's uniquely labelled Go, enter Coaching and perform one usual1–2-second shake without S. This places navigation inside the recording window. It is not a stillness requirement or a bundled path/repeatability trial.
+- Live testing remains paused. No recording permission/readiness, delivered trial briefing, hardware contact or27 trace was created by preparation. Future execution still requires the complete briefing and genuine human handoff, fresh original-device RAM preservation and context checks. Native USB opening can reset the board; diagnostic halts/read/resume must be disclosed before consent.
+
+Technical review is not recording consent, live transport acceptance, movement coverage or physical repair. Keep27 installed, the rejected experiment unmerged, and the remaining Coaching failures open until attributed field evidence is available.
+
 ## What the off-device comparison demonstrated
 
 The exact installed27 build-bound source was exercised through actual LVGL input and UI/model dispatch with ASan/UBSan. These are synthetic scenarios, **not a replay of the unrecorded27 human movements**.

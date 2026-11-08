@@ -45,6 +45,12 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 - Parent ran the independently frozen oracle with fresh sanitizer-enabled C++ against the exact experiment header: primary2,990 checks /148 failures, supplemental42 /0 failures. Header/source manifests and preexisting inputs verified; no oracle edit. Native state204 bytes passes the new256-byte engineering bound but fails the old128 assertion, retained explicitly.
 - Experiment rejected; no merge, further production tuning, full native/SDK build, UI/producer recomposition or hardware operation. Earlier focused native/producer passes remain bound to the earlier overlay. Installed27 and unrelated editorial work remain unchanged. Future field capture requires its own prepared observer and permission.
 
+### Installed27 observer — independently reviewed off-device only
+
+- Exact installed application/archived ELF/map/source and16g scaling provenance bound; older26 bytes remain4g evidence. Independent corrected-observer53 cases and complete parent-bridge11 cases pass with guarded synthetic transports, canonical-schema message fixtures, generated read/preserve Tcl, real protocol/CRC client and fake-clock100-second observation/export.
+- Original delayed final-STATUS freshness failure retained. Minimal host correction rechecks preservation/arm readiness immediately before RECORD: the six-second delay now produces zero RECORD/send; unexpired positive produces one synthetic session. Additional cancellation, corrupt preservation CRC and unconfirmed-resume negatives reject before recording.
+- Parent verified report/evidence hashes,96 frozen inventory entries and unchanged installed pointer. These are preparation checks, not new firmware/native/SDK or hardware results. No actual briefing, recording consent/readiness, device contact or27 trace exists; live testing remains paused. Future permission, fresh preservation/context gates, live coverage and human outcome remain separate.
+
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
 - Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.

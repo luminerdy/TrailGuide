@@ -2,9 +2,11 @@
 
 ## Current state
 
-**The development device is running `v3-0.1.26-manual-s` DRAFT.** Its complete application readback and exact-version live runtime checks passed. **Physical S-assisted shake acceptance is pending. Automatic shake reliability remains open.**
+**The development device is running `v3-0.1.27-accel16` DRAFT.** Full application readback and exact-version live runtime checks passed. Physical feedback shows a substantial improvement, but **gesture acceptance is partial: Coaching compass shaking still fails, and automatic shaking sometimes fails after path selection; S followed by shaking works in that situation.**
 
-This is a documentation checkpoint, not a production release or a claim that the reported gesture failure is solved. The committed firmware baseline remains `v3-0.1.22-reliability`; later installed work was built in separate, retained source snapshots. This checkpoint does not integrate those snapshots or publish firmware binaries, private build paths, device identifiers, raw captures or deployment credentials.
+Reported working contexts are Classic compass, Classic card / New, and Coaching card view. These are qualitative observations, not measured success rates or proof of exactly one draw per gesture. The later path-selection report qualifies the Coaching card success: it is not reliable in every reported situation. Flip behavior and ordinary-walking/handling negatives have not been newly established for27.
+
+This is a documentation checkpoint, not a production release or a claim that all gesture failures are solved. **The committed firmware source baseline remains `v3-0.1.22-reliability`.** Later installed work was built in separate, retained source snapshots. This checkpoint does not integrate those snapshots or publish firmware binaries, private build paths, device identifiers, raw captures or deployment credentials.
 
 [Project specification](PROJECT-SPEC.md) · [Delivery plan](PLAN.md) · [Verification record](BRINGUP.md) · [Classic flow](CLASSIC-FLOW.md) · [Coaching flow](COACHING-FLOW.md)
 
@@ -12,42 +14,52 @@ This is a documentation checkpoint, not a production release or a claim that the
 
 - **22 — reliability delivery:** installed, but repeated physical shaking did not meet the intended reliability target. Passing software checks did not close that failure.
 - **23 — content-only delivery:** seven scoped wording changes were accepted in the private trial. Motion behavior was unchanged; broader content work remains separate.
-- **25 — optional manual S control:** added a plain, unboxed S with a real 48×48 touch target while preserving its subdued appearance. The physical report was that neither automatic nor S-assisted shaking displayed a card. That failure remains part of the evidence.
-- **26 — manual acquisition correction:** changes only the explicit S-assisted acquisition path. It addresses host-reproduced moving-start and smooth-phase failures without requiring a stationary first sample. Automatic recognition, sensor drivers, UI appearance, thresholds and duration-credit policy are unchanged from the preceding manual-S candidate.
+- **25 — optional manual S control:** added a plain, unboxed S with a real 48×48 touch target while preserving its subdued appearance. Neither automatic nor S-assisted shaking displayed a card in the physical report.
+- **26 — manual acquisition correction:** corrected host-reproduced moving-start and smooth-phase failures in the explicit S-assisted path, preserving the eight-second intent window. Physical shaking still failed despite visible Shake ready feedback. A subsequently captured physical trace established accelerometer clipping as a sufficient cancellation mechanism for the last known armed attempt; it did not establish the cause of every reported failure.
+- **27 — accelerometer range correction:** changes the supported accelerometer range from ±4g to ±16g, with matching conversion and range-dependent validity bounds. Only three sensor/recognizer headers changed, apart from the build-version literal. Gesture timing, threshold policy, UI appearance, gyro configuration and unrelated drivers remain unchanged. Physical feedback now reports working shakes in multiple contexts, with the Coaching gaps above still open.
 
-The original human incident was not captured in a usable movement trace. Synthetic requirement failures were reproduced and corrected, but that does not establish the cause of the human failure. Historical S request delivery is also unresolved; present eligibility alone cannot reconstruct the earlier tap.
+## Captured26 failure and causal limits
+
+A complete retained26 recording contains 4,544 rows / 181,760 bytes with validated whole-buffer CRC. It contains 352 clipped-invalid rows, no recorded gesture triggers and no new read-error delta. The raw rail values agree with the recorded clipping flags.
+
+Replaying the unchanged26 implementation with the exact recorded inputs shows the last known manual arming canceled at a later clipped sample. The chain is raw saturation → unhealthy publication → gesture reset → manual arming cleared. Independent review confirmed that sufficient mechanism while retaining the timing and coverage limitations. Earlier arming times were not invented, and this does not explain every disappearance or every attempt.
+
+The older recording remains labelled ±4g. Saturated peaks cannot be recovered or relabelled as a ±16g trial. One gyro sample also clipped; the gyro range is unchanged. There is **no new27 movement recording**, so the remaining Coaching failures are human observations, not yet trace-attributed causes.
 
 ## Intended S-assisted interaction
 
 With a card and its controls showing, tap **S**. The current card should remain visible and **Shake ready** should appear. After release, one qualified deliberate shake should draw exactly one card within the eight-second intent window. Starting while already moving should not require an extra motionless setup sample.
 
-This is the interaction contract, **not a newly confirmed physical result**. Touch remains an alternative. Classic remains the startup default; Classic, the canonical catalog and Coaching remain distinct. The accepted six-second reveal and five-second reading hold are retained. Sound remains optional, RAM-only and OFF on boot.
+S-assisted success is now reported in the path-selection failure situation. It is a useful fallback and a diagnostic distinction, **not acceptance of automatic shaking everywhere**. Touch remains available. Classic remains the startup default; Classic, the canonical catalog and Coaching remain distinct. The accepted six-second reveal and five-second reading hold are retained. Sound remains optional, RAM-only and OFF on boot.
 
-## Verification completed for 26
+## Verification completed for27
 
-These are retained implementation and installation results, not tests rerun by this documentation update:
+These are retained implementation and installation results, not firmware tests rerun by this documentation update:
 
-- Source/host review: 974 strict checks and 20 independent boundary checks passed. Separate square-wave and sine-wave sweeps each covered 18,720 scenarios with no misses in the tested matrix. These are synthetic scenarios, not physical trials.
-- Focused actual-LVGL integration: 54 cases / 639 checks passed, including established pointer-contact cancellation.
-- Full native configuration: 147 child commands completed successfully, including 27 freshly compiled C++ commands, 424 source/configuration/hash-verified reused host C objects, 547 generated frame comparisons and 11 protocol tests with zero skips. The reused host objects were not target SDK objects.
-- Clean ESP32-S3 target build: 487 compiler/build commands completed. The actual application and matching archived ELF/map were independently package-reviewed; retained archive members were hash-verified.
-- Installer: 22 guarded offline tests passed, followed by an independent hash-bound review. A hexadecimal-output NotReady retry defect was reproduced, corrected and re-reviewed without changing the firmware payload. Strict runtime checks were not weakened.
-- Actual installation: only the application at `0x10000` was written. The full 695,712-byte readback matched before the native USB boot reset. Compatible bootloader and partitions were not rewritten.
-- Actual runtime: exact version26 identity, initialized active Classic UI, progressing compass/application/sensor counters and valid sensor samples passed two-snapshot checks. Boot mute and empty/off recorder defaults passed; execution was resumed. Previous25 evidence was retained. No new motion recording or automatic rollback was performed.
+- Source scope: frozen 29-file candidate, three range-related header changes and independent source review. Focused conversion, rail, validity and compatibility probes passed; the original failed cases and causal limits remain retained.
+- Full native configuration: 147 child commands passed, with 27 fresh C++ commands, 424 source/configuration/hash-verified reused HOST C objects, 547 exact frame comparisons and 11 protocol tests / zero skips. The task-local26 baseline oracle was explicitly reused, not described as a second fresh baseline run. Raw fixture representations and full-scale safety negatives were reviewed separately from recognizer policy.
+- Clean ESP32-S3 target build: 487 actual compiler/build commands passed. The real application and matching archived ELF/map, source bindings and closed package evidence were independently verified. No target SDK object reuse is claimed.
+- Installer: 24 guarded offline tests passed in the parent's complete run, followed by an independent exact-helper review with additional adversarial checks. A shorter interrupted parent test invocation remains recorded as incomplete, not relabelled a pass. Current26, candidate27 and retained recovery26 roles are explicit and archive-aware.
+- Preservation: before serial access or reset, fresh named26 recorder headers matched the existing complete export. Its full bytes/CRC were validated and reused; the valuable recording was not discarded or re-recorded.
+- Actual installation: only the application at `0x10000` was written. The full 695,712-byte readback matched before the native USB boot reset. Compatible bootloader and partitions were not rewritten. The exact previous26 installed record and artifacts remain retained; no automatic rollback was performed.
+- Actual runtime: exact27 ROM identity, initialized active Classic UI, advancing application/compass/sensor counters and valid physically plausible acceleration passed two-snapshot checks. Boot mute and empty/off recorder defaults passed; execution was resumed. Running confirms the checked configuration initialization path, not a separate direct register probe or successful physical gesture.
 
 Application SHA-256:
 
 ```text
-7955bb4643674e5420709f7f0854eb904fa7cead98608aeb6344cca983407a27
+17802c5e8eeabfd54fd9477565aeb3c47e206803210180eaf50c7f622e2e72cd
 ```
 
-No fresh isolated 128-test integration run is claimed for26; the older run belongs to its original release scope. Build, transfer and runtime evidence do not establish visible rendering, physical touch/shake success, battery endurance or sustained field reliability.
+No fresh isolated 128-test integration run is claimed for26 or27; the older run belongs to its original release scope. Build, transfer and runtime evidence do not establish exhaustive visible rendering, reliable repeated gestures, exactly-once physical behavior, battery endurance or sustained field reliability.
 
-## Open acceptance and next steps
+## Next steps — off-device first
 
-1. First establish whether tapping S produces **Shake ready** while retaining the card. Then assess the deliberate burst and one-card result; record the actual observation rather than infer it from the host tests.
-2. Evaluate moving starts, repeated separate bursts and ordinary-handling negatives as distinct checks when practical. Automatic shake and the earlier intermittent turnover issue remain open; this update does not claim either is repaired.
-3. Keep the installed setup stable while physical testing is deferred. Further recording, reset, recovery installation or unrelated tuning requires its own scope; this publication performs none of those operations.
-4. Integrate and publish later source only as a separately checked, privacy-reviewed change. Content publication and deferred delivery work are not silently included in this checkpoint.
+1. **Preserve the working improvement.** Keep27 installed and leave the device untouched while physical testing is paused. No reset, reflash, new recording, recovery installation or unrelated tuning follows from this checkpoint.
+2. **Compare contexts in the exact installed source.** Trace Classic compass, Coaching compass and Coaching card paths through sample health, pointer/scroll eligibility, detector reference/acquisition/rearm and Start Fresh dispatch. Compare automatic recognition after path selection with the S-assisted path; do not assume their different outcomes identify a cause.
+3. **Build a focused, red-capable comparison.** Exercise identical labelled synthetic inputs across those contexts with working positive controls and pointer/scroll/fault negatives. Separate a deterministic requirement counterexample from reproduction of the unrecorded27 physical incident. Keep the older ±4g capture immutable.
+4. **Propose the smallest evidenced correction.** Retain the ±16g gain, UI and global Start Fresh contract. Do not lower thresholds blindly, add a stillness ritual or require S as the normal route. Present the diagnosis, scoped change and validation plan before implementation or another installation.
+5. **Check a future approved candidate in layers.** Require focused composed regressions, independent review and applicable full native/target/package checks; installation consent, readback/runtime and physical acceptance remain separate gates.
+6. **Minimize the next human check.** When testing resumes, prepare a separately approved short recording focused on Coaching compass, then the path-entry distinction if still needed. Do not request more movements during the current pause. Expand repeatability and ordinary-handling checks only after the remaining positive paths are understood.
+7. **Publish later source separately.** This progress update is not a source backup or integration of the private firmware or unrelated editorial work. Any later source publication needs its own checked, privacy-reviewed scope.
 
 The primary project remains learner-owned, project-led mentoring through **Define → Direct → Check → Adjust**. The device is an optional playful companion, not a curriculum prerequisite, diagnostic instrument or evidence of learning outcomes.

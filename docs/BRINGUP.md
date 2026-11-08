@@ -2,15 +2,25 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
-## V3 manual-S moving-start repair — v3-0.1.26-manual-s
+## V3 accelerometer range correction — v3-0.1.27-accel16
 
-- Current installed scope and remaining physical checks: [V3 progress ledger](V3-PROGRESS.md). The prior version25 physical report was no card with automatic or S-assisted shaking; it is not overwritten by host passes. Version26 physical acceptance remains pending.
+- Current scope and remaining acceptance: [V3 progress ledger](V3-PROGRESS.md). The retained26 ±4g trace has 4,544 rows / 181,760 bytes / validated full CRC, 352 clipped-invalid rows, zero recorded gesture triggers and no new read-error delta. Exact-input replay and independent causal-limits review confirm saturation cancellation for the last known armed attempt, not every physical failure.
+- Scope: ±4g → ±16g accelerometer selection, conversion and range-dependent validity bounds; three source headers only apart from build identity. Gyro configuration, gesture timing/threshold policy, UI and unrelated drivers remain unchanged. Older saturated raw data is not reinterpreted as16g evidence.
+- Retained software evidence: independent source review; actual candidate147 native commands, 27 fresh C++ commands, 424 verified HOST C objects, 547 exact frame comparisons, 11 protocol cases / zero skips; clean487-command S3 build and independently verified closed application/archived ELF/map/source package. The task-local26 native baseline was reused explicitly. No new isolated128 run is claimed.
+- Installer evidence: 24 parent-run guarded offline tests and independent exact-helper review PASS. Actual current26 frozen headers matched the complete retained export before serial/reset, so its validated bytes were reused. Only the695,712-byte application at `0x10000` was written; complete matching readback preceded the native USB boot reset. Compatible bootloader/partitions were not rewritten. Previous26 evidence and recovery artifacts remain retained; no automatic rollback.
+- Strict live27 two-snapshot ROM/UI/advancing valid sensor and application checks passed, including plausible-g vectors, Classic boot, sound OFF and empty/off recorder defaults. Execution resumed. Running verifies the checked initialization path, not a separate direct register probe or a physical shake result.
+- Human feedback: shake works from Classic compass and Classic card / New; Coaching card shaking can work, but automatic shaking sometimes fails after path selection and S then shake works. Coaching compass shaking does not work. Counts, exactly-once behavior, flip and ordinary-handling negatives remain unestablished. No27 movement recording or further device operation is part of this documentation checkpoint.
+- Next: off-device context/eligibility/acquisition/dispatch comparisons and a focused reproducible test, then a scoped proposal before further implementation or installation. Preserve the current device while physical testing is paused.
+
+## Historical manual-S moving-start repair — v3-0.1.26-manual-s
+
+- Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.
 - Manual acquisition only: moving-start/smooth-phase correction with the eight-second explicit intent preserved. Automatic recognition, UI appearance, drivers, thresholds and duration-credit policy are unchanged. The original human incident was not causally reproduced.
 - Retained evidence: 974 strict host checks plus 20 independent boundary checks; separate square/sine matrices of 18,720 scenarios each; focused actual-LVGL 54 cases / 639 checks; full 147 native commands with 27 fresh C++ commands, 424 verified host C objects, 547 frame comparisons and 11 protocol tests / zero skips. No new isolated 128-test claim.
 - Clean S3 build: 487 commands and independent package review PASS. Installer: 22 guarded offline tests and focused independent review PASS after a hexadecimal-output retry compatibility correction; strict runtime requirements retained.
 - Actual 695,712-byte application-only write at `0x10000`, full matching readback BEFORE native USB boot reset, then exact version26 ROM and strict two-snapshot initialized UI / advancing valid sensor and application checks PASS. Classic boot, sound OFF and empty recorder defaults verified; execution resumed. Previous25 evidence retained, no new recording or automatic rollback. This documentation update does not contact hardware or rerun those firmware checks.
 
-Earlier entries below retain their original version-specific scope, not current26 acceptance.
+Earlier entries below retain their original version-specific scope, not current27 acceptance.
 
 ## V3 qualified-turnover blanking — v3-0.1.11
 

@@ -1,11 +1,11 @@
 # TrailGuide — project and coaching handoff
 
-## Installed26 / published-source checkpoint
+## Installed27 / published-source checkpoint
 
-**The development device runs `v3-0.1.26-manual-s` DRAFT.** Full application readback and exact-version runtime checks passed; physical S-assisted shake acceptance is pending. Automatic shake reliability remains open.
+**The development device runs `v3-0.1.27-accel16` DRAFT.** Full application readback and exact-version runtime checks passed. Shake now works in reported Classic compass/card and Coaching card contexts, but Coaching compass shaking fails and automatic shaking is intermittent after path selection; S then shake works there. Physical acceptance is partial, not a reliability or exactly-once result.
 See the [current progress and verification ledger](V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current26 physical acceptance.
+The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current27 physical acceptance.
 
 ## BLUF
 

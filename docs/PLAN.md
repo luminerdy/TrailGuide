@@ -1,11 +1,26 @@
 # Delivery plan
 
-## Installed26 / published-source checkpoint
+## Installed27 / published-source checkpoint
 
-**The development device runs `v3-0.1.26-manual-s` DRAFT.** Full application readback and exact-version runtime checks passed; physical S-assisted shake acceptance is pending. Automatic shake reliability remains open.
+**The development device runs `v3-0.1.27-accel16` DRAFT.** Full application readback and exact-version runtime checks passed. Shake now works in reported Classic compass/card and Coaching card contexts, but Coaching compass shaking fails and automatic shaking is intermittent after path selection; S then shake works there. Physical acceptance is partial, not a reliability or exactly-once result.
 See the [current progress and verification ledger](V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current26 physical acceptance.
+The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current27 physical acceptance.
+
+## Next steps — Coaching shake reliability
+
+Physical testing is paused; keep27 installed and leave the device unchanged. The current bounded work is off-device diagnosis and reproducible checks, not permission to flash another candidate.
+
+1. Compare the exact installed Classic compass, Coaching compass and Coaching card paths: motion eligibility, pointer/scroll ownership, automatic acquisition/reference/rearm and Start Fresh dispatch.
+2. Compare path entry with the manual S-assisted route. The observed S fallback is evidence of a difference, not proof of its cause.
+3. Run a focused context comparison with working positive controls and fault/contact/scroll negatives. No27 movement recording exists; label synthetic requirement failures separately from incident reproduction.
+4. Present an evidence-backed minimal correction and its validation plan before implementation. Preserve the ±16g improvement, accepted UI, global Start Fresh behavior and touch alternative; do not tune thresholds blindly.
+5. For a future approved change, apply focused regressions, independent review and applicable full native/target/package gates. Installation/readback/runtime and later physical acceptance remain separate.
+6. When human testing resumes, coordinate one short, separately approved Coaching-focused recording; expand repeatability and ordinary-handling checks only after the positive paths are understood. No more movements are requested during the pause.
+
+See [V3-PROGRESS.md](V3-PROGRESS.md) for the physical observations, verified27 installation and causal limits. This documentation publication excludes private firmware source/packages and unrelated editorial work.
+
+## Project delivery scope
 
 Goal: develop mentoring for individuals and teams learning through meaningful projects with varied AI assistance, and help learners continue with suitable support rather than depend on the mentor. The physical device is an optional, enjoyable building/novelty track; Frontier Ops remains a reusable theme. Preserve V1 and the running V2 trial.
 
@@ -13,7 +28,7 @@ Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode impleme
 
 ## Historical implementation baseline
 
-Current installed26 progress and the remaining physical gates are tracked in [V3-PROGRESS.md](V3-PROGRESS.md). The following baseline description records earlier releases, not current26 physical acceptance.
+Current installed27 progress and the remaining physical gates are tracked in [V3-PROGRESS.md](V3-PROGRESS.md). The following baseline description records earlier releases, not current27 physical acceptance.
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 

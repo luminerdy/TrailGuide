@@ -1,6 +1,6 @@
 # Delivery A — candidate22 status
 
-> Historical pre-installation ledger. Version22 was subsequently installed and failed the physical repeat-shake reliability check. The development device now runs version26; see the [current progress ledger](V3-PROGRESS.md) for installation evidence and pending physical acceptance. Baseline and pending-deployment statements below describe the original candidate22 checkpoint, not the current device.
+> Historical pre-installation ledger. Version22 was subsequently installed and failed the physical repeat-shake reliability check. The development device now runs version27; see the [current progress ledger](V3-PROGRESS.md) for verified installation, qualitative shake improvement and remaining Coaching failures. Baseline and pending-deployment statements below describe the original candidate22 checkpoint, not the current device.
 
 ## Identities and scope
 

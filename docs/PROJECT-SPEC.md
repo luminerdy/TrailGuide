@@ -1,12 +1,13 @@
 # TrailGuide — current project and system specification
 
-## Installed27 / published-source checkpoint
+## Installed28 / published-source checkpoint
 
-**The development device runs `v3-0.1.27-accel16` DRAFT.** Full application readback and exact-version runtime checks passed. Shake now works in reported Classic compass/card and Coaching card contexts, but Coaching compass shaking fails and automatic shaking is intermittent after path selection; S then shake works there. Physical acceptance is partial, not a reliability or exactly-once result.
-See the [current progress and verification ledger](V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
+**The development device runs `v3-0.1.28-controls` DRAFT.** Classic and Coaching controls return after a **two-second (2000ms) settled card-only hold**; the **six-second (6000ms) whole-face reveal is unchanged**. Full application readback and exact-version runtime checks passed. No new28 physical timing, gesture or readability acceptance is claimed.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current27 physical acceptance.
+Inherited27 reports remain partial: Classic compass/card and Coaching card shakes worked, but Coaching compass shaking failed and automatic shaking was intermittent after path selection; S then shake worked there. These are27 observations, not new28 tests or proof of reliability/exactly-once behavior.
+See the [current progress and verification ledger](V3-PROGRESS.md) for scope and remaining checks.
 
+The committed firmware baseline remains `v3-0.1.22-reliability`. Installed28 and retained recovery27 use separate archived source and artifacts; neither is published by this documentation update. No automatic rollback is implied. Historical release ledgers retain their original evidence and timing.
 ## 1. Purpose and authority
 
 TrailGuide supports **project-led mentoring for individuals and teams**.
@@ -55,7 +56,7 @@ There are no required question counts, experiments, AI-use targets or inferred d
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
-**v3-0.1.21-global-gestures DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+**`v3-0.1.28-controls` DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 Exact-version runtime verification is recorded for this installed checkpoint; this documentation update did not contact hardware.
 
 The target is the original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1:
@@ -146,7 +147,7 @@ remain distinct; these dimensions do not redefine Classic's 20px main card typog
 Compact outward line icons retain labels and generous touch targets.
 
 Both draw experiences retain the existing whole-face **six-second reveal**, followed
-by an **additional five-second settled reading hold**. The answer-bearing surface
+by an **additional two-second settled reading hold**. The answer-bearing surface
 and words move together; this is not typing or live generation. Initial Coaching
 entry restores/renders context; requesting a new opener invokes the draw/reveal path.
 Tap during reveal finishes the same selected content; tap during the settled hold
@@ -167,7 +168,7 @@ When ON, an accepted new Classic card or explicitly requested new Coaching opene
 can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
 of **1536**. It begins when that draw becomes readable: normally after the six-second
 reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
-The additional five-second reading hold is unchanged. Initial Coaching entry is
+Installed28 uses the two-second settled hold; the sound cue timing is unchanged. Initial Coaching entry is
 silent even though it selects its first opener; context restoration, Guide/Back,
 path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
 not queued. OFF requests cancellation of active playback; switching ON again does
@@ -175,10 +176,10 @@ not revive that canceled cue. Audio uses a low-priority TX-only worker; the read
 main loop services it once after UI/IMU work. No RX, DIN/MCLK, microphone, storage,
 networking or OTA is enabled by this feature.
 
-The installed global start-fresh change is **qualitatively user-accepted in both Classic and Coaching**. This does not establish a trial count, exhaustive per-screen/per-gesture coverage or sustained field reliability. Earlier Coaching-compass shake and UI-cleanup acceptance remain historical evidence. Exhaustive readability/touch, Sound menu/mute/chime, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank root cause remains OPEN**; global policy acceptance is not a diagnosis or proof of its repair.
+The historical21 global start-fresh change was **qualitatively user-accepted in both Classic and Coaching**; later27 reports qualify gesture acceptance as partial, and no new28 gesture acceptance is claimed. This does not establish a trial count, exhaustive per-screen/per-gesture coverage or sustained field reliability. Earlier Coaching-compass shake and UI-cleanup acceptance remain historical evidence. Exhaustive readability/touch, Sound menu/mute/chime, uptime and battery acceptance remain separate. **The original intermittent turnover-stuck-compass/blank root cause remains OPEN**; global policy acceptance is not a diagnosis or proof of its repair.
 Host geometry and rendered fit do not establish physical usability or reliability.
 
-A completed intentional turn over and back or a deliberate sustained shake starts fresh from **any owned screen**, including Options, Guide, paths, questions, experiments, the path picker, closings, reminders, the Opening compass and an active reveal or reading hold. Classic draws once in its active Ask/Try mode, including after Home, and clears Options before showing the card. Coaching leaves the current path, clears route history and draws one fresh **Opening card**, not another question in that path or a return to the compass. Old reveal/hold resources and pending settlement cues are canceled: no old callbacks, queued draws or stale cues reach the replacement. Actual pointer contact and inertial scrolling still suppress motion. Partial gesture intent and qualified blackout survive autonomous same-card reveal settlement and hold deadlines. Turnover stays black while qualified inverted and starts the new reveal on completed return; shake goes straight to reveal without an extra timed black pause. Each new card retains the six-second whole-face reveal plus five-second reading hold. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition retains 400ms of fresh quiet, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are safeguards, not a prescribed handling ritual. The v3-0.1.20 correction replaces only the prototype 180 dps shake rotation veto with the existing 2044 dps gyro safety bound, retaining finite/per-axis clipping, age/gap and false-positive/rearm checks. Sensor configuration/driver and turnover recognition are unchanged.
+A completed intentional turn over and back or a deliberate sustained shake starts fresh from **any owned screen**, including Options, Guide, paths, questions, experiments, the path picker, closings, reminders, the Opening compass and an active reveal or reading hold. Classic draws once in its active Ask/Try mode, including after Home, and clears Options before showing the card. Coaching leaves the current path, clears route history and draws one fresh **Opening card**, not another question in that path or a return to the compass. Old reveal/hold resources and pending settlement cues are canceled: no old callbacks, queued draws or stale cues reach the replacement. Actual pointer contact and inertial scrolling still suppress motion. Partial gesture intent and qualified blackout survive autonomous same-card reveal settlement and hold deadlines. Turnover stays black while qualified inverted and starts the new reveal on completed return; shake goes straight to reveal without an extra timed black pause. Each new card retains the six-second whole-face reveal plus two-second reading hold. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition retains 400ms of fresh quiet, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are safeguards, not a prescribed handling ritual. The v3-0.1.20 correction replaces only the prototype 180 dps shake rotation veto with the existing 2044 dps gyro safety bound, retaining finite/per-axis clipping, age/gap and false-positive/rearm checks. Sensor configuration/driver and turnover recognition are unchanged.
 
 Classic no longer shows the constant ASK/DRAFT/flip footer; canonical review states remain draft. Classic **More text** and the Coaching scroll hint appear only when actual laid-out text remains below the visible viewport, including the opener’s 14px bottom clipping mask—not merely because padding permits scrolling. Mode centers, Options targets, six path controls, content, typography and reveal/hold timing are otherwise retained.
 
@@ -227,7 +228,7 @@ Keep private diagnostics, credentials, device identifiers and runtime data out o
 
 ## 8. Evidence, remaining gates and roadmap
 
-The installed **v3-0.1.21-global-gestures** S3 application is **691312 bytes**. Release evidence includes 12 global-policy cases and 14 actual-LVGL integration groups under ASan/UBSan and warnings-as-errors, actual S3 compilation and independent scoped review. Application-only flash comparison, exact live Version, initialized active UI and advancing valid real-IMU readings passed. This documentation update does not contact hardware. Historical v3-0.1.20 evidence remains separate: 42 retained detector assertions, 26 rotation-policy assertions, 14 actual-LVGL integration groups, strict/sanitized checks and independent review; its canonical native suite, 86 isolated Python checks and 533 archived native frames are not new v3-0.1.21 results. The earlier 84-check/512-frame evidence belongs to v3-0.1.18.
+The historical **v3-0.1.21-global-gestures** S3 application is **691312 bytes**. Release evidence includes 12 global-policy cases and 14 actual-LVGL integration groups under ASan/UBSan and warnings-as-errors, actual S3 compilation and independent scoped review. Application-only flash comparison, exact live Version, initialized active UI and advancing valid real-IMU readings passed. This documentation update does not contact hardware. Historical v3-0.1.20 evidence remains separate: 42 retained detector assertions, 26 rotation-policy assertions, 14 actual-LVGL integration groups, strict/sanitized checks and independent review; its canonical native suite, 86 isolated Python checks and 533 archived native frames are not new v3-0.1.21 results. The earlier 84-check/512-frame evidence belongs to v3-0.1.18.
 Installation and running-version verification are deployment gates, not documentation tests.
 Earlier natural Classic turnover observations and the current qualitative Coaching shake report are distinct acceptance evidence.
 

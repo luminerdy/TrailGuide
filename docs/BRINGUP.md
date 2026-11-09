@@ -2,6 +2,18 @@
 
 Technical evidence only. Keep this document reusable: no personal identifiers, machine-specific home paths, chat narratives, calendar dates or references to a particular workshop. Frontier Ops remains a reusable theme. Versions and test durations describe technical behavior, not event scheduling.
 
+## V3 settled-control timing — actual installed28
+
+`v3-0.1.28-controls` DRAFT is installed: Classic and Coaching settled hold2000ms, reveal6000ms unchanged. Only two UI-header hold values plus release identity differ from27; other27 source files are unchanged. The [current ledger](V3-PROGRESS.md#verification-completed-for28) records442 focused assertions,147 native commands/547 exact frames/11 protocol cases,487 clean S3 commands, and25/25 corrected installer-review checks. Original timing-fixture RED and initial obsolete-map-test review FAIL remain retained, not described as initial all-pass.
+
+Actual application-only write/readback covered695,728 bytes at `0x10000`; full hash matched before native USB boot reset. Exact28 ROM identity, initialized Classic UI, advancing valid IMU/application counters, mute and empty/off recorder passed two-snapshot runtime checks; execution resumed. Bootloader/partitions were preserved; previous27 record/artifacts remain archived with no automatic rollback. No new28 physical timing/gesture/readability acceptance or field trace exists. Main committed firmware remains22; sources/binaries/tooling stay private.
+
+Two actual27 observer starts stopped before Record/Go. The second wrong-context report was an IMU-validity gate failure, and the cleanup resume-only alarm did not establish a halted target; independent full read/resume confirmed healthy valid idle operation. The old53+11 host passes are not readiness; observer rebinding to28 is required before any future authorized capture. The Coaching incident remains unsolved.
+
+## Historical27 evidence
+
+The27 and earlier entries below retain their release-specific results and timing, not current28 physical acceptance.
+
 ## V3 accelerometer range correction — v3-0.1.27-accel16
 
 - Current scope and remaining acceptance: [V3 progress ledger](V3-PROGRESS.md). The retained26 ±4g trace has 4,544 rows / 181,760 bytes / validated full CRC, 352 clipped-invalid rows, zero recorded gesture triggers and no new read-error delta. Exact-input replay and independent causal-limits review confirm saturation cancellation for the last known armed attempt, not every physical failure.
@@ -28,7 +40,7 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 
 ### Approved implementation — focused merged PASS, wider acceptance BLOCKED
 
-- Three-header private evaluation overlay: automatic acquisition/episode rearm plus existing Classic/Coaching eligibility predicates. Other26 build-bound source files remain byte-identical. Installed27 remains unchanged.
+- Three-header private evaluation overlay: automatic acquisition/episode rearm plus existing Classic/Coaching eligibility predicates. Other26 build-bound source files remain byte-identical. The investigated27 source remains unchanged; current28 is timing-only.
 - The parent freshly compiled the same independently frozen actual-LVGL fixture against the merged overlay: compiler0, mechanism0, contract0; all100 controls and12 mandatory targets PASS. Targets explicitly include Coaching compass entry/return without S or quiet setup, all six paths, smooth motion and ordinary-handling rearm. This is not physical acceptance.
 - Independent review separates23 cold40ms triangle reference-admission misses from3 square proof/credit timing misses. A seed-only change cannot close both; wider behavior remains blocked before full native/SDK release gates.
 - Held constant-offset and later-full-burst cancellation/expiry tests were classified explicitly, not silently rewritten: eight seconds without oscillation is not uninterrupted shaking, and nine fresh probes show later automatic events equal a never-manually-armed detector with manual intent canceled. Original REDs remain retained. Sensor-producer/health/actual-UI composition remains a separate pending check.
@@ -49,11 +61,11 @@ Technical evidence only. Keep this document reusable: no personal identifiers, m
 
 - Exact installed application/archived ELF/map/source and16g scaling provenance bound; older26 bytes remain4g evidence. Independent corrected-observer53 cases and complete parent-bridge11 cases pass with guarded synthetic transports, canonical-schema message fixtures, generated read/preserve Tcl, real protocol/CRC client and fake-clock100-second observation/export.
 - Original delayed final-STATUS freshness failure retained. Minimal host correction rechecks preservation/arm readiness immediately before RECORD: the six-second delay now produces zero RECORD/send; unexpired positive produces one synthetic session. Additional cancellation, corrupt preservation CRC and unconfirmed-resume negatives reject before recording.
-- Parent verified report/evidence hashes,96 frozen inventory entries and unchanged installed pointer. These are preparation checks, not new firmware/native/SDK or hardware results. No actual briefing, recording consent/readiness, device contact or27 trace exists; live testing remains paused. Future permission, fresh preservation/context gates, live coverage and human outcome remain separate.
+- Parent verified report/evidence hashes,96 frozen inventory entries and unchanged installed pointer. These are preparation checks, not new firmware/native/SDK or hardware results. Those preparation checks did not create a trace or prove live readiness; subsequent actual27 attempts stopped before Record/Go, as recorded above. Future permission, fresh preservation/context gates, live coverage and human outcome remain separate.
 
 ## Historical manual-S moving-start repair — v3-0.1.26-manual-s
 
-- Historical26 implementation and installation evidence follows. Current27 status is in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.
+- Historical26 implementation and installation evidence follows. Current28 status and historical27 evidence are in the [V3 progress ledger](V3-PROGRESS.md). Versions25 and26 both failed physical shake testing; those failures are not overwritten by host passes. The subsequent26 trace and range correction are described above.
 - Manual acquisition only: moving-start/smooth-phase correction with the eight-second explicit intent preserved. Automatic recognition, UI appearance, drivers, thresholds and duration-credit policy are unchanged. The original human incident was not causally reproduced.
 - Retained evidence: 974 strict host checks plus 20 independent boundary checks; separate square/sine matrices of 18,720 scenarios each; focused actual-LVGL 54 cases / 639 checks; full 147 native commands with 27 fresh C++ commands, 424 verified host C objects, 547 frame comparisons and 11 protocol tests / zero skips. No new isolated 128-test claim.
 - Clean S3 build: 487 commands and independent package review PASS. Installer: 22 guarded offline tests and focused independent review PASS after a hexadecimal-output retry compatibility correction; strict runtime requirements retained.

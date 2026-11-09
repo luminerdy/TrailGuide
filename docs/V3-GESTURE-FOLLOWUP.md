@@ -2,9 +2,15 @@
 
 ## Status and scope
 
-**The bounded pair-evidence experiment was run and rejected; no replacement is release-ready.** Installed `v3-0.1.27-accel16` remains unchanged. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
+**The bounded pair-evidence experiment was run and rejected; no replacement is release-ready.** The investigated27 source remains frozen; installed28 supersedes it only for the two-second settled hold and release identity, retaining the six-second reveal. No new28 physical acceptance is claimed. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
 
 The committed firmware baseline remains `v3-0.1.22-reliability`; this document does not publish or integrate the private27 firmware, recordings or deployment tooling. See the [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
+
+## Actual observer attempts and installed28 boundary
+
+Two actual27 observer starts stopped before **Record/Go**; neither produced a movement trace. The second wrongly diagnosed non-Classic context despite human-confirmed Classic: an IMU validity gate failed, not proof of the wrong screen. The resume-only/not-halted cleanup alarm was misleading; independent full read/resume confirmed healthy valid idle operation. Coaching remains **UNSOLVED** with no27/28 field trace.
+
+The53+11 host passes below are not live readiness. Preserve their27 binding; before any future authorized capture, rebind and review the observer for installed28's exact application/ELF/map. Keep28 stable; the timing-only installation is not a gesture repair or permission for recording.
 
 ## Installed27 observer preparation — off-device complete
 
@@ -13,9 +19,9 @@ The next evidence-collection tool is prepared and independently reviewed, not a 
 - Independent reruns passed **53 observer cases and11 complete parent-bridge cases** against the corrected observer. The bridge exercises canonical-schema synthetic message authentication, preservation, context checks, one recording command, protocol/CRC export and resume/close cleanup. Processes, device I/O and message delivery are doubles; the100-second observation uses a fake clock.
 - An independent delayed-STATUS test first exposed recording with expired readiness evidence. The minimal host correction repeats freshness checks immediately before RECORD. The original failure remains retained; the same six-second delay now produces zero recording commands and zero sends. An unexpired positive completes one synthetic session and export.
 - The first proposed short sequence starts at Classic compass: only after the controller's uniquely labelled Go, enter Coaching and perform one usual1–2-second shake without S. This places navigation inside the recording window. It is not a stillness requirement or a bundled path/repeatability trial.
-- Live testing remains paused. No recording permission/readiness, delivered trial briefing, hardware contact or27 trace was created by preparation. Future execution still requires the complete briefing and genuine human handoff, fresh original-device RAM preservation and context checks. Native USB opening can reset the board; diagnostic halts/read/resume must be disclosed before consent.
+- Historical preparation created no hardware evidence; later actual27 attempts were blocked before Record/Go as recorded above. Future execution requires28 rebinding, complete briefing, genuine recording consent/readiness and fresh preservation/context gates. Native USB opening can reset the board; diagnostic halts/read/resume must be disclosed before consent.
 
-Technical review is not recording consent, live transport acceptance, movement coverage or physical repair. Keep27 installed, the rejected experiment unmerged, and the remaining Coaching failures open until attributed field evidence is available.
+Technical review is not recording consent, live transport acceptance, movement coverage or physical repair. Keep28 installed, the rejected27 experiment unmerged, and the remaining Coaching failures open until attributed field evidence is available.
 
 ## What the off-device comparison demonstrated
 

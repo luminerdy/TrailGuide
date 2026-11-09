@@ -1,12 +1,13 @@
 # TrailGuide — project and coaching handoff
 
-## Installed27 / published-source checkpoint
+## Installed28 / published-source checkpoint
 
-**The development device runs `v3-0.1.27-accel16` DRAFT.** Full application readback and exact-version runtime checks passed. Shake now works in reported Classic compass/card and Coaching card contexts, but Coaching compass shaking fails and automatic shaking is intermittent after path selection; S then shake works there. Physical acceptance is partial, not a reliability or exactly-once result.
-See the [current progress and verification ledger](V3-PROGRESS.md) for the installed scope, prior physical failures and remaining checks.
+**The development device runs `v3-0.1.28-controls` DRAFT.** Classic and Coaching controls return after a **two-second (2000ms) settled card-only hold**; the **six-second (6000ms) whole-face reveal is unchanged**. Full application readback and exact-version runtime checks passed. No new28 physical timing, gesture or readability acceptance is claimed.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. This documentation checkpoint does not integrate or publish the later private source snapshots or firmware packages. Earlier release descriptions below retain their historical scope; they are not current27 physical acceptance.
+Inherited27 reports remain partial: Classic compass/card and Coaching card shakes worked, but Coaching compass shaking failed and automatic shaking was intermittent after path selection; S then shake worked there. These are27 observations, not new28 tests or proof of reliability/exactly-once behavior.
+See the [current progress and verification ledger](V3-PROGRESS.md) for scope and remaining checks.
 
+The committed firmware baseline remains `v3-0.1.22-reliability`. Installed28 and retained recovery27 use separate archived source and artifacts; neither is published by this documentation update. No automatic rollback is implied. Historical release ledgers retain their original evidence and timing.
 ## BLUF
 
 TrailGuide's main effort is **project-led mentoring across varied AI uses**, for individuals and teams, and helping learners continue without depending on the mentor. Start with something meaningful to make, investigate or improve; use the next useful piece to focus learning. Research and building can be learning activities even when the artifact contains no AI. The physical device remains an optional, enjoyable companion and building experiment—not the curriculum or a constraint on all materials.
@@ -21,9 +22,9 @@ This handoff records a checkpoint, not a guarantee of live hardware availability
 
 Start with the [current project/system specification](PROJECT-SPEC.md), then the separate Mermaid maps for [Classic](CLASSIC-FLOW.md) and [Coaching](COACHING-FLOW.md). [PRODUCT-SPEC.md](PRODUCT-SPEC.md) preserves stable requirements and explicitly future features; [V3-SPEC.md](V3-SPEC.md) gives the refreshed round-target contract. These documents distinguish current offline authored modes from planned Team Trail, persistence and live-AI ideas. Documentation records the installed checkpoint below; preparing it did not itself install firmware or change content.
 
-## Current global start-fresh checkpoint — v3-0.1.21-global-gestures
+## Historical global start-fresh checkpoint — v3-0.1.21-global-gestures
 
-**v3-0.1.21-global-gestures DRAFT is installed**, with exact running-target verification. This is an offline authored-content trial, not a production release; local installation does not imply GitHub publication.
+**v3-0.1.21-global-gestures DRAFT was installed at that checkpoint**, with exact running-target verification. This is an offline authored-content trial, not a production release; local installation does not imply GitHub publication.
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 

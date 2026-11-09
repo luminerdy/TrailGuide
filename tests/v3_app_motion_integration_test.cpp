@@ -38,7 +38,7 @@ int main(){
  // Before LVGL initialization: parser is safe even when UI startup failed.
  Serial.rx="MOTION\n";dispatch(0);assert(motionDiagnostics.active());
  lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buf,nullptr,360*10);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);
- ui.render();ready=true;bus.r[0]=5;bus.r[1]=0x7c;bus.r[0x2e]=3;bus.r[0x3a]=32;imu.begin(0);
+ ui.render();ready=true;bus.r[0]=5;bus.r[1]=0x7c;bus.r[0x2e]=3;bus.r[0x3a]=8;imu.begin(0);
  for(uint32_t t=5;t<=800;t+=5)step(t);
  assert(ui.diagnostic(imu.sample(),800).gesture.phase==1 && rngCalls==0);
  // Driver STATUS-not-ready on otherwise healthy configured bus, real reset.
@@ -61,12 +61,12 @@ int main(){
  // SYNTHETIC 600dps on both legs via actual raw conversion/dispatch/UI.
  // These invented peaks are NOT reconstructed from the clipped human trace.
  bus.r[0x3b]=0x80;bus.r[0x3c]=0x25; // +9600 raw = +600dps
- bus.r[0x3a]=224;for(uint32_t t=2605;t<=2700;t+=5)step(t);
+ bus.r[0x3a]=248;for(uint32_t t=2605;t<=2700;t+=5)step(t);
  assert(imu.sample().gyr_dps[0]==600.f && imu.last_poll().raw[3]==9600);
  assert(!(ui.diagnostic(imu.sample(),2700).gesture.reject&16));
  bus.r[0x3b]=bus.r[0x3c]=0;for(uint32_t t=2705;t<=3100;t+=5)step(t);
  bus.r[0x3b]=0x80;bus.r[0x3c]=0xda; // -9600 raw = -600dps
- bus.r[0x3a]=32;for(uint32_t t=3105;t<=3200;t+=5)step(t);
+ bus.r[0x3a]=8;for(uint32_t t=3105;t<=3200;t+=5)step(t);
  assert(imu.sample().gyr_dps[0]==-600.f && imu.last_poll().raw[3]==-9600);
  assert(!(ui.diagnostic(imu.sample(),3200).gesture.reject&16));
  bus.r[0x3b]=bus.r[0x3c]=0;for(uint32_t t=3205;t<=3700;t+=5)step(t);
@@ -75,7 +75,7 @@ int main(){
  for(uint32_t t=3705;t<=45100;t+=5)step(t);
  assert(!motionDiagnostics.active() && !motionDiagnostics.draining());
  assert(Serial.tx.find("end=timeout")!=std::string::npos && Serial.tx.find("fires=1")!=std::string::npos);
- FILE *f=std::fopen("build/v3-0.1.22/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
+ FILE *f=std::fopen("build/v3-0.1.28/motion-integration.synthetic.log","wb");assert(f);std::fwrite(Serial.tx.data(),1,Serial.tx.size(),f);std::fclose(f);
  // No off-state telemetry, no extra consume/reset/RNG from helpers.
  const auto n=Serial.tx.size();const auto calls=rngCalls;for(uint32_t t=45105;t<=46000;t+=5)step(t);assert(n==Serial.tx.size() && calls==rngCalls);
  // Recorder is a second session on the same SINGLE parser, never two readers.
@@ -96,8 +96,8 @@ int main(){
   if(t==49020){bus.r[0x3f]=0;bus.r[0x40]=0;}
   if(t==49200){bus.r[0x3f]=254;bus.r[0x40]=127;}
   if(t==49220){bus.r[0x3f]=0;bus.r[0x40]=0;}
-  if(t==50000)bus.r[0x3a]=224;
-  if(t==50500)bus.r[0x3a]=32;
+  if(t==50000)bus.r[0x3a]=248;
+  if(t==50500)bus.r[0x3a]=8;
   step(t);
  }
  step(166005);auto &ram=motionDiagnostics.recorder.ram;

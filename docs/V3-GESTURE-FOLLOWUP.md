@@ -1,10 +1,18 @@
-# V3 gesture follow-up — installed27
+# V3 gesture follow-up — current28 and historical27 investigation
+
+## Current frozen working baseline — v3-0.1.28-controls
+
+**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
+
+The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
+
+See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
 
 ## Status and scope
 
-**The bounded pair-evidence experiment was run and rejected; no replacement is release-ready.** The investigated27 source remains frozen; installed28 supersedes it only for the two-second settled hold and release identity, retaining the six-second reveal. No new28 physical acceptance is claimed. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
+**The bounded pair-evidence experiment was run and rejected; no replacement is release-ready.** The investigated27 source remains frozen; installed28 supersedes it only for the two-second settled hold and release identity, retaining the six-second reveal. The installed28 timing feedback is qualitatively positive; no new28 gesture acceptance is claimed. Physical reports establish a useful improvement but leave Coaching compass shaking and intermittent automatic shaking after path selection open. S followed by shaking works in the reported path-selection failure situation.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`; this document does not publish or integrate the private27 firmware, recordings or deployment tooling. See the [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
+Source baseline28 now supersedes22 in this checkpoint; the27 investigation below is historical. See the [frozen baseline contract](BASELINE-v3-0.1.28.md), [progress ledger](V3-PROGRESS.md), [delivery plan](PLAN.md) and [verification record](BRINGUP.md).
 
 ## Actual observer attempts and installed28 boundary
 

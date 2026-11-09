@@ -1,12 +1,12 @@
 # V3 progress and verification checkpoint
 
-## Current state
+## Current frozen working baseline — v3-0.1.28-controls
 
-**`v3-0.1.28-controls` DRAFT is actually installed.** Both modes now use a **2000ms settled card-only reading hold** after the unchanged **6000ms whole-face reveal**. Only the two UI-header hold values and release identity changed from installed27; the other27 of29 source files, content, gestures, sensors, appearance and sound are unchanged. Touch early completion and navigation are retained.
+**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
 
-No new28 physical timing, gesture or readability acceptance exists. Inherited27 reports remain partial: Classic compass/card and Coaching card shaking worked; Coaching compass shaking failed, and automatic shaking was intermittent after path selection while S then shake worked. The Coaching incident remains **UNSOLVED**, with no27/28 field movement trace.
+The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
 
-The committed firmware source remains `v3-0.1.22-reliability`. Installed28 and archived recovery27 are separate private source/artifact snapshots, not integrated by this documentation checkpoint. The exact previous27 installed record is retained; no automatic rollback or recovery write occurred.
+See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
 
 [Project specification](PROJECT-SPEC.md) · [Delivery plan](PLAN.md) · [Verification record](BRINGUP.md) · [Classic flow](CLASSIC-FLOW.md) · [Coaching flow](COACHING-FLOW.md)
 
@@ -31,7 +31,7 @@ c25be6578548b6d0f9e57ea74b4c9fb4385dced139d0f83ddf9c8d96f8c4a0ad
 
 The27 observer's **53 host cases +11 bridge cases** remain scoped off-device results, not live readiness. Two actual27 starts stopped **before Record/Go**. The second incorrectly reported non-Classic context despite human-confirmed Classic: the failed gate was IMU validity, not evidence of the wrong screen. A cleanup resume-only/not-halted alarm was also misleading; independent full read/resume confirmed healthy valid idle operation. No27/28 movement recording resulted.
 
-Keep installed28 stable. Before any future authorized capture, rebind and review the observer against28's exact application/ELF/map; preserve the old27 results without relabelling them. Recording permission, live readiness and field correspondence remain separate gates. Do not use software passes or runtime liveness to close the unsolved Coaching incident. No further hardware operation or source/binary publication is authorized by this documentation work.
+Keep installed28 stable. Before any future authorized capture, rebind and review the observer against28's exact application/ELF/map; preserve the old27 results without relabelling them. Recording permission, live readiness and field correspondence remain separate gates. Do not use software passes or runtime liveness to close the unsolved Coaching incident. This source-baseline checkpoint permits only the approved source/docs publication after integration; it authorizes no further hardware operation or binary publication.
 
 ## Historical27 checkpoint
 

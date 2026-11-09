@@ -97,7 +97,7 @@ static void badFrames(){
    case 0:s.valid=false;break;
    case 1:s.acc_g[0]=std::numeric_limits<float>::quiet_NaN();break;
    case 2:s.gyr_dps[2]=std::numeric_limits<float>::infinity();break;
-   case 3:s.acc_g[1]=3.99f;break;
+   case 3:s.acc_g[1]=15.96f;break;
    case 4:s.gyr_dps[1]=-2044.f;break;
    case 5:age=61;break;
    case 6:s.at_ms-=f.step;break; // duplicate is cancellation, not a free extra hold
@@ -200,7 +200,7 @@ static void rangeSafetyAllAxes(){
   assert(!f.send(s));const auto d=f.d.diagnostic(s,f.t);
   assert(reject ? d.phase==4 && d.resetReason==6 : d.phase==1);
  }
- for(unsigned axis=0;axis<3;++axis)for(float value:{-3.99f,3.99f,std::numeric_limits<float>::infinity(),-std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}){
+ for(unsigned axis=0;axis<3;++axis)for(float value:{-15.96f,15.96f,std::numeric_limits<float>::infinity(),-std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}){
   Trace f;f.rest();f.t+=20;auto s=f.sample(f.up);s.acc_g[axis]=value;
   assert(f.d.diagnostic(s,f.t).reject&16);assert(!f.send(s));
   assert(f.d.diagnostic(s,f.t).resetReason==6);

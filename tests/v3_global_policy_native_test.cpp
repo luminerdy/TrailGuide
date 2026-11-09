@@ -47,7 +47,7 @@ template<class U> static void deadlineFlip(U &u){
  quiet(u,2,-1);advance(40);assert(!u.busy()&&black()&&"Automatic settlement cannot unblank a qualified inversion");
  quiet(u,11);assert(events==1&&u.busy()&&!black());
  advance(4980);assert(u.busy()&&lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));
- advance(1020);assert(!u.busy());advance(5000);assert(!lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));
+ advance(1020);assert(!u.busy());advance(2000);assert(!lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));
 }
 template<class U> static void deadlineShake(U &u){
  events=0;quiet(u,45);advance(4500);quiet(u,21);burst(u,46);
@@ -98,17 +98,17 @@ template<class U> static void interruptionAt(U &u,v3app::SoundCue &sound,unsigne
  assert(events==1&&u.busy()&&!black());auto cues=sound.sequence;
  assert(cues==(waitFrames>=300?1u:0u));
  advance(5990-lv_tick_elaps(lastEventAt));assert(u.busy()&&lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN)&&sound.sequence==cues);
- advance(10);assert(!u.busy()&&sound.sequence==cues+1);advance(4990);assert(lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));advance(10);assert(!lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));
+ advance(10);assert(!u.busy()&&sound.sequence==cues+1);advance(1990);assert(lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));advance(10);assert(!lv_obj_has_flag(u.backButton,LV_OBJ_FLAG_HIDDEN));
 }
 static void interruptionMatrix(){
- for(bool useFlip:{false,true})for(unsigned waitFrames:{0u,125u,215u,300u,475u,480u}){
+ for(bool useFlip:{false,true})for(unsigned waitFrames:{0u,125u,215u,300u,325u,330u}){
   {unsigned s=7;v3app::Ui u(rng,&s,malloc,free);u.perform(v3app::Ui::Action::Try);interruptionAt(u,u.sound,waitFrames,useFlip);assert(u.model.mode==v3app::Mode::Try);}
   {unsigned s=7;v3app::CoachUi c(rng,&s,malloc,free);c.enterCompass();auto n=c.model.draws;c.perform(v3app::CoachUi::Action::Another);interruptionAt(c,*c.sound,waitFrames,useFlip);assert(c.model.draws==n+2);}
  }
- puts("PASS both gestures early/mid/near-settle, hold and focus expiry: fresh exact 6s+5s, no stale cue/chrome");
+ puts("PASS both gestures early/mid/near-settle, hold and focus expiry: fresh exact 6s+2s, no stale cue/chrome");
 }
 template<class U> static void focusCrossing(U &u){
- quiet(u,536);quiet(u,11,-1);assert(black());advance(100);assert(black()&&!u.busy());
+ quiet(u,386);quiet(u,11,-1);assert(black());advance(100);assert(black()&&!u.busy());
  quiet(u,11);assert(events==1&&u.busy());
 }
 static void focusDeadline(){

@@ -16,7 +16,8 @@ static uint32_t randomWord(void *) { return esp_random(); }
 // Never consume the internal DMA/object heap for a large reveal raster.
 static void *rasterAllocate(size_t n) { return heap_caps_malloc(n, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT); }
 static void rasterRelease(void *p) { heap_caps_free(p); }
-static v3app::Ui ui(randomWord,nullptr,rasterAllocate,rasterRelease);
+static uint32_t motionMillis() { return millis(); }
+static v3app::Ui ui(randomWord,nullptr,rasterAllocate,rasterRelease,motionMillis);
 static v3::Imu<TwoWire> imu(Wire);
 static bool ready = false;
 static uint32_t last_heartbeat = 0;

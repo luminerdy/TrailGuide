@@ -1,13 +1,13 @@
 # V3 — read-only round-device trial
 
-## Installed28 / published-source checkpoint
+## Current frozen working baseline — v3-0.1.28-controls
 
-**The development device runs `v3-0.1.28-controls` DRAFT.** Classic and Coaching controls return after a **two-second (2000ms) settled card-only hold**; the **six-second (6000ms) whole-face reveal is unchanged**. Full application readback and exact-version runtime checks passed. No new28 physical timing, gesture or readability acceptance is claimed.
+**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
 
-Inherited27 reports remain partial: Classic compass/card and Coaching card shakes worked, but Coaching compass shaking failed and automatic shaking was intermittent after path selection; S then shake worked there. These are27 observations, not new28 tests or proof of reliability/exactly-once behavior.
-See the [current progress and verification ledger](V3-PROGRESS.md) for scope and remaining checks.
+The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. Installed28 and retained recovery27 use separate archived source and artifacts; neither is published by this documentation update. No automatic rollback is implied. Historical release ledgers retain their original evidence and timing.
+See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+
 ## Historical global start-fresh checkpoint — v3-0.1.21-global-gestures
 
 **v3-0.1.21-global-gestures DRAFT was installed at that checkpoint**, with exact running-target verification. This is an offline authored-content trial, not a production release; local installation does not imply GitHub publication.

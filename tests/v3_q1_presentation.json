@@ -3,12 +3,12 @@
   "accepted20_header_sha256": "febf7ac10fee1d5ec10e2c003eaaf603cf4deb082755b2d8ed365238742c1dd1",
   "accepted21_header_sha256": "831633d797b46c22f0789d647422ab6843f347cd743fc4312b465dc08d8e6626",
   "methods": {
-    "render": "e9c2d567d18a8c270e48e3a5f4bab7191d15d9936319f8e34e9b408736853476",
+    "render": "a434610a1cb19ee0da4b2344b01e5685992a07327f2fbe3f5ed407e8141f4772",
     "startCompass": "fec2715cdadee574aad02a9ee712d73368f7c12d4f34c1830c8e966b80707a38",
     "wander": "605422e7ea42c8b3f67337639ac2981dc3753fc7971b1cf07400e2bea6baa372",
     "drawCompass": "c22e873df3434fc2c56bd85e587780cfad21f23a9a27ce010a394f58d72b4ed6",
     "drawBlank": "8da629054ec6232259891cde39d57196d4434ae35d120768328100bf81e7f896",
-    "updateHint": "7de5d8eda164ffd064d3da04b3925c07ed6c8732f10a22ddc9b72465ef2d7fe6",
+    "updateHint": "60ddb879fbd8aa674fa5a1bcbdbdf16988ac1214b210e4dc5571dd74071cef4c",
     "chrome": "65c478427baea4b1681a41eecebcffd9e0e7d51bd6e215ac37c89bc54fd6c717",
     "drawWindow": "e0f66c060dd2ef71a2a999c2942969d6fb07cb276d38ad98007d334f87614ef3",
     "maskText": "d23eb616382334658a8827b93977ad60bf31400d9ca5eaf805159642376e1385",
@@ -16,5 +16,7 @@
     "label": "2b0db59d2fc8d01e3682ebd01d103dc824cb058de2d59841de8ad4eda3103375",
     "button": "5b3ae8ef14508c8ab5e7f95cbbe706221180430f485d58932054eb03a1bcc2e5",
     "icon": "6304dbb08989efc42f6c629002472f4ecf1b920c2436996f0f8351105b9c0080"
-  }
+  },
+  "approved28_header_sha256": "e2bb9e509b6f73280786f32cea361e7dea1f84c3bf8d4781e4afce436c76f345",
+  "approved28_note": "Methods are the frozen native28 oracle; retain historical20/21 identities and all semantic mutation checks."
 }

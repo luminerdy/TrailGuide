@@ -40,8 +40,8 @@ from prepare_v3 import prepare
 import v3_native_objects as native
 
 ROOT = Path(__file__).resolve().parents[1]
-LVGL = ROOT / 'build/v3-0.1.22/libraries/lvgl'
-OUT = ROOT / 'build/v3-0.1.22/host'
+LVGL = ROOT / 'build/v3-0.1.28/libraries/lvgl'
+OUT = ROOT / 'build/v3-0.1.28/host'
 
 def coaching_frame_directory():
     # The native harness writes here, including on a completely fresh output.
@@ -79,7 +79,7 @@ def main():
         raise RuntimeError('Insufficient free space: require 2 GiB before native tests')
     run_child([sys.executable, str(ROOT/'tools/test_v3_hwcdc_budget.py')], check=True)
     manifest=prepare()  # Host and S3 builds consume the same archive-pinned, unchanged library.
-    (ROOT/'build/v3-0.1.22/frames').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.28/frames').mkdir(parents=True,exist_ok=True)
     assert (ROOT/'trailguide_v3/ui.h').is_file(), 'Missing minimal V3 UI'
     OUT.mkdir(parents=True, exist_ok=True)
     flags = native.flags()
@@ -138,7 +138,7 @@ def main():
     run_child(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
                     str(ROOT/'tests/v3_compact_ui_test.cpp'),*objects,'-lm','-o',str(compact)],check=True)
     run_child([str(compact)],cwd=ROOT,check=True,timeout=180)
-    (ROOT/'build/v3-0.1.22/evidence/ui').mkdir(parents=True,exist_ok=True)
+    (ROOT/'build/v3-0.1.28/evidence/ui').mkdir(parents=True,exist_ok=True)
     sound_ui=OUT/'v3-sound-ui-test'
     run_child(['g++','-std=c++17','-Wall','-Wextra','-Werror',*flags,
                     str(ROOT/'tests/v3_sound_ui_test.cpp'),*objects,'-Wl,--wrap=lv_timer_create','-lm','-o',str(sound_ui)],check=True)

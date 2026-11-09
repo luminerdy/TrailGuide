@@ -14,16 +14,17 @@ using trailguide_coach::Screen;
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class CoachUi {
  public:
- enum class Action { Progress, Stuck, Unclear, Exploring, Ai, Team, Options, Back, Another, Guide, Release, Classic, Instant, Picker, Opening, NextStep, Next, Experiment, Question, Reminders, Sound, Count };
+ enum class Action { Progress, Stuck, Unclear, Exploring, Ai, Team, Options, Back, Another, Guide, Release, Classic, Instant, Picker, Opening, NextStep, Next, Experiment, Question, Reminders, Sound, ManualShake, Count };
  SoundCue localSound;SoundCue *sound=&localSound;
  CoachModel model;WindowReveal window;
  void (*exitCallback)(void*)=nullptr;void *exitContext=nullptr;
  bool leaveRequested=false;
 
  lv_obj_t *root=nullptr,*first=nullptr,*second=nullptr,*backButton=nullptr,*scroll=nullptr,*body=nullptr;
+ lv_obj_t *manualButton=nullptr,*manualStatus=nullptr;
  bool instant=false,fallback=false,compassHome=false;
  void enterCompass(){model.enter();compassHome=true;render();}
- CoachUi(trailguide_coach::RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f):model(r,c),window(a,f){}
+ CoachUi(trailguide_coach::RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f,uint32_t (*clock)()=nullptr):model(r,c),window(a,f),motionClock(clock){}
  CoachUi(const CoachUi&)=delete;CoachUi &operator=(const CoachUi&)=delete;
  ~CoachUi(){cancel();if(root)lv_obj_del(root);}
  bool busy()const{return timer!=nullptr;}
@@ -39,7 +40,8 @@ class CoachUi {
  }
  void sample(const v3::ImuSample &s,uint32_t now,bool available,bool *triggered=nullptr){
   // Availability is not validity: NotReady is a bounded pause inside Shake.
-  if(shake.consume(s,now,eligible(),available)){gesture.reset();if(triggered)*triggered=true;draw();return;}
+  if(shake.consume(s,now,shake.manualArmed()?manualEligible():eligible(),available)){gesture.reset();if(triggered)*triggered=true;draw();return;}
+  syncManual();
   const bool healthy=available && s.valid && uint32_t(now-s.at_ms)<=60;
   motionAvailable=healthy;
   // The application loop is faster than the IMU poll. Dispatch each sample
@@ -91,12 +93,14 @@ class CoachUi {
    if(screen==Screen::Question || screen==Screen::Experiment){first=button(Action::Next,"Another",76,254,100,48);second=button(screen==Screen::Question?Action::Experiment:Action::Question,screen==Screen::Question?"Try (optional)":"Question",184,254,100,48);}
    else {first=button(Action::Opening,"Opening",76,254,100,48);second=button(screen==Screen::Guide?Action::Reminders:Action::Next,screen==Screen::Guide?"Reminders":"Next",184,254,100,48);}
   }
+  if((opening&&!compassHome) || screen==Screen::Question || screen==Screen::Experiment){manualButton=button(Action::ManualShake,"S",296,156,48,48);lv_obj_set_style_outline_width(manualButton,0,LV_STATE_FOCUSED);lv_obj_set_style_bg_opa(manualButton,LV_OPA_TRANSP,0);auto *caption=lv_obj_get_child(manualButton,0);lv_obj_set_width(caption,28);lv_obj_align(caption,LV_ALIGN_CENTER,6,0);lv_obj_add_event_cb(manualButton,drawManualFace,LV_EVENT_DRAW_MAIN,nullptr);}
   lv_obj_update_layout(root);updateHint();
  }
  void perform(Action a){
+  if(a==Action::ManualShake){requestManual();return;}
   stopCompass();
   if(scroll)model.remember(lv_obj_get_scroll_y(scroll));
-  ++resetCounts[1];gesture.reset();shake.reset();
+  ++resetCounts[1];gesture.reset();cancelManual();
   if(unsigned(a)<6){model.path(unsigned(a));render();return;}
   if(a==Action::Another){if(busy()){setBlank(false);finish(true);}else draw();return;}
   switch(a){case Action::Options:model.options();break;case Action::Back:model.back();break;case Action::Guide:model.guide();break;case Action::Release:model.release();break;case Action::Classic:leaveRequested=true;cancel();if(exitCallback)exitCallback(exitContext);return;case Action::Instant:instant=!instant;break;case Action::Sound:sound->enabled=!sound->enabled;break;case Action::Picker:model.picker();break;case Action::Opening:model.toOpening();compassHome=true;break;case Action::NextStep:model.nextStep();break;case Action::Next:model.next();break;case Action::Experiment:model.experiment();break;case Action::Question:model.question();break;case Action::Reminders:model.reminders();break;default:break;}
@@ -104,6 +108,28 @@ class CoachUi {
  }
 
  private:
+ // Keep the approved 36px face; only the real invisible target grows left.
+ static void drawManualFace(lv_event_t *e){
+  auto *o=lv_event_get_target(e);lv_area_t a;lv_obj_get_coords(o,&a);a.x1+=12;
+  lv_draw_rect_dsc_t d;lv_draw_rect_dsc_init(&d);
+  d.bg_color=lv_obj_get_style_bg_color(o,LV_PART_MAIN);
+  d.bg_opa=lv_obj_get_style_opa_recursive(o,LV_PART_MAIN);
+  d.radius=8;lv_draw_rect(lv_event_get_draw_ctx(e),&d,&a);
+ }
+ uint32_t (*motionClock)()=nullptr; // Same epoch as sample(now), never the LVGL tick origin.
+ lv_timer_t *manualTimer=nullptr;
+ bool manualEligible()const{return eligible() && !focused && !dragged && (((model.current.screen==Screen::Opening && !compassHome) || model.current.screen==Screen::Question || model.current.screen==Screen::Experiment)) && scroll && !(lv_obj_is_scrolling(scroll) || lv_anim_get(scroll,nullptr));}
+ void manualFeedback(){updateHint();}
+ void stopManualTimer(){if(manualTimer){lv_timer_del(manualTimer);manualTimer=nullptr;}}
+ void cancelManual(){shake.reset();stopManualTimer();manualFeedback();}
+ void syncManual(){if(manualTimer && !shake.manualArmed()){stopManualTimer();manualFeedback();}}
+ static void manualExpired(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->cancelManual();}
+ void requestManual(){
+  if(!manualButton || lv_obj_has_flag(manualButton,LV_OBJ_FLAG_HIDDEN) || !manualEligible() || !motionClock)return;
+  cancelManual();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;
+  manualTimer=lv_timer_create(manualExpired,8000,this);if(!manualTimer)return;
+  gesture.reset();setBlank(false);shake.requestManual(motionClock());manualFeedback();
+ }
  struct Slot{CoachUi *owner;Action action;}slots[unsigned(Action::Count)]{};
  lv_obj_t *footer=nullptr;
  // Decorative state is owned independently from opener/card RNG and reveal busy.
@@ -162,7 +188,8 @@ class CoachUi {
   lv_area_t text,viewport;lv_obj_get_coords(body,&text);lv_obj_get_coords(scroll,&viewport);
   // Opening masks the lower 14px; padding itself is not additional text.
   const bool opening=model.current.screen==Screen::Opening;
-  const bool hide=focused || (opening&&compassHome) || !*lv_label_get_text(body) || text.y2<=viewport.y2-(opening?14:0);
+  lv_label_set_text(footer,shake.manualArmed()?"Shake ready":"Scroll for full text");
+  const bool hide=focused || (opening&&compassHome) || !*lv_label_get_text(body) || (!shake.manualArmed() && text.y2<=viewport.y2-(opening?14:0));
   if(blanked){for(unsigned i=0;i<lv_obj_get_child_cnt(root)&&i<32;++i)if(lv_obj_get_child(root,i)==footer){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);break;}}
   else if(hide)lv_obj_add_flag(footer,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(footer,LV_OBJ_FLAG_HIDDEN);
  }
@@ -171,8 +198,8 @@ class CoachUi {
  void stopFocus(){if(focusTimer){lv_timer_del(focusTimer);focusTimer=nullptr;}chrome(false);}
  static void focusDone(lv_timer_t *t){auto *u=static_cast<CoachUi*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
- void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,5000,this);if(focusTimer)chrome(true);}
- void cancel(){sound->cancel(this);shake.reset();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();stopReveal();}
+ void hold(){stopFocus();lv_mem_monitor_t m;lv_mem_monitor(&m);if(m.free_biggest_size<sizeof(lv_timer_t)+64)return;focusTimer=lv_timer_create(focusDone,2000,this);if(focusTimer)chrome(true);}
+ void cancel(){sound->cancel(this);cancelManual();stopCompass();pendingSettlement=false;setBlank(false);stopFocus();stopReveal();}
  void stopReveal(){if(timer){lv_timer_del(timer);timer=nullptr;}window.clear();if(body)lv_obj_clear_flag(body,LV_OBJ_FLAG_HIDDEN);if(scroll){lv_obj_add_flag(scroll,LV_OBJ_FLAG_SCROLLABLE);lv_obj_invalidate(scroll);}}
  // Same-card automatic settlement must preserve motion evidence and blackout.
  void finish(bool readableHold=false){if(readableHold){stopReveal();settled();hold();}else cancel();}
@@ -188,19 +215,19 @@ class CoachUi {
   for(int y=0;y<112;++y){int left=y<8?8-y:0;int right=191;if(y>103)right-=y-103;lv_area_t line={lv_coord_t(a.x1+32+left),lv_coord_t(a.y1+14+y),lv_coord_t(a.x1+32+right),lv_coord_t(a.y1+14+y)};d.bg_color=lv_color_hex(0x124d8b);lv_draw_rect(ctx,&d,&line);int edge=40-y*2;if(edge>left){line.x2=a.x1+32+edge;d.bg_color=lv_color_hex(0x27689f);lv_draw_rect(ctx,&d,&line);}edge=192+112-24-y;if(edge<right){line.x1=a.x1+32+edge;line.x2=a.x1+32+right;d.bg_color=lv_color_hex(0x0e3b6a);lv_draw_rect(ctx,&d,&line);}}
  }
  static void contact(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));auto *in=lv_indev_get_act();switch(lv_event_get_code(e)){
-  case LV_EVENT_PRESSED:u->touchCancelledBlank=u->blanked;u->setBlank(false);u->pointerDown=true;u->dragged=false;if(in)lv_indev_get_point(in,&u->touchOrigin);++u->resetCounts[2];u->gesture.reset();u->shake.reset();break;
+  case LV_EVENT_PRESSED:u->touchCancelledBlank=u->blanked;u->setBlank(false);u->pointerDown=true;u->dragged=false;if(in)lv_indev_get_point(in,&u->touchOrigin);++u->resetCounts[2];u->gesture.reset();u->cancelManual();break;
   case LV_EVENT_PRESSING:if(in){lv_point_t p;lv_indev_get_point(in,&p);if(std::abs(int(p.x)-u->touchOrigin.x)>12 || std::abs(int(p.y)-u->touchOrigin.y)>12)u->dragged=true;}break;
-  case LV_EVENT_PRESS_LOST:u->dragged=true;u->pointerDown=false;++u->resetCounts[3];u->gesture.reset();u->shake.reset();break;
-  case LV_EVENT_RELEASED:u->pointerDown=false;++u->resetCounts[4];u->gesture.reset();u->shake.reset();break;
-  case LV_EVENT_SCROLL_BEGIN:u->dragged=true;u->scrolling=true;++u->resetCounts[5];u->gesture.reset();u->shake.reset();break;
-  case LV_EVENT_SCROLL_END:u->scrolling=false;++u->resetCounts[6];u->gesture.reset();u->shake.reset();break;
+  case LV_EVENT_PRESS_LOST:u->dragged=true;u->pointerDown=false;++u->resetCounts[3];u->gesture.reset();u->cancelManual();break;
+  case LV_EVENT_RELEASED:u->pointerDown=false;++u->resetCounts[4];u->gesture.reset();u->cancelManual();break;
+  case LV_EVENT_SCROLL_BEGIN:u->dragged=true;u->scrolling=true;++u->resetCounts[5];u->gesture.reset();u->cancelManual();break;
+  case LV_EVENT_SCROLL_END:u->scrolling=false;++u->resetCounts[6];u->gesture.reset();u->cancelManual();break;
   case LV_EVENT_CLICKED:if(u->touchCancelledBlank){u->touchCancelledBlank=false;break;}if(u->focused && !u->dragged && !u->scrolling && u->model.current.screen==Screen::Opening){if(u->busy())u->finish(true);else u->stopFocus();}break;
   case LV_EVENT_SCROLL:case LV_EVENT_LAYOUT_CHANGED:case LV_EVENT_SIZE_CHANGED:u->updateHint();break;
   default:break;}}
- static void deleted(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);
+ static void deleted(lv_event_t *e){auto *u=static_cast<CoachUi*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);if(o==u->manualButton)u->manualButton=nullptr;if(o==u->manualStatus)u->manualStatus=nullptr;if(u->shake.manualArmed())u->cancelManual();
   // Restore before LVGL removes a child and changes the bounded mask indices.
   if(u->blanked){u->pendingSettlement=false;u->setBlank(false);u->gesture.reset();}
-  if(o==u->root){u->cancel();++u->resetCounts[7];u->gesture.reset();u->root=nullptr;u->first=u->second=u->backButton=u->body=u->scroll=u->footer=nullptr;u->pointerDown=false;u->scrolling=false;return;}
+  if(o==u->root){u->cancel();++u->resetCounts[7];u->gesture.reset();u->root=nullptr;u->manualButton=u->manualStatus=nullptr;u->first=u->second=u->backButton=u->body=u->scroll=u->footer=nullptr;u->pointerDown=false;u->scrolling=false;return;}
   if(o==u->footer)u->footer=nullptr;
   if(o==u->body)u->body=nullptr;
   if(o==u->scroll)u->scroll=nullptr;

@@ -5,6 +5,13 @@
 
 // Owned driver; 20ms polling retained. Wider gyro range is not physical acceptance.
 namespace v3 {
+// QMI8658A Rev A / QMI8658C Rev 0.6 agree on CTRL2 aFS; suffix unidentified.
+// One checked selection binds register and physical-unit conversion.
+static constexpr uint8_t AccRangeSelection=3; // 011: +/-16 g
+static_assert(AccRangeSelection<=3, "supported QMI8658 accelerometer range");
+static constexpr uint8_t AccCtrl2=uint8_t((AccRangeSelection<<4)|7); // unchanged aODR
+static constexpr float AccFullScaleG=float(2u<<AccRangeSelection);
+static constexpr float AccSafetyG=AccFullScaleG*(3.99f/4.f); // retained fractional headroom
 // QMI8658A Rev A / QMI8658C Rev 0.8 common CTRL3 gFS bits; suffix unidentified.
 // One selection derives register, conversion and fractional rail headroom.
 static constexpr uint8_t GyroRangeSelection=7;
@@ -59,9 +66,9 @@ template<class Bus> class Imu {
       ++step_; return;
     }
     // Disable sensors before setting range/rate, then enable as original family.
-    // 4 g / selected gyro range, normal ODR enum 7 (~60 Hz); no filtering/motion engine.
+    // Selected acc/gyro ranges, normal ODR enum 7 (~60 Hz); no filtering/motion engine.
     const uint8_t regs[]={8,2,3,4,6,7,8};
-    const uint8_t values[]={0,ctrl1_,0x17,GyroCtrl3,0,0,0x43};
+    const uint8_t values[]={0,ctrl1_,AccCtrl2,GyroCtrl3,0,0,0x43};
     const uint8_t i=step_-1;
     uint8_t observed;
     if(!write(regs[i],values[i]) || !read(address_,regs[i],&observed,1) || observed!=values[i]) {
@@ -120,7 +127,7 @@ template<class Bus> class Imu {
       // Explicit sign conversion avoids negative shifts / implementation-defined casts.
       const int32_t signed_raw=bits>=0x8000 ? int32_t(bits)-65536 : bits;
       if(signed_raw==-32768 || signed_raw==32767) return; // clipped, not trustworthy
-      if(axis<3) next.acc_g[axis]=signed_raw*(4.f/32768.f);
+      if(axis<3) next.acc_g[axis]=signed_raw*(AccFullScaleG/32768.f);
       else next.gyr_dps[axis-3]=signed_raw*(GyroFullScaleDps/32768.f);
     }
     next.valid=true; next.at_ms=now; sample_=next;

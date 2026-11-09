@@ -40,9 +40,9 @@ static lv_color_t buffer[360*20];
 static void flush(lv_disp_drv_t*d,const lv_area_t*,lv_color_t*){lv_disp_flush_ready(d);}
 static void advance(unsigned ms){for(unsigned i=0;i<ms;i+=10){lv_tick_inc(10);clockMs+=10;lv_timer_handler();}}
 static void raw(unsigned axis,int value){auto b=uint16_t(value);bus.r[0x35+axis*2]=uint8_t(b);bus.r[0x36+axis*2]=uint8_t(b>>8);}
-static void poll(int x=0,int z=8192){raw(0,x);raw(1,0);raw(2,z);lv_tick_inc(20);clockMs+=20;loopSlice();}
-static void quiet(unsigned n=30,int z=8192){while(n--)poll(0,z);}
-static void burst(unsigned n=60){for(unsigned i=0;i<n;++i)poll(i%2?9830:-9830);}
+static void poll(int x=0,int z=2048){raw(0,x);raw(1,0);raw(2,z);lv_tick_inc(20);clockMs+=20;loopSlice();}
+static void quiet(unsigned n=30,int z=2048){while(n--)poll(0,z);}
+static void burst(unsigned n=60){for(unsigned i=0;i<n;++i)poll(i%2?2458:-2458);}
 static void draw(bool coach){if(coach)ui.coach.perform(v3app::CoachUi::Action::Another);else ui.perform(v3app::Ui::Action::Ask);}
 static void service(){loopSlice();}
 int main(int argc,char**argv){
@@ -50,7 +50,7 @@ int main(int argc,char**argv){
  lv_init();lv_disp_draw_buf_t b;lv_disp_draw_buf_init(&b,buffer,nullptr,360*20);lv_disp_drv_t d;lv_disp_drv_init(&d);d.hor_res=d.ver_res=360;d.draw_buf=&b;d.flush_cb=flush;lv_disp_drv_register(&d);
  assert(!ui.sound.enabled&&ui.sound.sequence==0);
  ui.render();if(coach)ui.perform(v3app::Ui::Action::Coaching);
- bus.r[0]=5;bus.r[1]=124;bus.r[0x2e]=3;raw(2,8192);imu.begin(0);for(unsigned t=0;t<10;++t)imu.tick(t);
+ bus.r[0]=5;bus.r[1]=124;bus.r[0x2e]=3;raw(2,2048);imu.begin(0);for(unsigned t=0;t<10;++t)imu.tick(t);
  if(mode=="navigation"){
   ui.sound.enabled=true;draw(coach);advance(6000);assert(ui.sound.sequence==1&&!ui.busy());
   if(coach)ui.coach.perform(v3app::CoachUi::Action::Guide);else ui.perform(v3app::Ui::Action::Guide);
@@ -106,7 +106,7 @@ int main(int argc,char**argv){
    lv_tick_inc(20);clockMs+=20;loopSlice();assert((imu.last_poll().flags&(8|32|64))&& !imu.sample().valid&&imu.sample().at_ms==retained);
    clockMs+=5;lv_tick_inc(5);loopSlice();bus.shortReg=-1;for(unsigned a=0;a<6;++a)raw(a,0);
    burst(100);assert(ui.sound.sequence==0&&sdk::spawns==0&&!ui.busy());quiet();burst();
-  }else{bus.r[0x2e]=0;poll(9830);assert(imu.last_poll().flags&16);bus.r[0x2e]=3;burst(35);}
+  }else{bus.r[0x2e]=0;poll(2458);assert(imu.last_poll().flags&16);bus.r[0x2e]=3;burst(35);}
   assert(ui.busy());advance(6000);service();assert(ui.sound.sequence==(mode=="muted"?0u:1u));assert(sdk::spawns==(mode=="muted"?0:1));if(sdk::task)sdk::execute();
   if(recording){assert(motionDiagnostics.recorder.ram.count>0);assert(Serial.pos==0);assert(Serial.tx.empty());}
   if(mode=="partial"){
@@ -118,7 +118,7 @@ int main(int argc,char**argv){
  }else if(mode=="deadline"){
   // Last 20ms completes a real shake in the SAME loop as the old LVGL deadline.
   ui.sound.enabled=true;draw(coach);quiet();advance(4060);quiet(21);burst(45);assert(ui.busy()&&ui.sound.sequence==0&&sdk::spawns==0);
-  poll(9830);printf("deadline state busy=%d sequence=%u tasks=%d now=%u sample=%u\n",ui.busy(),ui.sound.sequence,sdk::spawns,clockMs,imu.sample().at_ms);assert(ui.busy()&&ui.sound.sequence==1&&sdk::spawns==0&&"Timer publication superseded by raw shake before audio service");advance(6000);service();assert(ui.sound.sequence==2&&sdk::spawns==1);sdk::execute();
+  poll(2458);printf("deadline state busy=%d sequence=%u tasks=%d now=%u sample=%u\n",ui.busy(),ui.sound.sequence,sdk::spawns,clockMs,imu.sample().at_ms);assert(ui.busy()&&ui.sound.sequence==1&&sdk::spawns==0&&"Timer publication superseded by raw shake before audio service");advance(6000);service();assert(ui.sound.sequence==2&&sdk::spawns==1);sdk::execute();
  }else{assert(false);}
  if(ui.coach.root)lv_obj_del(ui.coach.root);
  if(ui.root)lv_obj_del(ui.root);

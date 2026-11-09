@@ -51,9 +51,9 @@ int main(){
   bus=Bus{};ui=DetectorAdapter{};bus.r[0]=5;bus.r[1]=124;bus.r[0x2e]=3;imu.~Imu();new (&imu) v3::Imu<Bus>(bus);imu.begin(0);
   for(unsigned t=0;t<10;++t)imu.tick(t);
   uint32_t now=20;
-  auto poll=[&](int x){now+=20;raw(0,x);raw(1,0);raw(2,8192);dispatch(now);};
+  auto poll=[&](int x){now+=20;raw(0,x);raw(1,0);raw(2,2048);dispatch(now);};
   for(unsigned i=0;i<30;++i)poll(0);
-  for(unsigned i=0;i<35;++i)poll(i%2?9830:-9830);
+  for(unsigned i=0;i<35;++i)poll(i%2?2458:-2458);
   const auto retained=imu.sample().at_ms;
   if(fault<2)bus.shortReg=fault==0?0x2e:0x35;
   else if(fault<4)for(unsigned i=0x35;i<=0x40;++i)bus.r[i]=fault==2?0:255;
@@ -64,16 +64,16 @@ int main(){
   assert(!ui.healthy && "Known hard poll fault must reach actual sketch dispatch");
   dispatch(now+5);assert(!ui.healthy); // retained fault/duplicate loop also fails closed
   bus.shortReg=-1;for(unsigned a=0;a<6;++a)raw(a,0);
-  for(unsigned i=0;i<100;++i)poll(i%2?9830:-9830);
+  for(unsigned i=0;i<100;++i)poll(i%2?2458:-2458);
   assert(ui.events==0 && "Fault must destroy partial burst until quiet rearm");
   for(unsigned i=0;i<30;++i)poll(0);
-  for(unsigned i=0;i<60;++i)poll(i%2?9830:-9830);
+  for(unsigned i=0;i<60;++i)poll(i%2?2458:-2458);
   assert(ui.events==1);++cases;
   ui=DetectorAdapter{};
   for(unsigned i=0;i<30;++i)poll(0);
   for(unsigned i=0;i<70;++i){
    bus.r[0x2e]=(i==15 || i==35)?0:3;
-   poll(i%2?9830:-9830);
+   poll(i%2?2458:-2458);
    if(!bus.r[0x2e])assert(!imu.sample().valid && ui.healthy && (imu.last_poll().flags&16)!=0);
   }
   assert(ui.events==1 && "Bounded healthy NotReady must retain partial intent");

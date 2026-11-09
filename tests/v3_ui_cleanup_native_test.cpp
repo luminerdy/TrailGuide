@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
-static constexpr auto OUT="build/v3-0.1.22/evidence/ui-cleanup/frames/";
+static constexpr auto OUT="build/v3-0.1.28/evidence/ui-cleanup/frames/";
 static lv_color_t buffer[360*20],pixels[360*360];
 static uint32_t seed=7;
 static uint32_t rng(void *p){auto &s=*static_cast<uint32_t*>(p);return s=s*1664525u+1013904223u;}
@@ -31,7 +31,7 @@ static void guards(){
  for(int kind=0;kind<3;++kind){
   v3app::Ui u(rng,&seed,malloc,free);u.instant=kind!=0;u.perform(v3app::Ui::Action::Ask);
   if(kind==0){assert(u.busy());save("classic-reveal-start");advance(3000);assert(u.busy()&&!visible(u.moreButton));save("classic-reveal-mid");advance(3000);assert(!u.busy());}
-  copy(u.root,u.body,kind?longCopy:"Fits.");if(kind==2){lv_obj_scroll_to_y(u.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);}assert(!visible(u.moreButton));pose(u,1,50);pose(u,-1,10);assert(black());advance(5100);assert(black());{v3::ImuSample s;s.at_ms=lv_tick_get();u.sample(s,s.at_ms,false);}assert(visible(u.moreButton)==(kind==1));
+  copy(u.root,u.body,kind?longCopy:"Fits.");if(kind==2){lv_obj_scroll_to_y(u.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);}assert(!visible(u.moreButton));pose(u,1,50);pose(u,-1,10);assert(black());advance(2100);assert(black());{v3::ImuSample s;s.at_ms=lv_tick_get();u.sample(s,s.at_ms,false);}assert(visible(u.moreButton)==(kind==1));
   blankCancel(u);assert(visible(u.moreButton)==(kind==1));assert(!u.motionStatus);save("classic-blank-restored-"+std::to_string(kind));
   point={180,180};pressed=true;advance(60);assert(!u.eligible());pressed=false;advance(60);
  }
@@ -39,11 +39,11 @@ static void guards(){
   v3app::CoachUi c(rng,&seed,malloc,free);c.instant=kind!=0;c.perform(v3app::CoachUi::Action::Another);
   auto *hint=find(c.root,"Scroll for full text");assert(hint);
   if(kind==0){assert(c.busy());save("coach-reveal-start");advance(3000);assert(c.busy()&&!visible(hint));save("coach-reveal-mid");advance(3000);assert(!c.busy());}
-  copy(c.root,c.body,kind?longCopy:"Fits.");if(kind==2){lv_obj_scroll_to_y(c.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);}assert(!visible(hint));pose(c,1,50);pose(c,-1,10);assert(black());advance(5100);assert(black());{v3::ImuSample s;s.at_ms=lv_tick_get();c.sample(s,s.at_ms,false);}assert(visible(hint)==(kind==1));
+  copy(c.root,c.body,kind?longCopy:"Fits.");if(kind==2){lv_obj_scroll_to_y(c.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);}assert(!visible(hint));pose(c,1,50);pose(c,-1,10);assert(black());advance(2100);assert(black());{v3::ImuSample s;s.at_ms=lv_tick_get();c.sample(s,s.at_ms,false);}assert(visible(hint)==(kind==1));
   blankCancel(c);assert(visible(hint)==(kind==1));save("coach-blank-restored-"+std::to_string(kind));
   point={180,180};pressed=true;advance(60);assert(!c.eligible());pressed=false;advance(60);
  }
- puts("PASS real reveal 6s + hold 5s, short/top-long/bottom focus expiry and blank cancellation restore correct cues; pointer gate retained");
+ puts("PASS real reveal 6s + hold 2s, short/top-long/bottom focus expiry and blank cancellation restore correct cues; pointer gate retained");
 }
 static void catalog(){unsigned classic=0,coaching=0;
  for(auto mode:{v3app::Mode::Ask,v3app::Mode::Try})for(unsigned i=0;i<trailguide::cardCount;++i)for(auto view:{v3app::View::Card,v3app::View::Guide}){
@@ -52,7 +52,13 @@ static void catalog(){unsigned classic=0,coaching=0;
  for(unsigned i=0;i<trailguide_coaching::entryCount;++i)for(bool guide:{false,true}){
   const auto &e=trailguide_coaching::entries[i];v3app::CoachUi c(rng,&seed,malloc,free);auto screen=!strcmp(e.type,"opener")?trailguide_coach::Screen::Opening:!strcmp(e.type,"question")?trailguide_coach::Screen::Question:!strcmp(e.type,"experiment")?trailguide_coach::Screen::Experiment:!strcmp(e.type,"closing")?trailguide_coach::Screen::Closing:trailguide_coach::Screen::Reminders;
   c.model.current={guide?trailguide_coach::Screen::Guide:screen,e.path,int(i),0};c.render();const char *expected=guide?e.guidance:e.text;assert(!strcmp(lv_label_get_text(c.body),expected));auto *hint=find(c.root,"Scroll for full text");assert(hint);lv_area_t a,b;lv_obj_get_coords(c.body,&a);lv_obj_get_coords(c.scroll,&b);int mask=!guide&&screen==trailguide_coach::Screen::Opening?14:0;assert(visible(hint)==(*expected&&a.y2>b.y2-mask));assert(lv_obj_get_style_text_font(c.body,0)==&lv_font_montserrat_18);if(mask){assert(lv_obj_get_width(c.body)==168);assert(lv_obj_get_width(c.scroll)==256&&lv_obj_get_height(c.scroll)==140);}
-  lv_obj_scroll_to_y(c.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);assert(!visible(hint));assert(lv_obj_has_flag(c.scroll,LV_OBJ_FLAG_SCROLLABLE));++coaching;
+  const bool editorial = guide ? (!strcmp(e.id,"STUCK-E01") || !strcmp(e.id,"EXPLORING-E01") || !strcmp(e.id,"AI-RESULTS-E02") || !strcmp(e.id,"TEAM-E01")) : (!strcmp(e.id,"AI-RESULTS-Q02") || !strcmp(e.id,"PROGRESS-E03") || !strcmp(e.id,"TEAM-Q04"));
+  const std::string capture=std::string("C1-")+e.id+(guide?"-guide":"-main");
+  const auto previousSeed=seed;const auto previousDraws=c.model.draws;
+  if(editorial){save(capture+"-top");if(lv_obj_get_scroll_bottom(c.scroll)>0){const auto before=lv_obj_get_scroll_y(c.scroll);drag(180,210,145);assert(lv_obj_get_scroll_y(c.scroll)>before&&"approved copy must support real pointer scrolling");}}
+  lv_obj_scroll_to_y(c.scroll,LV_COORD_MAX,LV_ANIM_OFF);advance(60);assert(!visible(hint));assert(lv_obj_has_flag(c.scroll,LV_OBJ_FLAG_SCROLLABLE));
+  if(editorial){lv_obj_get_coords(c.body,&a);lv_obj_get_content_coords(c.scroll,&b);assert(a.y2<=b.y2-mask&&"last line must be inside the visible content endpoint");assert(seed==previousSeed&&c.model.draws==previousDraws);save(capture+"-bottom");}
+  ++coaching;
  }
  printf("PASS canonical full copy and cues at top/bottom: %u Classic faces; %u Coaching faces; 18px/168px opening text and unchanged snapshot geometry\n",classic,coaching);
 }

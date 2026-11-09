@@ -1,0 +1,105 @@
+{
+  "entry_hashes": {
+    "OPEN-01": "5c32fc1ea1b45445d79c272b838cbb99c86ff6ebe636fc57b2d1c2c3f73b6e8d",
+    "OPEN-02": "6faa14bd3fcd58241428b45c5aa0298914f3cb2de7c9a588da3b4dfb9e00c21e",
+    "OPEN-03": "cdf9f150f26068574c736c823751dcffc57a451e5f2b49866e15165952145981",
+    "OPEN-04": "e29330f1881ec061843c8aae34475455b0ae84152f70a528943e5a280a3b1f78",
+    "OPEN-05": "f0aeaaabc2575ab401a6d50f9d848d1fa44c0102bfdb2ce96b5a4e49895b3d35",
+    "OPEN-06": "de61e15d8a6c0cc9c14747edbb60ff652df858785429c8e605e072b4e89c5e52",
+    "PROGRESS-Q01": "7ae4d9a94d70ffc0d7f9526e0b3972b983aa41dd14b22b6cda2ae0b698e7da6a",
+    "PROGRESS-Q02": "63483391aea3133dd4b9187a988ced1ebfa8eb6707911c724313a44b3ce18d7b",
+    "PROGRESS-Q03": "dac482f49698704a09f38cd24acfe2019f5d1e8b10a146580fd8e8c94b28d26d",
+    "PROGRESS-Q04": "083c54a157b4a0c56f21fac0b288cb359207a101f180754b2e53bc5c1a1c2226",
+    "STUCK-Q01": "184ad4fd023a9e801f7314fbc887432d0f2916b257f3140121c1cbc0ce9c51ef",
+    "STUCK-Q02": "f20c87e7a69fbf8b5b02694c6f5260a53129c9cbe98296e4df4fa4b4b2ccde2b",
+    "STUCK-Q03": "38d1581c0c50139aea8b7e7bab36a6984cf54fba6909d59ec64c694f51e0ed66",
+    "STUCK-Q04": "3721dec11aaba8bed5ea40f0de416fd7b6340d4201eb158a914cc734571aa729",
+    "UNCLEAR-Q01": "32f6eef2d76d5a3a734befa4b4004ed491ba6b428bc8ceddbdd23e7abe0de144",
+    "UNCLEAR-Q02": "f3e63a3e48b3cca9cc0bf4728f7514451cd48965d8efd5867b22341c4c1b983f",
+    "UNCLEAR-Q03": "6b5355d23dd786cbe5282f8c70bc830899a27f4466d0595e62233a5765d8ace5",
+    "UNCLEAR-Q04": "7bfbf60b879f27e56fbf5adc04f3c1f9844945f124e3551c2c36dac56d5fb3f7",
+    "EXPLORING-Q01": "d48efda09d6c9c61300e7301bca9731ea4015cd9a45d74d8b5a08ffc66fd31b2",
+    "EXPLORING-Q02": "dc55cf1bd4c1b4089e92bef9b753b58c7860718dc174c0cc353b8a26c9c9d435",
+    "EXPLORING-Q03": "19bbdd18f7361067cbf6325a942a35101d260a802128362ee67e9e48d9cbbbda",
+    "EXPLORING-Q04": "0a9d6b5878f2915a3e6fe468eda152750721b3b76b11520ecae34815e25c9dc9",
+    "AI-RESULTS-Q01": "6d1c4b5248c0d10ba8c6dbf93600cdd7cb3a40f88def22e90b57dc9dab0c92c1",
+    "AI-RESULTS-Q02": "b3ce9640cdb785780aeb41bc496d29d1e50f086eaaf9b2cb76858b080ebce025",
+    "AI-RESULTS-Q03": "6d006662f596a8fcf4d201a99a0fe8ce1745f7825db7f16afca1f50bbfa31cfa",
+    "AI-RESULTS-Q04": "2ae97477c135c5be51d494449e08421c39e84ba2edac690277ac001d43e5a962",
+    "TEAM-Q01": "9994504eb0606437fbc9707a51734ca1fda32233eb08da0630c7a83d11d6dd4f",
+    "TEAM-Q02": "8200fe2ed7d6f063deaef37f61113ff643faf7a534f6031610846c01b4a7ddc6",
+    "TEAM-Q03": "a11e0fce6d1e877eb266f26e953ba8f21eb78c1df239bfd2364f94ddb9ea9ba6",
+    "TEAM-Q04": "7d49110eb0da83c023e07afd913cc8cbad71e5d4cc4714d6658c138cdf9a8d26",
+    "PROGRESS-E01": "b22dd808a9d8bb6bc5b3f9b887d33cb7b4a27c32c642b792c05045484f0bef1e",
+    "PROGRESS-E02": "2bff35a11cc364af4da9d24ea259a34960731cc0bec805f97b7d93a72f474c99",
+    "PROGRESS-E03": "ffaaefcfb7504b2fe5022603946dae6412bb4e49beb62652915b9a04b122d136",
+    "STUCK-E01": "24995df6f753c63b3a7985c172ded4fb38a0eea27868aedf4a662eb091a6264a",
+    "STUCK-E02": "3aaf4090757b6fcfff5b0365eb2a7b55a0bf9b217ef2fd60761b7a4c2fbe74c8",
+    "STUCK-E03": "9e3e9db8bb008a39d75dc0a7684f1145bbfc9608828e80712e3b1592296c873d",
+    "UNCLEAR-E01": "7fedcabede31b2b236ecfb3f067f24f6a10d0024615c3d9a9a719aba53bb9dfc",
+    "UNCLEAR-E02": "de5bc0bed76a04906b11c8fbe7abf6d16537552c96da9b6d16232afd0cae634e",
+    "UNCLEAR-E03": "d34d5e910a43ec3eb59769a14015fd0599bfa08e79bb828eb33bd134904fa03c",
+    "EXPLORING-E01": "1dbb9cd8564592fcffd79baa2957f9e29350430d96810f96bbeb364be8ebe859",
+    "EXPLORING-E02": "1d41d7ed2c3d54f8908a095c8da9f106d9d32d44fe649ff861bae8760d4d2349",
+    "EXPLORING-E03": "c19b695a995d39a45f4a351886d65bb09c107ed647c2cdf17eaa1e61375fb2fc",
+    "AI-RESULTS-E01": "800a4446ed335523910120207fc9b3ed329e5e07f34f20ee3ebad19dacded281",
+    "AI-RESULTS-E02": "67255ebb0b982db3d35530c939bcc781b3ba19e85613bd9da27c25313afdf98a",
+    "AI-RESULTS-E03": "df70cc8ae148a938ed97cf1594d96cedc32a7e1a0d15fc818a09569a2a9f9e38",
+    "TEAM-E01": "8692e29004ac909cf89919775685130b51956f76d56d1ff931477eecc09e8fbd",
+    "TEAM-E02": "bbad246c2246fd5c9dfa582853acdc038121bc4fd081a7e5213195a0896b61e0",
+    "TEAM-E03": "d43b50b657a91ac329eaca774ef92bd36a625238336f1b4afe2648fc876ac20b",
+    "CLOSE-01": "6b359b130fe3941cca6a2a0e9b2a8ade265e8954ac4cc5a26e45cd1683c303f7",
+    "CLOSE-02": "34aad330feebbf72c4aee2ae10153c1e79dcae17dc23a7b0e214950349f4cab7",
+    "CLOSE-03": "c5ab231c8c1f7e2dbafda91037a177f9e80908cd697a89658511097b332b6b7e",
+    "REMIND-01": "c5364977bff0ee4c79dfca6771bdac0a10e8f6d05cc5f899e5b8a194c3cef82f",
+    "REMIND-02": "a6f0a01031172bcb6d599a63cd34fe9a968284234675f8b0857a976c0b3c695c",
+    "REMIND-03": "d125c3158279fe748a2236e2efd6de048e341c74b89ce14b7e1e7d558d995bd7",
+    "REMIND-04": "100861fb8446b1f28d7002bf4193a9475e796982634dba121db25b883543ce4b"
+  },
+  "metadata_hash": "e77637d993ae957a86f65d7215cc1aabc5f3640a6aa74c1502a66d225bcbfc11",
+  "cards_file_sha256": "759c5399c7025a9f196ab4ce1397366335f085346b7a856656c4977d824b0374",
+  "changes": [
+    {
+      "id": "AI-RESULTS-Q02",
+      "field": "text",
+      "before": "What were you hoping to see instead?",
+      "after": "How does the output compare with what you expected?"
+    },
+    {
+      "id": "PROGRESS-E03",
+      "field": "text",
+      "before": "Would it help to identify one observation that would strengthen confidence in the result?",
+      "after": "Would it help to identify one observation that could increase or decrease your confidence in the result?"
+    },
+    {
+      "id": "TEAM-Q04",
+      "field": "text",
+      "before": "What does everyone think is most important right now?",
+      "after": "From your perspective, what matters most right now?"
+    },
+    {
+      "id": "STUCK-E01",
+      "field": "guidance",
+      "before": "Understand expected and actual results before proposing a fix. Requested direct assistance is welcome; do not withhold it to prolong questioning. This is optional: adapt, decline, request direct help, or choose another next step. AI self-critique is not proof; use evidence suited to the consequence, not exhaustive human auditing.",
+      "after": "Test one reversible step, if wanted: compare expected and actual results. If mistakes could harm people or real work, use a copy or mock-up; stop before those effects. One result informs only that step. Give requested direct help; adapt, decline or continue human-only. AI/tools may check observations; AI self-critique is not proof. Match evidence to consequences, not exhaustive human re-auditing."
+    },
+    {
+      "id": "EXPLORING-E01",
+      "field": "guidance",
+      "before": "Explore differences without forcing a winner. Keeping a human-only approach is a complete choice. This is optional: adapt, decline, request direct help, or choose another next step. AI self-critique is not proof; use evidence suited to the consequence, not exhaustive human auditing.",
+      "after": "Sketch, say or draw one feasible human-only step; that is a complete choice. Only if useful, compare realistic human-only, AI-assisted and hybrid routes: preparation, work, checking, correction, integration and learning and capability. No winner or AI trial is required. Adapt, decline or request direct help. AI/tools may check feasibility against sources or observations; AI self-critique is not proof. Match evidence to consequences, not exhaustive human re-auditing."
+    },
+    {
+      "id": "AI-RESULTS-E02",
+      "field": "guidance",
+      "before": "Understand expected versus actual results before changing prompts. The goal, context, data, tool limits or choice to use AI may matter. Only if they report disappointing output, you could ask: What part felt least useful? This is optional: adapt, decline, request direct help, or choose another next step. AI self-critique is not proof; use evidence suited to the consequence, not exhaustive human auditing.",
+      "after": "Compare expectations and output; consider goal, context, data, tool limits or choosing AI. Only if disappointing, ask what felt least useful. If wanted, check one consequential claim against original sources, executed checks or observations; AI/tools can help. Missing evidence leaves uncertainty. Adapt, decline, request direct help or continue human-only. AI self-critique is not proof. Match evidence to consequences, not exhaustive human re-auditing."
+    },
+    {
+      "id": "TEAM-E01",
+      "field": "guidance",
+      "before": "Differences can remain visible. Do not invent agreement or diagnose silence. Offer passing, writing, drawing, spoken or paired alternatives; sharing is optional. This is optional: adapt, decline, request direct help, or choose another next step. AI self-critique is not proof; use evidence suited to the consequence, not exhaustive human auditing.",
+      "after": "Listen for differences; do not diagnose silence or infer agreement from silence or sharing. Quiet thinking, writing or drawing is optional; offer spoken or paired alternatives. Passing needs no explanation. Sharing is voluntary; nothing needs collecting. Adapt, decline, request direct help or continue human-only. If checking a shared claim, AI/tools may use sources or observations; AI self-critique is not proof. Match evidence to consequences, not exhaustive human re-auditing."
+    }
+  ]
+}

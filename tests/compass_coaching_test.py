@@ -71,11 +71,15 @@ class ContentTest(unittest.TestCase):
         self.assertIn('Do not pick a solution',by['UNCLEAR-Q01']['guidance'])
         self.assertIn('Do not invent agreement or diagnose silence',by['TEAM-Q01']['guidance'])
         self.assertIn('passing, writing, drawing',by['TEAM-Q01']['guidance'])
-        self.assertIn('Keeping a human-only approach is a complete choice',by['EXPLORING-E01']['guidance'])
+        self.assertIn('human-only step; that is a complete choice',by['EXPLORING-E01']['guidance'])
+        self.assertIn('No winner or AI trial is required',by['EXPLORING-E01']['guidance'])
+        optional_cues = {'STUCK-E01': 'if wanted', 'EXPLORING-E01': 'Only if useful',
+                         'AI-RESULTS-E02': 'If wanted'}
         for e in entries:
             if e['type']=='experiment':
                 self.assertTrue(e['text'].startswith(('Would it help','Would a ','Would one ')),e['id'])
-                self.assertIn('optional',e['guidance']); self.assertIn('self-critique is not proof',e['guidance'])
+                self.assertIn(optional_cues.get(e['id'], 'optional'), e['guidance'])
+                self.assertIn('self-critique is not proof',e['guidance'])
         self.assertEqual(sum(e['type']=='question' for e in entries),24)
         self.assertEqual(sum(e['type']=='experiment' for e in entries),18)
 

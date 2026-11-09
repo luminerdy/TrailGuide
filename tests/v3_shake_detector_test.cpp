@@ -73,7 +73,7 @@ int main(){
  Trace stale;stale.rest();for(unsigned i=0;i<70;++i){v3::ImuSample s;s.valid=true;s.at_ms=stale.t+20;stale.t+=20;s.acc_g[0]=(i/5)%2?-1.4f:1.4f;s.acc_g[2]=1;stale.events+=stale.d.consume(s,stale.t+61,true);}
  check(stale.events==0,"aged valid samples cannot qualify");
  Trace nan;nan.rest();nan.shake(35);nan.sample(std::numeric_limits<float>::quiet_NaN());nan.shake(35);check(nan.events==0,"nonfinite axis cancels partial intent");
- Trace clipped;clipped.rest();clipped.shake(35);clipped.sample(3.99f);clipped.shake(35);check(clipped.events==0,"clipped acceleration cancels partial intent");
+ Trace clipped;clipped.rest();clipped.shake(35);clipped.sample(15.96f);clipped.shake(35);check(clipped.events==0,"clipped acceleration cancels partial intent");
  Trace unhealthy;unhealthy.rest();for(unsigned i=0;i<70;++i)unhealthy.sample((i/5)%2?-1.4f:1.4f,0,1,true,true,false);
  check(unhealthy.events==0,"hard unhealthy input cannot trigger");
  Trace suppressed;suppressed.rest();for(unsigned i=0;i<70;++i)suppressed.sample((i/5)%2?-1.4f:1.4f,0,1,true,false);

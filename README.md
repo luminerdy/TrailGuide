@@ -1,13 +1,13 @@
 # TrailGuide
 
-## Installed28 / published-source checkpoint
+## Current frozen working baseline — v3-0.1.28-controls
 
-**The development device runs `v3-0.1.28-controls` DRAFT.** Classic and Coaching controls return after a **two-second (2000ms) settled card-only hold**; the **six-second (6000ms) whole-face reveal is unchanged**. Full application readback and exact-version runtime checks passed. No new28 physical timing, gesture or readability acceptance is claimed.
+**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
 
-Inherited27 reports remain partial: Classic compass/card and Coaching card shakes worked, but Coaching compass shaking failed and automatic shaking was intermittent after path selection; S then shake worked there. These are27 observations, not new28 tests or proof of reliability/exactly-once behavior.
-See the [current progress and verification ledger](docs/V3-PROGRESS.md) for scope and remaining checks.
+The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
 
-The committed firmware baseline remains `v3-0.1.22-reliability`. Installed28 and retained recovery27 use separate archived source and artifacts; neither is published by this documentation update. No automatic rollback is implied. Historical release ledgers retain their original evidence and timing.
+See the [frozen baseline contract](docs/BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+
 [Project specification](docs/PROJECT-SPEC.md) · [Classic flow](docs/CLASSIC-FLOW.md) · [Coaching flow](docs/COACHING-FLOW.md)
 
 ## The product vision
@@ -36,7 +36,7 @@ For **V3's playful experience**, **turn over and back—or deliberately shake fo
 
 The device is a fun building project and possible shared learning aid, not a prerequisite for mentoring, a container for every material or evidence of better learning. Try the separate [V3 shake/reveal browser study](prototype/v3-experience.html); its shake is simulated, not sensor-tested.
 
-## Published implementation baseline and historical acceptance
+## Historical implementation and acceptance — v3-0.1.21
 
 For the current installed28 state and open physical checks, use the [progress ledger](docs/V3-PROGRESS.md). The older implementation and acceptance descriptions in this section retain their original release scope.
 
@@ -56,7 +56,7 @@ The installed global start-fresh change is **qualitatively user-accepted in both
 | --- | --- | --- | --- |
 | V1 | HiLetgo ESP-WROOM-32 + Hosyond SH1106 128x64 white OLED | Onboard BOOT button | v1-0.2.4 display and BOOT confirmed; full acceptance pending |
 | V2 | ESP32-C6 1.47-inch capacitive touchscreen, 172x320 portrait, pin headers | Touch-first, portrait layout | v2-0.1.8 read-only trial; tap-triggered gradual reveal; authenticated Wi-Fi updates verified; full human acceptance pending |
-| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Classic compass/cards plus optional six-path Coaching; optional S-assisted shake | v3-0.1.28-controls DRAFT installed; 2s settled hold / 6s reveal; readback/runtime verified; inherited27 gesture gaps open; new28 physical acceptance pending |
+| V3 | Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1, 360x360 round | Classic compass/cards plus optional six-path Coaching; optional S-assisted shake | v3-0.1.28-controls DRAFT installed; 2s settled hold / 6s reveal; readback/runtime verified; inherited27 gesture gaps open; qualitative timing feedback positive; no new gesture acceptance |
 
 A completed intentional turn over and back or a deliberate sustained shake starts fresh from **any owned screen**, including Options, Guide, paths, questions, experiments, the path picker, closings, reminders, the Opening compass and an active reveal or reading hold. Classic draws once in its active Ask/Try mode, including after Home, and clears Options before showing the card. Coaching leaves the current path, clears route history and draws one fresh **Opening card**, not another question in that path or a return to the compass. Old reveal/hold resources and pending settlement cues are canceled: no old callbacks, queued draws or stale cues reach the replacement. Actual pointer contact and inertial scrolling still suppress motion. Partial gesture intent and qualified blackout survive autonomous same-card reveal settlement and hold deadlines. Turnover stays black while qualified inverted and starts the new reveal on completed return; shake goes straight to reveal without an extra timed black pause. Each new card retains the six-second whole-face reveal plus five-second reading hold. One sustained burst draws once; continuing to rattle cannot queue another card. Recognition retains 400ms of fresh quiet, 900ms of credited fresh motion and ten opposing peaks, then a 2200ms cooldown followed by fresh quiet to rearm. These are safeguards, not a prescribed handling ritual.
 

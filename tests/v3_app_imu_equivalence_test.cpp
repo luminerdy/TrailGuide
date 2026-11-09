@@ -21,7 +21,7 @@ struct Bus {
 static uint32_t seed=0x73594ab1;
 static uint32_t word(){seed=1664525u*seed+1013904223u;return seed;}
 static void raw(Bus &b,unsigned axis,int value){const uint16_t bits=uint16_t(value);b.r[0x35+2*axis]=bits&255;b.r[0x36+2*axis]=bits>>8;}
-// ONLY the CTRL3 payload/readback may differ in an equal-raw bus transcript.
+// Historical CTRL3 whitelist is unchanged; add ONLY exact CTRL2 range write/readback.
 static unsigned compareBus(const Bus &a,const Bus &b,bool physical){
  assert(a.calls.size()==b.calls.size());unsigned changes=0;
  for(size_t k=0;k<a.calls.size();++k){
@@ -30,9 +30,14 @@ static unsigned compareBus(const Bus &a,const Bus &b,bool physical){
   const bool ctrlRead=x==0x50457 && y==0x50477;
   const unsigned at=(x>>8)&255;
   const bool encodedGyro=physical && (x&0xf0000)==0x50000 && (y&0xf0000)==0x50000 && at>=0x3b && at<=0x40 && (y&0xff00)==(x&0xff00);
- assert(ctrlWrite || ctrlRead || encodedGyro);++changes;
+ const bool accCtrlWrite=x==0x20017 && y==0x20037 && k>0 && a.calls[k-1]==0x20003 && b.calls[k-1]==0x20003;
+ const bool accCtrlRead=x==0x50317 && y==0x50337;
+ const bool encodedAcc=physical && (x&0xf0000)==0x50000 && (y&0xf0000)==0x50000 && at>=0x35 && at<=0x3a && (y&0xff00)==(x&0xff00);
+ assert(ctrlWrite || ctrlRead || encodedGyro || accCtrlWrite || accCtrlRead || encodedAcc);++changes;
  }
  for(unsigned k=0;k<256;++k){
+  if(k==3){assert((a.r[k]==0 && b.r[k]==0) || (a.r[k]==0x17 && b.r[k]==0x37));continue;}
+  if(physical && k>=0x35 && k<=0x3a)continue; // independently encoded same physical acceleration
   if(k==4){assert((a.r[k]==0 && b.r[k]==0) || (a.r[k]==0x57 && b.r[k]==0x77));continue;}
   if(physical && k>=0x3b && k<=0x40)continue; // checked as signed physical values below
   assert(a.r[k]==b.r[k]);
@@ -53,7 +58,8 @@ int main(){
   }
   clock+=i<12?1:word()%40;old.tick(clock);now.tick(clock);configDifferences+=compareBus(a,b,false);
   const auto &x=old.sample();const auto &y=now.sample();
-  assert(x.valid==y.valid && x.at_ms==y.at_ms && std::memcmp(x.acc_g,y.acc_g,sizeof(x.acc_g))==0);
+  assert(x.valid==y.valid && x.at_ms==y.at_ms);
+  for(unsigned axis=0;axis<3;++axis)assert(y.acc_g[axis]==4*x.acc_g[axis]);
   for(unsigned axis=0;axis<3;++axis)assert(y.gyr_dps[axis]==4*x.gyr_dps[axis]);
   // Same raw headroom (32704 counts) despite 4x different physical units.
   baselineapp::Gesture oldGuard;v3app::Gesture newGuard;
@@ -63,7 +69,7 @@ int main(){
   assert(m.sequence==n.sequence && m.at_ms==n.at_ms && m.errors==n.errors && m.status0==n.status0 && m.flags==n.flags && m.clip==n.clip && std::memcmp(m.raw,n.raw,sizeof(m.raw))==0);
   a.calls.clear();b.calls.clear();
  }}
- assert(configDifferences==2); // exactly one CTRL3 write and one readback, no blanket bus exclusions
+ assert(configDifferences==4); // exactly one CTRL3 write and one readback, no blanket bus exclusions
  unsigned fires=0;
  // Independently encoded equal PHYSICAL motion; stationary bias is not multiplied.
  {Bus a,b;a.r[0]=b.r[0]=5;a.r[1]=b.r[1]=124;
@@ -74,7 +80,7 @@ int main(){
    const unsigned pose=i%500;const bool turning=(pose>=80 && pose<95)||(pose>=125 && pose<140);const bool down=pose>=95 && pose<125;
    for(unsigned axis=0;axis<3;++axis){
     const int acc=axis==2?(turning?0:(down?-8192:8192)):(axis==0 && turning?8192:0);
-    raw(a,axis,acc);raw(b,axis,acc);
+    raw(a,axis,acc);raw(b,axis,acc/4);
     const int gyro=axis==0?(turning?5760:140):int(word()%5)*4-8;
     raw(a,axis+3,gyro);raw(b,axis+3,gyro/4);
    }
@@ -103,5 +109,5 @@ int main(){
   a.calls.clear();b.calls.clear();
  }}
  assert(fires>0);
- printf("PASS SYNTHETIC 12000 equal-raw steps (ONLY CTRL3 write/readback and 4x gyro conversion) + 12000 independently encoded equal-physical steps (exact gesture/state/bus equivalence, %u fires); NOT HUMAN REPLAY\n",fires);
+ printf("PASS SYNTHETIC 12000 equal-raw steps (ONLY CTRL2+CTRL3 write/readback and 4x accel+gyro conversion) + 12000 independently encoded equal-physical steps (exact gesture/state/bus equivalence, %u fires); NOT HUMAN REPLAY\n",fires);
 }

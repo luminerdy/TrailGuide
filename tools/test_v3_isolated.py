@@ -119,7 +119,7 @@ def run_attempt(command,cwd,env,out,protected,timeout=600,metadata=None):
     return report
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'build/v3-0.1.22/evidence'
+OUT=ROOT/'build/v3-0.1.28/evidence'
 
 def inventory(root):
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}

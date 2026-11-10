@@ -2,7 +2,7 @@
 
 ## Status and acceptance boundary
 
-**Current frozen working baseline and reference for future development: `v3-0.1.28-controls`.** This source-and-documentation checkpoint is identified by tag `v3-0.1.28-controls`. It promotes the exact installed28 source, not an experimental gesture overlay. It remains a DRAFT offline authored-content trial, not stable-production certification. Verify the tag and its source manifest when checking out or comparing future work.
+**Historical frozen working baseline and preserved reference: `v3-0.1.28-controls`.** This source-and-documentation checkpoint is identified by tag `v3-0.1.28-controls`. It promotes the exact installed28 source, not an experimental gesture overlay. It remains a DRAFT offline authored-content trial, not stable-production certification. Verify the tag and its source manifest when checking out or comparing future work.
 
 The installed application is **695,728 bytes**. Complete application readback matched SHA-256:
 
@@ -46,7 +46,7 @@ Obtain the original-model `ESP32-S3-Touch-LCD-1.85-Demo.zip` separately; it is n
 fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990
 ```
 
-Run from a clean checkout of the validated baseline tag, with those dependencies already available. Use a **fresh disposable output**, never an accepted artifact directory. The module defaults to `build/v3-0.1.28` and rejects accepted older release/private-motion roots. Its public Python API also supports an explicit output argument; there are no command-line output/ZIP flags. Check generated consumers and owned source first, then prepare and check the complete sketch:
+Check out `v3-0.1.28-controls` first (`git switch --detach v3-0.1.28-controls`); do not run this historical recipe against current31 source. Run from that clean checkout, with those dependencies already available. Use a **fresh disposable output**, never an accepted artifact directory. The module defaults to `build/v3-0.1.28` and rejects accepted older release/private-motion roots. Its public Python API also supports an explicit output argument; there are no command-line output/ZIP flags. Check generated consumers and owned source first, then prepare and check the complete sketch:
 
 ```sh
 python3 tools/build_v3_content.py --check

@@ -11,7 +11,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT/'build/v3-0.1.28/evidence'
+OUT = ROOT/'build/v3-0.1.31/evidence'
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
@@ -50,7 +50,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     data = OUT/'recovery-capture.private.csv'
     data.write_text('\n'.join(output)+'\n')
-    binary = ROOT/'build/v3-0.1.28/host/v3-app-recovery-test'
+    binary = ROOT/'build/v3-0.1.31/host/v3-app-recovery-test'
     result = subprocess.run([str(binary), str(data)], capture_output=True, text=True)
     (OUT/'recovery-replay.private.log').write_text(result.stdout+result.stderr)
     print(result.stdout, end='')

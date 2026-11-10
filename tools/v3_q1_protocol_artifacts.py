@@ -15,7 +15,7 @@ INPUTS=('tests/v3_app_recorder_test.cpp','trailguide_v3/flight_recorder.h',
 OUTPUTS=('recorder.synthetic.wire','recorder.manual.synthetic.wire')
 MANIFEST='recorder.synthetic.manifest.json'
 
-def output(root): return root/'build/v3-0.1.28'
+def output(root): return root/'build/v3-0.1.31'
 def binary(root): return output(root)/'host/v3-app-recorder-test'
 def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 

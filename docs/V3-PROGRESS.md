@@ -1,16 +1,18 @@
 # V3 progress and verification checkpoint
 
-## Current frozen working baseline — v3-0.1.28-controls
+## Current installed release — v3-0.1.31-mode-switch
 
-**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
 
-The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
 
-See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
 
 [Project specification](PROJECT-SPEC.md) · [Delivery plan](PLAN.md) · [Verification record](BRINGUP.md) · [Classic flow](CLASSIC-FLOW.md) · [Coaching flow](COACHING-FLOW.md)
 
-## Verification completed for28
+<a id="verification-completed-for28"></a>
+
+## Historical28 verification completed
 
 These are retained actual implementation/install results, not firmware checks rerun for this documentation edit:
 
@@ -31,7 +33,7 @@ c25be6578548b6d0f9e57ea74b4c9fb4385dced139d0f83ddf9c8d96f8c4a0ad
 
 The27 observer's **53 host cases +11 bridge cases** remain scoped off-device results, not live readiness. Two actual27 starts stopped **before Record/Go**. The second incorrectly reported non-Classic context despite human-confirmed Classic: the failed gate was IMU validity, not evidence of the wrong screen. A cleanup resume-only/not-halted alarm was also misleading; independent full read/resume confirmed healthy valid idle operation. No27/28 movement recording resulted.
 
-Keep installed28 stable. Before any future authorized capture, rebind and review the observer against28's exact application/ELF/map; preserve the old27 results without relabelling them. Recording permission, live readiness and field correspondence remain separate gates. Do not use software passes or runtime liveness to close the unsolved Coaching incident. This source-baseline checkpoint permits only the approved source/docs publication after integration; it authorizes no further hardware operation or binary publication.
+Keep installed31 stable. Before any future authorized capture, rebind and review the observer against31's exact application/ELF/map; preserve the old27 results without relabelling them. Recording permission, live readiness and field correspondence remain separate gates. Do not use software passes or runtime liveness to close the unsolved Coaching incident. This source-baseline checkpoint permits only the approved source/docs publication after integration; it authorizes no further hardware operation or binary publication.
 
 ## Historical27 checkpoint
 
@@ -91,8 +93,8 @@ See [the focused findings and scoped correction proposal](V3-GESTURE-FOLLOWUP.md
 
 The53 observer and11 bridge host passes did not establish live readiness. Subsequent actual attempts and the required28 rebinding are recorded above; old results remain bound to27. The synthetic100-second export was a fake-clock result, not a movement trace.
 
-## Next steps — preserve installed28
+## Next steps — preserve installed31
 
-Keep28 stable; continue the scoped27 investigation off-device without merging its rejected experiment. Any future capture needs28 observer rebinding, fresh consent/readiness and preservation gates. Later source publication requires its own checked, privacy-reviewed scope; this documentation update is not a source backup.
+Keep31 stable; continue the scoped27 investigation off-device without merging its rejected experiment. Any future capture needs31 observer rebinding, fresh consent/readiness and preservation gates. Later source publication requires its own checked, privacy-reviewed scope; this documentation update is not a source backup.
 
 The primary project remains learner-owned, project-led mentoring through **Define → Direct → Check → Adjust**. The device is an optional playful companion, not a curriculum prerequisite, diagnostic instrument or evidence of learning outcomes.

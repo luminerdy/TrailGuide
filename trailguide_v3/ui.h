@@ -7,14 +7,14 @@
 #include "cards_generated.h"
 #include "coaching_ui.h"
 namespace v3app {
-static constexpr const char *version="v3-0.1.28-controls";
+static constexpr const char *version="v3-0.1.31-mode-switch";
 // Bounded read-only DRAFT. No update, wake/dim, storage, accounts or networking.
 class Ui {
  public:
  enum class Action { Ask, Try, Home, Guide, Another, Back, More, Instant, Options, Coaching, Sound, ManualShake, Count };
  SoundCue sound;Model model;WindowReveal window;CoachUi coach;bool coachingMode=false;
  lv_obj_t *root=nullptr,*first=nullptr,*second=nullptr,*backButton=nullptr,*moreButton=nullptr,*toggle=nullptr,*scroll=nullptr,*body=nullptr,*motionStatus=nullptr;
- lv_obj_t *manualButton=nullptr,*manualStatus=nullptr;
+ lv_obj_t *modeButton=nullptr,*manualButton=nullptr,*manualStatus=nullptr;
  bool instant=false,fallback=false;
  Ui(RandomWord r,void *c,WindowReveal::Allocate a,WindowReveal::Release f,uint32_t (*clock)()=nullptr):model(r,c),window(a,f),coach(r,c,a,f,clock),motionClock(clock){coach.sound=&sound;coach.exitCallback=exitCoach;coach.exitContext=this;}
  Ui(const Ui&)=delete;Ui &operator=(const Ui&)=delete;
@@ -72,8 +72,9 @@ class Ui {
    compassState=lv_tick_get()^0x8b31fca5u;compassAngle=0;compassTarget=130;compassTicks=0;compassTimer=lv_timer_create(wander,160,this);
    return;
   }
-  backButton=button(model.view==View::Guide?Action::Back:Action::Home,model.view==View::Guide?"Back":"Home",76,54,100,48);
-  moreButton=button(Action::More,"More text",184,54,100,48);
+  backButton=button(model.view==View::Card?Action::Home:Action::Back,model.view==View::Card?"Home":"Back",76,54,64,48);
+  modeButton=button(model.mode==Mode::Ask?Action::Try:Action::Ask,model.mode==Mode::Ask?"Try":"Ask",148,54,64,48);
+  moreButton=button(Action::More,"More text",220,54,64,48);
   const auto &c=trailguide::cards[model.index];
   scroll=lv_obj_create(root);lv_obj_remove_style_all(scroll);lv_obj_set_pos(scroll,52,112);lv_obj_set_size(scroll,256,140);lv_obj_set_scroll_dir(scroll,LV_DIR_VER);lv_obj_set_scrollbar_mode(scroll,LV_SCROLLBAR_MODE_AUTO);
   lv_obj_set_style_width(scroll,3,LV_PART_SCROLLBAR);lv_obj_set_style_bg_color(scroll,lv_color_hex(0xc5d8e4),LV_PART_SCROLLBAR);lv_obj_set_style_bg_opa(scroll,LV_OPA_COVER,LV_PART_SCROLLBAR);
@@ -183,7 +184,7 @@ class Ui {
   if(blanked){for(unsigned i=0;i<lv_obj_get_child_cnt(root)&&i<32;++i)if(lv_obj_get_child(root,i)==moreButton){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);break;}}
   else if(hide)lv_obj_add_flag(moreButton,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(moreButton,LV_OBJ_FLAG_HIDDEN);
  }
- void chrome(bool hide){focused=hide;lv_obj_t *controls[]={backButton,moreButton,first,second,motionStatus,manualButton,manualStatus};for(auto *o:controls)if(o){if(blanked){for(unsigned i=0;i<lv_obj_get_child_cnt(root) && i<32;++i)if(lv_obj_get_child(root,i)==o){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);break;}}else if(hide)lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);}updateMore();}
+ void chrome(bool hide){focused=hide;lv_obj_t *controls[]={modeButton,backButton,moreButton,first,second,motionStatus,manualButton,manualStatus};for(auto *o:controls)if(o){if(blanked){for(unsigned i=0;i<lv_obj_get_child_cnt(root) && i<32;++i)if(lv_obj_get_child(root,i)==o){if(hide)hiddenBeforeBlank|=1u<<i;else hiddenBeforeBlank&=~(1u<<i);break;}}else if(hide)lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);}updateMore();}
  void stopFocus(){if(focusTimer){lv_timer_del(focusTimer);focusTimer=nullptr;}chrome(false);}
  static void focusDone(lv_timer_t *t){auto *u=static_cast<Ui*>(t->user_data);u->stopFocus();}
  // Hide only after a deadline callback exists; allocation failure leaves access intact.
@@ -205,7 +206,7 @@ class Ui {
   case LV_EVENT_CLICKED:if(u->touchCancelledBlank){u->touchCancelledBlank=false;break;}if(u->focused && !u->dragged && !u->scrolling && u->model.view==View::Card){if(u->busy())u->finish(true);else u->stopFocus();}break;
   case LV_EVENT_SCROLL:case LV_EVENT_LAYOUT_CHANGED:u->updateMore();break;
   default:break;}}
- static void deleted(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);if(o==u->manualButton)u->manualButton=nullptr;if(o==u->manualStatus)u->manualStatus=nullptr;if(u->shake.manualArmed())u->cancelManual();if(u->blanked && o!=u->root && (o==u->compass || o==u->body || o==u->scroll || o==u->first || o==u->second || o==u->backButton || o==u->moreButton || o==u->motionStatus || (u->second && lv_obj_get_parent(o)==u->second))){u->pendingSettlement=false;u->setBlank(false);u->gesture.reset();}if(o==u->root){u->cancel();++u->resetCounts[7];u->gesture.reset();u->root=nullptr;u->manualButton=u->manualStatus=nullptr;u->compass=nullptr;u->first=u->second=u->backButton=u->moreButton=u->toggle=u->body=u->scroll=u->motionStatus=nullptr;u->pointerDown=false;u->scrolling=false;return;}if(o==u->compass){u->stopCompass();u->compass=nullptr;}if(o==u->motionStatus){u->motionStatus=nullptr;u->cancel();}if(u->second && lv_obj_get_parent(o)==u->second)u->cancel();if(o==u->body){u->body=nullptr;u->cancel();}if(o==u->scroll){u->scroll=nullptr;u->cancel();}if(o==u->second){u->second=nullptr;u->cancel();}if(o==u->first){u->first=nullptr;u->cancel();}if(o==u->backButton){u->backButton=nullptr;u->cancel();}if(o==u->moreButton){u->moreButton=nullptr;u->cancel();}if(o==u->toggle){u->toggle=nullptr;u->cancel();}}
+ static void deleted(lv_event_t *e){auto *u=static_cast<Ui*>(lv_event_get_user_data(e));auto *o=lv_event_get_target(e);if(o==u->manualButton)u->manualButton=nullptr;if(o==u->manualStatus)u->manualStatus=nullptr;if(u->shake.manualArmed())u->cancelManual();if(u->blanked && o!=u->root && (o==u->compass || o==u->body || o==u->scroll || o==u->first || o==u->second || o==u->modeButton || o==u->backButton || o==u->moreButton || o==u->motionStatus || (u->second && lv_obj_get_parent(o)==u->second))){u->pendingSettlement=false;u->setBlank(false);u->gesture.reset();}if(o==u->root){u->cancel();++u->resetCounts[7];u->gesture.reset();u->root=nullptr;u->modeButton=u->manualButton=u->manualStatus=nullptr;u->compass=nullptr;u->first=u->second=u->backButton=u->moreButton=u->toggle=u->body=u->scroll=u->motionStatus=nullptr;u->pointerDown=false;u->scrolling=false;return;}if(o==u->compass){u->stopCompass();u->compass=nullptr;}if(o==u->motionStatus){u->motionStatus=nullptr;u->cancel();}if(u->second && lv_obj_get_parent(o)==u->second)u->cancel();if(o==u->body){u->body=nullptr;u->cancel();}if(o==u->scroll){u->scroll=nullptr;u->cancel();}if(o==u->second){u->second=nullptr;u->cancel();}if(o==u->first){u->first=nullptr;u->cancel();}if(o==u->backButton){u->backButton=nullptr;u->cancel();}if(o==u->moreButton){u->moreButton=nullptr;u->cancel();}if(o==u->modeButton){u->modeButton=nullptr;u->cancel();}if(o==u->toggle){u->toggle=nullptr;u->cancel();}}
  lv_obj_t *label(lv_obj_t *p,const char *s,int x,int y,int w,const lv_font_t *font){auto *o=lv_label_create(p);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_clear_flag(o,LV_OBJ_FLAG_CLICKABLE);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,w);lv_label_set_long_mode(o,LV_LABEL_LONG_WRAP);lv_obj_set_style_text_font(o,font,0);lv_obj_set_style_text_line_space(o,4,0);lv_label_set_text(o,s);return o;}
  lv_obj_t *button(Action a,const char *s,int x,int y,int w,int h){auto *o=lv_btn_create(root);lv_obj_remove_style_all(o);lv_obj_set_pos(o,x,y);lv_obj_set_size(o,w,h);lv_obj_clear_flag(o,LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_PRESS_LOCK);lv_obj_set_style_bg_opa(o,LV_OPA_COVER,0);lv_obj_set_style_bg_color(o,lv_color_hex(0x0c1721),0);lv_obj_set_style_bg_color(o,lv_color_hex(0x1a2b38),LV_STATE_PRESSED);lv_obj_set_style_radius(o,8,0);lv_obj_set_style_outline_width(o,2,LV_STATE_FOCUSED);lv_obj_set_style_outline_pad(o,0,LV_STATE_FOCUSED);lv_obj_set_style_outline_color(o,lv_color_hex(0xffffff),LV_STATE_FOCUSED);auto *text=label(o,s,0,0,w-8,&lv_font_montserrat_16);lv_obj_set_style_text_align(text,LV_TEXT_ALIGN_CENTER,0);lv_obj_center(text);auto &slot=slots[unsigned(a)];slot={this,a};lv_obj_add_event_cb(o,clicked,LV_EVENT_CLICKED,&slot);lv_obj_add_event_cb(o,deleted,LV_EVENT_DELETE,this);lv_obj_add_event_cb(o,contact,LV_EVENT_ALL,this);return o;}
  static void clicked(lv_event_t *e){auto *s=static_cast<Slot*>(lv_event_get_user_data(e));s->owner->perform(s->action);if(auto *in=lv_indev_get_act())lv_indev_wait_release(in);}

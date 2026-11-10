@@ -1,5 +1,13 @@
 # Raspberry Pi handoff
 
+## Current installed release — v3-0.1.31-mode-switch
+
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
+
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
+
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
+
 This is the original V1 host-setup guide, not the current C6 development checkpoint. Start with the [project and coaching handoff](HANDOFF.md) and [verification record](BRINGUP.md). Do not apply these V1 OLED/board commands to V2.
 
 ## Human setup

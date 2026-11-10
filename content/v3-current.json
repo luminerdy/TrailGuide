@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "version": "v3-0.1.31-mode-switch",
+  "claim": "Exact prepared source only; relocated paths and build timestamps do not establish a bit-identical binary rebuild.",
+  "installed_app_sha256": "0f41758346f19d823109f956b01cb6bf576700f23d5888d3ab588fe6598a92d4",
+  "prepared_files": {
+    "Display_ST77916.cpp": "1db6cbcaa7c8d8479ee36f6df1d279b402d334e6902335b91cec878aa609a256",
+    "Display_ST77916.h": "a071d57111ea981291ad1633a4e9fb0b7ab6a686fe3fe7de29b5e3d3a446144f",
+    "I2C_Driver.cpp": "3535db22b6e9549fe87511fd0ed6b35b550ddcf86862bba0f83b77887ff16d3f",
+    "I2C_Driver.h": "b05e7ef9378ebec9f9ac4323e88dfa5b08cf358e3f35b14e766c7eaf739c4724",
+    "LVGL_Driver.cpp": "04e312cda85bfd0ec47f362e4e89d0c8730fc5aa5ab4c7b65cc2445ddcb6c219",
+    "LVGL_Driver.h": "0e4d966a108787107cc30d537aded7b5ad70dd093ae801babe18efeae3dece0b",
+    "TCA9554PWR.cpp": "670ce9f8fbf1d6ca0ae361e3b1e2f28969ac1451d4bcdea5c0a4eadcddc982f9",
+    "TCA9554PWR.h": "3dd0bf3a9573b51ad5c420334dd43411ea736e0e02917ac4c685d572ee1e6f53",
+    "Touch_CST816.cpp": "89019861611fe49cc25a9a7a1bba77f2845b366faa7c5869ac1d575fdef1e780",
+    "Touch_CST816.h": "c867619370ea24cb8fdd1d358ff629dbe9a9aa34309d3c3bc4592f1b933e3607",
+    "cards_generated.h": "b0c6ce5b77cf1b2d4f0079276fa34c55c3989b7b00001d4591a7668af6cad589",
+    "chime.h": "f6282a57ceaf4f020b60f39a08898917b34c2a4ea2bfd3c63da17d70d9372d2b",
+    "chime_tone.h": "e954d0f3c55437b8a19d2ddd3c6f18c19d3e8fe284f331a50ea94e0a868ebcdb",
+    "coaching_generated.h": "14433e659235a9700a63b370e3d380f8998be0af65ca5070fcfc334b59544d5f",
+    "coaching_model.h": "a2ff2646c9fe45e1b20d7d2cdb73d6aa2dbef427396c487e98d34d13df647be7",
+    "coaching_ui.h": "e2bb9e509b6f73280786f32cea361e7dea1f84c3bf8d4781e4afce436c76f345",
+    "esp_lcd_st77916.c": "45ff8a9223460aa053b6916c94d1a46622eda02c19046ce181e49d3c4ff66b22",
+    "esp_lcd_st77916.h": "21f444cdc25ed1ceec379fe91fb5fd09d31ef179a946c9a7bd6f67d2e3599bfa",
+    "flight_recorder.h": "1f5044a321887b1b1051b6209ade5a3c573fa3b060e9337392cf818dc2054366",
+    "gesture.h": "0e9f9e3ca006df2dfe3584f01572ec6de45cd3490ed459dbb1d391e5eabcbdf6",
+    "imu.h": "7d6aba922e3a89f91a704bb80b48076423d19ace465108792fd368ddc45d2bbe",
+    "lv_conf.h": "45c55c7cbc4bfe5d73a525aaecaa44bf1a2cef9ad8e82fc0b2b157e4e5093b84",
+    "model.h": "e3169f5621ce32cd59b198d0cd0dd834f021bce0925ec36a8d8f62ba6d8495d2",
+    "motion_diagnostics.h": "556cd7d69efff50d5b7d7e44e23559d71c13efd042e610e07b1b866af5699fb5",
+    "shake.h": "5e67d0690720c4a97874d328d953bfa719958421f2d5595f9efab344124a6d09",
+    "sound_cue.h": "b3d82cbeb41693d1d621899c3539cf5161848eb9705286f9ef788fb6761e9dd1",
+    "trailguide_v3.ino": "939fa76182da6c4374c14ef81281dab598c048974b51e9fb4f4a20e225ada604",
+    "ui.h": "e229681ec9986f9ed6142859a53bbdbb206523be0fc73bf37b566ad4e8387aa7",
+    "window_reveal.h": "ba25aaf51c89a30d6ae170bcac71628e23045037bf5741a843cd80fadb6a53b1"
+  },
+  "owned_files": [
+    "cards_generated.h",
+    "chime.h",
+    "chime_tone.h",
+    "coaching_generated.h",
+    "coaching_model.h",
+    "coaching_ui.h",
+    "flight_recorder.h",
+    "gesture.h",
+    "imu.h",
+    "lv_conf.h",
+    "model.h",
+    "motion_diagnostics.h",
+    "shake.h",
+    "sound_cue.h",
+    "trailguide_v3.ino",
+    "ui.h",
+    "window_reveal.h"
+  ],
+  "archive_sha256": "fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990",
+  "toolchain": {
+    "arduino_esp32": "3.3.2",
+    "lvgl": "8.3.10",
+    "configuration_reference": "tools/prepare_v3.py: fqbn, compiler.c.extra_flags and compiler.cpp.extra_flags",
+    "compiler_optimization": "-Os",
+    "target_compiles_reused": 487,
+    "flag_compatibility": "Original target used the same fqbn and LV_CONF_INCLUDE_SIMPLE/LV_CONF_PATH macros with an archived config and library location. Public preparation relocates those paths. No bit-identical binary rebuild is claimed.",
+    "lv_conf_sha256": "45c55c7cbc4bfe5d73a525aaecaa44bf1a2cef9ad8e82fc0b2b157e4e5093b84"
+  },
+  "behavior": {
+    "reveal_ms": 6000,
+    "settled_reading_hold_ms": 2000,
+    "accelerometer_range_g": 16,
+    "accelerometer_counts_per_g": 2048,
+    "manual_shake_intent_ms": 8000
+  },
+  "evidence": {
+    "native": "REUSED: original31 closed 147-command native suite, 27 fresh C++ builds, 424 verified HOST C objects, 547 frame comparisons: 359 byte-exact and 188 confined to the approved top-control region (33 main, 155 Guide), 11 protocol tests, zero skips; independent31 native review: 170 cases / 1911 checks. Not rerun by publication.",
+    "sdk": "REUSED: original31 fresh 487-command SDK build, full application readback and strict two-snapshot runtime/resume verification; no relocated binary rebuild claimed.",
+    "visual": "REUSED: 359 exact frame comparisons; changes confined to 33 main and 155 Guide top-button regions."
+  },
+  "known_limits": [
+    "Coaching compass/path automatic shake reliability remains open.",
+    "Qualitative human acceptance is not exhaustive motion reliability.",
+    "Source preparation and host tests do not prove physical pixels, sound or gesture acceptance."
+  ]
+}

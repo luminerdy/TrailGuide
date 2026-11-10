@@ -1,8 +1,16 @@
 # V3 round S3 — display/touch and IMU bring-up
 
+## Current installed release — v3-0.1.31-mode-switch
+
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
+
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
+
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
+
 ## Scope and measured identity
 
-Current hardware: **v3-0.1.11 DRAFT** is installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Qualified turnover blanks the prior scene; confirmed return runs the unchanged reveal/hold. One natural blank → card animation → controls sequence is human-confirmed with one clean recorded trigger. Working sensor settings, twelve-card content and bounded recorder are retained. Cancellation/restoration is native-tested; repeated-use and additional physical acceptance remain separate. Earlier sections retain their historical scope.
+Historical11 hardware checkpoint: **v3-0.1.11 DRAFT** was installed and exact-version/UI/real-IMU verified; see [V3-TRIAL.md](V3-TRIAL.md). Qualified turnover blanks the prior scene; confirmed return runs the unchanged reveal/hold. One natural blank → card animation → controls sequence is human-confirmed with one clean recorded trigger. Working sensor settings, twelve-card content and bounded recorder are retained. Cancellation/restoration is native-tested; repeated-use and additional physical acceptance remain separate. Earlier sections retain their historical scope.
 
 - Re-enumerated one native Espressif USB JTAG/serial interface, USB VID/PID `303a:1001`. No process owned its serial node immediately before the probe. USB identity alone does not identify the board or chip.
 - Pinned esptool **4.11.0** measured **ESP32-S3 (QFN56), silicon revision v0.2**, a 40 MHz crystal and embedded **8 MB PSRAM (AP_3v3)**. This is a silicon feature report, not a runtime PSRAM memory test.

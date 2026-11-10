@@ -245,7 +245,7 @@ class RollbackReportingFailure(unittest.TestCase):
     def test_deep_sketch_symlink_rejected_before_archive_access(self):
         import importlib
         for module_name, anchor, sketch in (
-                ('prepare_v3', 'build/v3-0.1.28', 'trailguide_v3'),
+                ('prepare_v3', 'build/v3-0.1.31', 'trailguide_v3'),
                 ('prepare_v3_bringup', 'build/v3-s3-bringup/imu', 'trailguide_v3_bringup')):
             with self.subTest(module=module_name), tempfile.TemporaryDirectory(prefix='tg-deep-') as folder:
                 root = Path(folder)

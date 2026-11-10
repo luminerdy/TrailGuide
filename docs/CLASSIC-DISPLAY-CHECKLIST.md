@@ -1,9 +1,11 @@
 # Classic Display Checklist - Separate Ask and Try
-v3-0.1.28-controls
+v3-0.1.31-mode-switch
 
 [Download the printable PDF](CLASSIC-DISPLAY-CHECKLIST.pdf). Page numbers below refer to that PDF.
-This reference matches the exact Classic text in `v3-0.1.28-controls`; Ask and Try are independent shuffled decks.
+This reference matches the exact Classic text in `v3-0.1.31-mode-switch`; Ask and Try are independent shuffled decks.
 
+
+The unchanged card pages retain their frozen28 wording-reference footer; current31 changes only navigation, not any expected wording.
 
 ## Two separate sections
 
@@ -11,7 +13,7 @@ ASK: pages 2-13. TRY: pages 14-25. Each page contains one mode only: its main-sc
 
 ## Choose your section
 
-From the Classic compass, tap its centre. Choose Ask the Team to test the ASK section, or Try a Move to test the TRY section. Shaking, flipping and Another draw within the selected mode; they do not switch between Ask and Try.
+From the Classic compass, tap its centre. Choose Ask the Team to test the ASK section, or Try a Move to test the TRY section. On a main card or Guide, **Try** while reading Ask or **Ask** while reading Try draws one independent card from the other deck and returns to its main screen. It does not select the matching identity. Shaking, flipping and Another retain the selected mode; they do not switch modes. Ordinary Guide/Back preserves the same card.
 
 ## Check one displayed card
 
@@ -28,7 +30,7 @@ ASK CARD, TRY CARD, title and ID are document lookup labels. They do not mean th
 
 ## Finish one mode, then the other
 
-Tick off all 12 titles in the mode you are testing. Then choose the other mode from the compass menu and use its separate section. If you began part-way through a shuffled deck, repeats may occur before your checklist is complete; do not assume exactly 12 draws are enough. No firmware change or restart is needed for this content check.
+Tick off all 12 titles in the mode you are testing. Then use the opposite-mode button on the main card or Guide, or the compass menu, and use the other section. If you began part-way through a shuffled deck, repeats may occur before your checklist is complete; do not assume exactly 12 draws are enough. No firmware change or restart is needed for this content check.
 
 ## Report a mismatch
 

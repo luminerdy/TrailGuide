@@ -1,12 +1,12 @@
 # TrailGuide — current project and system specification
 
-## Current frozen working baseline — v3-0.1.28-controls
+## Current installed release — v3-0.1.31-mode-switch
 
-**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
 
-The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
 
-See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
 
 ## 1. Purpose and authority
 
@@ -56,7 +56,7 @@ There are no required question counts, experiments, AI-use targets or inferred d
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
-**`v3-0.1.28-controls` DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
+**`v3-0.1.31-mode-switch` DRAFT is installed**. This remains an offline authored-content trial, not a production release; local installation does not imply publication.
 Exact-version runtime verification is recorded for this installed checkpoint; this documentation update did not contact hardware.
 
 The target is the original Waveshare ESP32-S3-Touch-LCD-1.85 Rev2.1:
@@ -168,7 +168,7 @@ When ON, an accepted new Classic card or explicitly requested new Coaching opene
 can play one **240ms, 500Hz decaying settlement chime**, using a nominal PCM peak
 of **1536**. It begins when that draw becomes readable: normally after the six-second
 reveal, or immediately on same-card reveal completion, Instant text or safe fallback.
-Installed28 uses the two-second settled hold; the sound cue timing is unchanged. Initial Coaching entry is
+Installed31 retains the two-second settled hold; the sound cue timing is unchanged. Initial Coaching entry is
 silent even though it selects its first opener; context restoration, Guide/Back,
 path browsing, scrolling and ordinary navigation never cue. Busy cues are dropped,
 not queued. OFF requests cancellation of active playback; switching ON again does

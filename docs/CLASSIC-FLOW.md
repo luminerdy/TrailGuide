@@ -1,22 +1,22 @@
 # Classic — prompt-deck flow
 
-## Current frozen working baseline — v3-0.1.28-controls
+## Current installed release — v3-0.1.31-mode-switch
 
-**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
 
-The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
 
-See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
 
 **Classic offers one curated question or practical move at a time.** Use it for a quick spark, then return attention to the person or team.
 
-Installed28 retains the27 navigation baseline; only the settled hold changes. Gesture arrows express the intended global Start Fresh routes, not physical acceptance from every context; the current Coaching compass/path-entry failures are recorded in the progress ledger. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
+Installed31 adds only the Classic main/Guide opposite-mode shortcut; Coaching navigation remains unchanged. Gesture arrows express the intended global Start Fresh routes, not physical acceptance from every context; the current Coaching compass/path-entry failures are recorded in the progress ledger. Read alongside the [Coaching flow](COACHING-FLOW.md) and [project specification](PROJECT-SPEC.md).
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 
-Installed28 retains this navigation and six-second reveal plus two-second hold.
+Installed31 retains the six-second reveal plus two-second hold.
 Runtime fault cancellation and pending-cue ownership are scoped in the ledger above;
-no diagram restructuring or startup-default change is implied.
+no startup-default change is implied.
 
 ```mermaid
 flowchart TD
@@ -35,13 +35,16 @@ flowchart TD
     Reveal -->|Completes, or tap to finish this same reveal| Hold
     Hold -.-> Cue["New draw now readable: optional settlement chime<br/>Sound ON only; busy cues dropped"]
     Hold -->|Hold finishes, or tap to show controls| Card["Same question or activity<br/>Controls available"]
-    Card -->|Another| Draw
+    Card -->|Try on Ask / Ask on Try: independent other-mode draw| Switch[Set opposite mode; draw its next independent card]
+    Guide -->|Try on Ask / Ask on Try: leave Guide| Switch
+    Switch --> Draw
+    Card -->|Another: retain selected mode| Draw
     Card -->|Guide me| Guide[Listening cues or activity guidance]
     Guide -->|Back: no draw| Card
     Card -->|More text only if text remains below; scroll: same card| Card
     Guide -->|Conditional More text or scroll: same guidance| Guide
     Card -->|Home| Compass
-    Guide -->|Home| Compass
+    Guide -->|Bottom Home| Compass
     Compass -.-> Fresh
     Options -.-> Fresh
     Guide -.-> Fresh
@@ -54,6 +57,7 @@ flowchart TD
 
 ## What the choices mean
 
+- **Try / Ask shortcut:** on a main card or Guide, select the other independent deck and draw once to its main screen. It is not a paired-face toggle.
 - **Ask the Team:** a spoken, open question from the Classic selection.
 - **Try a Move:** a practical activity from that same selection of card identities.
 - **Guide me:** support for the selected card, not a new draw. Ask guidance emphasizes listening; Try guidance emphasizes running the activity.

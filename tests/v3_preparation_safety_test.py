@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 class PreparationSafetyTest(unittest.TestCase):
     def fixture(self, root, module_name):
         module = importlib.import_module(module_name)
-        anchor = 'build/v3-0.1.28' if module_name == 'prepare_v3' else 'build/v3-s3-bringup/imu'
+        anchor = 'build/v3-0.1.31' if module_name == 'prepare_v3' else 'build/v3-s3-bringup/imu'
         private = root / anchor
         sketch_name = 'trailguide_v3' if module_name == 'prepare_v3' else 'trailguide_v3_bringup'
         own = root / sketch_name
@@ -154,7 +154,7 @@ class PreparationSafetyTest(unittest.TestCase):
                         module.prepare(output)
 
     def test_unsupported_path_shapes_fail_closed_before_archive(self):
-        for module_name, anchor in (('prepare_v3', 'build/v3-0.1.28'),
+        for module_name, anchor in (('prepare_v3', 'build/v3-0.1.31'),
                                     ('prepare_v3_bringup', 'build/v3-s3-bringup/imu')):
             for shape in ('output-file', 'prepared', 'libraries', 'config', 'manifest-directory', 'anchor-loop'):
                 with self.subTest(module=module_name, shape=shape), tempfile.TemporaryDirectory(prefix='q2-') as tmp:
@@ -178,7 +178,7 @@ class PreparationSafetyTest(unittest.TestCase):
                             module.prepare()
 
     def test_reject_symlinks_before_archive_access(self):
-        for module_name, anchor in (('prepare_v3', 'build/v3-0.1.28'),
+        for module_name, anchor in (('prepare_v3', 'build/v3-0.1.31'),
                                     ('prepare_v3_bringup', 'build/v3-s3-bringup/imu')):
             for destination in ('anchor', 'prepared', 'libraries', 'config', 'preparation.json'):
                 with self.subTest(module=module_name, destination=destination), tempfile.TemporaryDirectory(prefix='q2-') as tmp:

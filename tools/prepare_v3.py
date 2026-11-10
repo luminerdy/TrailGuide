@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare pinned original-family drivers with a reviewed derived DMA adapter.
 
-All derived files stay in ignored build/v3-0.1.28/. The local ZIP
+All derived files stay in ignored build/v3-0.1.31/. The local ZIP
 integrity pin is not a manufacturer's signature. Never uploads or opens serial.
 """
 from pathlib import Path
@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from preparation_safety import checked_path, validate_output, preparation_stage, publish
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE = ROOT / 'build/v3-0.1.28'
+PRIVATE = ROOT / 'build/v3-0.1.31'
 ARCHIVE = ROOT / 'build/v3-s3-bringup/ESP32-S3-Touch-LCD-1.85-Demo.zip'
 ARCHIVE_SHA256 = 'fa6cd4c47923d559e15571a20ec0d7029febee76e14e6afbd99760f9ad5d6990'
 DRIVERS = tuple(sorted({stem + suffix for stem in ('Display_ST77916', 'Touch_CST816', 'TCA9554PWR', 'I2C_Driver', 'LVGL_Driver') for suffix in ('.cpp', '.h')} | {'esp_lcd_st77916.c', 'esp_lcd_st77916.h'}))
@@ -27,12 +27,12 @@ def prepare(output=None):
         private = Path(output).absolute() if output is not None else PRIVATE.absolute()
     except (TypeError, ValueError) as error:
         raise ValueError('Output must be a filesystem path') from error
-    protected = tuple((ROOT / f'build/v3-0.1.{n}').absolute() for n in range(28))
+    protected = tuple((ROOT / f'build/v3-0.1.{n}').absolute() for n in range(31))
     protected += tuple((ROOT/name).absolute() for name in ('build/v3-speaker-bench-0.1.15','build/v3-coaching-compass-port/target','build/v3-ui-shake-0.1.19/target','build/v3-shake-calibration-0.1.20/target','build/v3-global-gestures-0.1.21/target','build/v3-reliability-0.1.22/target','build/v3-motion23-overnight'))
     if any(private == root or root in private.parents for root in protected):
         raise ValueError('Installed 1.6/1.7/1.8/1.9/1.10/1.11/1.12/1.13/1.14 and speaker-bench roots and descendants are immutable')
     private = validate_output(ROOT, output if output is not None else PRIVATE,
-                              'build/v3-0.1.28', 'trailguide_v3')
+                              'build/v3-0.1.31', 'trailguide_v3')
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
     if digest != ARCHIVE_SHA256:
         raise ValueError('Manufacturer archive checksum mismatch; refusing preparation')

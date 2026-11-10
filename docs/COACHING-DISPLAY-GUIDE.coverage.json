@@ -1,0 +1,468 @@
+{
+  "status": "PASS",
+  "version": "DRAFT version 31",
+  "entry_count": 55,
+  "counts": {
+    "opener": 6,
+    "question": 24,
+    "experiment": 18,
+    "closing": 3,
+    "reminder": 4
+  },
+  "pages": 58,
+  "intro_pages": 3,
+  "nonempty_guidance_blocks": 48,
+  "all_entry_ids_and_order_verified": true,
+  "canonical_regeneration_matches_native": true,
+  "whitespace_only_pdf_comparison": true,
+  "one_entry_per_page": true,
+  "native_source_sha256": {
+    "coaching_generated.h": "14433e659235a9700a63b370e3d380f8998be0af65ca5070fcfc334b59544d5f",
+    "coaching_model.h": "a2ff2646c9fe45e1b20d7d2cdb73d6aa2dbef427396c487e98d34d13df647be7",
+    "coaching_ui.h": "e2bb9e509b6f73280786f32cea361e7dea1f84c3bf8d4781e4afce436c76f345",
+    "ui.h": "e229681ec9986f9ed6142859a53bbdbb206523be0fc73bf37b566ad4e8387aa7"
+  },
+  "coverage": [
+    {
+      "id": "OPEN-01",
+      "type": "opener",
+      "page": 4,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "OPEN-02",
+      "type": "opener",
+      "page": 5,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "OPEN-03",
+      "type": "opener",
+      "page": 6,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "OPEN-04",
+      "type": "opener",
+      "page": 7,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "OPEN-05",
+      "type": "opener",
+      "page": 8,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "OPEN-06",
+      "type": "opener",
+      "page": 9,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-Q01",
+      "type": "question",
+      "page": 10,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-Q02",
+      "type": "question",
+      "page": 11,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-Q03",
+      "type": "question",
+      "page": 12,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-Q04",
+      "type": "question",
+      "page": 13,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q01",
+      "type": "question",
+      "page": 14,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q02",
+      "type": "question",
+      "page": 15,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q03",
+      "type": "question",
+      "page": 16,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q04",
+      "type": "question",
+      "page": 17,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q01",
+      "type": "question",
+      "page": 18,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q02",
+      "type": "question",
+      "page": 19,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q03",
+      "type": "question",
+      "page": 20,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q04",
+      "type": "question",
+      "page": 21,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q01",
+      "type": "question",
+      "page": 22,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q02",
+      "type": "question",
+      "page": 23,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q03",
+      "type": "question",
+      "page": 24,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q04",
+      "type": "question",
+      "page": 25,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q01",
+      "type": "question",
+      "page": 26,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q02",
+      "type": "question",
+      "page": 27,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q03",
+      "type": "question",
+      "page": 28,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q04",
+      "type": "question",
+      "page": 29,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q01",
+      "type": "question",
+      "page": 30,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q02",
+      "type": "question",
+      "page": 31,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q03",
+      "type": "question",
+      "page": 32,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q04",
+      "type": "question",
+      "page": 33,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-E01",
+      "type": "experiment",
+      "page": 34,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-E02",
+      "type": "experiment",
+      "page": 35,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "PROGRESS-E03",
+      "type": "experiment",
+      "page": 36,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-E01",
+      "type": "experiment",
+      "page": 37,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-E02",
+      "type": "experiment",
+      "page": 38,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-E03",
+      "type": "experiment",
+      "page": 39,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-E01",
+      "type": "experiment",
+      "page": 40,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-E02",
+      "type": "experiment",
+      "page": 41,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-E03",
+      "type": "experiment",
+      "page": 42,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-E01",
+      "type": "experiment",
+      "page": 43,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-E02",
+      "type": "experiment",
+      "page": 44,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-E03",
+      "type": "experiment",
+      "page": 45,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-E01",
+      "type": "experiment",
+      "page": 46,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-E02",
+      "type": "experiment",
+      "page": 47,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-E03",
+      "type": "experiment",
+      "page": 48,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-E01",
+      "type": "experiment",
+      "page": 49,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-E02",
+      "type": "experiment",
+      "page": 50,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-E03",
+      "type": "experiment",
+      "page": 51,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "CLOSE-01",
+      "type": "closing",
+      "page": 52,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "CLOSE-02",
+      "type": "closing",
+      "page": 53,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "CLOSE-03",
+      "type": "closing",
+      "page": 54,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "REMIND-01",
+      "type": "reminder",
+      "page": 55,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "REMIND-02",
+      "type": "reminder",
+      "page": 56,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "REMIND-03",
+      "type": "reminder",
+      "page": 57,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    },
+    {
+      "id": "REMIND-04",
+      "type": "reminder",
+      "page": 58,
+      "main_exact": true,
+      "guidance_exact": false,
+      "stored_guidance_empty": true
+    }
+  ],
+  "pdf_sha256": "cd39d6a8bdce8c2d6cd8d0dde4bcda3f143f6371267be811fc2a3fdc8ef78379"
+}

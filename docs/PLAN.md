@@ -1,16 +1,16 @@
 # Delivery plan
 
-## Current frozen working baseline — v3-0.1.28-controls
+## Current installed release — v3-0.1.31-mode-switch
 
-**`v3-0.1.28-controls` is the current frozen working source baseline and future development reference in this checkpoint, matching the installed DRAFT trial—not stable-production certification.** Both Classic and Coaching retain a **six-second whole-face reveal**, followed by a **two-second settled card-only hold** before controls return. Touch can finish the same reveal/start its hold, then expose controls; dragging is not a tap. Classic remains the startup default; shared RAM-only sound defaults **OFF**. The optional plain **S** arms an eight-second shake-intent window; ±16g sensing and global Start Fresh policy are retained, not newly repaired.
+**Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
 
-The user's qualitative **“Works Great”** feedback is positive timing acceptance for installed28. Mode and trial count were unspecified: it is not new gesture, exhaustive readability or field-reliability acceptance. **Known issues remain OPEN:** Coaching compass shaking failed in the inherited27 report; automatic shaking was intermittent after path selection, where S then shake worked. The original turnover-stuck-compass/blank cause also remains unresolved. No27/28 field movement trace attributes these failures.
+Coaching is unchanged: its **Try (optional)** / **Question** controls remain distinct from Classic's independent-deck shortcut. Words, 20/18px fonts, six-second reveal, separate two-second settled reading hold, motion/sensor policy and shared boot-OFF sound are unchanged from28. Classic still boots by default. See the [current release contract](RELEASE-v3-0.1.31.md), [Coaching display guide](COACHING-DISPLAY-GUIDE.md) and [printable Coaching guide](COACHING-DISPLAY-GUIDE.pdf).
 
-See the [frozen baseline contract](BASELINE-v3-0.1.28.md) for application size/hash, source/private-artifact boundaries, build setup and freeze rules. Source publication is completed only after the integrating maintainer commits, validates and creates tag `v3-0.1.28-controls`; this edit does not claim that tagging or remote publication has happened. Private binaries, ELF/maps, captures and deployment tooling are not published. Older22/27 ledgers retain historical evidence and timing; archived recovery27 remains preserved, without automatic rollback.
+Original31 native/SDK and installation evidence is **reused**, not newly built by this publication. Qualitative approval of the new flow is limited to one unit, not exhaustive gesture/readability acceptance. **OPEN:** inherited Coaching compass/path automatic-shake gaps and the original turnover-stuck-compass/blank cause. No gesture repair is claimed. [Frozen28](BASELINE-v3-0.1.28.md) remains a separate historical baseline; its tag and manifest are preserved. Private device identifiers, binaries and raw evidence are excluded.
 
 ## Next steps — Coaching shake reliability
 
-Physical testing is paused; keep28 installed and stable. The authorized timing-only28 installation is complete; no further device operation follows from this documentation checkpoint. The gesture investigation below remains bound to27 and its uninstalled experiments.
+Physical testing is paused; keep31 installed and stable. The authorized Classic shortcut31 installation is complete; no further device operation follows from this documentation checkpoint. The gesture investigation below remains bound to27 and its uninstalled experiments.
 
 1. **Completed:** compare installed contexts, automatic versus S-assisted acquisition, real pointer/scroll ownership and Start Fresh dispatch. No27 movement trace exists; synthetic failures are not incident attribution.
 2. **Completed, scoped:** implement the isolated three-header overlay and run the independently frozen actual-LVGL comparison. All100 controls and12 mandatory targets pass, including Coaching compass entry/return, all six paths, smooth shaking and ordinary-handling rearm. Independent review confirms those results, not broader release readiness.
@@ -33,7 +33,7 @@ Canonical requirements: [Living product spec](PRODUCT-SPEC.md). Two-mode impleme
 
 ## Historical implementation baseline
 
-Current installed28 progress and the remaining physical gates are tracked in [V3-PROGRESS.md](V3-PROGRESS.md). The following baseline description records earlier releases, not current28 physical acceptance.
+Current installed31 progress and the remaining physical gates are tracked in [V3-PROGRESS.md](V3-PROGRESS.md). The following baseline description records earlier releases, not current31 physical acceptance.
 
 **Approved direction: Coaching-first, with revised V3 wording as its content foundation.** This is not a startup-default change or a content merge: Classic still boots by default and remains an intact optional quick-prompt route. Coaching currently uses its own authored layer plus canonical references; neither all twelve Classic pairs nor the whole forty-card catalog has been merged into Coaching.
 

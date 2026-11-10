@@ -70,6 +70,7 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 
 - [Project specification — current scope, architecture and acceptance](docs/PROJECT-SPEC.md)
 - [Classic — Mermaid prompt-deck flow](docs/CLASSIC-FLOW.md)
+- [Classic — exact display wording and test checklist, with Ask and Try separate](docs/CLASSIC-DISPLAY-CHECKLIST.md)
 - [Coaching — Mermaid conversation-guide flow](docs/COACHING-FLOW.md)
 - [Current project and coaching handoff](docs/HANDOFF.md)
 - [Project-led mentoring direction, examples and review gates](docs/COACHING-DIRECTION.md)

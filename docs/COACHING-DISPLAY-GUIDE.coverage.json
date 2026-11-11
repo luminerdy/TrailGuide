@@ -9,13 +9,72 @@
     "closing": 3,
     "reminder": 4
   },
-  "pages": 56,
-  "intro_pages": 1,
+  "pages": 8,
+  "layout": "continuous; grouped by path, with separate question and try sections",
   "nonempty_guidance_blocks": 48,
-  "all_entry_ids_and_order_verified": true,
+  "all_entry_ids_verified": true,
+  "canonical_source_order_verified": true,
+  "document_entry_order": [
+    "OPEN-01",
+    "OPEN-02",
+    "OPEN-03",
+    "OPEN-04",
+    "OPEN-05",
+    "OPEN-06",
+    "PROGRESS-Q01",
+    "PROGRESS-Q02",
+    "PROGRESS-Q03",
+    "PROGRESS-Q04",
+    "PROGRESS-E01",
+    "PROGRESS-E02",
+    "PROGRESS-E03",
+    "STUCK-Q01",
+    "STUCK-Q02",
+    "STUCK-Q03",
+    "STUCK-Q04",
+    "STUCK-E01",
+    "STUCK-E02",
+    "STUCK-E03",
+    "UNCLEAR-Q01",
+    "UNCLEAR-Q02",
+    "UNCLEAR-Q03",
+    "UNCLEAR-Q04",
+    "UNCLEAR-E01",
+    "UNCLEAR-E02",
+    "UNCLEAR-E03",
+    "EXPLORING-Q01",
+    "EXPLORING-Q02",
+    "EXPLORING-Q03",
+    "EXPLORING-Q04",
+    "EXPLORING-E01",
+    "EXPLORING-E02",
+    "EXPLORING-E03",
+    "AI-RESULTS-Q01",
+    "AI-RESULTS-Q02",
+    "AI-RESULTS-Q03",
+    "AI-RESULTS-Q04",
+    "AI-RESULTS-E01",
+    "AI-RESULTS-E02",
+    "AI-RESULTS-E03",
+    "TEAM-Q01",
+    "TEAM-Q02",
+    "TEAM-Q03",
+    "TEAM-Q04",
+    "TEAM-E01",
+    "TEAM-E02",
+    "TEAM-E03",
+    "CLOSE-01",
+    "CLOSE-02",
+    "CLOSE-03",
+    "REMIND-01",
+    "REMIND-02",
+    "REMIND-03",
+    "REMIND-04"
+  ],
   "canonical_regeneration_matches_native": true,
   "whitespace_only_pdf_comparison": true,
-  "one_entry_per_page": true,
+  "one_entry_per_page": false,
+  "all_entries_kept_together": true,
   "native_source_sha256": {
     "coaching_generated.h": "14433e659235a9700a63b370e3d380f8998be0af65ca5070fcfc334b59544d5f",
     "coaching_model.h": "a2ff2646c9fe45e1b20d7d2cdb73d6aa2dbef427396c487e98d34d13df647be7",
@@ -26,8 +85,8 @@
     {
       "id": "OPEN-01",
       "type": "opener",
-      "heading": "Opening 1",
-      "page": 2,
+      "heading": "Opening questions / 1",
+      "page": 1,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -35,8 +94,8 @@
     {
       "id": "OPEN-02",
       "type": "opener",
-      "heading": "Opening 2",
-      "page": 3,
+      "heading": "Opening questions / 2",
+      "page": 1,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -44,8 +103,8 @@
     {
       "id": "OPEN-03",
       "type": "opener",
-      "heading": "Opening 3",
-      "page": 4,
+      "heading": "Opening questions / 3",
+      "page": 1,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -53,8 +112,8 @@
     {
       "id": "OPEN-04",
       "type": "opener",
-      "heading": "Opening 4",
-      "page": 5,
+      "heading": "Opening questions / 4",
+      "page": 1,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -62,8 +121,8 @@
     {
       "id": "OPEN-05",
       "type": "opener",
-      "heading": "Opening 5",
-      "page": 6,
+      "heading": "Opening questions / 5",
+      "page": 1,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -71,8 +130,8 @@
     {
       "id": "OPEN-06",
       "type": "opener",
-      "heading": "Opening 6",
-      "page": 7,
+      "heading": "Opening questions / 6",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -80,8 +139,8 @@
     {
       "id": "PROGRESS-Q01",
       "type": "question",
-      "heading": "Progress \u00b7 Question 1",
-      "page": 8,
+      "heading": "Progress / Questions / 1",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -89,8 +148,8 @@
     {
       "id": "PROGRESS-Q02",
       "type": "question",
-      "heading": "Progress \u00b7 Question 2",
-      "page": 9,
+      "heading": "Progress / Questions / 2",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -98,8 +157,8 @@
     {
       "id": "PROGRESS-Q03",
       "type": "question",
-      "heading": "Progress \u00b7 Question 3",
-      "page": 10,
+      "heading": "Progress / Questions / 3",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -107,188 +166,8 @@
     {
       "id": "PROGRESS-Q04",
       "type": "question",
-      "heading": "Progress \u00b7 Question 4",
-      "page": 11,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "STUCK-Q01",
-      "type": "question",
-      "heading": "Stuck \u00b7 Question 1",
-      "page": 12,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "STUCK-Q02",
-      "type": "question",
-      "heading": "Stuck \u00b7 Question 2",
-      "page": 13,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "STUCK-Q03",
-      "type": "question",
-      "heading": "Stuck \u00b7 Question 3",
-      "page": 14,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "STUCK-Q04",
-      "type": "question",
-      "heading": "Stuck \u00b7 Question 4",
-      "page": 15,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "UNCLEAR-Q01",
-      "type": "question",
-      "heading": "Unclear \u00b7 Question 1",
-      "page": 16,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "UNCLEAR-Q02",
-      "type": "question",
-      "heading": "Unclear \u00b7 Question 2",
-      "page": 17,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "UNCLEAR-Q03",
-      "type": "question",
-      "heading": "Unclear \u00b7 Question 3",
-      "page": 18,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "UNCLEAR-Q04",
-      "type": "question",
-      "heading": "Unclear \u00b7 Question 4",
-      "page": 19,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "EXPLORING-Q01",
-      "type": "question",
-      "heading": "Exploring \u00b7 Question 1",
-      "page": 20,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "EXPLORING-Q02",
-      "type": "question",
-      "heading": "Exploring \u00b7 Question 2",
-      "page": 21,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "EXPLORING-Q03",
-      "type": "question",
-      "heading": "Exploring \u00b7 Question 3",
-      "page": 22,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "EXPLORING-Q04",
-      "type": "question",
-      "heading": "Exploring \u00b7 Question 4",
-      "page": 23,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "AI-RESULTS-Q01",
-      "type": "question",
-      "heading": "AI Results \u00b7 Question 1",
-      "page": 24,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "AI-RESULTS-Q02",
-      "type": "question",
-      "heading": "AI Results \u00b7 Question 2",
-      "page": 25,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "AI-RESULTS-Q03",
-      "type": "question",
-      "heading": "AI Results \u00b7 Question 3",
-      "page": 26,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "AI-RESULTS-Q04",
-      "type": "question",
-      "heading": "AI Results \u00b7 Question 4",
-      "page": 27,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "TEAM-Q01",
-      "type": "question",
-      "heading": "Team \u00b7 Question 1",
-      "page": 28,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "TEAM-Q02",
-      "type": "question",
-      "heading": "Team \u00b7 Question 2",
-      "page": 29,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "TEAM-Q03",
-      "type": "question",
-      "heading": "Team \u00b7 Question 3",
-      "page": 30,
-      "main_exact": true,
-      "guidance_exact": true,
-      "stored_guidance_empty": false
-    },
-    {
-      "id": "TEAM-Q04",
-      "type": "question",
-      "heading": "Team \u00b7 Question 4",
-      "page": 31,
+      "heading": "Progress / Questions / 4",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -296,8 +175,8 @@
     {
       "id": "PROGRESS-E01",
       "type": "experiment",
-      "heading": "Progress \u00b7 Try 1",
-      "page": 32,
+      "heading": "Progress / Tries / 1",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -305,8 +184,8 @@
     {
       "id": "PROGRESS-E02",
       "type": "experiment",
-      "heading": "Progress \u00b7 Try 2",
-      "page": 33,
+      "heading": "Progress / Tries / 2",
+      "page": 2,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -314,8 +193,44 @@
     {
       "id": "PROGRESS-E03",
       "type": "experiment",
-      "heading": "Progress \u00b7 Try 3",
-      "page": 34,
+      "heading": "Progress / Tries / 3",
+      "page": 2,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q01",
+      "type": "question",
+      "heading": "Stuck / Questions / 1",
+      "page": 3,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q02",
+      "type": "question",
+      "heading": "Stuck / Questions / 2",
+      "page": 3,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q03",
+      "type": "question",
+      "heading": "Stuck / Questions / 3",
+      "page": 3,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "STUCK-Q04",
+      "type": "question",
+      "heading": "Stuck / Questions / 4",
+      "page": 3,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -323,8 +238,8 @@
     {
       "id": "STUCK-E01",
       "type": "experiment",
-      "heading": "Stuck \u00b7 Try 1",
-      "page": 35,
+      "heading": "Stuck / Tries / 1",
+      "page": 3,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -332,8 +247,8 @@
     {
       "id": "STUCK-E02",
       "type": "experiment",
-      "heading": "Stuck \u00b7 Try 2",
-      "page": 36,
+      "heading": "Stuck / Tries / 2",
+      "page": 3,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -341,8 +256,44 @@
     {
       "id": "STUCK-E03",
       "type": "experiment",
-      "heading": "Stuck \u00b7 Try 3",
-      "page": 37,
+      "heading": "Stuck / Tries / 3",
+      "page": 3,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q01",
+      "type": "question",
+      "heading": "Unclear / Questions / 1",
+      "page": 4,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q02",
+      "type": "question",
+      "heading": "Unclear / Questions / 2",
+      "page": 4,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q03",
+      "type": "question",
+      "heading": "Unclear / Questions / 3",
+      "page": 4,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "UNCLEAR-Q04",
+      "type": "question",
+      "heading": "Unclear / Questions / 4",
+      "page": 4,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -350,8 +301,8 @@
     {
       "id": "UNCLEAR-E01",
       "type": "experiment",
-      "heading": "Unclear \u00b7 Try 1",
-      "page": 38,
+      "heading": "Unclear / Tries / 1",
+      "page": 4,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -359,8 +310,8 @@
     {
       "id": "UNCLEAR-E02",
       "type": "experiment",
-      "heading": "Unclear \u00b7 Try 2",
-      "page": 39,
+      "heading": "Unclear / Tries / 2",
+      "page": 4,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -368,8 +319,44 @@
     {
       "id": "UNCLEAR-E03",
       "type": "experiment",
-      "heading": "Unclear \u00b7 Try 3",
-      "page": 40,
+      "heading": "Unclear / Tries / 3",
+      "page": 4,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q01",
+      "type": "question",
+      "heading": "Exploring / Questions / 1",
+      "page": 5,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q02",
+      "type": "question",
+      "heading": "Exploring / Questions / 2",
+      "page": 5,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q03",
+      "type": "question",
+      "heading": "Exploring / Questions / 3",
+      "page": 5,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "EXPLORING-Q04",
+      "type": "question",
+      "heading": "Exploring / Questions / 4",
+      "page": 5,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -377,8 +364,8 @@
     {
       "id": "EXPLORING-E01",
       "type": "experiment",
-      "heading": "Exploring \u00b7 Try 1",
-      "page": 41,
+      "heading": "Exploring / Tries / 1",
+      "page": 5,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -386,8 +373,8 @@
     {
       "id": "EXPLORING-E02",
       "type": "experiment",
-      "heading": "Exploring \u00b7 Try 2",
-      "page": 42,
+      "heading": "Exploring / Tries / 2",
+      "page": 5,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -395,8 +382,44 @@
     {
       "id": "EXPLORING-E03",
       "type": "experiment",
-      "heading": "Exploring \u00b7 Try 3",
-      "page": 43,
+      "heading": "Exploring / Tries / 3",
+      "page": 5,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q01",
+      "type": "question",
+      "heading": "AI Results / Questions / 1",
+      "page": 6,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q02",
+      "type": "question",
+      "heading": "AI Results / Questions / 2",
+      "page": 6,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q03",
+      "type": "question",
+      "heading": "AI Results / Questions / 3",
+      "page": 6,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "AI-RESULTS-Q04",
+      "type": "question",
+      "heading": "AI Results / Questions / 4",
+      "page": 6,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -404,8 +427,8 @@
     {
       "id": "AI-RESULTS-E01",
       "type": "experiment",
-      "heading": "AI Results \u00b7 Try 1",
-      "page": 44,
+      "heading": "AI Results / Tries / 1",
+      "page": 6,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -413,8 +436,8 @@
     {
       "id": "AI-RESULTS-E02",
       "type": "experiment",
-      "heading": "AI Results \u00b7 Try 2",
-      "page": 45,
+      "heading": "AI Results / Tries / 2",
+      "page": 6,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -422,8 +445,44 @@
     {
       "id": "AI-RESULTS-E03",
       "type": "experiment",
-      "heading": "AI Results \u00b7 Try 3",
-      "page": 46,
+      "heading": "AI Results / Tries / 3",
+      "page": 7,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q01",
+      "type": "question",
+      "heading": "Team / Questions / 1",
+      "page": 7,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q02",
+      "type": "question",
+      "heading": "Team / Questions / 2",
+      "page": 7,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q03",
+      "type": "question",
+      "heading": "Team / Questions / 3",
+      "page": 7,
+      "main_exact": true,
+      "guidance_exact": true,
+      "stored_guidance_empty": false
+    },
+    {
+      "id": "TEAM-Q04",
+      "type": "question",
+      "heading": "Team / Questions / 4",
+      "page": 7,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -431,8 +490,8 @@
     {
       "id": "TEAM-E01",
       "type": "experiment",
-      "heading": "Team \u00b7 Try 1",
-      "page": 47,
+      "heading": "Team / Tries / 1",
+      "page": 7,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -440,8 +499,8 @@
     {
       "id": "TEAM-E02",
       "type": "experiment",
-      "heading": "Team \u00b7 Try 2",
-      "page": 48,
+      "heading": "Team / Tries / 2",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -449,8 +508,8 @@
     {
       "id": "TEAM-E03",
       "type": "experiment",
-      "heading": "Team \u00b7 Try 3",
-      "page": 49,
+      "heading": "Team / Tries / 3",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": true,
       "stored_guidance_empty": false
@@ -458,8 +517,8 @@
     {
       "id": "CLOSE-01",
       "type": "closing",
-      "heading": "Closing 1",
-      "page": 50,
+      "heading": "Closing prompts / 1",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -467,8 +526,8 @@
     {
       "id": "CLOSE-02",
       "type": "closing",
-      "heading": "Closing 2",
-      "page": 51,
+      "heading": "Closing prompts / 2",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -476,8 +535,8 @@
     {
       "id": "CLOSE-03",
       "type": "closing",
-      "heading": "Closing 3",
-      "page": 52,
+      "heading": "Closing prompts / 3",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -485,8 +544,8 @@
     {
       "id": "REMIND-01",
       "type": "reminder",
-      "heading": "Reminder 1",
-      "page": 53,
+      "heading": "Listening reminders / 1",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -494,8 +553,8 @@
     {
       "id": "REMIND-02",
       "type": "reminder",
-      "heading": "Reminder 2",
-      "page": 54,
+      "heading": "Listening reminders / 2",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -503,8 +562,8 @@
     {
       "id": "REMIND-03",
       "type": "reminder",
-      "heading": "Reminder 3",
-      "page": 55,
+      "heading": "Listening reminders / 3",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
@@ -512,12 +571,92 @@
     {
       "id": "REMIND-04",
       "type": "reminder",
-      "heading": "Reminder 4",
-      "page": 56,
+      "heading": "Listening reminders / 4",
+      "page": 8,
       "main_exact": true,
       "guidance_exact": false,
       "stored_guidance_empty": true
     }
   ],
-  "pdf_sha256": "313fe30c2580f33e3f973d2671ea402c04f422ba32220a473d3c309e942eb6d2"
+  "pdf_sha256": "1c58a0147aa236f76ef2329c59f45b8eda275c6941b2ae16661f63371056a599",
+  "markdown_shared_guidance_groups": [
+    {
+      "section": "Progress",
+      "subsection": "Questions",
+      "entry_ids": [
+        "PROGRESS-Q01",
+        "PROGRESS-Q02",
+        "PROGRESS-Q03",
+        "PROGRESS-Q04"
+      ]
+    },
+    {
+      "section": "Progress",
+      "subsection": "Tries",
+      "entry_ids": [
+        "PROGRESS-E01",
+        "PROGRESS-E02",
+        "PROGRESS-E03"
+      ]
+    },
+    {
+      "section": "Stuck",
+      "subsection": "Questions",
+      "entry_ids": [
+        "STUCK-Q01",
+        "STUCK-Q02",
+        "STUCK-Q03",
+        "STUCK-Q04"
+      ]
+    },
+    {
+      "section": "Unclear",
+      "subsection": "Questions",
+      "entry_ids": [
+        "UNCLEAR-Q01",
+        "UNCLEAR-Q02",
+        "UNCLEAR-Q03",
+        "UNCLEAR-Q04"
+      ]
+    },
+    {
+      "section": "Unclear",
+      "subsection": "Tries",
+      "entry_ids": [
+        "UNCLEAR-E01",
+        "UNCLEAR-E02",
+        "UNCLEAR-E03"
+      ]
+    },
+    {
+      "section": "Exploring",
+      "subsection": "Questions",
+      "entry_ids": [
+        "EXPLORING-Q01",
+        "EXPLORING-Q02",
+        "EXPLORING-Q03",
+        "EXPLORING-Q04"
+      ]
+    },
+    {
+      "section": "AI Results",
+      "subsection": "Questions",
+      "entry_ids": [
+        "AI-RESULTS-Q01",
+        "AI-RESULTS-Q02",
+        "AI-RESULTS-Q03",
+        "AI-RESULTS-Q04"
+      ]
+    },
+    {
+      "section": "Team",
+      "subsection": "Questions",
+      "entry_ids": [
+        "TEAM-Q01",
+        "TEAM-Q02",
+        "TEAM-Q03",
+        "TEAM-Q04"
+      ]
+    }
+  ]
 }

@@ -52,46 +52,57 @@ def build(repo, native, out):
         assert literal in ui, literal
     assert 'nextIndex<0?firstIndex:nextIndex' in model
     out.mkdir(parents=True, exist_ok=True)
-    sections = [
-        ('Coaching display guide', [
-            ('Start', 'From the Classic compass, tap the centre, then Coaching. Choose Progress, Stuck, Unclear, Explore, AI or Team. An opening question is optional: tap the Coaching compass centre, then Another opener.'),
-            ('Questions and tries', 'Paths changes context. Another cycles through questions or experiments in the current path. Try (optional) switches to experiments; Question switches back. Each path remembers its question and experiment separately.'),
-            ('Guide me', 'Guide me opens guidance for the current entry. Back returns to where you came from. For an opening card, use Options > Guide me. Guide also offers Release, Opening and Reminders.'),
-            ('Finishing and reminders', 'Release opens the closing prompts. Options > Reminders opens the listening reminders. Both screens offer Back, Release, Opening and Next. Next cycles within that group; Opening returns to the Coaching compass. These screens have no Guide me.'),
-            ('Options', 'Tap the compass centre, or Options on an opening card. The menu has Back, Another opener, Guide me, Release, Classic, Instant ON/OFF, Reminders and Sound ON/OFF. Classic changes mode; Instant skips the opening animation but not its reading hold; Sound controls the optional cue.'),
-            ('Scrolling and motion', 'Scroll when Scroll for full text appears. S arms a temporary shake request; tapping S does not draw a card. Accepted shakes or flips draw an opener, not the next question. Coaching automatic-shake reliability remains unresolved; use the touch controls when needed.'),
-            ('About the entries', 'Each following page contains the unchanged screen text and, where available, its Guide me text. Page headings help you browse; they are not extra screen text. Version 31. Content remains DRAFT.')])
+    intro = [
+        ('Start', 'From the Classic compass, tap the centre, then Coaching. Choose Progress, Stuck, Unclear, Explore, AI or Team. An opener is optional: tap the Coaching compass centre, then Another opener.'),
+        ('Controls', 'Paths changes context. Another cycles within the current path and question/try type. Try (optional) and Question switch types; each remembers its own place. Guide me opens the current guidance; Back returns to where you came from. For an opener, use Options > Guide me.'),
+        ('Finishing and reminders', 'Release opens the closing prompts. Options > Reminders opens the listening reminders. Next cycles within either group; Opening returns to the compass. Both screens also offer Back and Release, but no Guide me. Guide offers Back, Release, Opening and Reminders.'),
+        ('Options', 'The centre of the compass, or Options on an opener, opens the menu: Back, Another opener, Guide me, Release, Classic, Instant ON/OFF, Reminders and Sound ON/OFF. Classic changes mode; Instant skips the opening animation but not its reading hold; Sound controls the optional cue.'),
+        ('Scrolling and motion', 'Scroll when Scroll for full text appears. S arms a temporary shake request; the tap does not draw a card. Accepted shakes or flips draw an opener. Coaching automatic-shake reliability remains unresolved; use touch controls when needed.')
     ]
-    positions = Counter()
+    reading_key = 'Version 31 · DRAFT. Numbered items are screen text; indented paragraphs are their optional Guide me guidance. Questions and tries are separate choices, not paired activities.'
+    def pool(kind, path=None):
+        return [e for e in entries if e['type'] == kind and (path is None or e['path'] == path)]
+    groups = [('Opening questions', [('', pool('opener'))])]
+    groups.extend((label, [('Questions', pool('question', path)), ('Tries', pool('experiment', path))]) for path, label in enumerate(labels))
+    groups.extend([('Closing prompts', [('', pool('closing'))]), ('Listening reminders', [('', pool('reminder'))])])
+    ordered = [e for _, subgroups in groups for _, items in subgroups for e in items]
+    assert len(ordered) == len(entries) and {e['id'] for e in ordered} == {e['id'] for e in entries}
+    md = ['# Coaching display guide', '', reading_key, '']
+    for heading, text in intro:
+        md.extend(['**' + heading + '.** ' + text, ''])
+    md_blocks = {}
+    md_guidance = {}
+    shared_guidance_groups = []
     headings = {}
-    for e in entries:
-        key = (e['type'], e['path'])
-        positions[key] += 1
-        number = positions[key]
-        if e['type'] in ('question', 'experiment'):
-            face = 'Question' if e['type'] == 'question' else 'Try'
-            headings[e['id']] = f"{labels[e['path']]} · {face} {number}"
-        else:
-            name = {'opener': 'Opening', 'closing': 'Closing', 'reminder': 'Reminder'}[e['type']]
-            headings[e['id']] = f'{name} {number}'
-    md = []
-    for title, blocks in sections:
-        md.extend(['# ' + title, ''])
-        for head, text in blocks:
-            md.extend(['## ' + head, '', text, ''])
-    for e in entries:
-        md.extend(['# ' + headings[e['id']], '', '## On screen', '', e['text'], ''])
-        if e['guidance']:
-            md.extend(['## Guide me', '', e['guidance'], ''])
-    hashes = {name: hashlib.sha256((native/name).read_bytes()).hexdigest() for name in ('coaching_generated.h', 'coaching_model.h', 'coaching_ui.h', 'ui.h')}
+    for title, subgroups in groups:
+        md.extend(['## ' + title, ''])
+        for subtitle, items in subgroups:
+            if subtitle:
+                md.extend(['### ' + subtitle, ''])
+            shared_guidance = bool(items) and bool(items[0]['guidance']) and len(items) > 1 and len({e['guidance'] for e in items}) == 1
+            for number, e in enumerate(items, 1):
+                headings[e['id']] = ' / '.join(x for x in (title, subtitle, str(number)) if x)
+                block = '**' + str(number) + '.** ' + e['text'] + '\n\n'
+                md_guidance[e['id']] = '\n'.join('> ' + line for line in e['guidance'].split('\n')) if e['guidance'] else ''
+                if e['guidance'] and not shared_guidance:
+                    block += md_guidance[e['id']] + '\n\n'
+                md_blocks[e['id']] = block
+                md.append(block.rstrip() + '\n')
+            if shared_guidance:
+                md.extend(['*Guide me for all ' + subtitle.lower() + ' in this section:*', '', md_guidance[items[0]['id']], ''])
+                shared_guidance_groups.append({'section': title, 'subsection': subtitle, 'entry_ids': [e['id'] for e in items]})
     md_text = '\n'.join(md)
     (out/'COACHING-DISPLAY-GUIDE.md').write_text(md_text)
-    for e in entries:
-        block = md_text.split('# ' + headings[e['id']] + '\n', 1)[1].split('\n# ', 1)[0]
-        assert '\n' + e['text'] + '\n' in block, e['id'] + ' Markdown main'
+    for e in ordered:
+        block = md_blocks[e['id']]
+        assert block.rstrip() in md_text, e['id'] + ' Markdown grouping'
+        assert e['text'] in block, e['id'] + ' Markdown main'
         if e['guidance']:
-            assert '\n' + e['guidance'] + '\n' in block, e['id'] + ' Markdown guidance'
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak
+            quoted = md_guidance[e['id']]
+            assert quoted in md_text, e['id'] + ' Markdown guidance presence'
+            assert re.sub(r'^> ?', '', quoted, flags=re.MULTILINE) == e['guidance'], e['id'] + ' Markdown guidance'
+    hashes = {name: hashlib.sha256((native/name).read_bytes()).hexdigest() for name in ('coaching_generated.h', 'coaching_model.h', 'coaching_ui.h', 'ui.h')}
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether, Flowable
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
@@ -100,42 +111,58 @@ def build(repo, native, out):
     fontdir = Path('/usr/share/fonts/truetype/dejavu')
     pdfmetrics.registerFont(TTFont('Guide', str(fontdir/'DejaVuSans.ttf')))
     pdfmetrics.registerFont(TTFont('GuideBold', str(fontdir/'DejaVuSans-Bold.ttf')))
-    styles = {k: ParagraphStyle(k, fontName='GuideBold' if k in ('title', 'heading', 'main') else 'Guide', fontSize=size, leading=lead, spaceAfter=after, textColor=HexColor('#17334a') if k in ('title', 'heading') else HexColor('#111111')) for k, size, lead, after in [('title', 19, 24, 16), ('heading', 11, 15, 6), ('body', 11, 15, 10), ('main', 14, 20, 18), ('guidance', 12, 17, 12)]}
+    styles = {k: ParagraphStyle(k, fontName='GuideBold' if k in ('title', 'group', 'subgroup', 'main') else 'Guide', fontSize=size, leading=lead, spaceAfter=after, textColor=HexColor('#17334a') if k in ('title', 'group', 'subgroup') else HexColor('#111111'), keepWithNext=k in ('group', 'subgroup')) for k, size, lead, after in [('title', 19, 24, 12), ('group', 16, 21, 8), ('subgroup', 12, 16, 7), ('body', 11, 15, 8), ('main', 13, 18, 5), ('guidance', 11.5, 16, 8)]}
+    styles['group'].spaceBefore = 14
+    styles['subgroup'].spaceBefore = 5
+    styles['guidance'].leftIndent = 16
+    styles['guidance'].textColor = HexColor('#40494f')
     def p(text, style='body'):
         return Paragraph(html.escape(text).replace('\n', '<br/>'), styles[style])
-    story = []
-    for title, blocks in sections:
-        if story:
-            story.append(PageBreak())
-        story.append(p(title, 'title'))
-        for head, text in blocks:
-            story.extend([p(head, 'heading'), p(text)])
-    for e in entries:
-        story.extend([PageBreak(), p(headings[e['id']], 'title'), p('On screen', 'heading'), p(e['text'], 'main')])
-        if e['guidance']:
-            story.extend([p('Guide me', 'heading'), p(e['guidance'], 'guidance')])
+    entry_pages = {}
+    class EntryParagraph(Paragraph):
+        entry_id: str
+    class GuideDocument(SimpleDocTemplate):
+        def afterFlowable(self, flowable):
+            if isinstance(flowable, EntryParagraph):
+                entry_pages[flowable.entry_id] = self.page
+    story: list[Flowable] = [p('Coaching display guide', 'title'), p(reading_key)]
+    for heading, text in intro:
+        story.append(Paragraph('<b>' + html.escape(heading) + '.</b> ' + html.escape(text), styles['body']))
+    for title, subgroups in groups:
+        pending_headings: list[Flowable] = [p(title, 'group')]
+        for subtitle, items in subgroups:
+            if subtitle:
+                pending_headings.append(p(subtitle, 'subgroup'))
+            for number, e in enumerate(items, 1):
+                main = EntryParagraph(html.escape(str(number) + '. ' + e['text']).replace('\n', '<br/>'), styles['main'])
+                main.entry_id = e['id']
+                entry_flowables: list[Flowable] = [*pending_headings, main]
+                pending_headings = []
+                if e['guidance']:
+                    entry_flowables.append(p(e['guidance'], 'guidance'))
+                entry_flowables.append(Spacer(1, 5))
+                story.append(KeepTogether(entry_flowables))
     def footer(canvas, doc):
         canvas.setFont('Guide', 8)
         canvas.drawString(42, 23, 'TrailGuide · Coaching')
         canvas.drawRightString(A4[0]-42, 23, str(doc.page))
     pdf = out/'COACHING-DISPLAY-GUIDE.pdf'
-    SimpleDocTemplate(str(pdf), pagesize=A4, leftMargin=42, rightMargin=42, topMargin=32, bottomMargin=40, title='Coaching Display Guide - DRAFT version 31', author='TrailGuide').build(story, onFirstPage=footer, onLaterPages=footer)
+    GuideDocument(str(pdf), pagesize=A4, leftMargin=42, rightMargin=42, topMargin=32, bottomMargin=40, title='Coaching Display Guide - DRAFT version 31', author='TrailGuide').build(story, onFirstPage=footer, onLaterPages=footer)
     result = subprocess.run(['pdftotext', '-layout', str(pdf), '-'], check=True, capture_output=True, text=True)
     pages = [x for x in result.stdout.split('\f') if x.strip()]
-    assert len(pages) == len(sections) + len(entries), ('Unexpected split/overflow', len(pages))
+    assert list(entry_pages) == [e['id'] for e in ordered], 'PDF entry order or missing entries'
     coverage = []
-    for offset, e in enumerate(entries, len(sections)):
-        page = pages[offset]
-        assert compact(headings[e['id']]) in compact(page)
+    for e in ordered:
+        page_number = entry_pages[e['id']]
+        page = pages[page_number-1]
         assert compact(e['text']) in compact(page), e['id'] + ' main'
         if e['guidance']:
-            assert compact(e['guidance']) in compact(page), e['id'] + ' guide'
-        other_headings = [heading for key, heading in headings.items() if key != e['id'] and heading in page]
-        assert not other_headings, (e['id'], other_headings)
-        coverage.append({'id': e['id'], 'type': e['type'], 'heading': headings[e['id']], 'page': offset+1, 'main_exact': True, 'guidance_exact': bool(e['guidance']), 'stored_guidance_empty': not bool(e['guidance'])})
-    report = {'status': 'PASS', 'version': 'DRAFT version 31', 'entry_count': len(entries), 'counts': counts, 'pages': len(pages), 'intro_pages': len(sections), 'nonempty_guidance_blocks': sum(bool(e['guidance']) for e in entries), 'all_entry_ids_and_order_verified': True, 'canonical_regeneration_matches_native': True, 'whitespace_only_pdf_comparison': True, 'one_entry_per_page': True, 'native_source_sha256': hashes, 'coverage': coverage, 'pdf_sha256': hashlib.sha256(pdf.read_bytes()).hexdigest()}
+            assert compact(e['guidance']) in compact(page), e['id'] + ' guidance split or missing'
+        coverage.append({'id': e['id'], 'type': e['type'], 'heading': headings[e['id']], 'page': page_number, 'main_exact': True, 'guidance_exact': bool(e['guidance']), 'stored_guidance_empty': not bool(e['guidance'])})
+    report = {'status': 'PASS', 'version': 'DRAFT version 31', 'entry_count': len(entries), 'counts': counts, 'pages': len(pages), 'layout': 'continuous; grouped by path, with separate question and try sections', 'nonempty_guidance_blocks': sum(bool(e['guidance']) for e in entries), 'all_entry_ids_verified': True, 'canonical_source_order_verified': True, 'document_entry_order': [e['id'] for e in ordered], 'canonical_regeneration_matches_native': True, 'whitespace_only_pdf_comparison': True, 'one_entry_per_page': False, 'all_entries_kept_together': True, 'native_source_sha256': hashes, 'coverage': coverage, 'pdf_sha256': hashlib.sha256(pdf.read_bytes()).hexdigest()}
+    report['markdown_shared_guidance_groups'] = shared_guidance_groups
     (out/'COACHING-DISPLAY-GUIDE.coverage.json').write_text(json.dumps(report, indent=2) + '\n')
-    print(json.dumps({k: v for k, v in report.items() if k != 'coverage'}, indent=2))
+    print(json.dumps({k: v for k, v in report.items() if k not in ('coverage', 'document_entry_order')}, indent=2))
 
 
 def main():

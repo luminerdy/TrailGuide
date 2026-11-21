@@ -1,0 +1,12 @@
+{
+  "python_distinct_passed_cases": 118,
+  "parser_tier_passes": 116,
+  "parser_tier_skips": 2,
+  "protocol_integration_passes": 11,
+  "overlap_case_ids": 9,
+  "standalone_sanitized_cpp_fixtures": 10,
+  "fresh_cpp_protocol_producer": true,
+  "generator_checks_parent": 4,
+  "full_SDK_and147_native": "not rerun",
+  "hardware_operations": false
+}

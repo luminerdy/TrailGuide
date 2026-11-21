@@ -1,0 +1,24 @@
+finding_id,priority,phase,disposition,planned_action,source_locations
+A01,P2,2,scheduled,Purpose-first README and three reader routes,README.md:3
+A02,P2,2,restricted,Current contributor guidance; AGENTS.md stays untouched unless explicitly authorized; do not mark fully closed before its contradiction is resolved,AGENTS.md:5
+A03,P2,2,scheduled,Correct current assertions and label historical snapshots,docs/PROJECT-SPEC.md:200
+A04,P2,2,scheduled,One current-state reference with short pointers,docs/PRODUCT-SPEC.md:3
+A05,P2,3,scheduled,P-ID implementation/test/evidence/acceptance index,docs/PRODUCT-SPEC.md:287
+A07,P3,3,optional,"About/topics after approval; source-only DRAFT tag/release is an explicit opt-in, never retag28",README.md:1
+A08,P2,4,proposal-first,Optional success/checking field and human/AI/hybrid example in learner brief,docs/PROJECT-COACH.md:12
+A09,P3,2,scheduled,Link the existing historical content review and companion audit,docs/reviews/README.md:5
+B-01,P2,4,proposal-first,"Small field-specific Guide replacements, not appended boilerplate",content/coaching.json:289-313; content/coaching.json:340-363; content/coaching.json:391-418
+B-02,P2,4,proposal-first,"Explanation, demonstration and co-building examples alongside checks",content/coaching.json:297-304; content/coaching.json:391-418; docs/COACHING-DIRECTION.md:15-22; docs/COACHING-DIRECTION.md:36-46
+B-03,P2,4,conditional,Cold-entry opener proposals only if useful and exact wording approved,content/coaching.json:51-78; trailguide_v3/coaching_model.h:21-31
+B-04,P2,4,conditional,Consequence-sensitive restrictions only where exact field changes approved,content/cards.json:302-305; content/cards.json:347-350; content/cards.json:645-648; content/coaching.json:314-325
+B-05,P2,2,scheduled,Label preview omissions/history; native-equivalent preview renderer is separately deferred,prototype/template.html:66-75; prototype/template.html:125-132; tools/build_v2_content.py:32-47; prototype/v3_experience_template.html:93-103; docs/V3-EXPERIENCE.md:29-31
+C1,P2,5A,scheduled-off-device,Legacy V1/V2 disable precedence and four-way compile matrices; no legacy installation,oled_oracle/ota_support.h:3-8; trailguide_v2/ota_support.h:2-11
+C2,P3,5B,conditional-firmware,Separate new-version V3 candidate; derive range telemetry from driver constants,trailguide_v3/trailguide_v3.ino:103-105; trailguide_v3/imu.h:10-14; tests/v3_app_imu_test.cpp:19-34
+C3,P2,6,conditional-investigation,Prove or dismiss timer-allocation risk with actual pinned LVGL fault injection,trailguide_v3/ui.h:68-73; trailguide_v3/coaching_ui.h:139-143; trailguide_v3/window_reveal.h:34-38
+C4,P2,6,conditional-investigation,Evidence-led off-device replay of known Coaching automatic-shake route; no speculative tuning,trailguide_v3/shake.h:8-20; trailguide_v3/shake.h:128-142; trailguide_v3/ui.h:33-46; trailguide_v3/coaching_ui.h:41-53
+C5,P2,6,conditional-investigation,Prove raw-data replay/decision attribution; only propose bounded schema changes if needed,trailguide_v3/ui.h:25-31; trailguide_v3/coaching_ui.h:33-39; trailguide_v3/flight_recorder.h:8-15; trailguide_v3/flight_recorder.h:53-64; trailguide_v3/motion_diagnostics.h:98-104
+C6,P3,deferred,deferred,No broad controller refactor; revisit only when a demonstrated change needs a small extraction,trailguide_v3/ui.h:118-151; trailguide_v3/ui.h:176-209; trailguide_v3/coaching_ui.h:119-132; trailguide_v3/coaching_ui.h:165-237
+D-01,P2,1,scheduled,"Public check runner, fresh producer and CI",tools/test_v3_isolated.py:148
+D-02,P3,1,scheduled,One documented nonzero-test entrypoint,tests/content_test.py:1
+D-03,P3,1,scheduled,Integrity checks reject corruption with normal and optimized Python,tools/v3_native_objects.py:31
+D-04,P3,1,scheduled,Dependency/preflight recipe and isolated guide smoke tests,tools/build_coaching_display_guide.py:105

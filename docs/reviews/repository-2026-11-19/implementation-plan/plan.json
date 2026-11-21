@@ -1,0 +1,207 @@
+{
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "baseline_commit": "2c8a05881495c9cc8edc8f8d7bb020f77141c0e6",
+  "recommended_initial_authorization": "Phases1-3 off-device repository changes and publication after checks. Excludes protected AGENTS.md edits, optional new source tag/release, content changes and all firmware/device operations.",
+  "coverage": [
+    {
+      "finding_id": "A01",
+      "priority": "P2",
+      "phase": "2",
+      "disposition": "scheduled",
+      "planned_action": "Purpose-first README and three reader routes",
+      "source_locations": "README.md:3"
+    },
+    {
+      "finding_id": "A02",
+      "priority": "P2",
+      "phase": "2",
+      "disposition": "restricted",
+      "planned_action": "Current contributor guidance; AGENTS.md stays untouched unless explicitly authorized; do not mark fully closed before its contradiction is resolved",
+      "source_locations": "AGENTS.md:5"
+    },
+    {
+      "finding_id": "A03",
+      "priority": "P2",
+      "phase": "2",
+      "disposition": "scheduled",
+      "planned_action": "Correct current assertions and label historical snapshots",
+      "source_locations": "docs/PROJECT-SPEC.md:200"
+    },
+    {
+      "finding_id": "A04",
+      "priority": "P2",
+      "phase": "2",
+      "disposition": "scheduled",
+      "planned_action": "One current-state reference with short pointers",
+      "source_locations": "docs/PRODUCT-SPEC.md:3"
+    },
+    {
+      "finding_id": "A05",
+      "priority": "P2",
+      "phase": "3",
+      "disposition": "scheduled",
+      "planned_action": "P-ID implementation/test/evidence/acceptance index",
+      "source_locations": "docs/PRODUCT-SPEC.md:287"
+    },
+    {
+      "finding_id": "A07",
+      "priority": "P3",
+      "phase": "3",
+      "disposition": "optional",
+      "planned_action": "About/topics after approval; source-only DRAFT tag/release is an explicit opt-in, never retag28",
+      "source_locations": "README.md:1"
+    },
+    {
+      "finding_id": "A08",
+      "priority": "P2",
+      "phase": "4",
+      "disposition": "proposal-first",
+      "planned_action": "Optional success/checking field and human/AI/hybrid example in learner brief",
+      "source_locations": "docs/PROJECT-COACH.md:12"
+    },
+    {
+      "finding_id": "A09",
+      "priority": "P3",
+      "phase": "2",
+      "disposition": "scheduled",
+      "planned_action": "Link the existing historical content review and companion audit",
+      "source_locations": "docs/reviews/README.md:5"
+    },
+    {
+      "finding_id": "B-01",
+      "priority": "P2",
+      "phase": "4",
+      "disposition": "proposal-first",
+      "planned_action": "Small field-specific Guide replacements, not appended boilerplate",
+      "source_locations": "content/coaching.json:289-313; content/coaching.json:340-363; content/coaching.json:391-418"
+    },
+    {
+      "finding_id": "B-02",
+      "priority": "P2",
+      "phase": "4",
+      "disposition": "proposal-first",
+      "planned_action": "Explanation, demonstration and co-building examples alongside checks",
+      "source_locations": "content/coaching.json:297-304; content/coaching.json:391-418; docs/COACHING-DIRECTION.md:15-22; docs/COACHING-DIRECTION.md:36-46"
+    },
+    {
+      "finding_id": "B-03",
+      "priority": "P2",
+      "phase": "4",
+      "disposition": "conditional",
+      "planned_action": "Cold-entry opener proposals only if useful and exact wording approved",
+      "source_locations": "content/coaching.json:51-78; trailguide_v3/coaching_model.h:21-31"
+    },
+    {
+      "finding_id": "B-04",
+      "priority": "P2",
+      "phase": "4",
+      "disposition": "conditional",
+      "planned_action": "Consequence-sensitive restrictions only where exact field changes approved",
+      "source_locations": "content/cards.json:302-305; content/cards.json:347-350; content/cards.json:645-648; content/coaching.json:314-325"
+    },
+    {
+      "finding_id": "B-05",
+      "priority": "P2",
+      "phase": "2",
+      "disposition": "scheduled",
+      "planned_action": "Label preview omissions/history; native-equivalent preview renderer is separately deferred",
+      "source_locations": "prototype/template.html:66-75; prototype/template.html:125-132; tools/build_v2_content.py:32-47; prototype/v3_experience_template.html:93-103; docs/V3-EXPERIENCE.md:29-31"
+    },
+    {
+      "finding_id": "C1",
+      "priority": "P2",
+      "phase": "5A",
+      "disposition": "scheduled-off-device",
+      "planned_action": "Legacy V1/V2 disable precedence and four-way compile matrices; no legacy installation",
+      "source_locations": "oled_oracle/ota_support.h:3-8; trailguide_v2/ota_support.h:2-11"
+    },
+    {
+      "finding_id": "C2",
+      "priority": "P3",
+      "phase": "5B",
+      "disposition": "conditional-firmware",
+      "planned_action": "Separate new-version V3 candidate; derive range telemetry from driver constants",
+      "source_locations": "trailguide_v3/trailguide_v3.ino:103-105; trailguide_v3/imu.h:10-14; tests/v3_app_imu_test.cpp:19-34"
+    },
+    {
+      "finding_id": "C3",
+      "priority": "P2",
+      "phase": "6",
+      "disposition": "conditional-investigation",
+      "planned_action": "Prove or dismiss timer-allocation risk with actual pinned LVGL fault injection",
+      "source_locations": "trailguide_v3/ui.h:68-73; trailguide_v3/coaching_ui.h:139-143; trailguide_v3/window_reveal.h:34-38"
+    },
+    {
+      "finding_id": "C4",
+      "priority": "P2",
+      "phase": "6",
+      "disposition": "conditional-investigation",
+      "planned_action": "Evidence-led off-device replay of known Coaching automatic-shake route; no speculative tuning",
+      "source_locations": "trailguide_v3/shake.h:8-20; trailguide_v3/shake.h:128-142; trailguide_v3/ui.h:33-46; trailguide_v3/coaching_ui.h:41-53"
+    },
+    {
+      "finding_id": "C5",
+      "priority": "P2",
+      "phase": "6",
+      "disposition": "conditional-investigation",
+      "planned_action": "Prove raw-data replay/decision attribution; only propose bounded schema changes if needed",
+      "source_locations": "trailguide_v3/ui.h:25-31; trailguide_v3/coaching_ui.h:33-39; trailguide_v3/flight_recorder.h:8-15; trailguide_v3/flight_recorder.h:53-64; trailguide_v3/motion_diagnostics.h:98-104"
+    },
+    {
+      "finding_id": "C6",
+      "priority": "P3",
+      "phase": "deferred",
+      "disposition": "deferred",
+      "planned_action": "No broad controller refactor; revisit only when a demonstrated change needs a small extraction",
+      "source_locations": "trailguide_v3/ui.h:118-151; trailguide_v3/ui.h:176-209; trailguide_v3/coaching_ui.h:119-132; trailguide_v3/coaching_ui.h:165-237"
+    },
+    {
+      "finding_id": "D-01",
+      "priority": "P2",
+      "phase": "1",
+      "disposition": "scheduled",
+      "planned_action": "Public check runner, fresh producer and CI",
+      "source_locations": "tools/test_v3_isolated.py:148"
+    },
+    {
+      "finding_id": "D-02",
+      "priority": "P3",
+      "phase": "1",
+      "disposition": "scheduled",
+      "planned_action": "One documented nonzero-test entrypoint",
+      "source_locations": "tests/content_test.py:1"
+    },
+    {
+      "finding_id": "D-03",
+      "priority": "P3",
+      "phase": "1",
+      "disposition": "scheduled",
+      "planned_action": "Integrity checks reject corruption with normal and optimized Python",
+      "source_locations": "tools/v3_native_objects.py:31"
+    },
+    {
+      "finding_id": "D-04",
+      "priority": "P3",
+      "phase": "1",
+      "disposition": "scheduled",
+      "planned_action": "Dependency/preflight recipe and isolated guide smoke tests",
+      "source_locations": "tools/build_coaching_display_guide.py:105"
+    }
+  ],
+  "phase_order": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5A",
+    "5B",
+    "6"
+  ],
+  "parallel_track": "Already-approved voluntary real Coaching conversation using current touch controls; not a dependency on code changes.",
+  "preserve": [
+    "AGENTS.md unless separately explicitly authorized",
+    "v3-0.1.28-controls tag and content/v3-baseline.json",
+    "current installed31 payloads, UI and content until a separately approved candidate",
+    "all private evidence, captures, backups and credentials"
+  ]
+}

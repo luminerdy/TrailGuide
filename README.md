@@ -68,6 +68,9 @@ Develop the mentor's listening, invitations, useful help and reflection alongsid
 
 ## Start here
 
+- [Repository critical review — strengths, issues and priorities](docs/reviews/repository-2026-11-19/README.md)
+- [Implementation plan — proposed, not started](docs/reviews/repository-2026-11-19/implementation-plan/IMPLEMENTATION-PLAN.md)
+
 - [Project specification — current scope, architecture and acceptance](docs/PROJECT-SPEC.md)
 - [Classic — Mermaid prompt-deck flow](docs/CLASSIC-FLOW.md)
 - [Classic — exact display wording and test checklist, with Ask and Try separate](docs/CLASSIC-DISPLAY-CHECKLIST.md)

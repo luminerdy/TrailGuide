@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://github.com/luminerdy/TrailGuide",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 2,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/README.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 3,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/RELEASE-v3-0.1.31.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 4,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/COACHING-DISPLAY-GUIDE.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 5,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/PROJECT-SPEC.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 6,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/PRODUCT-SPEC.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 7,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/AGENTS.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 8,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/PROJECT-COACH.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 9,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/COACHING-DIRECTION.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 10,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/content/coaching.json",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 11,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/content/cards.json",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 12,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/prototype/template.html",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 13,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/prototype/v3_experience_template.html",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 14,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/oled_oracle/ota_support.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 15,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v2/ota_support.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 16,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/trailguide_v3.ino",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 17,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/imu.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 18,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/ui.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 19,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/coaching_ui.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 20,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/flight_recorder.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 21,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/trailguide_v3/motion_diagnostics.h",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 22,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/tools/v3_native_objects.py",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 23,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/tools/test_v3_isolated.py",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 24,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/tests/content_test.py",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 25,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/tools/build_coaching_display_guide.py",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 26,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/reviews/README.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 27,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 28,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide/actions/workflows",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 29,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide/commits/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/check-runs",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 30,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide/commits/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/status",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 31,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide/releases?per_page=100",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 32,
+      "url": "https://api.github.com/repos/luminerdy/TrailGuide/tags?per_page=100",
+      "title": "",
+      "accessed": "2026-11-19"
+    },
+    {
+      "id": 33,
+      "url": "https://raw.githubusercontent.com/luminerdy/TrailGuide/2c8a05881495c9cc8edc8f8d7bb020f77141c0e6/docs/V2-WIFI-UPDATES.md",
+      "title": "",
+      "accessed": "2026-11-19"
+    }
+  ]
+}

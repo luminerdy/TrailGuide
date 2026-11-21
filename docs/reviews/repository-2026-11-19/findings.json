@@ -1,0 +1,390 @@
+{
+  "source_commit": "2c8a05881495c9cc8edc8f8d7bb020f77141c0e6",
+  "unique_findings": 23,
+  "deduplicated": "A06 and D-01 are the same public-check/reproducibility finding",
+  "findings": [
+    {
+      "id": "A01",
+      "priority": "P2",
+      "classification": "confirmed",
+      "locations": [
+        "README.md:3"
+      ],
+      "evidence": "README begins with release-specific runtime/acceptance detail; product vision begins later and Start here offers a long mixed mentoring/build/history menu. No runnable hosted preview is exposed in repository metadata.",
+      "impact": "A new mentor or curious visitor must interpret firmware history before identifying the smallest useful no-hardware activity.",
+      "recommendation": "Lead with purpose and three audience routes: use the learner brief, download/open the clearly labelled offline preview, or develop the current target. Keep a short DRAFT/open-issues strip and link the release evidence.",
+      "verification_limit": "Desk walkthrough only; first-use user study not performed. Validate that a newcomer can choose a route and obtain one usable artifact without hardware.",
+      "effort": "small editorial/navigation change; estimate, not measured"
+    },
+    {
+      "id": "A02",
+      "priority": "P2",
+      "classification": "confirmed",
+      "locations": [
+        "AGENTS.md:5"
+      ],
+      "evidence": "Purpose describes an offline pocket facilitator for AI workshops; line9 calls portrait C6 current and round S3 future. README/current31 and PROJECT-SPEC place broad mentoring and the installed S3 trial differently. Build section advertises only two V1 host suites.",
+      "impact": "A new human/agent contributor can start on the wrong target or mistake V1 checks for the current contribution gate.",
+      "recommendation": "Align the onboarding authority map with mentoring-first scope and current31 S3, preserving V1/V2 fallback sections and explicit hardware boundaries; link the current public off-device check tier.",
+      "verification_limit": "Compared AGENTS purpose/start/build text with current release and project-spec authority map; no contributor commands or hardware operations executed.",
+      "effort": "small docs change plus target-specific smoke-check review; estimate"
+    },
+    {
+      "id": "A03",
+      "priority": "P2",
+      "classification": "confirmed",
+      "locations": [
+        "docs/PROJECT-SPEC.md:200"
+      ],
+      "evidence": "Current global gesture section says detector thresholds, IMU driver/configuration, models, content and renderer are unchanged from v3-0.1.20. BRINGUP:25-28 records27 accelerometer \u00b14g\u2192\u00b116g; DELIVERY-B-CONTENT records23 seven-field wording. V3-EXPERIENCE opens Current hardware v11; candidate22 top notice says now27.",
+      "impact": "Concrete stale baseline statements undermine the otherwise careful source/acceptance boundary and can lead maintainers to wrong conversion/copy assumptions.",
+      "recommendation": "Move version-specific historical assertions under explicit snapshot headings and make current assertions relative to the correct baseline; do not overwrite historical evidence. Audit stale Current/now labels in legacy study/delivery guides.",
+      "verification_limit": "Direct cross-document contradiction; not a new runtime defect. Current31 banner is accurate and historical21 five-second hold passages are not counted as defects.",
+      "effort": "small-to-medium targeted historical/current cleanup; estimate"
+    },
+    {
+      "id": "A04",
+      "priority": "P2",
+      "classification": "risk",
+      "locations": [
+        "docs/PRODUCT-SPEC.md:3"
+      ],
+      "evidence": "The identical569-character installed31 paragraph occurs in13 assigned Markdown files, followed by repeated evidence/limit paragraphs. Current behavior, historical checkpoints and future production design are distributed across several long specs/handoffs.",
+      "impact": "Every small release requires synchronized edits across many authorities; A03 demonstrates drift already exists, although matching31 banners themselves are currently consistent.",
+      "recommendation": "Keep one canonical current release contract and short context-appropriate pointers elsewhere. Archive versioned evidence unchanged; use a lightweight consistency check for current identity/timing/control names.",
+      "verification_limit": "Programmatic exact-paragraph duplicate count13; authority-map and historical/current sections reviewed. No speculative runtime issue inferred.",
+      "effort": "medium information-architecture change; estimate"
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "classification": "confirmed",
+      "locations": [
+        "docs/PRODUCT-SPEC.md:287"
+      ],
+      "evidence": "Spec requires each requirement to have status/evidence. Stable P01-P21 requirements have prose and acceptance lists, but no consolidated current requirement\u2192implementation\u2192test\u2192versioned evidence\u2192remaining acceptance matrix. The47-row CSV maps historical review findings to work packages; guide55-entry coverage maps content to pages/native hashes.",
+      "impact": "Reviewers cannot answer requirement completeness/current acceptance in one place and may misread content coverage or remediation mapping as product verification.",
+      "recommendation": "Add a small current P-ID index with status per target, named check/evidence, tested revision, open physical/material gates and optionality; link existing CSV/content matrices rather than replacing or overclaiming them.",
+      "verification_limit": "All assigned Markdown/CSV schemas inventoried; distinguishes existing formal finding/work-package tracker from absent consolidated current product verification table. This is documentation traceability, not proof requirements are untested.",
+      "effort": "medium index/maintenance work; estimate"
+    },
+    {
+      "id": "A07",
+      "priority": "P3",
+      "classification": "confirmed",
+      "locations": [
+        "README.md:1"
+      ],
+      "evidence": "Saved public repo metadata has description=null, homepage=null and topics=[]; releases=[]; one historical28 tag exists and no current31 tag appears. MIT license is detected.",
+      "impact": "GitHub About/release discovery does not communicate the purpose or identify a convenient current DRAFT source checkpoint, despite strong internal release documentation.",
+      "recommendation": "Set a short mentoring-first About description and relevant topics. Consider a source-only DRAFT31 tag/release linking exact commit, source manifests and known limits; do not retag28 or publish private binaries. Hosted preview is optional.",
+      "verification_limit": "Read-only API snapshots supplied for2026-11-19; no mutation. No conclusion about popularity or community quality from empty issues/PRs.",
+      "effort": "small metadata/release packaging; estimate"
+    },
+    {
+      "id": "A08",
+      "priority": "P2",
+      "classification": "idea",
+      "locations": [
+        "docs/PROJECT-COACH.md:12"
+      ],
+      "evidence": "Brief captures next useful piece, current state and decisions/evidence, while starter suggests checks later. PROJECT-SPEC:19-24 explicitly asks to plan checking during Define; P19 acceptance requires a cited evidence brief, still described as separately collected/pending.",
+      "impact": "The strongest learner-facing material could make independent checking/route choice more actionable without waiting for device work; effectiveness remains unvalidated.",
+      "recommendation": "Optionally add one field for what would count as useful and how to check it before work, plus a compact human/AI/hybrid end-to-end effort comparison example. Publish a sanitized bounded evidence brief only when ready; avoid mandatory forms or fresh exhaustive role-play obligations.",
+      "verification_limit": "Content-design proposal grounded in published brief/spec, not an observed learner failure or an empirical learning claim.",
+      "effort": "small optional brief/example; medium evidence synthesis; estimate"
+    },
+    {
+      "id": "A09",
+      "priority": "P3",
+      "classification": "confirmed",
+      "locations": [
+        "docs/reviews/README.md:5"
+      ],
+      "evidence": "Reviews index links only code and UI reports; sibling Coaching content review and coaching-v3-0.1.21 companion directory exist and update plan links all three.",
+      "impact": "A reader entering through reviews index misses the substantive content audit and shared-source crosswalk.",
+      "recommendation": "Add labelled historical content-review and companion-audit links to the index; do not change historical review dispositions.",
+      "verification_limit": "Local file existence and Markdown link/index inspection.",
+      "effort": "tiny index edit; estimate"
+    },
+    {
+      "id": "B-01",
+      "priority": "P2",
+      "classification": "editorial/prototype improvement; observed source facts, unmeasured usability effect",
+      "title": "Repeated safeguards often displace the experiment-specific method",
+      "locations": [
+        "content/coaching.json:289-313",
+        "content/coaching.json:340-363",
+        "content/coaching.json:391-418"
+      ],
+      "affected_ids": [
+        "PROGRESS-E01",
+        "PROGRESS-E03",
+        "STUCK-E02",
+        "STUCK-E03",
+        "UNCLEAR-E01",
+        "UNCLEAR-E02",
+        "UNCLEAR-E03",
+        "EXPLORING-E02",
+        "AI-RESULTS-E03",
+        "TEAM-E02",
+        "TEAM-E03"
+      ],
+      "evidence": "48 nonempty Coaching Guides resolve to 18 unique strings. All 18 experiment Guides mention AI self-critique, even non-AI work. For example all three Progress experiments share the same Guide despite different transfer, criticism and observation activities.",
+      "impact": "A facilitator gets sound permissions but little help choosing the comparison, observation or stopping point. This is an editorial usefulness risk, not measured learner failure.",
+      "recommendation": "Selectively replace generic portions with the particular activity method. Keep passing, requested direct help, human-only choice and proportionate evidence; do not append another boilerplate block.",
+      "followup_check": "Approve exact fields only; compare meaningful cold-entry walkthroughs and complete-copy access without scoring participants.",
+      "effort": "small field-scoped editorial proposal plus native full-copy review"
+    },
+    {
+      "id": "B-02",
+      "priority": "P2",
+      "classification": "editorial/prototype improvement; observed source facts, unmeasured usability effect",
+      "title": "The deck offers stronger criticism/checking than explanation, demonstration or co-building",
+      "locations": [
+        "content/coaching.json:297-304",
+        "content/coaching.json:391-418",
+        "docs/COACHING-DIRECTION.md:15-22",
+        "docs/COACHING-DIRECTION.md:36-46"
+      ],
+      "affected_ids": [
+        "PROGRESS-E02",
+        "EXPLORING-E03",
+        "AI-RESULTS-E01",
+        "AI-RESULTS-E02"
+      ],
+      "evidence": "Several optional experiments solicit objections or critique; AI Results E01 and E02 both lead toward consequential checks. The endorsed direction also names explanation, demonstration, implementation, research, collaboration and organization. Existing alternatives are real: STUCK-E02 contrasts routes, UNCLEAR-E02 addresses ambiguity, and EXPLORING-E01 makes a human-only route complete.",
+      "impact": "Taken as the mentoring menu rather than optional cues, the collection can make AI use feel chiefly like producing an answer then challenging it.",
+      "recommendation": "Add variety through a few proposed specific Guides, such as a requested worked example or help implementing one chosen milestone. Do not replace sound checking cards, add a seventh context, or require every role.",
+      "followup_check": "Compare whether a facilitator can offer explanation, demonstration, direct help and human-only support without routing every case through an AI critic.",
+      "effort": "small editorial proposal; broader examples may live in optional mentoring reference"
+    },
+    {
+      "id": "B-03",
+      "priority": "P2",
+      "classification": "editorial/prototype improvement; observed source facts, unmeasured usability effect",
+      "title": "Some independently drawn openers presume discovery, surprise or a team",
+      "locations": [
+        "content/coaching.json:51-78",
+        "trailguide_v3/coaching_model.h:21-31"
+      ],
+      "affected_ids": [
+        "OPEN-03",
+        "OPEN-05",
+        "OPEN-06"
+      ],
+      "evidence": "These openers ask about the most interesting discovery, surprising learning, or how the team feels. Native opening draws use an independent shuffled opener pool.",
+      "impact": "A first-time or solo learner may have no discovery yet, or a speaker may answer for others. Shared Guide permits another path or direct help, so this is a modest fit issue, not a forced disclosure mechanism.",
+      "recommendation": "Consider a context-neutral alternative only if exact wording is approved; meanwhile accept none/not yet and ask for the speakers own perspective. Preserve optional opener and direct path entry.",
+      "followup_check": "Cold-entry solo/new-project walkthrough can pass or choose another path without having to invent a learning outcome.",
+      "effort": "small optional editorial refinement"
+    },
+    {
+      "id": "B-04",
+      "priority": "P2",
+      "classification": "editorial/prototype improvement; observed source facts, unmeasured usability effect",
+      "title": "A few canonical rehearsal restrictions are broader than their Coaching counterpart",
+      "locations": [
+        "content/cards.json:302-305",
+        "content/cards.json:347-350",
+        "content/cards.json:645-648",
+        "content/coaching.json:314-325"
+      ],
+      "affected_ids": [
+        "tg-004",
+        "tg-006",
+        "tg-027"
+      ],
+      "evidence": "tg-004 ai_prompt requires synthetic data; tg-006 activity uses synthetic sandbox/paper input; tg-027 teach-back activity requires a synthetic example. Coaching STUCK-E01 instead conditions copies/mock-ups on possible harm to people or real work.",
+      "impact": "A blanket interpretation can turn harmless reversible project work into unnecessary rehearsal. Paper-bridge and privacy exercises can legitimately remain synthetic; this is not a recommendation to remove those boundaries.",
+      "recommendation": "Consider consequence-sensitive wording only in fields where authentic approved examples are useful; retain authority, privacy, observable results and stop conditions.",
+      "followup_check": "An approved harmless reversible real step is allowed; consequential or unapproved effects remain outside scope; private input is not required.",
+      "effort": "small but requires exact semantic approval, since it changes permissible examples"
+    },
+    {
+      "id": "B-05",
+      "priority": "P2",
+      "classification": "editorial/prototype improvement; observed source facts, unmeasured usability effect",
+      "title": "The full-flow browser Guide omits canonical method fields and uses a historical same-card related face",
+      "locations": [
+        "prototype/template.html:66-75",
+        "prototype/template.html:125-132",
+        "tools/build_v2_content.py:32-47",
+        "prototype/v3_experience_template.html:93-103",
+        "docs/V3-EXPERIENCE.md:29-31"
+      ],
+      "affected_ids": [
+        "tg-001",
+        "tg-002",
+        "tg-004",
+        "tg-003",
+        "tg-011",
+        "tg-028",
+        "tg-031",
+        "tg-036"
+      ],
+      "evidence": "index.html is a fresh generation of its template, but guidePages includes title, action, invitation, notices and follow-ups: not canonical activity, optional_ai_help or conditional_follow_ups. Native Classic Guide includes those additional method fields. The browser related-face action preserves identity, while current native Classic mode changes independently draw. v3-experience remains a character-by-character study explicitly described as legacy in its companion document.",
+      "impact": "Reviewers could judge incomplete method copy or historical pairing/typing as current hardware behavior. The previews already disclose study/read-only/not-hardware scope; freshness does not establish equivalence.",
+      "recommendation": "Keep studies if useful, but make historical scope and omitted fields prominent at their entry links or on the page. If full-current-copy review is intended, propose aligning its Guide renderer separately; do not port study behavior into hardware.",
+      "followup_check": "A reader can identify which preview is historical, which fields are absent and which native behavior is authoritative. No redesign of approved Classic buttons required.",
+      "effort": "small documentation distinction; separate scoped prototype renderer change if wanted"
+    },
+    {
+      "id": "C1",
+      "priority": "P2",
+      "classification": "confirmed",
+      "title": "Explicit Wi-Fi disable loses to an already-configured build",
+      "locations": [
+        "oled_oracle/ota_support.h:3-8",
+        "trailguide_v2/ota_support.h:2-11"
+      ],
+      "evidence": "TRAILGUIDE_DISABLE_WIFI gates only automatic secrets inclusion; the network implementation is selected solely by TRAILGUIDE_WIFI_CONFIGURED. Both existing OTA tests compiled with -DTRAILGUIDE_DISABLE_WIFI=1 and passed their assertions that WiFi.begin and OTA handlers ran. See disable-probe-results.json. Historical V1/V2 only; V3 has no Wi-Fi path.",
+      "impact": "An offline/safety build flag does not reliably remove networking when configuration comes from other build flags or an earlier include.",
+      "reproduction": "Compile tests/ota_test.cpp and tests/v2_ota_test.cpp with -DTRAILGUIDE_DISABLE_WIFI=1, tests/stubs and tests/network includes; run. Both exit 0 with WiFi.begins==1 assertions intact. No actual network/device accessed.",
+      "followup_check": "Add a compile matrix for neither/configured/disable/both for V1 and V2; both must select the no-network branch if disable is intended to be authoritative.",
+      "confidence": "high"
+    },
+    {
+      "id": "C2",
+      "priority": "P3",
+      "classification": "confirmed",
+      "title": "V3 startup diagnostic reports the wrong accelerometer full scale",
+      "locations": [
+        "trailguide_v3/trailguide_v3.ino:103-105",
+        "trailguide_v3/imu.h:10-14",
+        "tests/v3_app_imu_test.cpp:19-34"
+      ],
+      "evidence": "The current driver selects AccRangeSelection=3, CTRL2=0x37, +/-16g; the sketch still prints acc_range_g=4. Fresh actual-header fake-bus test passes register/conversion checks. Gyro 2048 diagnostic agrees.",
+      "impact": "Misleading provenance during field diagnosis or independent raw-data reconstruction; does not alter recognition scale internally.",
+      "reproduction": "Static comparison of the literal against the derived constants; fresh v3_app_imu_test execution verifies CTRL2=0x37 and 2048 raw counts=1g.",
+      "followup_check": "Generate range diagnostics from the same driver constants, then assert actual composed startup log agrees with conversion.",
+      "confidence": "high"
+    },
+    {
+      "id": "C3",
+      "priority": "P2",
+      "classification": "risk",
+      "title": "Classic idle compass timer lacks the low-heap admission used elsewhere",
+      "locations": [
+        "trailguide_v3/ui.h:68-73",
+        "trailguide_v3/coaching_ui.h:139-143",
+        "trailguide_v3/window_reveal.h:34-38"
+      ],
+      "evidence": "Classic calls lv_timer_create(wander,160,this) unconditionally; Coaching preflights free_biggest_size because the pinned allocator can assert before returning nullptr. Hold and manual timers have similar preflights. Root/widget creation also assumes successful LVGL allocation.",
+      "impact": "Home/render under fragmentation could assert rather than degrade to a static compass; a null check alone would not cover assert-before-return behavior.",
+      "reproduction": "Static path comparison only; no actual low-heap LVGL composition run in this review. This is not proof normal shipped layouts exhaust their heap.",
+      "followup_check": "Reuse the pinned native fault-injection harness to enter Classic Home with enough heap for objects but no timer allocation, plus repeated navigation peak/fragmentation measurement; preserve static compass fallback.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "C4",
+      "priority": "P2",
+      "classification": "risk",
+      "title": "Automatic Coaching shake remains an open product acceptance gate",
+      "locations": [
+        "trailguide_v3/shake.h:8-20",
+        "trailguide_v3/shake.h:128-142",
+        "trailguide_v3/ui.h:33-46",
+        "trailguide_v3/coaching_ui.h:41-53"
+      ],
+      "evidence": "Automatic recognition requires 400ms fresh quiet acquisition and, after a draw, 2200ms cooldown followed by new quiet acquisition. These are deliberately implemented safeguards, not demonstrated satisfaction of the any-held-orientation/repeated-burst target. Known human Coaching auto-shake failure remains open; Red Classic qualitative success is scoped positive evidence only. Fresh detector/rotation unit checks pass synthetic inputs.",
+      "impact": "Optional gestures cannot yet be advertised as dependable across Coaching entry/return contexts; S and touch are fallback choices, not closure of automatic failure.",
+      "reproduction": "No new physical reproduction, recordings, or device contact. Do not infer a cause for the human incident from these constants.",
+      "followup_check": "First correlate retained evidence with eligible/fresh/health/acquisition/recognition/dispatch stages for the known failing Coaching route; source-replay that route and first-moving-frame phase/direction before proposing another physical test.",
+      "confidence": "high that acceptance is open; low on physical root cause"
+    },
+    {
+      "id": "C5",
+      "priority": "P2",
+      "classification": "risk",
+      "title": "Motion evidence exposes turnover state but not the shake decision state",
+      "locations": [
+        "trailguide_v3/ui.h:25-31",
+        "trailguide_v3/coaching_ui.h:33-39",
+        "trailguide_v3/flight_recorder.h:8-15",
+        "trailguide_v3/flight_recorder.h:53-64",
+        "trailguide_v3/motion_diagnostics.h:98-104"
+      ],
+      "evidence": "Snapshots include Gesture::Diagnostic; FlightRecord stores that phase/reject/reset reason and a generic trigger bit. Shake arming/manual intent, candidate, opposing peaks, quiet credit and burst credit are absent. A shake trigger is even assigned reset_reason=9 by the generic recorder mapping. Raw rows and UI gates are retained, so source replay is possible; this is incomplete attribution, not missing raw data.",
+      "impact": "A valid capture/CRC cannot itself identify where an automatic/manual shake failed, distinguish its acceptance reason, or show that an S intent remained live.",
+      "reproduction": "Static schema-to-producer trace; no recorder started.",
+      "followup_check": "Before any future capture authorization, prove off-device that retained raw polls reconstruct both detectors and route decisions from known initial state; only if insufficient, propose a versioned bounded shake-state evidence extension.",
+      "confidence": "high"
+    },
+    {
+      "id": "C6",
+      "priority": "P3",
+      "classification": "idea",
+      "title": "Share lifecycle policy before adding more duplicated controller behavior",
+      "locations": [
+        "trailguide_v3/ui.h:118-151",
+        "trailguide_v3/ui.h:176-209",
+        "trailguide_v3/coaching_ui.h:119-132",
+        "trailguide_v3/coaching_ui.h:165-237"
+      ],
+      "evidence": "Contact cancellation, manual timer, reveal/hold settlement, blackout mask, sound ownership and deletion handling are duplicated across Ui and CoachUi. Existing careful differences include Classic mode-specific draw versus Coaching fresh opener. C3 is already a small divergence in timer policy.",
+      "impact": "Future fixes can drift across modes; dense multi-operation lines make ownership and event ordering harder to independently audit.",
+      "reproduction": "Architecture/static comparison only, not a behavior defect.",
+      "followup_check": "Keep approved fonts/layout, six-second reveal plus two-second post-settlement hold, independent opposite-mode bags and all current contracts frozen. First add transition-table assertions and separate mechanism from mode-specific draw policy; no rewrite is authorized by this review.",
+      "confidence": "high"
+    },
+    {
+      "id": "D-01",
+      "also_reported_as": [
+        "A06"
+      ],
+      "priority": "P2",
+      "classification": "confirmed coverage / reproducibility gap",
+      "locations": [
+        "tools/test_v3_isolated.py:148"
+      ],
+      "evidence": "main requires ignored installed-v3-0.1.{6..16}-files.private.json inventories and installed trees before copying source. Full native runner also requires private v3-0.1.9 IMU/gesture baseline at tools/test_v3_app.py:200-208. Public GitHub API responses saved in github/ show zero workflows, zero check runs and zero statuses for frozen SHA. Economical public-source tests work: 116 Python cases passed plus fresh C++ producer and 11 protocol integration checks (9 overlapping).",
+      "impact": "No repository-provided small public CI tier gates the substantial tests that can run without private archives, SDK or historical installed evidence. Full canonical commands are not reproducible from public source alone. This is a disclosed tooling limitation, not a newly discovered firmware defect.",
+      "recommendation": "Provide a documented lightweight public unittest tier plus standalone recorder producer, execute it in CI; keep private historical-equivalence/native-LVGL tier separate and explicitly prerequisites-gated.",
+      "followup_check": "Fresh checkout in a machine without build/, vendor ZIP or SDK must run the public tier successfully and report private/native tiers as unavailable, not silently passed.",
+      "confidence": "high"
+    },
+    {
+      "id": "D-02",
+      "also_reported_as": [],
+      "priority": "P3",
+      "classification": "confirmed optional discovery ergonomics gap (correct command already documented)",
+      "locations": [
+        "tests/content_test.py:1"
+      ],
+      "evidence": "From sandbox repository root: python3 -B -m unittest discover returns exit 5 and Ran 0 tests on this interpreter. Repository tests use *_test.py instead of default test*.py; tests/ is not a default recursive discovery package. Explicit -s tests -p '*_test.py' discovers 144 cases. See default-discovery.log and commands/probes.json.",
+      "impact": "A conventional contributor or generic CI command does not exercise the actual tests. Older Python versions may report zero-test discovery as success; this interpreter did not.",
+      "recommendation": "Optionally provide a root test entrypoint with nonzero-test assertion. The correct explicit discovery command is already documented in this file and docs/V3-BRINGUP.md:185 and docs/HANDOFF.md:308; this is not missing usage documentation.",
+      "followup_check": "Invoke the documented root test command on a fresh checkout and assert the expected tier's nonzero test count.",
+      "confidence": "high"
+    },
+    {
+      "id": "D-03",
+      "also_reported_as": [],
+      "priority": "P3",
+      "classification": "confirmed nondefault integrity bypass",
+      "locations": [
+        "tools/v3_native_objects.py:31"
+      ],
+      "evidence": "verified_objects uses assert for archive, source count, flags, configuration and object SHA checks. Synthetic cache corruption was rejected normally but accepted with python3 -O, returning all 424 object paths. Exact probe results: commands/optimization-probe.json. build_coaching_display_guide.py similarly emits PASS fields after assert-only content/PDF checks.",
+      "impact": "PYTHONOPTIMIZE/-O disables integrity promises for cache reuse and some document verification. Normal documented execution rejects the cache corruption; this is not a normal-use bypass or remote exploit. check_v3_baseline.py uses explicit raises and does not share this issue.",
+      "recommendation": "Use explicit exceptions for integrity/acceptance checks, or refuse optimized execution at checker startup.",
+      "followup_check": "Run negative object/config/source/PDF-content mutations under both normal Python and PYTHONOPTIMIZE=1; require rejection in both.",
+      "confidence": "high"
+    },
+    {
+      "id": "D-04",
+      "also_reported_as": [],
+      "priority": "P3",
+      "classification": "confirmed setup portability / coverage gap",
+      "locations": [
+        "tools/build_coaching_display_guide.py:105"
+      ],
+      "evidence": "Guide builder imports reportlab, hardcodes /usr/share/fonts/truetype/dejavu fonts at lines 111-113 and requires pdftotext at line 151. Public inventory contains no requirements, pyproject, Makefile or workflow setup recipe. No guide-builder test module appears among 71 test paths. Chromium tests also assume /usr/bin/chromium. Dependencies were inspected, not installed and no PDF regeneration was attempted.",
+      "impact": "A source checkout does not itself specify a portable tested environment for regenerating the printable guide or browser checks; prerequisite errors may occur after Markdown output was already written.",
+      "recommendation": "Document bounded dependency versions and OS/font prerequisites, validate prerequisites before publication writes, and add an isolated output smoke check for the guide builder.",
+      "followup_check": "Run guide generation in an owned temporary output with declared dependencies; simulate missing reportlab/font/pdftotext and verify actionable failure without partial publication.",
+      "confidence": "medium"
+    }
+  ]
+}

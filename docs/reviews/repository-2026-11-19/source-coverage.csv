@@ -1,0 +1,199 @@
+path,reviewer,sha256,method
+.gitattributes,docs-review,3934d9186067aea8b4cea88d9591f93e58e0d8b7dd7246bf459eacb3b98bd165,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+.gitignore,docs-review,310c710ab05e1bc24bf8aeaaf081f60af3fc32e923d2215e483f174b2d7da617,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+AGENTS.md,docs-review,65c640832af916986e27db4a0111776d02c5cff1e3181e501e6a2ae7159b6263,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+LICENSE,docs-review,8af8cb1b24baf0ccca4008e11a1c66da401c4a5eaf208b836d0a949db9483d9c,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+README.md,docs-review,6adadc539c82d274f63a84f87485d959dfc1dcb3c8b0f1822b1389bc3135d0b2,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+content/cards.json,content-review,759c5399c7025a9f196ab4ce1397366335f085346b7a856656c4977d824b0374,All records resolved and audited field-exactly
+content/coaching.json,content-review,68b279295e5703e5cf2a998de1ac4f090f551a754b7b119a9bf50b9d63f05a21,All records resolved and audited field-exactly
+content/v3-baseline.json,content-review,96d453108ca460ed95a6cac9bc767ddfa1f16f81feec6e5f93ac0fd14d40e8d5,"Manifest parsed; current/baseline identity and claim boundaries inspected, not physical attestation"
+content/v3-current.json,content-review,62d053ab4b267cf093766c14ff35becae54f19efbe347787ee5d232eea86c962,"Manifest parsed; current/baseline identity and claim boundaries inspected, not physical attestation"
+docs/AGENT-WORKFLOW.md,docs-review,e700c8d0c99331acf51b393e0e1bf7801155ec4c3213f5ee6d3d3998f163bd59,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/BASELINE-v3-0.1.28.md,docs-review,12c5225d234caa1a4867c8942c67e5a895a480816e26e92a8c9db6e05623dfcc,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/BRINGUP.md,docs-review,ec5f8854065d0055f8047ac70820dfc09bab012fbbce48a8fb81430580250825,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/CARD-CATALOG.md,docs-review,580abe3b2534872c31adf241c5c180debe2a6eea5f6f8a443767c6bec8b9bcbb,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/CLASSIC-DISPLAY-CHECKLIST.md,docs-review,b26bc9a431ccf66fa9199fcd048ea1e4b0effeddeb3c442326769b4f6cf0f124,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/CLASSIC-DISPLAY-CHECKLIST.pdf,docs-review,38dbac572974cea4d49b38e0b353399890704fb637c264857fb33b8cd54a060b,binary metadata/hash and complete text extraction; not page-by-page visual validation
+docs/CLASSIC-FLOW.md,docs-review,b17199ce51ae877f236727c521b01dd731916a9fb4db0a733d6b04f5742016fa,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/COACHING-DIRECTION.md,docs-review,5794bad1249b2dc1b6b9ec78ef4afbe228a412256633ea286718504f341d54ab,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/COACHING-DISPLAY-GUIDE.coverage.json,docs-review,0508668a73c8d5ca5c7465587a9d9647b84f5bdb969a6061c242735eefcaacd3,"full JSON parse, count/identity/hash audit"
+docs/COACHING-DISPLAY-GUIDE.md,docs-review,234ce94f9804e8b937bd8c5f50bcaa29d4e77b651fe2eda5146b34634af6fe02,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/COACHING-DISPLAY-GUIDE.pdf,docs-review,1c58a0147aa236f76ef2329c59f45b8eda275c6941b2ae16661f63371056a599,binary metadata/hash and complete text extraction; not page-by-page visual validation
+docs/COACHING-FLOW.md,docs-review,ec63ff9d9fac9fca2ddea6f6950cdc2f753f01be2e8aa67cb7229927c4cacd4d,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/COMPASS-COACHING-PREVIEW.md,docs-review,80be153cec9c4b440cbdebf9740300f7c24521a2ecc4dab172c95c4e90b21123,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/DELIVERY-A-CANDIDATE22.md,docs-review,21a5d53cefe9417594aabdf9c28b0203af39ec1215857c3456fe385b0b559fd1,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/DELIVERY-B-CONTENT.md,docs-review,0c8cdef7d47382a05c9b2ae53974b874f7dfbdf013cb6490c45c93a6f8ad91b9,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/FACILITATOR-MODES.md,docs-review,3763af245cebbe2d8ab72179e61d895fd7f6d00a42830be392a2f3a7bd524c51,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/HANDOFF.md,docs-review,0c16f75b74e1f910db79d8b8b824bf506d589d76dc67e71934f5988433dcc20a,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PI-HANDOFF.md,docs-review,8e5d82530277861e8c265d4376869a79876cd6e345ce18a00530c1fcb83dea26,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PLAN.md,docs-review,bc551cdb169184d45f589c71a305139a8e0b58e31a1fa19f0289f82f61e81388,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PRODUCT-SPEC.md,docs-review,24affccae168bf433f5d2d1d104420eb91f5a2e062dcfc0fb788a1febf52d8df,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PROJECT-COACH.md,docs-review,dcb29a8d3a7e6b89fdc9754e9160b16d4c93b17bab0910e50d38aad768fad077,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PROJECT-SPEC.md,docs-review,f6b35a118aca5af46e9062f629b3e47a503d49e9d01a2a0ccad04f9afec196a0,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/PROTOTYPE-REVIEW.md,docs-review,0f8d4309e60be0456ebcc4d0c490761588cd538cd9f101546d2f511496be75b2,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/RELEASE-v3-0.1.31.md,docs-review,72fc82fd4774fd1652de0f11bf200e86a36ac1e89431fa794d1ba3da73b62798,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/ROUND-UI-SPEC.md,docs-review,009583c75a0db6f963b63431b81e5d5f28840cb72c331aaf786ea3dd96273a1e,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/UPDATE-PLAN-v3-0.1.21.md,docs-review,485968845d1a0f7be78566da4be8235fc5e0e39ba22695c8dba4fbb76e55b0c7,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V1-SPEC.md,docs-review,d936c8ebaeed7d81465e2d9d09d3fce6a4f4d062afed513111627862cba9c906,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V2-BRINGUP.md,docs-review,b6626375c51160cf3046e916adb9ddba78d1e8048ad25202eff11c330e28de72,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V2-SPEC.md,docs-review,4452cb9d84d34dea0a12825ccda82275ef160f7c2ace4fda49bfa5da38f08b33,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V2-TRIAL.md,docs-review,9f820f4a9f150ce0753e91aa22573c2618ca4af7cf842bbebba3a919f0f7efd0,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V2-WIFI-UPDATES.md,docs-review,079a8f2923c7e512a9afb0d4f209a38625a43f4933a32fa90c6ad3c240f5da28,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-BRINGUP.md,docs-review,6b3aafe0b3219cc1ccf76668a5b240bf7335803ff53e9814cb0c22c18650bf78,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-CARD-CONTENT.md,docs-review,dacbfe710c5d01925f96f547d99b0ed3ca893a8569acdc755c1ff9a0dce7777d,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-EXPERIENCE.md,docs-review,c8ba2bed3be3714c14ce4f2a730d9baa9853b4530cb4d1300f7b4c896a037abe,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-GESTURE-FOLLOWUP.md,docs-review,1b99981cb0df7f486ac9ed14ed4e4e070673472f11024269c32568e0bf389ae0,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-PROGRESS.md,docs-review,02c2b0ea423e756697c9f040678cfbd6a59a0899a291dd63bd4f1f4219e1b387,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-SPEC.md,docs-review,f7db041cc06a7a5683a39f011cfedcedfa80af4c68012c80c2434011198d35f1,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/V3-TRIAL.md,docs-review,73ed8d5dbb8849e812fa7543fc13c41d9e8add757291d8f1c2db69016aea94b0,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/WIFI-UPDATES.md,docs-review,a3807bfc90f3bb2d63caf4c5d7b9ebdb77f5c7552efbf4b427a91daff00b4f85,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/COACHING-CONTENT-REVIEW-v3-0.1.21.md,docs-review,94e8ff6122943ef0be7b4ef7d488d6c5b5950a50d676f6d6c8c5652a92f9620f,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/CODE-REVIEW-v3-0.1.21.md,docs-review,729a7084244b9a73de422cac0901c3370c1d8681dfaf66d183a9c5b106c35aa1,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/README.md,docs-review,6befdfef1ede8428f9ab00b61b5efba2f11ce32697ad2f2c1ee01ab8ef781549,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/UI-REVIEW-v3-0.1.21.md,docs-review,b40a1433bfdb9c7b011a5bdceb9846378aee7a1d836ad4952e6bb26cf9c50755,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/UPDATE-PLAN-TRACEABILITY-v3-0.1.21.csv,docs-review,7cee66d30fbc5a9651d5147eb2224d6b8c1e15724d316bfde8030fbdf1eef902,full CSV structural parse and field/representative-row substantive review
+docs/reviews/assets/v3-0.1.21/entry-and-navigation.png,docs-review,80a882c1b0bad2c6a39eb55dfb8d5d7953b19084e8ffc543f4edc65d93b94eb6,historical-native-montage visual inspection
+docs/reviews/assets/v3-0.1.21/reading-and-overflow.png,docs-review,da16d4794284125d9944844c7c40279fc3a6b2fab4b1392ec058b96b809ff403,historical-native-montage visual inspection
+docs/reviews/assets/v3-0.1.21/reveal-and-restoration.png,docs-review,dd07003577e2515da9643e22b8455923a83ce49433a20685aa0d62622e345c40,historical-native-montage visual inspection
+docs/reviews/coaching-v3-0.1.21/CANONICAL-CARD-AUDIT.csv,docs-review,3ce049ab36780352a3b63a7603c929cb05f88769728a55244c03ce5e24295505,full CSV structural parse and field/representative-row substantive review
+docs/reviews/coaching-v3-0.1.21/COACHING-CARD-AUDIT.csv,docs-review,1577f24cb337ee9f17366f3dca7ff15807b3acdd5a850d9486fedd8d3da10f17,full CSV structural parse and field/representative-row substantive review
+docs/reviews/coaching-v3-0.1.21/DRAFT-EXAMPLES.md,docs-review,5a1bfdb9a030027bbed101b73ff80dbf834fea72a5dd3426aeaade88294b4992,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/coaching-v3-0.1.21/LOOP-AND-SCENARIO-MAP.md,docs-review,190d265b8d40a018ee377d810486965a3ee3b3bba92b2925efd7102ac8518754,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/coaching-v3-0.1.21/README.md,docs-review,dcd05b42ef93ad5edc5c8d243796b94b68308e19a669b558c85f40d83f69ad5a,complete text structural scan; substantive authority/status/entry/acceptance section review (not line-by-line technical validation)
+docs/reviews/coaching-v3-0.1.21/SHARED-TEXT-CROSSWALK.csv,docs-review,54b268bf31af3784cd03996ebc5fa5995760ffa58fa5952124be95a4dfc1b32c,full CSV structural parse and field/representative-row substantive review
+oled_oracle/oled_oracle.ino,runtime-review,f0d8ac5ef118eb1cf9cc6bae7983e9998e349e421d5406386976367ca319ede4,read actual source; architecture/lifecycle/safety review
+oled_oracle/ota_support.h,runtime-review,8dae560616f66a8f1f49ae9c06d3cb097437169eddee29661625953378b0b043,read actual source; architecture/lifecycle/safety review
+oled_oracle/secrets.example.h,runtime-review,633a9631c854323fff14fe50c70900408526c1c6f3bad185a42076773e0e9fef,read actual source; architecture/lifecycle/safety review
+prototype/compass-coaching.html,content-review,e755e59da5bd17d493c922c55b5c542a80a96804448852aa9407878a18f7cf8e,Full source inspected; exact generator freshness and caller mappings checked
+prototype/compass_coaching_template.html,content-review,041c1db3822dc4eb9ba7b7d95d4d8b7ffabecf84c076031137f056d05494a7d7,Full source inspected; exact generator freshness and caller mappings checked
+prototype/index.html,content-review,6167dd7017282b783646e8afce813200ea129135582ec7f32e3c0630f09cd3a4,Full source inspected; exact generator freshness and caller mappings checked
+prototype/template.html,content-review,61c2a87f6325b47906721d244aa016b1f78a9bfbffb26512a10d5d0267846dc3,Full source inspected; exact generator freshness and caller mappings checked
+prototype/v3-experience.html,content-review,d6f6e0cf19edf32d944a8ca0acd1bf755be7e70f9611e2aac909f3fce4c92e1f,Full source inspected; exact generator freshness and caller mappings checked
+prototype/v3_experience_template.html,content-review,b885ba6b72313ed6e69006cfa824a888560f055a87ab0de51ba7ad5be93d081d,Full source inspected; exact generator freshness and caller mappings checked
+tests/approved_openings.json,tooling-review,c643a65dd153a89efcdf750529e0875229c27d776aab13efe3704fcf62e664b2,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/coaching_editorial_expected.json,tooling-review,7317ced460410131be4804c0c50ef93085bff4d8d5b1f9a5924c4342387d3a46,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/coaching_editorial_test.py,tooling-review,d304a40127f49f48f30d6faeeebc04579c3cda9230173f1e7d263d137fc7aeee,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/compass_coaching_test.py,tooling-review,910572b9bf7482b5675c54352584f68958d472eff2c2a0a55e80a252af0e7be2,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/content_test.py,tooling-review,7bfa95e8d1d64e08009cbf53379c9f3fdd9d9fb3a3c38ef28d24f7133360d8c8,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/facilitator_content_test.py,tooling-review,cf7944ea0324a2749630c59bd1e9cdedc8bd90718a9c160994c6a278533dda79,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/firmware_test.cpp,tooling-review,5f29b743e549727d4c0e7da21cca1b61883b36ee3273995235e6f2ba924309ae,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/network/ArduinoOTA.h,tooling-review,3493dee445b47c3b57ef4fd0ebeba2b77283c66089f90de3451c7683a4cdaafc,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/network/WiFi.h,tooling-review,154c0a8b7de73f02d8b11ea15532e6743f9cedf82e4de451f7d2fc523a5580b6,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/ota_test.cpp,tooling-review,191771ab1407c51f7158a9e08c7c7d77bfbeaf1275e363e072f9f23bb6d59146,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/prototype_test.py,tooling-review,61b3e9004ee5afcad14c5386aefbc28b9b30a300608bf6ab8225b6297712becf,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/Adafruit_GFX.h,tooling-review,03dc557aeaebc60eaa27f58195ac98755593cee7c02dde89f7940fb6ead4e667,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/Adafruit_SH110X.h,tooling-review,f5eb2e13d496dd9d8f4f4324a8151b1bf96f6275018334de38c72fc83017238c,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/Adafruit_SSD1306.h,tooling-review,9d7a4d44fe53d355b913ea7d0b18cc0640c2a59484a29b0043e89dda398d4386,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/Arduino.h,tooling-review,30869094e3201eff0cb07a3e63751e844a992382adcb32463ebb38842e0f3369,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/Wire.h,tooling-review,055fdb974daa605204c096050ad664d51d0373085b0184bb82b5805cbf630fa9,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/chime_test_sdk.h,tooling-review,7f092903b361ad3c80859db6c4c0d310efcb64a3c055242bc128dd4f0c892b19,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/stubs/esp_system.h,tooling-review,2ae777b4680a8c8ddb13c503054ffb11951574cea78e07f608d3d0edb9cf41a7,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_content_test.py,tooling-review,acf99f207b71571753586a83ed877b4459ac603c92ff845ca3e5e7909a3e794b,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_model_test.cpp,tooling-review,734f718e7457a57105bea7e0fb71ca266ffd5f5c925113a8ecb3d11b3f441c1f,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_no_wifi_test.cpp,tooling-review,e785231391d3402b6b7295cdfbb4ad6da98e385065cd4f069cd0dec0853ffae3,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_ota_test.cpp,tooling-review,cfe0cc91ef69ff4e4007d2d7c3c7ca0cfef2777b2e6725fbdf83c4da68341993,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_ui_test.cpp,tooling-review,4e9c8b2905d6277a2c8c60598f291b88608fec770d026e18d2e983a4b3f7c22d,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v2_uploader_test.py,tooling-review,591724b125cb8103a14dd48ae68ce176ab22d79c71b89a270ba322f4ac349e99,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_contract_test.py,tooling-review,c6099a32100dd88b9769741261e9f879d7d170729a1c7b0adc35686db22b2f90,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_gesture_test.cpp,tooling-review,20ef1565aa47e8869c5630727fcfce392ab7166a59ab90af22af208e15f82fd4,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_imu_equivalence_test.cpp,tooling-review,e293644f0e18ed116784f9ba99e8679e5238fb150b5446f49035251ad469eb09,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_imu_test.cpp,tooling-review,7c2b96cd21f210a6f684543687fb56028f71fd57072a160d8fd03e4c9e8a174a,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_model_test.cpp,tooling-review,aa5a07d3c388d10c6c3e1aecba631f5ff441b9a6c647746d07873f4128f7987c,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_motion_integration_test.cpp,tooling-review,882e6c91ee685982fafee173c724cd383064091eb33b76dba95ea1ad0ed87993,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_motion_test.cpp,tooling-review,bde8c7958ea6497948fe7ad6b3cfa50d45db72c793e2b51a38b52ea0c97908c9,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_recorder_test.cpp,tooling-review,807ee840cb3d5093b46fadcb30dc80889d4a2ea6f7eb84c0101fece102dabbf7,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_recovery_test.cpp,tooling-review,8649ac7f18df479b6bf0cd7a6f5fabe7436ca662075d708be90fcf37a0a9ffc5,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_startup_test.cpp,tooling-review,77a69749b858221e845cec125b36f046d5f5dfd0b7d250f4b5cc7b187cb80ba0,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_turnover_test.cpp,tooling-review,2c56a5407bf4c892fdd0a3b0af954ac774d79b7ad27476b1217723e09829325f,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_app_ui_test.cpp,tooling-review,a439ede87e055e7c38c98074fc8274840a19da309218b11bf626ade6854bad06,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_baseline_test.py,tooling-review,d9a3909c65e4a7c3a4ec9680b055385e88b61f5fbc3eb9bef6f50ea11653a158,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_bringup_test.py,tooling-review,44e6a76271ec683654fdefbfa5a3733b8c0b84edc4e353bf6e4a34fa408dbe25,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_chime_adapter_test.cpp,tooling-review,60823b56a75ee6e22fdf28ecf98893192c82073f57880c1d7c5f3677a2121464,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_chime_test.cpp,tooling-review,b0467f0f0117cdc16591f41d82d3532bbe63222da19e026012aaca5d33286d5d,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_coaching_compass_test.cpp,tooling-review,dd60ed67086d0486ca7a667bce6937e8bd91108f74fa48ed224e70344ef3bba5,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_coaching_test.cpp,tooling-review,d98bf66f6b21b462ad92cad5f2df678c9f0e478c14665bbea4b109f3d56e0c3e,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_compact_layout_test.py,tooling-review,f4afbbe16691a8b62c517e70bc268c2f4e2fc7b27a96c5fdec84a066d5f6d4d3,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_compact_ui_test.cpp,tooling-review,005dd1e58f3886a203efef48a9f3d260125115d5adc254b7e435d757e95a3ac5,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_content_test.py,tooling-review,590433fd6a1bb9d29deed6e8a66e14aa7df2eff7784fd9fc1dd0617cb4379c51,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_content_ui_test.cpp,tooling-review,58566b1e3c0c359ea34769ce1c575de3ba9c98a2b007e187affa8e31e63b77ce,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_experience_test.py,tooling-review,0b991843d28e464f5d6a3dcfa8f16a6d39f919c1a6be10c501054494b78fc792,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_global_policy_native_test.cpp,tooling-review,96d5313f0ab404d81c04e28ee030097d0f97c96bd90cf16e88220817c0cc04c3,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_hwcdc_budget_test.cpp,tooling-review,ccff0d5794300d94518bb567d102f5f4bd0697ef0636017df2bbff76c423196b,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_imu_test.cpp,tooling-review,d7bbc290f8fb1a226c1eaf823e9726457deae08eba12898144b33b874f75c608,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_imu_test.py,tooling-review,045e6d25a5026c9eeb596c525ddd63d72e9ca7bf70e0fcbf59456a95d8fc7496,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_native_content_bounds_test.py,tooling-review,382f52043bcb077b0d09137c0d19bba438f690cb7feaa7bd5d19c669269047eb,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_native_objects_test.py,tooling-review,fea42e830bfe458df8c2d4f24e1f8546d9b50f688ea5a7fe7135896990a3843f,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_native_paths_test.py,tooling-review,f9b3f1d4f9903c7d41ba1f8f67bd0ad27d264c7bc1da07478a0c8841bd51abd0,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_port_cleanup_test.py,tooling-review,2195366190d3382d389d119e0a2437ecd6235837a5c697b6b41ce4879d219348,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_preparation_safety_test.py,tooling-review,a76dc9cbb445c851bc1c71992bf14936e02bf70723277aa12a46b1e972220a1e,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_q1_contract_test.py,tooling-review,291e219ca850b2d1336ea723ba680149f443f0066b3a3c1b5cfc756338435677,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_q1_presentation.json,tooling-review,478f8c42efa89f3dd722e3e02ba6240fe75cf10d2d2f0361a791e6affffe969d,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_recorder_protocol_test.py,tooling-review,fb669090782cbcd8ba69b69d2a41b18da3a9f6a632544a9c32215c5c299dfbe1,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_reliability_cue_composition_test.cpp,tooling-review,a04123f10d9a183e66b873bbcee536e19b415db5054ab28829894486f7f60118,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_reliability_fault_dispatch_test.cpp,tooling-review,501a47c6c29e164d63c03c5be09f9b89eebcc2ffc551007f0635375bf953a2b1,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_reliability_framing_test.cpp,tooling-review,942828c3be0c40cc1bbde2060600fd2794b4eb3e1f6df63b81e0e948e2d91699,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_reliability_runner_test.py,tooling-review,34a3cbb28ef25dd6da29674c100573489fd8c4289306969551053c69c310c704,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_shake_detector_test.cpp,tooling-review,e0c5b6b41dd268856d323f0196e527242ff459ea1631b7eb20da563d9b8b3bbd,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_shake_integration_native_test.cpp,tooling-review,620c2814b3014dd55cdf3ff6869e50c0861d81ef616921921da1b78a120063af,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_shake_rotation_test.cpp,tooling-review,31137c36dfe06a666c620940f974e2399c1eb8c74e7f8be55fc0e404cdfffe4f,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_sound_ui_test.cpp,tooling-review,b471faf306cd0d87237544b9c92e89acd409a6b5b8ab3651ed991304aebe1cf2,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_storage_isolation_test.py,tooling-review,39e43ecd745273c5390cb72b1775bd5ecf986ceeef5f1a1e8954a041547b0a8b,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_tooling_blockers_test.py,tooling-review,369d6eff0417940fb9fe0f5fbea95cdb7ce070f6886c2a2728b4b4c397b62cf3,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_ui_cleanup_native_test.cpp,tooling-review,6fdcc124bb9b6b0cf944908314961e98546527c11cbaeb54a7ccb5d098213879,full-file static indexing and boundary inspection; execution mapping in commands logs
+tests/v3_ui_test.cpp,tooling-review,c5d0bfaae65b505cb89fed25833b99213f4fbcf2f91a18a8d1693d9f0a31a8cf,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_coaching_display_guide.py,tooling-review,89abc8aa781b3dddc973b9bcc8010997268b42807c5f8112346fd2935ed2d3c3,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_compass_coaching.py,tooling-review,e043074461169469e1d9a63a5589d05a592ca4f5e3aecf6770957e4576b622b8,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_prototype.py,tooling-review,34dbf832877dc200d09d86b4f6c21313999bab45ceb29a886d18a27ed7149dd7,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_v2_content.py,tooling-review,06ff92c5d7e51ce9a02efed566d6363c9b662f4292263622dd4669c2c858cba0,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_v3_coaching.py,tooling-review,29a867b1b62c87458790251678c30da425120e4767b514e50495c28db9f07ca8,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_v3_content.py,tooling-review,587454adf117f70f55d9522f9abad69c84d94876dadb61af392228ca93298d48,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/build_v3_experience.py,tooling-review,c01c2b82f19dc3e7b412b60140bae088a311791af1b20e86ba86f3f3253a4ec5,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/check_v3_baseline.py,tooling-review,919988027c32b80c727cab6818f7e88bc7fea5b2f0cbf5b582f5d1c9f5469eed,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/ota_upload.py,tooling-review,1702195d7410e7101bc16c464e2dd6120fd01341b02a18c29a337dc36ead59c4,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/preparation_safety.py,tooling-review,d958fe7cd47a8da867ba800617c0b51264915b18d4e8ae6ad510077c55137d79,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/prepare_v2_panel.py,tooling-review,7b669be03c169fc93d979eec4ed5fae77733d6c5b2e7c075741ae3c865ab1a17,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/prepare_v3.py,tooling-review,f4c35907a479dbf56014d4150d8912ca33c50a96affbac07e3bacbb416e22370,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/prepare_v3_bringup.py,tooling-review,857a99a89f341df1c56d351e26e4362220dc3cc2e9ae7c1ff1af33e8c98b0b82,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/replay_v3_recovery.py,tooling-review,77f8bf7b1112b85d79b524107360ff71a12f6cf8ffd2bee41595eaeaa6e48943,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v2_ui.py,tooling-review,c65c3331b0ed9bf3bb374ff173cf930c347ad601d67d7bf35e8a139b1eacd87e,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_app.py,tooling-review,fa1c63c30265fafbd1f7d560b941c3a5204b4fb73c0b77d780cfecf813f9f1a0,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_coaching.py,tooling-review,f3bcc4f88ce3647be987c0e8f95be60dec2f56857f333d16c5ff2e667e82aed4,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_hwcdc_budget.py,tooling-review,41484c1da7d7ef7ca8270d50e600538053811c4280170946ba857ba88212bfe1,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_isolated.py,tooling-review,efc8a007aba3451173536af8faee57c66b6230ac89fb95c76d9a125eaa0d47cb,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_range_focused.py,tooling-review,15fe225e1a0b8423a371e97306d98903548d4334e030e1bb35c0a06771135b18,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/test_v3_ui.py,tooling-review,7d793c2f952139fbad28d333cac7b92144e7c518f51a4220934f2d3f090d9f12,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/v2_ota_upload.py,tooling-review,f48d1969f74c77dae9ea052e8bc99fde8bad213a4017d85dcce7b76a357171b6,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/v3_flight_recorder.py,tooling-review,2411abda46a64aa3ae4d84a6bcd2b6104fa88a7c7b6558a266220a8ab9893e25,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/v3_native_objects.py,tooling-review,59d4978bd4255e8733f857d012793cbf95ba8b9efeaf10518e3314014e913353,full-file static indexing and boundary inspection; execution mapping in commands logs
+tools/v3_q1_protocol_artifacts.py,tooling-review,ee312b0a71a4852b0e03390def40185845e7b62be708d78e51049c6fdcb2fd93,full-file static indexing and boundary inspection; execution mapping in commands logs
+trailguide_v2/cards_generated.h,runtime-review,876fd7873ccbaf33232e6edc65b2dff1f1d6b0e7b392b5d09cc27fc3aba58ce0,read actual source; architecture/lifecycle/safety review
+trailguide_v2/lv_conf.h,runtime-review,35e31f2d704eecec54841b706af0419d8fbc10a1fde5f501371c1bb5591e349a,read actual source; architecture/lifecycle/safety review
+trailguide_v2/model.h,runtime-review,ae308c7831b616dfcb16e480012c4eea0d9506f61925c3b3d69642fea256f4d7,read actual source; architecture/lifecycle/safety review
+trailguide_v2/ota_support.h,runtime-review,968f3a9f2e1884a08e4f19375338e26101261a74d7e246ebb2582149cf12e916,read actual source; architecture/lifecycle/safety review
+trailguide_v2/reveal.h,runtime-review,1e33eb196343daa499023d4d785bae11cdeb55c54b0f105c8e1a1233398889f0,read actual source; architecture/lifecycle/safety review
+trailguide_v2/secrets.example.h,runtime-review,38a56185a9ec9fb564bde4393a8bd85175216918a31db67cd2107c37475b3e34,read actual source; architecture/lifecycle/safety review
+trailguide_v2/trailguide_v2.ino,runtime-review,37f7e17fe0d1d88eebd8db7f66c539e10801226b10c6a9238b814b8de00260b2,read actual source; architecture/lifecycle/safety review
+trailguide_v2/ui.h,runtime-review,8990d3cea272f0af4316077236cc4ce72e1f1208bbd5e0a7d26646e9824a5f26,read actual source; architecture/lifecycle/safety review
+trailguide_v2/version.h,runtime-review,42b5d75d496790b14ba39903b7e06b9f21cfd67dd11d2addee3acb99a9d1321c,read actual source; architecture/lifecycle/safety review
+trailguide_v2/window_reveal.h,runtime-review,a0a0b292636a86d6ece11124cd7e76122fa6753e455e9833050847e4e0c6b230,read actual source; architecture/lifecycle/safety review
+trailguide_v3/cards_generated.h,runtime-review,b0c6ce5b77cf1b2d4f0079276fa34c55c3989b7b00001d4591a7668af6cad589,read actual source; architecture/lifecycle/safety review
+trailguide_v3/chime.h,runtime-review,f6282a57ceaf4f020b60f39a08898917b34c2a4ea2bfd3c63da17d70d9372d2b,read actual source; architecture/lifecycle/safety review
+trailguide_v3/chime_tone.h,runtime-review,e954d0f3c55437b8a19d2ddd3c6f18c19d3e8fe284f331a50ea94e0a868ebcdb,read actual source; architecture/lifecycle/safety review
+trailguide_v3/coaching_generated.h,runtime-review,14433e659235a9700a63b370e3d380f8998be0af65ca5070fcfc334b59544d5f,read actual source; architecture/lifecycle/safety review
+trailguide_v3/coaching_model.h,runtime-review,a2ff2646c9fe45e1b20d7d2cdb73d6aa2dbef427396c487e98d34d13df647be7,read actual source; architecture/lifecycle/safety review
+trailguide_v3/coaching_ui.h,runtime-review,e2bb9e509b6f73280786f32cea361e7dea1f84c3bf8d4781e4afce436c76f345,read actual source; architecture/lifecycle/safety review
+trailguide_v3/flight_recorder.h,runtime-review,1f5044a321887b1b1051b6209ade5a3c573fa3b060e9337392cf818dc2054366,read actual source; architecture/lifecycle/safety review
+trailguide_v3/gesture.h,runtime-review,0e9f9e3ca006df2dfe3584f01572ec6de45cd3490ed459dbb1d391e5eabcbdf6,read actual source; architecture/lifecycle/safety review
+trailguide_v3/imu.h,runtime-review,7d6aba922e3a89f91a704bb80b48076423d19ace465108792fd368ddc45d2bbe,read actual source; architecture/lifecycle/safety review
+trailguide_v3/lv_conf.h,runtime-review,45c55c7cbc4bfe5d73a525aaecaa44bf1a2cef9ad8e82fc0b2b157e4e5093b84,read actual source; architecture/lifecycle/safety review
+trailguide_v3/model.h,runtime-review,e3169f5621ce32cd59b198d0cd0dd834f021bce0925ec36a8d8f62ba6d8495d2,read actual source; architecture/lifecycle/safety review
+trailguide_v3/motion_diagnostics.h,runtime-review,556cd7d69efff50d5b7d7e44e23559d71c13efd042e610e07b1b866af5699fb5,read actual source; architecture/lifecycle/safety review
+trailguide_v3/shake.h,runtime-review,5e67d0690720c4a97874d328d953bfa719958421f2d5595f9efab344124a6d09,read actual source; architecture/lifecycle/safety review
+trailguide_v3/sound_cue.h,runtime-review,b3d82cbeb41693d1d621899c3539cf5161848eb9705286f9ef788fb6761e9dd1,read actual source; architecture/lifecycle/safety review
+trailguide_v3/trailguide_v3.ino,runtime-review,939fa76182da6c4374c14ef81281dab598c048974b51e9fb4f4a20e225ada604,read actual source; architecture/lifecycle/safety review
+trailguide_v3/ui.h,runtime-review,e229681ec9986f9ed6142859a53bbdbb206523be0fc73bf37b566ad4e8387aa7,read actual source; architecture/lifecycle/safety review
+trailguide_v3/window_reveal.h,runtime-review,ba25aaf51c89a30d6ae170bcac71628e23045037bf5741a843cd80fadb6a53b1,read actual source; architecture/lifecycle/safety review
+trailguide_v3_bringup/imu.h,runtime-review,7352e7f44fb4d165cf60e047683c652f26488228dd6c8f9bb2441993137c90d6,read actual source; architecture/lifecycle/safety review
+trailguide_v3_bringup/lv_conf.h,runtime-review,f87c4aebab0629990540949b605baf8d9ff2b5b936dbe96c54e235f37828b657,read actual source; architecture/lifecycle/safety review
+trailguide_v3_bringup/trailguide_v3_bringup.ino,runtime-review,d4cda14590f18c57e6f4e3ee903ee4e9da891e04906b1d05a862ed23f68a09fa,read actual source; architecture/lifecycle/safety review
+trailguide_v3_bringup/ui.h,runtime-review,a04b4cfe6d895d573b8b783f462cf91a2b7a5f4eee2b8fd53259b24dbeaaa76c,read actual source; architecture/lifecycle/safety review

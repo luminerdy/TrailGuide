@@ -1,5 +1,7 @@
 # TrailGuide
 
+**[What is TrailGuide? Explore the idea and benefits →](docs/marketing/README.md)** · [Marketing PDF](docs/marketing/TrailGuide-marketing.pdf)
+
 ## Current installed release — v3-0.1.31-mode-switch
 
 **Installed DRAFT source: `v3-0.1.31-mode-switch`.** Classic main cards and Guide now offer an **opposite-mode destination button**: **Try** while reading Ask, **Ask** while reading Try. Either draws one independent card from the other mode and returns to its main screen—not the matching identity. Another and intentional gestures retain the newly selected mode. Ordinary Guide/Back preserves the current identity. Main controls are Home / Try or Ask / conditional More text; Guide controls are Back / Try or Ask / conditional More text. There is no passive Ask label.
